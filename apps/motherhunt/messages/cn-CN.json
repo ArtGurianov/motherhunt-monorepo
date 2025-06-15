@@ -1,0 +1,51 @@
+{
+  "SHARED": {},
+  "ERRORS": {
+    "404": {
+      "message-before": "迷路啦？",
+      "message-action": "走，回家吧"
+    }
+  },
+  "NAV": {
+    "home": "首页",
+    "guides": "指南",
+    "blog": "博客",
+    "faq": "常见问题",
+    "platform-btn-label": "平台",
+    "menu-title": "菜单"
+  },
+  "FOOTER": {
+    "ecosystem": "生态系统",
+    "rights": "版权所有。"
+  },
+  "HOME": {
+    "HERO": {
+      "title-start": "发现。发布。",
+      "title-end": "成交。再来。",
+      "description": "我们将全球街头星探与母公司机构连接起来，通过创新的 web3 拍卖平台，助力新面孔走向舞台。",
+      "apply-btn-label": "成为星探",
+      "browse-btn-label": "浏览模特"
+    },
+    "MISSION": {
+      "title": "我们的使命",
+      "quote-1": "从街头到聚光灯下",
+      "quote-1-description": "我们帮助有魅力的人获得改变人生的机会。",
+      "quote-2": "人人可得的被动收入",
+      "quote-2-description": "阅读我们的简单星探指南，只需花费极少时间，随时随地留心身边，就能开始赚钱。",
+      "quote-3": "机构走向全球",
+      "quote-3-description": "机构现在可以与世界各地的星探合作，发掘那些曾经难以触及的隐藏人才。"
+    },
+    "AGENCIES": {
+      "title": "合作伙伴",
+      "apply-before": "您是母公司机构吗？",
+      "apply-action": "点击申请",
+      "apply-after": "加入我们！"
+    }
+  },
+  "GUIDES": {
+    "INTRO": "星探入门",
+    "INSTRUCTIONS": "如何寻找模特",
+    "SNAPS": "如何拍摄模特照",
+    "PLATFORM": "如何使用平台"
+  }
+}

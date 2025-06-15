@@ -1,0 +1,51 @@
+{
+  "SHARED": {},
+  "ERRORS": {
+    "404": {
+      "message-before": "Got lost?",
+      "message-action": "Just go home"
+    }
+  },
+  "NAV": {
+    "home": "Home",
+    "guides": "Guides",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "platform-btn-label": "Platform",
+    "menu-title": "Menu"
+  },
+  "FOOTER": {
+    "ecosystem": "Ecosystem",
+    "rights": "Rights reserved."
+  },
+  "HOME": {
+    "HERO": {
+      "title-start": "Scout. Publish.",
+      "title-end": "Deal. Repeat.",
+      "description": "Connecting street scouters to mother agencies worldwide for new-face models placement within a revolutionary web3 auction marketplace.",
+      "apply-btn-label": "Become a Scouter",
+      "browse-btn-label": "Browse all Models"
+    },
+    "MISSION": {
+      "title": "Our Mission",
+      "quote-1": "From ghetto to the spotlight",
+      "quote-1-description": "We help creating life-changing opportunities for gorgeous individuals.",
+      "quote-2": "Effortless passive income for anyone",
+      "quote-2-description": "Read through our simple scouting guide and start earning with minimum time investment - just keep an eye out, wherever you go.",
+      "quote-3": "Agencies go Global",
+      "quote-3-description": "Agencies can now collaborate with scouters from anywhere and find those hidden gems in places they could never reach before."
+    },
+    "AGENCIES": {
+      "title": "PARTNERSHIPS",
+      "apply-before": "Are you a Mother Agent?",
+      "apply-action": "Apply here",
+      "apply-after": "to join!"
+    }
+  },
+  "GUIDES": {
+    "INTRO": "Introduction to scouting",
+    "INSTRUCTIONS": "How to find Models",
+    "SNAPS": "How to take model snapshots",
+    "PLATFORM": "How to use the platform"
+  }
+}

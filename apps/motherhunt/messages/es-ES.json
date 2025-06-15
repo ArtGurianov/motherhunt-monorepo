@@ -1,0 +1,51 @@
+{
+  "SHARED": {},
+  "ERRORS": {
+    "404": {
+      "message-before": "¿Te perdiste?",
+      "message-action": "Vámonos a casa"
+    }
+  },
+  "NAV": {
+    "home": "Inicio",
+    "guides": "Guías",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "platform-btn-label": "Plataforma",
+    "menu-title": "Menú"
+  },
+  "FOOTER": {
+    "ecosystem": "Ecosistema",
+    "rights": "Todos los derechos reservados."
+  },
+  "HOME": {
+    "HERO": {
+      "title-start": "Descubre. Publica.",
+      "title-end": "Negocia. Repite.",
+      "description": "Hemos conectado scouts de las calles de todo el mundo con agencias madre en una revolucionaria subasta web3 para impulsar nuevas caras.",
+      "apply-btn-label": "Hazte scout",
+      "browse-btn-label": "Ver modelos"
+    },
+    "MISSION": {
+      "title": "Nuestra misión",
+      "quote-1": "Del barrio a los reflectores",
+      "quote-1-description": "Ayudamos a crear oportunidades que transforman la vida de personas increíbles.",
+      "quote-2": "Ingresos pasivos para todos",
+      "quote-2-description": "Consulta nuestra sencilla guía de scouting y empieza a ganar dinero dedicando el mínimo de tiempo: solo mantente atento a tu alrededor.",
+      "quote-3": "Las agencias se globalizan",
+      "quote-3-description": "Ahora las agencias pueden colaborar con scouts de cualquier parte del mundo y descubrir talentos ocultos donde antes era imposible."
+    },
+    "AGENCIES": {
+      "title": "COLABORACIONES",
+      "apply-before": "¿Eres una agencia madre?",
+      "apply-action": "Solicita aquí",
+      "apply-after": "¡y únete a nosotros!"
+    }
+  },
+  "GUIDES": {
+    "INTRO": "Introducción al scouting",
+    "INSTRUCTIONS": "Cómo buscar modelos",
+    "SNAPS": "Cómo tomar fotos de modelos",
+    "PLATFORM": "Cómo usar la plataforma"
+  }
+}
