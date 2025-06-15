@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Footer } from "@/components/Footer/Footer";
-import { getAppLocale } from "@/lib/utils";
-import { APP_LANG_TO_LOCALE_MAP } from "@/lib/utils/getAppLocale";
+import { getAppLocale } from "@shared/ui/lib/utils";
+import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
 import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({

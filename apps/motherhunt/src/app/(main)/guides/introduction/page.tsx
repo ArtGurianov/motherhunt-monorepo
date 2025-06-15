@@ -1,5 +1,5 @@
 import MdxLayout from "@/components/MdxLayout/MdxLayout";
-import { getAppLocale } from "@/lib/utils";
+import { getAppLocale } from "@shared/ui/lib/utils";
 import { notFound } from "next/navigation";
 
 export default async function IntroductionPage() {

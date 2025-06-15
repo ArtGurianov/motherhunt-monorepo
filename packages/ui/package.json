@@ -58,8 +58,9 @@
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./utils/*": "./src/utils/*.ts",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./components/*": "./src/components/*.[ts,tsx]",
+    "./utils/*": "./src/lib/utils/*.ts",
+    "./hooks/*": "./src/lib/hooks/*.ts",
+    "./types/*": "./src/lib/types/*.ts"
   }
 }

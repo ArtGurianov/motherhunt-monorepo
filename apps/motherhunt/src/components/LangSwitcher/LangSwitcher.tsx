@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@shared/ui/components/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@shared/ui/lib/utils";
-import { APP_LANG_TO_LOCALE_MAP } from "@/lib/utils/getAppLocale";
+import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
 
 export const LangSwitcher = ({ className }: { className?: string }) => {

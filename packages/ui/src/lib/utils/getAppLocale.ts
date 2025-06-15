@@ -1,4 +1,4 @@
-import { ValueOf } from "../types";
+import { ValueOf } from "@shared/ui/lib/types";
 
 export const APP_LANG_TO_LOCALE_MAP = {
   "en-US": "en",

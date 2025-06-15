@@ -1,5 +1,5 @@
 import { ROUTER_CONFIG } from "@/config/routing/routerConfig";
-import { ValueOf } from "@/lib/types";
+import { ValueOf } from "@shared/ui/lib/types";
 
 export const CONTENTFUL_ENTRY_TYPE_IDS = {
   agency: "agency",

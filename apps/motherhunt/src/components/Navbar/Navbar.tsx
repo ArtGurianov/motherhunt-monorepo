@@ -13,7 +13,7 @@ import {
   ChevronsLeftIcon,
   ChevronsRightIcon,
 } from "lucide-react";
-import { useWindowSize } from "@/lib/hooks/useWindowSize";
+import { useWindowSize } from "@shared/ui/lib/hooks";
 import { cn } from "@shared/ui/lib/utils";
 import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import { useTranslations } from "next-intl";

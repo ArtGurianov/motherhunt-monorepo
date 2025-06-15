@@ -1,4 +1,4 @@
-import { ValueOf } from "@/lib/types";
+import { ValueOf } from "@shared/ui/lib/types";
 
 export const GUIDES_KEYS = {
   INTRO: "INTRO",
