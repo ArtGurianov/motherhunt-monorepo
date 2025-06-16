@@ -1,8 +1,9 @@
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prismaClient } from "./db";
-import { betterAuth } from "better-auth";
-import { magicLink } from "better-auth/plugins";
+import { betterAuth, BetterAuthPlugin } from "better-auth";
+import { admin, magicLink, organization } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
+import { sendEmail } from "@/actions/sendEmail";
 
 export const auth = betterAuth({
   appName: "motherHunt",
@@ -12,12 +13,22 @@ export const auth = betterAuth({
     provider: "mongodb",
   }),
   plugins: [
-    nextCookies(),
     magicLink({
-      sendMagicLink: async ({ email, token, url }, request) => {
-        console.log("READY TO SEND MAGIC LINK!: ", email, token, url);
+      sendMagicLink: async ({ email, url }) => {
+        await sendEmail({
+          to: email,
+          subject: "sign in",
+          meta: {
+            description: "You requested a sign in to mhnt.app",
+            link: encodeURIComponent(url),
+          },
+        });
       },
-    }),
+      expiresIn: 3600,
+    }) as unknown as BetterAuthPlugin,
+    admin() as unknown as BetterAuthPlugin,
+    organization() as unknown as BetterAuthPlugin,
+    nextCookies() as unknown as BetterAuthPlugin,
   ],
   // secondaryStorage: {},
   trustedOrigins: [
