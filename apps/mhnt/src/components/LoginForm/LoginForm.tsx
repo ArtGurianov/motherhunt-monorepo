@@ -22,24 +22,38 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
+import { signIn } from "@/lib/authClient";
+import { usePathname } from "next/navigation";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  email: z.email(),
 });
 
 export const LoginForm = () => {
+  const pathname = usePathname();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
+    await signIn.magicLink(
+      {
+        email,
+        callbackURL: pathname,
+      },
+      {
+        onRequest: () => {},
+        onSuccess: () => {},
+        onError: (e) => {
+          console.log(e);
+        },
+      }
+    );
+  };
 
   return (
     <Card className="w-full max-w-sm">
@@ -54,16 +68,14 @@ export const LoginForm = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="ekmas" {...field} />
+                    <Input placeholder="type your email" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is your public display name.
-                  </FormDescription>
+                  <FormDescription>{"Some description"}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
