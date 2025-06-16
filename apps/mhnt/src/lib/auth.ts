@@ -20,7 +20,7 @@ export const auth = betterAuth({
           subject: "sign in",
           meta: {
             description: "You requested a sign in to mhnt.app",
-            link: encodeURIComponent(url),
+            link: url,
           },
         });
       },
