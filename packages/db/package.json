@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate"
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "tsx src/seed.ts"
   },
   "exports": {
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "tsx": "^4.19.3",
     "@prisma/client": "^5.22.0"
   },
   "devDependencies": {

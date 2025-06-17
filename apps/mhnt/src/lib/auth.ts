@@ -1,9 +1,20 @@
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prismaClient } from "./db";
 import { betterAuth, BetterAuthPlugin } from "better-auth";
-import { admin, magicLink, organization } from "better-auth/plugins";
+import {
+  admin as adminPlugin,
+  magicLink as magicLinkPlugin,
+  organization as organizationPlugin,
+} from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
+import {
+  appAdminRole,
+  appBookerRole,
+  apphHeadBookerRole,
+  appModeratorRole,
+  appScouterRole,
+} from "./permissions";
 
 export const auth = betterAuth({
   appName: "motherHunt",
@@ -13,24 +24,31 @@ export const auth = betterAuth({
     provider: "mongodb",
   }),
   plugins: [
-    magicLink({
+    magicLinkPlugin({
       sendMagicLink: async ({ email, url }) => {
         await sendEmail({
           to: email,
-          subject: "sign in",
+          subject: "Sign in",
           meta: {
-            description: "You requested a sign in to mhnt.app",
+            description: "You requested a login into mhnt.app",
             link: url,
           },
         });
       },
       expiresIn: 3600,
     }) as unknown as BetterAuthPlugin,
-    admin({
-      defaultRole: "guest",
-      adminRoles: ["admin", "superadmin"],
+    adminPlugin({
+      defaultRole: "scouter",
+      adminRoles: ["admin", "moderator"],
+      roles: {
+        appAdminRole,
+        appModeratorRole,
+        apphHeadBookerRole,
+        appBookerRole,
+        appScouterRole,
+      },
     }) as unknown as BetterAuthPlugin,
-    organization() as unknown as BetterAuthPlugin,
+    organizationPlugin() as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
   ],
   // secondaryStorage: {},
