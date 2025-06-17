@@ -26,7 +26,10 @@ export const auth = betterAuth({
       },
       expiresIn: 3600,
     }) as unknown as BetterAuthPlugin,
-    admin() as unknown as BetterAuthPlugin,
+    admin({
+      defaultRole: "guest",
+      adminRoles: ["admin", "superadmin"],
+    }) as unknown as BetterAuthPlugin,
     organization() as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
   ],
@@ -36,6 +39,7 @@ export const auth = betterAuth({
     "https://mhnt.app",
     "https://motherhunt.com",
   ],
+  advanced: { database: { generateId: false } },
   // user: {
   //   modelName: "users",
   //   fields: {
