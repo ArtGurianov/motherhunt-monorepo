@@ -39,7 +39,6 @@ export const auth = betterAuth({
     }) as unknown as BetterAuthPlugin,
     adminPlugin({
       defaultRole: "scouter",
-      adminRoles: ["admin", "moderator"],
       roles: {
         appAdminRole,
         appModeratorRole,
