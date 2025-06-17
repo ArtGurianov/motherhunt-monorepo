@@ -11,6 +11,7 @@ async function main() {
       email: adminEmail,
       name: "App Owner",
       emailVerified: true,
+      role: "admin",
     },
     update: { email: adminEmail },
   });

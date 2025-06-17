@@ -58,33 +58,30 @@ export const auth = betterAuth({
     "https://motherhunt.com",
   ],
   advanced: { database: { generateId: false } },
-  // user: {
-  //   modelName: "users",
-  //   fields: {
-  //     email: "email",
-  //   },
-  //   additionalFields: {
-  //     customField: {
-  //       type: "string",
-  //     },
-  //   },
-  //   changeEmail: {
-  //     enabled: true,
-  //     sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
-  //       // Send change email verification
-  //     },
-  //   },
-  //   deleteUser: {
-  //     enabled: true,
-  //     sendDeleteAccountVerification: async ({ user, url, token }) => {
-  //       // Send delete account verification
-  //     },
-  //     beforeDelete: async (user) => {
-  //       // Perform actions before user deletion
-  //     },
-  //     afterDelete: async (user) => {
-  //       // Perform cleanup after user deletion
-  //     },
-  //   },
-  // },
+  user: {
+    modelName: "user",
+    additionalFields: {
+      role: {
+        type: "string",
+      },
+    },
+    // changeEmail: {
+    //   enabled: true,
+    //   sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
+    //     // Send change email verification
+    //   },
+    // },
+    // deleteUser: {
+    //   enabled: true,
+    //   sendDeleteAccountVerification: async ({ user, url, token }) => {
+    //     // Send delete account verification
+    //   },
+    //   beforeDelete: async (user) => {
+    //     // Perform actions before user deletion
+    //   },
+    //   afterDelete: async (user) => {
+    //     // Perform cleanup after user deletion
+    //   },
+    // },
+  },
 });

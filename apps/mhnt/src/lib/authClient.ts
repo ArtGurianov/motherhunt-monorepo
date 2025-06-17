@@ -2,6 +2,7 @@ import {
   magicLinkClient,
   adminClient,
   organizationClient,
+  inferAdditionalFields,
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import {
@@ -11,6 +12,8 @@ import {
   appModeratorRole,
   appScouterRole,
 } from "./permissions";
+import { auth } from "./auth";
+
 export const { signIn, signUp, useSession } = createAuthClient({
   plugins: [
     magicLinkClient(),
@@ -24,6 +27,7 @@ export const { signIn, signUp, useSession } = createAuthClient({
       },
     }),
     organizationClient(),
+    inferAdditionalFields<typeof auth>(),
   ],
   /** The base URL of the server (optional if you're using the same domain) */
   // baseURL: "http://localhost:3000",
