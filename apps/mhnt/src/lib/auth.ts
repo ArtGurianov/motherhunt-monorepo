@@ -9,14 +9,16 @@ import {
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
 import {
+  appSuperAdminRole,
   appAdminRole,
-  appBookerRole,
-  apphHeadBookerRole,
-  appModeratorRole,
-  appScouterRole,
+  appUserRole,
+  agencyBookerRole,
+  agencyHeadBookerRole,
+  appAccessControl,
+  agencyAccessControl,
 } from "./permissions";
 import { isActiveAdmin } from "@/actions/isActiveAdmin";
-import { createUser } from "@/actions/createUser";
+import { createHeadBooker } from "@/actions/createHeadBooker";
 
 export const auth = betterAuth({
   appName: "motherHunt",
@@ -40,22 +42,25 @@ export const auth = betterAuth({
       expiresIn: 3600,
     }) as unknown as BetterAuthPlugin,
     adminPlugin({
-      defaultRole: "scouter",
+      ac: appAccessControl,
+      defaultRole: "appUserRole",
       roles: {
+        appSuperAdminRole,
         appAdminRole,
-        appModeratorRole,
-        apphHeadBookerRole,
-        appBookerRole,
-        appScouterRole,
+        appUserRole,
       },
-    }) as unknown as BetterAuthPlugin,
+    }),
     organizationPlugin({
+      ac: agencyAccessControl,
+      roles: {
+        agencyHeadBookerRole,
+        agencyBookerRole,
+      },
       organizationCreation: {
         beforeCreate: async ({ organization: { metadata, ...data } }) => {
-          await createUser({
+          await createHeadBooker({
             userEmail: metadata.headBookerEmail,
             userName: metadata.headBookerName,
-            userRole: "headBooker",
           });
           await sendEmail({
             to: metadata.headBookerEmail,
@@ -63,7 +68,7 @@ export const auth = betterAuth({
             meta: {
               description:
                 "Your agency is approved. You can now login and start hunting!",
-              link: `https://mhnt.app/agency/login`,
+              link: `https://mhnt.app/signin`,
             },
           });
           return {

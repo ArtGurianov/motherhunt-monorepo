@@ -6,11 +6,13 @@ import {
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import {
+  appSuperAdminRole,
   appAdminRole,
-  appBookerRole,
-  apphHeadBookerRole,
-  appModeratorRole,
-  appScouterRole,
+  appUserRole,
+  agencyHeadBookerRole,
+  agencyBookerRole,
+  appAccessControl,
+  agencyAccessControl,
 } from "./permissions";
 import { auth } from "./auth";
 
@@ -19,15 +21,20 @@ export const { signIn, signOut, signUp, useSession, organization } =
     plugins: [
       magicLinkClient(),
       adminClient({
+        ac: appAccessControl,
         roles: {
+          appSuperAdminRole,
           appAdminRole,
-          appModeratorRole,
-          apphHeadBookerRole,
-          appBookerRole,
-          appScouterRole,
+          appUserRole,
         },
       }),
-      organizationClient(),
+      organizationClient({
+        ac: agencyAccessControl,
+        roles: {
+          agencyHeadBookerRole,
+          agencyBookerRole,
+        },
+      }),
       inferAdditionalFields<typeof auth>(),
     ],
     /** The base URL of the server (optional if you're using the same domain) */

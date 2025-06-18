@@ -1,43 +1,61 @@
+import { ValueOf } from "@shared/ui/lib/types";
 import { createAccessControl } from "better-auth/plugins/access";
 
-const entitiesActions = {
-  // Users
-  admin: ["update"],
-  moderator: ["create", "update", "delete"],
-  headBooker: ["create", "update", "ban"],
-  booker: ["create", "update", "ban"],
-  scouter: ["create", "update", "ban"],
+export const APP_ENTITIES = {
+  SUPER_ADMIN: "SUPER_ADMIN",
+  ADMIN: "ADMIN",
+  USER: "USER", // basic user = scouter
+  LOT: "LOT",
+  BID: "BID",
+} as const;
+export type AppEntity = ValueOf<typeof APP_ENTITIES>;
 
-  // Entities
-  organization: ["create", "update"],
-  lot: ["create", "update", "ban"],
-  bid: ["create", "update"],
+export const AGENCY_ENTITIES = {
+  AGENCY_HEAD_BOOKER: "AGENCY_HEAD_BOOKER",
+  AGENCY_BOOKER: "AGENCY_BOOKER",
+} as const;
+export type AgencyEntity = ValueOf<typeof AGENCY_ENTITIES>;
+
+const appActions = {
+  // Users
+  [APP_ENTITIES.SUPER_ADMIN]: ["update"],
+  [APP_ENTITIES.ADMIN]: ["create", "update", "ban"],
+  [APP_ENTITIES.USER]: ["update", "ban"],
+  [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create", "update", "ban"],
+  [AGENCY_ENTITIES.AGENCY_BOOKER]: ["create", "update", "ban"],
+
+  [APP_ENTITIES.LOT]: ["create", "update", "ban"],
+  [APP_ENTITIES.BID]: ["create", "update"],
 } as const;
 
-const accessControl = createAccessControl(entitiesActions);
+const agencyActions = {
+  [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["update"],
+  [AGENCY_ENTITIES.AGENCY_BOOKER]: ["create", "update", "ban"],
+} as const;
 
-export const appAdminRole = accessControl.newRole({
-  admin: ["update"],
-  moderator: ["create", "update", "delete"],
-  headBooker: ["create", "update", "ban"],
-  booker: ["create", "update", "ban"],
-  scouter: ["create", "update", "ban"],
+export const appAccessControl = createAccessControl(appActions);
+export const agencyAccessControl = createAccessControl(agencyActions);
+
+export const appSuperAdminRole = appAccessControl.newRole({
+  [APP_ENTITIES.SUPER_ADMIN]: ["update"],
+  [APP_ENTITIES.ADMIN]: ["create", "update"],
 });
 
-export const appModeratorRole = accessControl.newRole({
-  headBooker: ["create", "update", "ban"],
-  booker: ["create", "update", "ban"],
-  scouter: ["create", "update", "ban"],
+export const appAdminRole = appAccessControl.newRole({
+  [APP_ENTITIES.USER]: ["update", "ban"],
+  [APP_ENTITIES.LOT]: ["update", "ban"],
+  [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create", "update", "ban"],
 });
 
-export const apphHeadBookerRole = accessControl.newRole({
-  booker: ["create", "update", "ban"],
+export const appUserRole = appAccessControl.newRole({
+  [APP_ENTITIES.USER]: ["update"],
 });
 
-export const appBookerRole = accessControl.newRole({
-  booker: [],
+export const agencyHeadBookerRole = agencyAccessControl.newRole({
+  [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["update"],
+  [AGENCY_ENTITIES.AGENCY_BOOKER]: ["create", "update", "ban"],
 });
 
-export const appScouterRole = accessControl.newRole({
-  scouter: ["create", "update"],
+export const agencyBookerRole = agencyAccessControl.newRole({
+  [AGENCY_ENTITIES.AGENCY_BOOKER]: ["update"],
 });
