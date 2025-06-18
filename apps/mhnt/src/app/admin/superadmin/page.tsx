@@ -3,7 +3,7 @@ import { APP_ENTITIES } from "@/lib/permissions";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function AdminsPage() {
+export default async function SuperadminPage() {
   const headersList = await headers();
 
   const session = await auth.api.getSession({

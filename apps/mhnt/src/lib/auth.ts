@@ -15,7 +15,6 @@ import {
   AGENCY_ROLES_CONFIG,
   APP_ROLES,
 } from "./permissions";
-import { isActiveAdmin } from "@/actions/isActiveAdmin";
 import { createHeadBooker } from "@/actions/createHeadBooker";
 
 export const auth = betterAuth({
@@ -49,8 +48,9 @@ export const auth = betterAuth({
       ac: agencyAccessControl,
       roles: AGENCY_ROLES_CONFIG,
       organizationCreation: {
-        beforeCreate: async ({ organization: { metadata, ...data } }) => {
+        afterCreate: async ({ organization: { metadata, id } }) => {
           await createHeadBooker({
+            organizationId: id,
             userEmail: metadata.headBookerEmail,
             userName: metadata.headBookerName,
           });
@@ -59,17 +59,11 @@ export const auth = betterAuth({
             subject: "Organization Setup",
             meta: {
               description:
-                "Your agency is approved. You can now login and start hunting!",
+                "Your agency profile is created. You can now login and start hunting!",
               link: `https://mhnt.app/signin`,
             },
           });
-          return {
-            data,
-          };
         },
-      },
-      allowUserToCreateOrganization: async (user) => {
-        return await isActiveAdmin(user.id);
       },
     }) as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
