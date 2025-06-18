@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { organization } from "@/lib/authClient";
+import { authClient } from "@/lib/authClient";
 
 const formSchema = z.object({
   agencyName: z.string(),
@@ -48,7 +48,7 @@ export const CreateAgencyForm = () => {
     headBookerEmail,
     headBookerName,
   }: z.infer<typeof formSchema>) => {
-    await organization.create({
+    await authClient.organization.create({
       name: agencyName,
       slug: agencySlug,
       metadata: {

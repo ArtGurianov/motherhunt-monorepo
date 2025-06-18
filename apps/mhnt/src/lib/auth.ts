@@ -9,13 +9,11 @@ import {
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
 import {
-  appSuperAdminRole,
-  appAdminRole,
-  appUserRole,
-  agencyBookerRole,
-  agencyHeadBookerRole,
   appAccessControl,
   agencyAccessControl,
+  APP_ROLES_CONFIG,
+  AGENCY_ROLES_CONFIG,
+  APP_ROLES,
 } from "./permissions";
 import { isActiveAdmin } from "@/actions/isActiveAdmin";
 import { createHeadBooker } from "@/actions/createHeadBooker";
@@ -43,19 +41,13 @@ export const auth = betterAuth({
     }) as unknown as BetterAuthPlugin,
     adminPlugin({
       ac: appAccessControl,
-      defaultRole: "appUserRole",
-      roles: {
-        appSuperAdminRole,
-        appAdminRole,
-        appUserRole,
-      },
+      defaultRole: APP_ROLES.SCOUTER,
+      adminRoles: [APP_ROLES.SUPER_ADMIN, APP_ROLES.ADMIN],
+      roles: APP_ROLES_CONFIG,
     }),
     organizationPlugin({
       ac: agencyAccessControl,
-      roles: {
-        agencyHeadBookerRole,
-        agencyBookerRole,
-      },
+      roles: AGENCY_ROLES_CONFIG,
       organizationCreation: {
         beforeCreate: async ({ organization: { metadata, ...data } }) => {
           await createHeadBooker({

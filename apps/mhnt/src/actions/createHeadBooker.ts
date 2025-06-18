@@ -13,7 +13,6 @@ export const createHeadBooker = async ({
     body: {
       name: userName,
       email: userEmail,
-      role: "appUserRole",
       password: "",
     },
   });

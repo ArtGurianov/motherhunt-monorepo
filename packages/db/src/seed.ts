@@ -2,16 +2,16 @@ import { PrismaClient } from "@prisma/client";
 const prismaClient = new PrismaClient();
 
 async function main() {
-  const adminEmail = process.env.ADMIN_EMAIL;
-  if (!adminEmail) throw new Error("Admin email not provided");
+  const superAdminEmail = process.env.SUPER_ADMIN_EMAIL;
+  if (!superAdminEmail) throw new Error("Admin email not provided");
 
   const admin = await prismaClient.user.upsert({
-    where: { email: adminEmail },
+    where: { email: superAdminEmail },
     create: {
-      email: adminEmail,
-      name: "App Owner",
+      email: superAdminEmail,
+      name: "Super Admin",
       emailVerified: true,
-      role: "admin",
+      role: "SUPER_ADMIN",
     },
     update: {},
   });

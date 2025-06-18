@@ -1,16 +1,16 @@
-import { LoginForm } from "@/components/Forms";
+import { SignInForm } from "@/components/Forms";
 import { auth } from "@/lib/auth";
 import { headers as nextHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function LoginPage() {
+export default async function SignInPage() {
   const headers = await nextHeaders();
   const session = await auth.api.getSession({ headers });
   if (session) redirect("/");
 
   return (
     <div className="flex flex-col gap-12 grow justify-start items-center py-12">
-      <LoginForm />
+      <SignInForm />
     </div>
   );
 }

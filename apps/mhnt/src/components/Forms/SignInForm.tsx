@@ -22,15 +22,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { signIn } from "@/lib/authClient";
+import { authClient } from "@/lib/authClient";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { FormStatus } from "./types";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z.email(),
 });
 
-export const LoginForm = () => {
+export const SignInForm = () => {
   const pathname = usePathname();
+  const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +44,8 @@ export const LoginForm = () => {
   });
 
   const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
-    await signIn.magicLink(
+    setFormStatus("LOADING");
+    const result = await authClient.signIn.magicLink(
       {
         email,
         callbackURL: pathname,
@@ -53,6 +58,8 @@ export const LoginForm = () => {
         },
       }
     );
+
+    setFormStatus(result.error ? "ERROR" : "SUCCESS");
   };
 
   return (
@@ -73,16 +80,35 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="type your email" {...field} />
+                    <Input
+                      disabled={formStatus === "LOADING"}
+                      placeholder="type your email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>{"Some description"}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button variant="secondary" type="submit">
-              Submit
-            </Button>
+            {formStatus === "SUCCESS" ? (
+              <span className="text-xl">{"Email sent!"}</span>
+            ) : (
+              <Button
+                type="submit"
+                variant="secondary"
+                disabled={
+                  formStatus === "LOADING" ||
+                  !!Object.keys(form.formState.errors).length
+                }
+              >
+                {formStatus === "LOADING" ? (
+                  <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                ) : (
+                  "Send link"
+                )}
+              </Button>
+            )}
           </form>
         </Form>
       </CardContent>
