@@ -23,6 +23,9 @@ import {
   CardTitle,
 } from "@shared/ui/components/card";
 import { authClient } from "@/lib/auth/authClient";
+import { useState } from "react";
+import { FormStatus } from "./types";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
   agencyName: z.string(),
@@ -32,6 +35,8 @@ const formSchema = z.object({
 });
 
 export const CreateAgencyForm = () => {
+  const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +53,9 @@ export const CreateAgencyForm = () => {
     headBookerEmail,
     headBookerName,
   }: z.infer<typeof formSchema>) => {
-    await authClient.organization.create({
+    setFormStatus("LOADING");
+
+    const result = await authClient.organization.create({
       name: agencyName,
       slug: agencySlug,
       metadata: {
@@ -56,6 +63,8 @@ export const CreateAgencyForm = () => {
         headBookerName,
       },
     });
+
+    setFormStatus(result.error ? "ERROR" : "SUCCESS");
   };
 
   return (
@@ -74,7 +83,11 @@ export const CreateAgencyForm = () => {
                 <FormItem>
                   <FormLabel>Agency Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="enter name of the agency" {...field} />
+                    <Input
+                      disabled={formStatus === "LOADING"}
+                      placeholder="enter name of the agency"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     {"Some description for the agency"}
@@ -91,6 +104,7 @@ export const CreateAgencyForm = () => {
                   <FormLabel>Agency Slug</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={formStatus === "LOADING"}
                       placeholder="enter unique slug of the agency"
                       {...field}
                     />
@@ -110,6 +124,7 @@ export const CreateAgencyForm = () => {
                   <FormLabel>Head Booker Name</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={formStatus === "LOADING"}
                       placeholder="enter name of agency head booker"
                       {...field}
                     />
@@ -129,6 +144,7 @@ export const CreateAgencyForm = () => {
                   <FormLabel>Head Booker Email</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={formStatus === "LOADING"}
                       placeholder="enter email of agency head booker"
                       {...field}
                     />
@@ -140,9 +156,24 @@ export const CreateAgencyForm = () => {
                 </FormItem>
               )}
             />
-            <Button variant="secondary" type="submit">
-              Submit
-            </Button>
+            {formStatus === "SUCCESS" ? (
+              <span className="text-xl">{"Email sent!"}</span>
+            ) : (
+              <Button
+                type="submit"
+                variant="secondary"
+                disabled={
+                  formStatus === "LOADING" ||
+                  !!Object.keys(form.formState.errors).length
+                }
+              >
+                {formStatus === "LOADING" ? (
+                  <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                ) : (
+                  "Create Organization"
+                )}
+              </Button>
+            )}
           </form>
         </Form>
       </CardContent>
