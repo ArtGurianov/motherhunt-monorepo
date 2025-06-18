@@ -1,5 +1,5 @@
-import { auth } from "@/lib/auth";
-import { APP_ENTITIES } from "@/lib/permissions";
+import { auth } from "@/lib/auth/auth";
+import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

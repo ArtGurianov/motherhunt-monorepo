@@ -1,5 +1,5 @@
 import { SignInForm } from "@/components/Forms";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 import { headers as nextHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 

@@ -1,5 +1,5 @@
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prismaClient } from "./db";
+import { prismaClient } from "../db";
 import { betterAuth, BetterAuthPlugin } from "better-auth";
 import {
   admin as adminPlugin,
@@ -8,14 +8,17 @@ import {
 } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
+
+import { initializeHeadBooker } from "@/actions/initializeHeadBooker";
 import {
-  appAccessControl,
-  agencyAccessControl,
-  APP_ROLES_CONFIG,
-  AGENCY_ROLES_CONFIG,
   APP_ROLES,
-} from "./permissions";
-import { createHeadBooker } from "@/actions/createHeadBooker";
+  APP_ROLES_CONFIG,
+  appAccessControl,
+} from "@/lib/auth/permissions/app-permissions";
+import {
+  AGENCY_ROLES_CONFIG,
+  agencyAccessControl,
+} from "@/lib/auth/permissions/agency-permissions";
 
 export const auth = betterAuth({
   appName: "motherHunt",
@@ -49,19 +52,10 @@ export const auth = betterAuth({
       roles: AGENCY_ROLES_CONFIG,
       organizationCreation: {
         afterCreate: async ({ organization: { metadata, id } }) => {
-          await createHeadBooker({
+          await initializeHeadBooker({
             organizationId: id,
             userEmail: metadata.headBookerEmail,
             userName: metadata.headBookerName,
-          });
-          await sendEmail({
-            to: metadata.headBookerEmail,
-            subject: "Organization Setup",
-            meta: {
-              description:
-                "Your agency profile is created. You can now login and start hunting!",
-              link: `https://mhnt.app/signin`,
-            },
           });
         },
       },
@@ -75,6 +69,14 @@ export const auth = betterAuth({
     "https://motherhunt.com",
   ],
   advanced: { database: { generateId: false } },
+  session: {
+    modelName: "session",
+    additionalFields: {
+      role: {
+        type: "string",
+      },
+    },
+  },
   user: {
     modelName: "user",
     additionalFields: {

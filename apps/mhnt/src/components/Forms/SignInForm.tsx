@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { authClient } from "@/lib/authClient";
+import { authClient } from "@/lib/auth/authClient";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FormStatus } from "./types";

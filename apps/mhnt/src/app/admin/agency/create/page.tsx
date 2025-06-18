@@ -1,6 +1,6 @@
 import { CreateAgencyForm } from "@/components/Forms";
-import { auth } from "@/lib/auth";
-import { AGENCY_ENTITIES } from "@/lib/permissions";
+import { auth } from "@/lib/auth/auth";
+import { AGENCY_ENTITIES } from "@/lib/auth/permissions/agency-permissions";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

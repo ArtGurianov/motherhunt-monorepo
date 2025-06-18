@@ -5,13 +5,15 @@ import {
   inferAdditionalFields,
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import {
-  appAccessControl,
-  agencyAccessControl,
-  APP_ROLES_CONFIG,
-  AGENCY_ROLES_CONFIG,
-} from "./permissions";
 import { auth } from "./auth";
+import {
+  APP_ROLES_CONFIG,
+  appAccessControl,
+} from "@/lib/auth/permissions/app-permissions";
+import {
+  AGENCY_ROLES_CONFIG,
+  agencyAccessControl,
+} from "@/lib/auth/permissions/agency-permissions";
 
 export const authClient = createAuthClient({
   plugins: [

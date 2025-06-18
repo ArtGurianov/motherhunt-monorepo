@@ -1,5 +1,5 @@
 import { SignOutBtn } from "@/components/ActionButtons/SignOutBtn";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 import { headers as nextHeaders } from "next/headers";
 
 export default async function HomePage() {

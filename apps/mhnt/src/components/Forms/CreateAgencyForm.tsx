@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { authClient } from "@/lib/authClient";
+import { authClient } from "@/lib/auth/authClient";
 
 const formSchema = z.object({
   agencyName: z.string(),

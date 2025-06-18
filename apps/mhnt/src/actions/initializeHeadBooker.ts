@@ -1,9 +1,10 @@
 "use server";
 
-import { auth } from "@/lib/auth";
-import { AGENCY_ROLES } from "@/lib/permissions";
+import { auth } from "@/lib/auth/auth";
+import { sendEmail } from "./sendEmail";
+import { AGENCY_ROLES } from "@/lib/auth/permissions/app-permissions";
 
-export const createHeadBooker = async ({
+export const initializeHeadBooker = async ({
   organizationId,
   userEmail,
   userName,
@@ -26,6 +27,16 @@ export const createHeadBooker = async ({
       userId: headBooker.user.id,
       organizationId,
       role: AGENCY_ROLES.HEAD_BOOKER,
+    },
+  });
+
+  await sendEmail({
+    to: userEmail,
+    subject: "Organization Setup",
+    meta: {
+      description:
+        "Your agency profile is created. You can now login and start hunting!",
+      link: `https://mhnt.app/signin`,
     },
   });
 };
