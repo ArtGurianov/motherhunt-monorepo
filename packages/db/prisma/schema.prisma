@@ -27,16 +27,17 @@ model User {
 }
 
 model Session {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
   expiresAt       DateTime
   token           String
-  impersonatedBy  String?  @db.ObjectId
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  impersonatedBy  String?       @db.ObjectId
+  activeOrganizationId String?  @db.ObjectId
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
   ipAddress       String?
   userAgent       String?
-  userId          String   @db.ObjectId
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String        @db.ObjectId
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -70,4 +71,36 @@ model Verification {
   updatedAt  DateTime       @updatedAt
 
   @@map("verification")
+}
+
+model Organization {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  slug          String
+  logo          String?
+  metadata      String?
+  createdAt     DateTime       @default(now())
+
+  @@map("organization")
+}
+
+model Member {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String         @db.ObjectId
+  organizationId  String         @db.ObjectId
+  role            String
+  createdAt       DateTime       @default(now())
+}
+
+model Invitation {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  email           String
+  inviterId       String         @db.ObjectId
+  organizationId  String         @db.ObjectId
+  role            String
+  status          String
+  expiresAt       DateTime
+  createdAt       DateTime       @default(now())
+
+  @@map("invitation")
 }

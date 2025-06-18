@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/LoginForm/LoginForm";
+import { LoginForm } from "@/components/Forms";
 import { auth } from "@/lib/auth";
 import { headers as nextHeaders } from "next/headers";
 

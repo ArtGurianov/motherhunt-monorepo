@@ -14,7 +14,7 @@ import {
 } from "./permissions";
 import { auth } from "./auth";
 
-export const { signIn, signUp, useSession } = createAuthClient({
+export const { signIn, signUp, useSession, organization } = createAuthClient({
   plugins: [
     magicLinkClient(),
     adminClient({

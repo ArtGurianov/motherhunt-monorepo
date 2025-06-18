@@ -15,6 +15,8 @@ import {
   appModeratorRole,
   appScouterRole,
 } from "./permissions";
+import { isActiveAdmin } from "@/actions/isActiveAdmin";
+import { createUser } from "@/actions/createUser";
 
 export const auth = betterAuth({
   appName: "motherHunt",
@@ -47,7 +49,32 @@ export const auth = betterAuth({
         appScouterRole,
       },
     }) as unknown as BetterAuthPlugin,
-    organizationPlugin() as unknown as BetterAuthPlugin,
+    organizationPlugin({
+      organizationCreation: {
+        beforeCreate: async ({ organization: { metadata, ...data } }) => {
+          await createUser({
+            userEmail: metadata.headBookerEmail,
+            userName: metadata.headBookerName,
+            userRole: "headBooker",
+          });
+          await sendEmail({
+            to: metadata.headBookerEmail,
+            subject: "Organization Setup",
+            meta: {
+              description:
+                "Your agency is approved. You can now login and start hunting!",
+              link: `https://mhnt.app/agency/login`,
+            },
+          });
+          return {
+            data,
+          };
+        },
+      },
+      allowUserToCreateOrganization: async (user) => {
+        return await isActiveAdmin(user.id);
+      },
+    }) as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
   ],
   // secondaryStorage: {},

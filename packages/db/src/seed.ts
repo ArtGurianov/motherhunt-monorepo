@@ -13,7 +13,7 @@ async function main() {
       emailVerified: true,
       role: "admin",
     },
-    update: { email: adminEmail },
+    update: {},
   });
   console.info("Initial App Admin email: ", admin.email);
 }
