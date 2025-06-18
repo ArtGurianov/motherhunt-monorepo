@@ -1,16 +1,16 @@
-import { SignOutBtn } from "@/components/ActionButtons/SignOutBtn";
 import { LoginForm } from "@/components/Forms";
 import { auth } from "@/lib/auth";
 import { headers as nextHeaders } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default async function HomePage() {
+export default async function LoginPage() {
   const headers = await nextHeaders();
   const session = await auth.api.getSession({ headers });
+  if (session) redirect("/");
 
   return (
     <div className="flex flex-col gap-12 grow justify-start items-center py-12">
-      {session ? `logged in role: ${session.user.role}` : "logged out"}
-      {session ? <SignOutBtn /> : null}
+      <LoginForm />
     </div>
   );
 }
