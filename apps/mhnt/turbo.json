@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "DATABASE_URL",
+        "SUPER_ADMIN_EMAIL",
+        "NEXT_PUBLIC_APP_LOCALE",
+        "BETTER_AUTH_SECRET",
+        "NODEMAILER_USER",
+        "NODEMAILER_APP_PASSWORD"
+      ]
+    }
+  }
+}
