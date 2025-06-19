@@ -18,9 +18,9 @@ export const HCaptchaFormItem = ({ ref, onSuccess }: HCaptchaFormItemProps) => {
   return (
     <FormItem>
       <FormControl>
-        <div className="relative h-16 w-full">
+        <div className="relative h-24 w-full border-2 rounded-lg bg-secondary">
           <LoaderCircle className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 animate-spin" />
-          <div className="absolute z-10 w-full h-full">
+          <div className="absolute flex justify-center items-center z-10 w-full h-full">
             <HCaptcha
               sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
               onLoad={onLoad}

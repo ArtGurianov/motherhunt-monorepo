@@ -5,8 +5,8 @@ import {
   admin as adminPlugin,
   organization as organizationPlugin,
   captcha as captchaPlugin,
+  magicLink as magicLinkPlugin,
 } from "better-auth/plugins";
-import { magicLink as magicLinkPlugin } from "./customPlugins/magic-link";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
 

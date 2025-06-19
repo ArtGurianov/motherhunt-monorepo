@@ -13,7 +13,6 @@ export default async function IntroductionPage() {
       </MdxLayout>
     );
   } catch (error) {
-    console.log(locale, error);
     notFound();
   }
 }
