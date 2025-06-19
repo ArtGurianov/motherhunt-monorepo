@@ -29,6 +29,7 @@ import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { useTurnstile } from "@/lib/hooks";
 import Script from "next/script";
+import { TurnStileFormItem } from "../TurnstileFormItem/TurnstileFormItem";
 
 const formSchema = z.object({
   email: z.email(),
@@ -44,6 +45,7 @@ export const SignInForm = () => {
   const turnstileRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
+    mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -51,9 +53,8 @@ export const SignInForm = () => {
     },
   });
 
-  const { buildTurnstile, resetTurnstile } = useTurnstile(
-    turnstileRef,
-    (token: string) => form.setValue("turnstileToken", token)
+  const { buildTurnstile } = useTurnstile(turnstileRef, (token: string) =>
+    form.setValue("turnstileToken", token)
   );
 
   const onSubmit = async ({
@@ -70,9 +71,7 @@ export const SignInForm = () => {
         },
       },
     });
-
     setFormStatus(result.error ? "ERROR" : "SUCCESS");
-    resetTurnstile(turnstileRef);
   };
 
   return (
@@ -81,7 +80,9 @@ export const SignInForm = () => {
         src="https://challenges.cloudflare.com/turnstile/v0/api.js"
         async
         defer
-        onReady={buildTurnstile}
+        onReady={() => {
+          buildTurnstile();
+        }}
       />
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
@@ -114,39 +115,30 @@ export const SignInForm = () => {
               control={form.control}
               name="turnstileToken"
               render={() => {
-                return (
-                  <FormItem>
-                    <FormControl>
-                      <div
-                        ref={turnstileRef}
-                        data-sitekey={
-                          process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
+                return <TurnStileFormItem ref={turnstileRef} />;
               }}
             />
-            {formStatus === "SUCCESS" ? (
-              <span className="text-xl">{"Email sent!"}</span>
-            ) : (
-              <Button
-                type="submit"
-                variant="secondary"
-                disabled={
-                  formStatus === "LOADING" ||
-                  !!Object.keys(form.formState.errors).length
-                }
-              >
-                {formStatus === "LOADING" ? (
-                  <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                ) : (
-                  "Send link"
-                )}
-              </Button>
-            )}
+            <div className="w-full flex justify-end items-center">
+              {formStatus === "SUCCESS" ? (
+                <span className="text-xl">{"Email sent!"}</span>
+              ) : (
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  disabled={
+                    formStatus === "LOADING" ||
+                    !form.formState.isValid ||
+                    !!Object.keys(form.formState.errors).length
+                  }
+                >
+                  {formStatus === "LOADING" ? (
+                    <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                  ) : (
+                    "Send link"
+                  )}
+                </Button>
+              )}
+            </div>
           </form>
         </Form>
       </CardContent>

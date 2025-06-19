@@ -32,7 +32,10 @@ export const auth = betterAuth({
   plugins: [
     captchaPlugin({
       provider: "cloudflare-turnstile",
-      secretKey: process.env.TURNSTILE_SECRET_KEY!,
+      secretKey:
+        process.env.NODE_ENV === "production"
+          ? process.env.TURNSTILE_SECRET_KEY!
+          : "1x0000000000000000000000000000000AA",
       endpoints: ["sign-in/magic-link"],
     }),
     magicLinkPlugin({
