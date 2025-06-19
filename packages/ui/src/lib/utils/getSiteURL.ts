@@ -15,5 +15,5 @@ export const getSiteURL = (locale?: AppLocale) => {
   const domainZone =
     process.env.NODE_ENV === "production" ? APP_DOMAIN_ZONE : ".local";
 
-  return `https://${lang === "en" ? "" : `${lang}.`}${APP_DOMAIN_NAME}${domainZone}${port}`;
+  return `https://www.${lang === "en" ? "" : `${lang}.`}${APP_DOMAIN_NAME}${domainZone}${port}`;
 };
