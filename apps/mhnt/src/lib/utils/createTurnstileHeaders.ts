@@ -1,4 +1,4 @@
-export const getTurnstileValues = (headers: Headers) => {
+export const createTurnstileHeaders = (headers: Headers) => {
   return {
     userIp: headers.get("x-forwarded-for"),
     turnstileToken:

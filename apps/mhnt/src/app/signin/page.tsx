@@ -1,12 +1,12 @@
 import { SignInForm } from "@/components/Forms";
 import { auth } from "@/lib/auth/auth";
-import { getTurnstileValues } from "@/lib/utils/getTurnstileValues";
+import { createTurnstileHeaders } from "@/lib/utils/createTurnstileHeaders";
 import { headers as nextHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function SignInPage() {
   const headers = await nextHeaders();
-  const { userIp, turnstileToken } = getTurnstileValues(headers);
+  const { userIp, turnstileToken } = createTurnstileHeaders(headers);
 
   const session = await auth.api.getSession({ headers });
   if (session) redirect("/");
