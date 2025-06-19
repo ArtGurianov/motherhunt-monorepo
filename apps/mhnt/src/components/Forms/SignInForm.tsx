@@ -24,57 +24,65 @@ import {
 } from "@shared/ui/components/card";
 import { authClient } from "@/lib/auth/authClient";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
+import { useTurnstile } from "@/lib/hooks";
+import Script from "next/script";
 
 const formSchema = z.object({
   email: z.email(),
+  turnstileToken: z
+    .string()
+    .min(1, { message: "You must verify you're human" }),
 });
 
-interface SignInFormProps {
-  turnstileToken: string;
-  userIp: string;
-}
-
-export const SignInForm = ({ turnstileToken, userIp }: SignInFormProps) => {
+export const SignInForm = () => {
   const pathname = usePathname();
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+
+  const turnstileRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      turnstileToken: "",
     },
   });
 
-  const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
+  const { buildTurnstile, resetTurnstile } = useTurnstile(
+    turnstileRef,
+    (token: string) => form.setValue("turnstileToken", token)
+  );
+
+  const onSubmit = async ({
+    email,
+    turnstileToken,
+  }: z.infer<typeof formSchema>) => {
     setFormStatus("LOADING");
-    const result = await authClient.signIn.magicLink(
-      {
-        email,
-        callbackURL: pathname,
-        fetchOptions: {
-          headers: {
-            "x-captcha-response": turnstileToken,
-            "x-captcha-user-remote-ip": userIp,
-          },
+    const result = await authClient.signIn.magicLink({
+      email,
+      callbackURL: pathname,
+      fetchOptions: {
+        headers: {
+          "x-captcha-response": turnstileToken,
         },
       },
-      {
-        // onRequest: () => {},
-        // onSuccess: () => {},
-        // onError: (e) => {
-        //   console.log(e);
-        // },
-      }
-    );
+    });
 
     setFormStatus(result.error ? "ERROR" : "SUCCESS");
+    resetTurnstile(turnstileRef);
   };
 
   return (
     <Card className="w-full max-w-sm">
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+        onReady={buildTurnstile}
+      />
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -101,6 +109,25 @@ export const SignInForm = ({ turnstileToken, userIp }: SignInFormProps) => {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+            <FormField
+              control={form.control}
+              name="turnstileToken"
+              render={() => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <div
+                        ref={turnstileRef}
+                        data-sitekey={
+                          process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
             {formStatus === "SUCCESS" ? (
               <span className="text-xl">{"Email sent!"}</span>
