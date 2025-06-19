@@ -6,10 +6,11 @@ const APP_DOMAIN_ZONE = ".app";
 
 export const getAppURL = () => {
   const lang = APP_LANG_TO_LOCALE_MAP[getAppLocale()];
-  const port =
-    process.env.NODE_ENV === "production" ? "" : `:${APP_PORT_DEVELOPMENT}`;
+  const prefix = process.env.NODE_ENV === "production" ? "www." : "";
   const domainZone =
     process.env.NODE_ENV === "production" ? APP_DOMAIN_ZONE : ".local";
+  const port =
+    process.env.NODE_ENV === "production" ? "" : `:${APP_PORT_DEVELOPMENT}`;
 
-  return `https://www.${lang === "en" ? "" : `${lang}.`}${APP_DOMAIN_NAME}${domainZone}${port}`;
+  return `https://${prefix}${lang === "en" ? "" : `${lang}.`}${APP_DOMAIN_NAME}${domainZone}${port}`;
 };

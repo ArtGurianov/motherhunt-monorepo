@@ -2,6 +2,17 @@
   "$schema": "https://turbo.build/schema.json",
   "extends": ["//"],
   "tasks": {
+    "dev": {
+      "env": [
+        "DATABASE_URL",
+        "NEXT_PUBLIC_APP_LOCALE",
+        "BETTER_AUTH_SECRET",
+        "NODEMAILER_USER",
+        "NODEMAILER_APP_PASSWORD",
+        "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+        "TURNSTILE_SECRET_KEY"
+      ]
+    },
     "build": {
       "env": [
         "DATABASE_URL",
@@ -9,7 +20,9 @@
         "NEXT_PUBLIC_APP_LOCALE",
         "BETTER_AUTH_SECRET",
         "NODEMAILER_USER",
-        "NODEMAILER_APP_PASSWORD"
+        "NODEMAILER_APP_PASSWORD",
+        "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+        "TURNSTILE_SECRET_KEY"
       ]
     }
   }

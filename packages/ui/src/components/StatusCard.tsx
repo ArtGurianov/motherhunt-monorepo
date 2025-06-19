@@ -1,0 +1,54 @@
+import { ValueOf } from "../lib/types";
+import { cn } from "../lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./card";
+
+export const StatusCardTypes = {
+  LOADING: "LOADING",
+  ERROR: "ERROR",
+  SUCCESS: "SUCCESS",
+} as const;
+export type StatusCardType = ValueOf<typeof StatusCardTypes>;
+
+interface StatusCardProps {
+  className?: string;
+  title: string;
+  description?: string;
+  type?: StatusCardType;
+  children?: React.ReactNode;
+}
+
+export const StatusCard = ({
+  className,
+  title,
+  description,
+  type = StatusCardTypes.SUCCESS,
+  children,
+}: StatusCardProps) => {
+  return (
+    <Card
+      className={cn(
+        "flex flex-col items-center justify-center gap-2",
+        {
+          "bg-red-700": type === StatusCardTypes.ERROR,
+        },
+        className
+      )}
+    >
+      <CardHeader className="text-center lg:text-end">
+        <CardTitle className="font-elliot text-foreground">{title}</CardTitle>
+        {description ? (
+          <CardDescription className="font-sans text-lg text-card">
+            {description}
+          </CardDescription>
+        ) : null}
+      </CardHeader>
+      {children ? <CardContent>{children}</CardContent> : null}
+    </Card>
+  );
+};

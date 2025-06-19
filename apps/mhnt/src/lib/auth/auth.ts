@@ -5,6 +5,7 @@ import {
   admin as adminPlugin,
   magicLink as magicLinkPlugin,
   organization as organizationPlugin,
+  captcha as captchaPlugin,
 } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
@@ -29,6 +30,11 @@ export const auth = betterAuth({
     provider: "mongodb",
   }),
   plugins: [
+    captchaPlugin({
+      provider: "cloudflare-turnstile",
+      secretKey: process.env.TURNSTILE_SECRET_KEY!,
+      endpoints: ["/signin"],
+    }),
     magicLinkPlugin({
       sendMagicLink: async ({ email, url }) => {
         await sendEmail({

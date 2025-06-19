@@ -32,7 +32,12 @@ const formSchema = z.object({
   email: z.email(),
 });
 
-export const SignInForm = () => {
+interface SignInFormProps {
+  turnstileToken: string;
+  userIp: string;
+}
+
+export const SignInForm = ({ turnstileToken, userIp }: SignInFormProps) => {
   const pathname = usePathname();
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
 
@@ -49,13 +54,19 @@ export const SignInForm = () => {
       {
         email,
         callbackURL: pathname,
+        fetchOptions: {
+          headers: {
+            "x-captcha-response": turnstileToken,
+            "x-captcha-user-remote-ip": userIp,
+          },
+        },
       },
       {
-        onRequest: () => {},
-        onSuccess: () => {},
-        onError: (e) => {
-          console.log(e);
-        },
+        // onRequest: () => {},
+        // onSuccess: () => {},
+        // onError: (e) => {
+        //   console.log(e);
+        // },
       }
     );
 
