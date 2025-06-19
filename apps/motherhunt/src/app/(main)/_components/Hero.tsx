@@ -4,7 +4,7 @@ import { Button } from "@shared/ui/components/button";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
+import { getAppURL } from "@shared/ui/lib/utils";
 
 export const Hero = async () => {
   const t = await getTranslations("HOME.HERO");
