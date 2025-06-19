@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@shared/ui/components/button";
 import { usePathname } from "next/navigation";
-import { cn, getAppLocale, getSiteURL } from "@shared/ui/lib/utils";
+import { AppLocale, cn, getAppLocale, getSiteURL } from "@shared/ui/lib/utils";
 import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
 
@@ -30,7 +30,10 @@ export const LangSwitcher = ({ className }: { className?: string }) => {
           onMouseOver={() => setHoveredIndex(index)}
           onMouseOut={() => setHoveredIndex(null)}
         >
-          <Link className="h-full w-full" href={`${getSiteURL()}${pathname}`}>
+          <Link
+            className="h-full w-full"
+            href={`${getSiteURL(locale as AppLocale)}${pathname}`}
+          >
             {lang}
           </Link>
         </Button>
