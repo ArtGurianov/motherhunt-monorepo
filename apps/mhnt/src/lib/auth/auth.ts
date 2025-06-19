@@ -3,10 +3,10 @@ import { prismaClient } from "../db";
 import { betterAuth, BetterAuthPlugin } from "better-auth";
 import {
   admin as adminPlugin,
-  magicLink as magicLinkPlugin,
   organization as organizationPlugin,
   captcha as captchaPlugin,
 } from "better-auth/plugins";
+import { magicLink as magicLinkPlugin } from "./customPlugins/magic-link";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
 
@@ -31,11 +31,8 @@ export const auth = betterAuth({
   }),
   plugins: [
     captchaPlugin({
-      provider: "cloudflare-turnstile",
-      secretKey:
-        process.env.NODE_ENV === "production"
-          ? process.env.TURNSTILE_SECRET_KEY!
-          : "1x0000000000000000000000000000000AA",
+      provider: "hcaptcha",
+      secretKey: process.env.HCAPTCHA_SECRET_KEY!,
       endpoints: ["sign-in/magic-link"],
     }),
     magicLinkPlugin({

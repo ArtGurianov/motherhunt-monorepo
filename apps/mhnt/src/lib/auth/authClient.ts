@@ -1,9 +1,9 @@
 import {
-  magicLinkClient,
   adminClient,
   organizationClient,
   inferAdditionalFields,
 } from "better-auth/client/plugins";
+import { magicLinkClient } from "./customPlugins/magic-link/client";
 import { createAuthClient } from "better-auth/react";
 import { auth } from "./auth";
 import {

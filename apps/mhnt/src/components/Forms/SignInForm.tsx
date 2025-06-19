@@ -27,39 +27,32 @@ import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
-import { useTurnstile } from "@/lib/hooks";
-import Script from "next/script";
-import { TurnStileFormItem } from "../TurnstileFormItem/TurnstileFormItem";
+import { HCaptchaFormItem } from "../HCaptchaFormItem/HCaptchaFormItem";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const formSchema = z.object({
   email: z.email(),
-  turnstileToken: z
-    .string()
-    .min(1, { message: "You must verify you're human" }),
+  hCaptchaToken: z.string().min(1, { message: "You must verify you're human" }),
 });
 
 export const SignInForm = () => {
   const pathname = usePathname();
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
 
-  const turnstileRef = useRef<HTMLDivElement>(null);
+  const hCaptchaRef = useRef<HCaptcha>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      turnstileToken: "",
+      hCaptchaToken: "",
     },
   });
 
-  const { buildTurnstile } = useTurnstile(turnstileRef, (token: string) =>
-    form.setValue("turnstileToken", token)
-  );
-
   const onSubmit = async ({
     email,
-    turnstileToken,
+    hCaptchaToken,
   }: z.infer<typeof formSchema>) => {
     setFormStatus("LOADING");
     const result = await authClient.signIn.magicLink({
@@ -67,7 +60,7 @@ export const SignInForm = () => {
       callbackURL: pathname,
       fetchOptions: {
         headers: {
-          "x-captcha-response": turnstileToken,
+          "x-captcha-response": hCaptchaToken,
         },
       },
     });
@@ -76,14 +69,6 @@ export const SignInForm = () => {
 
   return (
     <Card className="w-full max-w-sm">
-      <Script
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-        async
-        defer
-        onReady={() => {
-          buildTurnstile();
-        }}
-      />
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -113,9 +98,14 @@ export const SignInForm = () => {
             />
             <FormField
               control={form.control}
-              name="turnstileToken"
+              name="hCaptchaToken"
               render={() => {
-                return <TurnStileFormItem ref={turnstileRef} />;
+                return (
+                  <HCaptchaFormItem
+                    ref={hCaptchaRef}
+                    onSuccess={(token) => form.setValue("hCaptchaToken", token)}
+                  />
+                );
               }}
             />
             <div className="w-full flex justify-end items-center">
