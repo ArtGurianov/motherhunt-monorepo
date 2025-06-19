@@ -2,7 +2,8 @@
 
 import { auth } from "@/lib/auth/auth";
 import { sendEmail } from "./sendEmail";
-import { AGENCY_ROLES } from "@/lib/auth/permissions/app-permissions";
+import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
+import { getAppURL } from "@shared/ui/lib/utils";
 
 export const initializeHeadBooker = async ({
   organizationId,
@@ -36,7 +37,7 @@ export const initializeHeadBooker = async ({
     meta: {
       description:
         "Your agency profile is created. You can now login and start hunting!",
-      link: `https://mhnt.app/signin`,
+      link: `${getAppURL()}/signin`,
     },
   });
 };

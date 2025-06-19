@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { ArrowBigRight } from "lucide-react";
 import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import { useTranslations } from "next-intl";
+import { getAppURL } from "@shared/ui/lib/utils";
 
 interface NavbarSidebarProps {
   items: NavbarItemData[];
@@ -74,7 +75,7 @@ export const NavbarSidebar = ({
           </div>
           <div className="w-full flex justify-center items-center px-8 mb-8">
             <Button asChild className="w-full py-2 text-lg" size="lg">
-              <Link href="https://app.motherhunt.com" className="h-full">
+              <Link href={getAppURL()} className="h-full">
                 <span className="text-4xl flex gap-1 items-center justify-center h-full">
                   <ArrowBigRight />
                   {t("platform-btn-label")}

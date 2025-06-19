@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { Button } from "@shared/ui/components/button";
 import { usePathname } from "next/navigation";
-import { cn } from "@shared/ui/lib/utils";
+import { cn, getAppLocale, getSiteURL } from "@shared/ui/lib/utils";
 import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
 
 export const LangSwitcher = ({ className }: { className?: string }) => {
   const pathname = usePathname();
-  const activeLocale = process.env.NEXT_PUBLIC_APP_LOCALE;
+  const activeLocale = getAppLocale();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -30,12 +30,7 @@ export const LangSwitcher = ({ className }: { className?: string }) => {
           onMouseOver={() => setHoveredIndex(index)}
           onMouseOut={() => setHoveredIndex(null)}
         >
-          <Link
-            className="h-full w-full"
-            href={`https://${
-              lang === "en" ? "" : lang + "."
-            }motherhunt.com${pathname}`}
-          >
+          <Link className="h-full w-full" href={`${getSiteURL()}${pathname}`}>
             {lang}
           </Link>
         </Button>

@@ -19,10 +19,11 @@ import {
   AGENCY_ROLES_CONFIG,
   agencyAccessControl,
 } from "@/lib/auth/permissions/agency-permissions";
+import { getAppURL, getSiteURL } from "@shared/ui/lib/utils";
 
 export const auth = betterAuth({
   appName: "motherHunt",
-  baseURL: "https://mhnt.local:3001",
+  baseURL: getAppURL(),
   basePath: "/api/auth",
   database: prismaAdapter(prismaClient, {
     provider: "mongodb",
@@ -34,7 +35,7 @@ export const auth = betterAuth({
           to: email,
           subject: "Sign in",
           meta: {
-            description: "You requested a login into mhnt.app",
+            description: "You requested a login to mhnt.app",
             link: url,
           },
         });
@@ -63,11 +64,7 @@ export const auth = betterAuth({
     nextCookies() as unknown as BetterAuthPlugin,
   ],
   // secondaryStorage: {},
-  trustedOrigins: [
-    "https://mhnt.local:3001",
-    "https://mhnt.app",
-    "https://motherhunt.com",
-  ],
+  trustedOrigins: [getAppURL(), getSiteURL()],
   advanced: { database: { generateId: false } },
   session: {
     modelName: "session",

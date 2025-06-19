@@ -4,6 +4,7 @@ import { Button } from "@shared/ui/components/button";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 
 export const Hero = async () => {
   const t = await getTranslations("HOME.HERO");
@@ -19,12 +20,10 @@ export const Hero = async () => {
         <p className="text-center font-mono text-lg">{t("description")}</p>
         <div className="flex flex-wrap gap-6 w-full px-4 justify-center items-center">
           <Button variant="secondary" size="lg" asChild>
-            <Link href="/about">{t("apply-btn-label")}</Link>
+            <Link href="/guides">{t("apply-btn-label")}</Link>
           </Button>
           <Button size="lg">
-            <Link href="https://app.motherhunt.com">
-              {t("browse-btn-label")}
-            </Link>
+            <Link href={getAppURL()}>{t("browse-btn-label")}</Link>
           </Button>
         </div>
       </div>
