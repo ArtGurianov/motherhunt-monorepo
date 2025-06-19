@@ -4,9 +4,16 @@
   "globalDependencies": [".env*"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build", "^db:generate"],
+      "inputs": ["$TURBO_DEFAULT$"],
       "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "dependsOn": ["^db:generate"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "env": ["DATABASE_URL"],
+      "cache": false,
+      "persistent": true
     },
     "db:generate": {
       "cache": false
@@ -23,9 +30,11 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
-    "dev": {
-      "cache": false,
-      "persistent": true
+    "format": {
+      "cache": false
+    },
+    "format:fix": {
+      "cache": false
     }
   }
 }

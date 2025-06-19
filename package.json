@@ -1,12 +1,17 @@
 {
-  "name": "shadcn-ui-monorepo",
+  "name": "motherhunt-monorepo",
   "version": "0.0.1",
   "private": true,
+  "description": "Monorepo for Motherhunt apps",
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
+    "build": "turbo build --framework-inference=false",
+    "dev": "turbo dev --framework-inference=false",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --check \"**/*.{ts,tsx,md}\" --ignore-path .gitignore .",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,md}\" --ignore-path .gitignore .",
+    "preinstall": "npx only-allow pnpm",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push"
   },
   "devDependencies": {
     "@shared/eslint-config": "workspace:*",
