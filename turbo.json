@@ -6,7 +6,13 @@
     "build": {
       "dependsOn": ["^build", "^db:generate"],
       "inputs": ["$TURBO_DEFAULT$"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": [
+        "DATABASE_URL",
+        "NEXT_PUBLIC_APP_LOCALE",
+        "CONTENTFUL_SPACE_ID",
+        "CONTENTFUL_ACCESS_TOKEN"
+      ]
     },
     "dev": {
       "dependsOn": ["^db:generate"],
