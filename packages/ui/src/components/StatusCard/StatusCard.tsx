@@ -1,12 +1,12 @@
-import { ValueOf } from "../lib/types";
-import { cn } from "../lib/utils";
+import { ValueOf } from "@shared/ui/lib/types";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./card";
+} from "../card";
+import { cn } from "@shared/ui/lib/utils";
 
 export const StatusCardTypes = {
   LOADING: "LOADING",

@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { getAppLocale } from "@shared/ui/lib/utils";
 import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
 import { AppProviders } from "@/components/AppProviders/AppProviders";
+import { Navbar } from "@/components/Navbar/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,10 @@ export default function RootLayout({
         className={`flex flex-col items-center ${geistSans.variable} ${geistMono.variable} overflow-x-clip antialiased`}
       >
         <main className="flex flex-col min-h-content w-full">
-          <AppProviders>{children}</AppProviders>
+          <AppProviders>
+            <Navbar />
+            {children}
+          </AppProviders>
         </main>
       </body>
     </html>

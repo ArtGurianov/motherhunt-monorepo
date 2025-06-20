@@ -1,12 +1,12 @@
 :root {
   --background: oklch(37.878% 0.17205 292.04);
   --primary: oklch(87.027% 0.28955 141.531);
-  --secondary: oklch(50.031% 0.18095 295.001);
+  --secondary: oklch(57.93% 0.18418 296.432);
   --foreground: var(--primary);
   --main-foreground: var(--primary);
   --accent-foreground: oklch(39.366% 0.12539 144.591);
 
-  --main: oklch(56.3% 0.02274 36.872);
+  --main: oklch(22.213% 0.00003 271.152);
   --border: var(--primary);
   --ring: var(--primary);
   --overlay: var(--primary);

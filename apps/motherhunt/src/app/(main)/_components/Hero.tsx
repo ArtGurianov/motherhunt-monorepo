@@ -1,5 +1,5 @@
 import HeroAnimationSvgUrl from "@/components/svg/HeroAnimation.svg?url";
-import { PageSection } from "@/components/PageSection";
+import { PageSection } from "@shared/ui/components/PageSection";
 import { Button } from "@shared/ui/components/button";
 import Image from "next/image";
 import Link from "next/link";

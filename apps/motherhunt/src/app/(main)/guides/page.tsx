@@ -1,4 +1,4 @@
-import { PageSection } from "@/components/PageSection";
+import { PageSection } from "@shared/ui/components/PageSection";
 import { GUIDES_CONFIG, GUIDES_ORDER } from "./_config";
 import { useTranslations } from "next-intl";
 import { Button } from "@shared/ui/components/button";

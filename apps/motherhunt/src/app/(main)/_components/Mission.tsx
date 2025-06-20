@@ -1,4 +1,4 @@
-import { PageSection } from "@/components/PageSection";
+import { PageSection } from "@shared/ui/components/PageSection";
 import { Quote } from "@/components/Quote";
 import {
   Card,

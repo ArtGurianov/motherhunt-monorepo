@@ -1,5 +1,5 @@
 import { Marquee } from "@/components/Marquee";
-import { PageSection } from "@/components/PageSection";
+import { PageSection } from "@shared/ui/components/PageSection";
 import { Button } from "@shared/ui/components/button";
 import { getContentfulEntriesByType } from "@/config/contentful/client";
 import { DisplayAgencyContentfulSkeleton } from "@/lib/types/contentful";

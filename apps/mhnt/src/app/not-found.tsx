@@ -1,13 +1,10 @@
 "use client";
 
 import { PageSection } from "@shared/ui/components/PageSection";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function NotFound() {
-  const t = useTranslations("ERRORS.404");
-
   return (
     <PageSection className="flex grow justify-center items-center">
       <div className="w-full max-w-sm flex flex-col justify-center items-center">
@@ -21,9 +18,9 @@ export default function NotFound() {
           priority
         />
         <span className="text-lg text-foreground/90">
-          {t("message-before")}
+          {"Page not found"}
           <Link className="ml-2 underline" href="/">
-            {t("message-action")}
+            {"Let's just go home"}
           </Link>
         </span>
       </div>
