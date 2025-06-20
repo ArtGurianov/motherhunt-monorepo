@@ -11,7 +11,7 @@ import { NAVBAR_ITEMS } from "./constants";
 import { NavbarItem } from "./NavbarItem";
 
 export const Navbar = () => {
-  const [isBurgerMenu, setIsBurgerMenu] = useState(true);
+  const [_, setIsBurgerMenu] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const pathname = usePathname();
