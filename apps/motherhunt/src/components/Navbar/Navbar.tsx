@@ -67,7 +67,12 @@ export const Navbar = () => {
       <div className="flex gap-2 ml-4">
         <LangSwitcher className="grid-cols-2 grid-rows-2" />
         <Button asChild className="px-8 py-2 text-lg" size="lg">
-          <Link href={getAppURL()} className="h-full">
+          <Link
+            href={getAppURL()}
+            className="h-full"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <span className="text-3xl flex gap-1 items-center justify-center h-full">
               <ArrowBigRight />
               {t("platform-btn-label")}

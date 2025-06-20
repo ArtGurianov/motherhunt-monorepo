@@ -1,6 +1,6 @@
 :root {
   --background: oklch(37.878% 0.17205 292.04);
-  --primary: oklch(87.027% 0.28955 141.531);
+  --primary: oklch(79.03% 0.1397 106.45);
   --secondary: oklch(57.93% 0.18418 296.432);
   --foreground: var(--primary);
   --main-foreground: var(--primary);
