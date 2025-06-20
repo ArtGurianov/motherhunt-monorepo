@@ -45,7 +45,7 @@ export const Agencies = async () => {
           {t("title")}
         </span>{" "}
         <Marquee>
-          <div className="bg-primary bg-[linear-gradient(to_right,#FF00F9,transparent_1px),linear-gradient(to_bottom,#FF00F9,transparent_1px)] bg-[size:70px_70px] py-2">
+          <div className="bg-primary bg-[linear-gradient(to_right,var(--accent-foreground),transparent_1px),linear-gradient(to_bottom,var(--accent-foreground),transparent_1px)] bg-[size:70px_70px] py-2">
             <div className="flex flex-col justify-start items-center border-background border-y-12 border-dashed py-2">
               <div className="flex gap-12 pl-12">
                 {agencies.map((agency) => (

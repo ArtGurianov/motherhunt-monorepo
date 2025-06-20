@@ -13,7 +13,7 @@ export const Mission = async () => {
 
   return (
     <PageSection className="flex flex-col grow justify-start items-center">
-      <Card className="w-full max-w-lg pt-0">
+      <Card className="w-full max-w-lg pt-0 overflow-clip">
         <CardTitle className="bg-linear-to-tr from-accent-foreground to-accent-foreground/50 border-b-2 py-2">
           <CardHeader className="text-4xl font-bold text-center text-foreground/95">
             {`🛸 ${t("title")} ✨`}

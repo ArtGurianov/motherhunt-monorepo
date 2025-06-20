@@ -79,7 +79,7 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="w-full h-nav flex justify-start items-center sticky z-10 top-0 border-b-4 shadow-secondary shadow-xl overflow-clip">
+    <nav className="w-full h-nav flex justify-start items-center sticky z-10 top-0 border-b-4 border-border shadow-secondary shadow-xl overflow-clip">
       <div
         style={{ opacity: navbarOpacity }}
         className="absolute bg-background/90 h-nav w-full -z-10 top-0 left-0"
