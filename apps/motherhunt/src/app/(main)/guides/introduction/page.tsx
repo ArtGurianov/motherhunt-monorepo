@@ -12,7 +12,7 @@ export default async function IntroductionPage() {
         <Content />
       </MdxLayout>
     );
-  } catch (error) {
+  } catch {
     notFound();
   }
 }
