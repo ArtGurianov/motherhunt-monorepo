@@ -1,0 +1,15 @@
+:root {
+  --background: oklch(96% 0.052 175.5);
+  --primary: oklch(30% 0.105 329);
+  --foreground: oklch(30% 0.105 329);
+  --main-foreground: oklch(30% 0.105 329);
+  --foreground: oklch(30% 0.105 329);
+  --main-foreground: oklch(81% 0.084 174.2);
+
+  --accent-foreground: oklch(69.82% 0.3188 329.66);
+
+  --main: oklch(91% 0 0);
+  --border: oklch(30% 0.105 329);
+  --ring: oklch(30% 0.105 329);
+  --overlay: oklch(30% 0.105 329);
+}
