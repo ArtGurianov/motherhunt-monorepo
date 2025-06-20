@@ -11,7 +11,6 @@ import { NAVBAR_ITEMS } from "./constants";
 import { NavbarItem } from "./NavbarItem";
 
 export const Navbar = () => {
-  const [_, setIsBurgerMenu] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const pathname = usePathname();
@@ -23,11 +22,11 @@ export const Navbar = () => {
   useEffect(() => {
     if (!itemsContainerRef.current || !imageContainerRef.current) return;
 
-    setIsBurgerMenu(
-      itemsContainerRef.current.offsetWidth +
-        imageContainerRef.current.offsetWidth >
-        document.body.clientWidth
-    );
+    // setIsBurgerMenu(
+    //   itemsContainerRef.current.offsetWidth +
+    //     imageContainerRef.current.offsetWidth >
+    //     document.body.clientWidth
+    // );
   }, [windowWidth]);
 
   const [scrollY, setScrollY] = useState(0);
