@@ -1,12 +1,12 @@
 "use client";
 
 import { authClient } from "@/lib/auth/authClient";
+import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
 import { Button } from "@shared/ui/components/button";
 import { UserCog } from "lucide-react";
 
 export const NavbarAccount = () => {
   const { data: session } = authClient.useSession();
-  const activeOrganizationId = session?.session.activeOrganizationId;
 
   return (
     <div className="flex h-full px-6 lg:px-8 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80 border-r">
@@ -17,7 +17,9 @@ export const NavbarAccount = () => {
           size="reset"
           className="text-2xl text-center font-mono underline"
         >
-          {session?.user.role === "SCOUTER"}
+          {session?.session.activeOrganizationId
+            ? session?.session.activeOrganizationRole
+            : "SCOUTER"}
         </Button>
       </div>
       <Button

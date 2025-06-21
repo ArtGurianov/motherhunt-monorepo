@@ -22,6 +22,9 @@ import {
   agencyAccessControl,
 } from "@/lib/auth/permissions/agency-permissions";
 import { getAppURL, getSiteURL } from "@shared/ui/lib/utils";
+import { getMemberRole } from "@/actions/getMemberRole";
+import { getSession } from "@/actions/getSession";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 const options = {
   appName: "motherHunt",
@@ -77,10 +80,75 @@ const options = {
           data: {
             ...session,
             activeOrganizationId: (
-              session as unknown as { recentOrganizationId: string }
+              session as unknown as {
+                recentOrganizationId: string | null | undefined;
+              }
             ).recentOrganizationId,
+            activeOrganizationName: (
+              session as unknown as {
+                recentOrganizationName: string | null | undefined;
+              }
+            ).recentOrganizationName,
           },
         }),
+      },
+      update: {
+        before: async (updateSessionData) => {
+          const updateActiveOrganizationId = (
+            updateSessionData as unknown as {
+              activeOrganizationId: string | null | undefined;
+            }
+          ).activeOrganizationId;
+          const oldSession = await getSession(updateSessionData.userId!);
+          if (
+            oldSession &&
+            (!!oldSession.activeOrganizationId ||
+              !!updateActiveOrganizationId) &&
+            oldSession.activeOrganizationId !== updateActiveOrganizationId
+          ) {
+            let updateOrganizationName: string | null | undefined = null;
+            let updateOrganizationRole: string | null | undefined = null;
+            if (updateActiveOrganizationId) {
+              try {
+                const organization = await prismaClient.organization.findFirst({
+                  where: { id: updateActiveOrganizationId },
+                });
+                if (!organization)
+                  throw new AppClientError("Organization Not Found");
+                updateOrganizationName = organization.name;
+
+                updateOrganizationRole = await getMemberRole(
+                  oldSession.userId,
+                  organization.id
+                );
+                if (!updateOrganizationRole)
+                  throw new AppClientError("Membership not found");
+              } catch (e) {
+                console.log(e);
+              }
+              await prismaClient.user.update({
+                where: { id: oldSession.userId },
+                data: {
+                  recentOrganizationId: updateActiveOrganizationId,
+                  recentOrganizationName: updateOrganizationName,
+                },
+              });
+            }
+            return {
+              data: {
+                ...oldSession,
+                ...updateSessionData,
+                ...(updateOrganizationName && updateOrganizationRole
+                  ? {
+                      activeOrganizationName: updateOrganizationName,
+                      activeOrganizationRole: updateOrganizationRole,
+                    }
+                  : {}),
+              },
+            };
+          }
+          return true;
+        },
       },
     },
   },
@@ -99,7 +167,12 @@ const options = {
         required: false,
         input: false,
       },
-      recentOrganizationId: {
+      activeOrganizationName: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      activeOrganizationRole: {
         type: "string",
         required: false,
         input: false,
@@ -114,6 +187,11 @@ const options = {
         input: false,
       },
       recentOrganizationId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      recentOrganizationName: {
         type: "string",
         required: false,
         input: false,
@@ -145,13 +223,30 @@ export const auth = betterAuth({
   plugins: [
     ...(options.plugins ?? []),
     customSession(async ({ user, session }) => {
+      const activeOrganizationId = user.recentOrganizationId;
+      const activeOrganizationName = user.recentOrganizationName;
+      let activeOrganizationRole: string | null = null;
+
+      if (activeOrganizationId) {
+        activeOrganizationRole = await getMemberRole(
+          user.id,
+          activeOrganizationId
+        );
+      }
+
       return {
         user,
         session: {
           ...session,
-          recentOrganizationId: (
-            user as unknown as { recentOrganizationId: string }
-          ).recentOrganizationId,
+          ...(activeOrganizationId &&
+          activeOrganizationName &&
+          activeOrganizationRole
+            ? {
+                activeOrganizationId,
+                activeOrganizationName,
+                activeOrganizationRole,
+              }
+            : {}),
         },
       };
     }, options),

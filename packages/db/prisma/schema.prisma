@@ -18,6 +18,7 @@ model User {
   banReason     String?
   banExpires    String?
   recentOrganizationId String?  @db.ObjectId
+  recentOrganizationName String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   sessions      Session[]
@@ -33,6 +34,8 @@ model Session {
   token           String
   impersonatedBy  String?       @db.ObjectId
   activeOrganizationId String?  @db.ObjectId
+  activeOrganizationName String?
+  activeOrganizationRole String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   ipAddress       String?
