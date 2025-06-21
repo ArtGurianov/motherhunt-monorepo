@@ -40,9 +40,7 @@ export default function RootLayout({
         <CameraBg />
         <main className="relative flex flex-col min-h-svh w-full pt-8">
           <AppProviders>
-            <div className="min-h-content flex flex-col gap-4 justify-start items-center">
-              {children}
-            </div>
+            <div className="min-h-content w-full">{children}</div>
             <Navbar />
           </AppProviders>
         </main>
