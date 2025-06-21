@@ -10,4 +10,8 @@
   --border: oklch(30% 0.105 329);
   --ring: oklch(30% 0.105 329);
   --overlay: oklch(30% 0.105 329);
+
+  --height-nav: calc(var(--spacing) * 24);
+  --height-footer: calc(var(--spacing) * 8);
+  --height-content: calc(100svh - var(--height-nav) - var(--height-footer));
 }

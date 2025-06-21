@@ -9,4 +9,10 @@
   --border: var(--primary);
   --ring: var(--primary);
   --overlay: var(--primary);
+
+  --height-nav: calc(var(--spacing) * 24);
+  --height-gaps: calc(
+    var(--spacing) * 8 + var(--spacing) * 4 + var(--spacing) * 4
+  );
+  --height-content: calc(100svh - var(--height-nav) - var(--height-gaps));
 }

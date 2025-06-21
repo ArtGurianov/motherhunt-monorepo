@@ -7,7 +7,7 @@ export default async function HomePage() {
   const session = await auth.api.getSession({ headers });
 
   return (
-    <div className="flex flex-col gap-12 grow justify-start items-center py-12 h-[2048px]">
+    <div className="h-[2048px]">
       {session ? `logged in role: ${session.user.role}` : "logged out"}
       {session ? <SignOutBtn /> : null}
     </div>
