@@ -1,22 +1,34 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@shared/ui/components/button";
-import { ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { NAVBAR_ITEMS } from "./constants";
-import { NavbarItem } from "./NavbarItem";
+import { UserCog } from "lucide-react";
 
 export const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const pathname = usePathname();
-
   return (
     <nav className="w-full h-nav px-2 md:px-12 fixed bottom-4">
-      <div className="w-full h-full border bg-secondary/40 rounded-full">
-        <div className="flex justify-center items-center px-6 gap-4 h-full">
+      <div className="flex w-full h-full border bg-secondary/40 rounded-full overflow-clip">
+        <div className="flex h-full px-6 lg:px-8 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80 border-r">
+          <div className="flex flex-col items-center">
+            <span className="text-md text-center">
+              {"Currently logged in as:"}
+            </span>
+            <Button
+              variant="ghost"
+              size="reset"
+              className="text-2xl text-center font-mono underline"
+            >
+              {"SCOUTER"}
+            </Button>
+          </div>
+          <Button
+            size="reset"
+            className="p-2 [&_svg]:pointer-events-auto [&_svg]:size-8 bg-black"
+          >
+            <UserCog />
+          </Button>
+        </div>
+        <div className="grow h-full"></div>
+        {/* <div className="flex justify-center items-center px-6 gap-4 h-full">
           {NAVBAR_ITEMS.map(({ href, translationKey }, index) => (
             <NavbarItem
               key={href}
@@ -35,7 +47,7 @@ export const Navbar = () => {
           <Button variant="ghost" onClick={() => setIsMenuOpen(true)}>
             {isMenuOpen ? <ChevronsLeftIcon /> : <ChevronsRightIcon />}
           </Button>
-        </div>
+        </div> */}
       </div>
     </nav>
   );
