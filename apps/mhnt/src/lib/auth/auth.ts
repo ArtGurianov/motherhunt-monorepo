@@ -1,11 +1,12 @@
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prismaClient } from "../db";
-import { betterAuth, BetterAuthPlugin } from "better-auth";
+import { betterAuth, BetterAuthOptions, BetterAuthPlugin } from "better-auth";
 import {
   admin as adminPlugin,
   organization as organizationPlugin,
   captcha as captchaPlugin,
   magicLink as magicLinkPlugin,
+  customSession,
 } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
@@ -22,7 +23,7 @@ import {
 } from "@/lib/auth/permissions/agency-permissions";
 import { getAppURL, getSiteURL } from "@shared/ui/lib/utils";
 
-export const auth = betterAuth({
+const options = {
   appName: "motherHunt",
   baseURL: getAppURL(),
   basePath: "/api/auth",
@@ -69,6 +70,20 @@ export const auth = betterAuth({
     }) as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
   ],
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session) => ({
+          data: {
+            ...session,
+            activeOrganizationId: (
+              session as unknown as { recentOrganizationId: string }
+            ).recentOrganizationId,
+          },
+        }),
+      },
+    },
+  },
   // secondaryStorage: {},
   trustedOrigins: [getAppURL(), getSiteURL()],
   advanced: { database: { generateId: false } },
@@ -77,6 +92,17 @@ export const auth = betterAuth({
     additionalFields: {
       role: {
         type: "string",
+        input: false,
+      },
+      activeOrganizationId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      recentOrganizationId: {
+        type: "string",
+        required: false,
+        input: false,
       },
     },
   },
@@ -85,6 +111,12 @@ export const auth = betterAuth({
     additionalFields: {
       role: {
         type: "string",
+        input: false,
+      },
+      recentOrganizationId: {
+        type: "string",
+        required: false,
+        input: false,
       },
     },
     // changeEmail: {
@@ -106,4 +138,22 @@ export const auth = betterAuth({
     //   },
     // },
   },
+} satisfies BetterAuthOptions;
+
+export const auth = betterAuth({
+  ...options,
+  plugins: [
+    ...(options.plugins ?? []),
+    customSession(async ({ user, session }) => {
+      return {
+        user,
+        session: {
+          ...session,
+          recentOrganizationId: (
+            user as unknown as { recentOrganizationId: string }
+          ).recentOrganizationId,
+        },
+      };
+    }, options),
+  ],
 });

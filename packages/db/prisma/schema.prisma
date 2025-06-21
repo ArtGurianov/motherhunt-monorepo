@@ -17,6 +17,7 @@ model User {
   banned        Boolean?
   banReason     String?
   banExpires    String?
+  recentOrganizationId String?  @db.ObjectId
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   sessions      Session[]
