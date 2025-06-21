@@ -46,7 +46,7 @@ export const CameraBg = () => (
         width="0"
         height="0"
         sizes="100vh"
-        className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 h-24 w-24"
+        className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 h-18 w-32"
         priority
       />
     </div>
