@@ -22,7 +22,8 @@ export const Navbar = () => {
           </div>
           <Button
             size="reset"
-            className="p-2 [&_svg]:pointer-events-auto [&_svg]:size-8 bg-black"
+            variant="secondary"
+            className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-8"
           >
             <UserCog />
           </Button>

@@ -10,7 +10,7 @@
   --ring: var(--primary);
   --overlay: var(--primary);
 
-  --height-nav: calc(var(--spacing) * 24);
+  --height-nav: calc(var(--spacing) * 18);
   --height-gaps: calc(
     var(--spacing) * 8 + var(--spacing) * 4 + var(--spacing) * 4
   );
