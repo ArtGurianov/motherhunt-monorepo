@@ -23,7 +23,7 @@ export interface DialogDrawerProps {
   children: ReactNode;
   title: string;
   isOpen: boolean;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 const DialogWrapper = ({
