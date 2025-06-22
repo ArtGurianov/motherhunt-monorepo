@@ -26,8 +26,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   const locale = getAppLocale();
   const lang = APP_LANG_TO_LOCALE_MAP[locale];
@@ -41,6 +43,7 @@ export default function RootLayout({
         <main className="relative flex flex-col min-h-svh w-full pt-8">
           <AppProviders>
             <div className="flex flex-col min-h-content w-full justify-center items-center">
+              {modal}
               {children}
             </div>
             <Navbar />
