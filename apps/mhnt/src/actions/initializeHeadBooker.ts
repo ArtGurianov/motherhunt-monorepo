@@ -6,33 +6,25 @@ import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
 import { getAppURL } from "@shared/ui/lib/utils";
 
 export const initializeHeadBooker = async ({
+  headBookerId,
+  headBookerEmail,
   organizationId,
-  userEmail,
-  userName,
 }: {
+  headBookerId: string;
+  headBookerEmail: string;
   organizationId: string;
-  userEmail: string;
-  userName: string;
 }) => {
-  const headBooker = await auth.api.createUser({
-    body: {
-      name: userName,
-      email: userEmail,
-      password: "",
-    },
-  });
-
   //@ts-expect-error https://github.com/better-auth/better-auth/issues/2789
   await auth.api.addMember({
     body: {
-      userId: headBooker.user.id,
+      userId: headBookerId,
       organizationId,
       role: AGENCY_ROLES.HEAD_BOOKER,
     },
   });
 
   await sendEmail({
-    to: userEmail,
+    to: headBookerEmail,
     subject: "Organization Setup",
     meta: {
       description:

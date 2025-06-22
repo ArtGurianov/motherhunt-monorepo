@@ -65,8 +65,8 @@ const options = {
         afterCreate: async ({ organization: { metadata, id } }) => {
           await initializeHeadBooker({
             organizationId: id,
-            userEmail: metadata.headBookerEmail,
-            userName: metadata.headBookerName,
+            headBookerEmail: metadata.headBookerEmail,
+            headBookerId: metadata.headBookerId,
           });
         },
       },

@@ -1,8 +1,12 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { NavbarAccount } from "./NavbarAccount";
 
 export const Navbar = () => {
+  const pathname = usePathname();
+  if (pathname === "/signin") return null;
+
   return (
     <nav className="w-full h-nav px-2 md:px-12 fixed bottom-4">
       <div className="flex w-full h-full border bg-secondary/40 rounded-full overflow-clip">

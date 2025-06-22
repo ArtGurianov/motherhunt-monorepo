@@ -55,6 +55,9 @@ export const CreateAgencyForm = () => {
   }: z.infer<typeof formSchema>) => {
     setFormStatus("LOADING");
 
+    // NOT A FORM! ONLY REVIEW AND CONFIRM BY ADMIN
+    // FORM ONLY BY USER
+
     const result = await authClient.organization.create({
       name: agencyName,
       slug: agencySlug,
