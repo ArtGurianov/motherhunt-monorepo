@@ -9,7 +9,7 @@ export default async function SignInPage() {
   if (session) redirect("/");
 
   return (
-    <div className="flex flex-col gap-12 grow justify-start items-center">
+    <div className="flex justify-center items-center w-full h-[calc(var(--height-content)+var(--height-nav))] px-2">
       <SignInForm />
     </div>
   );

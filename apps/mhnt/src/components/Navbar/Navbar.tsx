@@ -3,15 +3,15 @@
 import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
-import { UserCog } from "lucide-react";
+import { LoaderCircle, UserCog } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
-import Link from "next/link";
 import { useState } from "react";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
+import Link from "next/link";
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [isSettingsOpen, setIsSettingOpen] = useState(false);
 
   if (pathname === "/signin") return null;
@@ -59,7 +59,11 @@ export const Navbar = () => {
             { "border-r": !!session }
           )}
         >
-          {displayContent}
+          {isPending ? (
+            <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+          ) : (
+            displayContent
+          )}
         </div>
         {session ? (
           <div className="h-full min-w-16 bg-white">{/* elements */}</div>
