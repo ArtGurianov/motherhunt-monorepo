@@ -41,7 +41,7 @@ export const Navbar = () => {
             asChild
             size="reset"
             variant="secondary"
-            className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-6"
+            className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
           >
             <InterceptedLink href="/settings">
               <UserCog />
@@ -105,7 +105,7 @@ export const Navbar = () => {
         <Button
           size="reset"
           variant="ghost"
-          className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full p-1 [&_svg]:pointer-events-auto [&_svg]:size-10"
+          className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10"
           onClick={() => setIsOpened((prev) => !prev)}
         >
           <ChevronsLeft
