@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@shared/ui/lib/utils";
+import { Button } from "./button";
 
 function Dialog({
   ...props
@@ -28,7 +29,11 @@ function DialogPortal({
 function DialogClose({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
+  return (
+    <Button asChild>
+      <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+    </Button>
+  );
 }
 
 function DialogOverlay({
@@ -67,10 +72,12 @@ function DialogContent({
         }}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-base opacity-100 ring-offset-white focus:outline-hidden focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
-          <X />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
+        <Button asChild size="reset" className="p-1">
+          <DialogPrimitive.Close className="absolute right-4 top-4 opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+            <X />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        </Button>
       </DialogPrimitive.Content>
     </DialogPortal>
   );

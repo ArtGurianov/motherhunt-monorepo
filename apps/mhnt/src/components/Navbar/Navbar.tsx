@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
-import { ChevronsLeft, LoaderCircle, UserCog } from "lucide-react";
+import { ChevronsLeft, LoaderCircle, MenuIcon, UserCog } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import Link from "next/link";
@@ -17,11 +17,11 @@ export const Navbar = () => {
   if (pathname === "/signin") return null;
 
   const displayContent = session ? (
-    <>
-      <div className="flex flex-col items-center">
-        <span className="text-md text-center text-nowrap">
-          {"Currently logged in as:"}
-        </span>
+    <div className="flex flex-col items-center">
+      <span className="text-md text-center text-nowrap">
+        {"Currently logged in as:"}
+      </span>
+      <span className="flex gap-4 justify-center items-center">
         <Button
           asChild
           variant="ghost"
@@ -34,18 +34,18 @@ export const Navbar = () => {
               : "SCOUTER"}
           </InterceptedLink>
         </Button>
-      </div>
-      <Button
-        asChild
-        size="reset"
-        variant="secondary"
-        className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-8"
-      >
-        <InterceptedLink href="/settings">
-          <UserCog />
-        </InterceptedLink>
-      </Button>
-    </>
+        <Button
+          asChild
+          size="reset"
+          variant="secondary"
+          className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-6"
+        >
+          <InterceptedLink href="/settings">
+            <UserCog />
+          </InterceptedLink>
+        </Button>
+      </span>
+    </div>
   ) : (
     <>
       <span className="text-xl text-center font-mono">{"Logged out"}</span>
@@ -66,10 +66,17 @@ export const Navbar = () => {
       )}
     >
       <div className="relative h-full">
-        <div className="h-full flex bg-secondary/40 border rounded-full overflow-clip">
+        <div
+          className={cn(
+            "h-full flex bg-secondary/40 border rounded-full overflow-clip opacity-100 transition-all duration-700 ease-in-out",
+            {
+              "opacity-0": !isOpened,
+            }
+          )}
+        >
           <div
             className={cn(
-              "flex h-full px-6 lg:px-8 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80",
+              "flex h-full px-4 lg:px-6 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80",
               { "border-r": !!session }
             )}
           >
@@ -80,7 +87,15 @@ export const Navbar = () => {
             )}
           </div>
           {session ? (
-            <div className="h-full min-w-16">{/* elements */}</div>
+            <div className="flex h-full min-w-16 justify-center items-center">
+              <Button
+                size="reset"
+                variant="ghost"
+                className="md:hidden [&_svg]:pointer-events-auto [&_svg]:size-8"
+              >
+                <MenuIcon />
+              </Button>
+            </div>
           ) : null}
         </div>
         <Button
