@@ -3,14 +3,16 @@
 import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
-import { LoaderCircle, UserCog } from "lucide-react";
+import { ChevronsLeft, LoaderCircle, UserCog } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import Link from "next/link";
+import { useState } from "react";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
+  const [isOpened, setIsOpened] = useState(true);
 
   if (pathname === "/signin") return null;
 
@@ -55,20 +57,45 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="h-nav flex border bg-secondary/40 rounded-full overflow-clip fixed bottom-4 left-1/2 -translate-x-1/2">
-      <div
-        className={cn(
-          "flex h-full px-6 lg:px-8 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80",
-          { "border-r": !!session }
-        )}
-      >
-        {isPending ? (
-          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-        ) : (
-          displayContent
-        )}
+    <nav
+      className={cn(
+        "h-nav fixed bottom-4 left-1/2 -translate-x-1/2 transition-all duration-700 ease-in-out",
+        {
+          "-translate-x-full left-0": !isOpened,
+        }
+      )}
+    >
+      <div className="relative h-full">
+        <div className="h-full flex bg-secondary/40 border rounded-full overflow-clip">
+          <div
+            className={cn(
+              "flex h-full px-6 lg:px-8 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80",
+              { "border-r": !!session }
+            )}
+          >
+            {isPending ? (
+              <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+            ) : (
+              displayContent
+            )}
+          </div>
+          {session ? (
+            <div className="h-full min-w-16">{/* elements */}</div>
+          ) : null}
+        </div>
+        <Button
+          size="reset"
+          variant="ghost"
+          className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full p-1 [&_svg]:pointer-events-auto [&_svg]:size-10"
+          onClick={() => setIsOpened((prev) => !prev)}
+        >
+          <ChevronsLeft
+            className={cn("", {
+              "rotate-180": !isOpened,
+            })}
+          />
+        </Button>
       </div>
-      {session ? <div className="h-full min-w-16">{/* elements */}</div> : null}
     </nav>
   );
 };
