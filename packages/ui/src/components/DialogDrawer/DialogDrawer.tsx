@@ -34,7 +34,7 @@ const DialogWrapper = ({
   onClose,
 }: DialogDrawerProps) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
       <DialogContent className={cn("py-8 px-4", className)}>
         <DialogHeader>
           <DialogTitle className="text-center font-medium font-serif text-3xl my-4 text-muted-foreground">
