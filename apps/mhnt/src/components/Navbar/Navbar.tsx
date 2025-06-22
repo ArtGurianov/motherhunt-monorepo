@@ -7,7 +7,7 @@ import { ChevronsLeft, LoaderCircle, MenuIcon, UserCog } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -22,28 +22,32 @@ export const Navbar = () => {
         {"Currently logged in as:"}
       </span>
       <span className="flex gap-4 justify-center items-center">
-        <Button
-          asChild
-          variant="ghost"
-          size="reset"
-          className="text-2xl text-center font-mono underline"
-        >
-          <InterceptedLink href="/settings">
-            {session?.session.activeOrganizationId
-              ? session?.session.activeOrganizationRole
-              : "SCOUTER"}
-          </InterceptedLink>
-        </Button>
-        <Button
-          asChild
-          size="reset"
-          variant="secondary"
-          className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-6"
-        >
-          <InterceptedLink href="/settings">
-            <UserCog />
-          </InterceptedLink>
-        </Button>
+        <Suspense fallback={"loading..."}>
+          <Button
+            asChild
+            variant="ghost"
+            size="reset"
+            className="text-2xl text-center font-mono underline"
+          >
+            <InterceptedLink href="/settings">
+              {session?.session.activeOrganizationId
+                ? session?.session.activeOrganizationRole
+                : "SCOUTER"}
+            </InterceptedLink>
+          </Button>
+        </Suspense>
+        <Suspense fallback={"loading..."}>
+          <Button
+            asChild
+            size="reset"
+            variant="secondary"
+            className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-6"
+          >
+            <InterceptedLink href="/settings">
+              <UserCog />
+            </InterceptedLink>
+          </Button>
+        </Suspense>
       </span>
     </div>
   ) : (
