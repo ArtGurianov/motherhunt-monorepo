@@ -1,0 +1,1 @@
+export { useCloseIntercepted } from "./useCloseIntercepted";

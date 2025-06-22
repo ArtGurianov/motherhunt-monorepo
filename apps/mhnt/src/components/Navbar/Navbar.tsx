@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import { LoaderCircle, UserCog } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
+import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import Link from "next/link";
 
 export const Navbar = () => {
@@ -23,11 +24,11 @@ export const Navbar = () => {
           size="reset"
           className="text-2xl text-center font-mono underline"
         >
-          <Link href="/settings">
+          <InterceptedLink href="/settings">
             {session?.session.activeOrganizationId
               ? session?.session.activeOrganizationRole
               : "SCOUTER"}
-          </Link>
+          </InterceptedLink>
         </Button>
       </div>
       <Button
@@ -36,9 +37,9 @@ export const Navbar = () => {
         variant="secondary"
         className="p-1 [&_svg]:pointer-events-auto [&_svg]:size-8"
       >
-        <Link href="/settings">
+        <InterceptedLink href="/settings">
           <UserCog />
-        </Link>
+        </InterceptedLink>
       </Button>
     </>
   ) : (
