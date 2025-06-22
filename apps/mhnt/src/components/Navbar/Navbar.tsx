@@ -17,7 +17,9 @@ export const Navbar = () => {
   const displayContent = session ? (
     <>
       <div className="flex flex-col items-center">
-        <span className="text-md text-center">{"Currently logged in as:"}</span>
+        <span className="text-md text-center text-nowrap">
+          {"Currently logged in as:"}
+        </span>
         <Button
           asChild
           variant="ghost"
@@ -66,9 +68,7 @@ export const Navbar = () => {
           displayContent
         )}
       </div>
-      {session ? (
-        <div className="h-full min-w-16 bg-white">{/* elements */}</div>
-      ) : null}
+      {session ? <div className="h-full min-w-16">{/* elements */}</div> : null}
     </nav>
   );
 };
