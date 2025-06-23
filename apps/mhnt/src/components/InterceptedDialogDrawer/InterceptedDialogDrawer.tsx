@@ -19,9 +19,9 @@ export const InterceptedDialogDrawer = ({
   const pathname = usePathname();
   const { onInterceptedClose } = useCloseIntercepted();
 
-  const [isOpen, setIsOpen] = useState(pathname === targetPath);
+  const [isOpen, setIsOpen] = useState(pathname.startsWith(targetPath));
   useEffect(() => {
-    setIsOpen(pathname === targetPath);
+    setIsOpen(pathname.startsWith(targetPath));
   }, [pathname]);
 
   return (
@@ -30,7 +30,6 @@ export const InterceptedDialogDrawer = ({
       isOpen={isOpen}
       onClose={() => {
         onInterceptedClose();
-        setIsOpen(false);
       }}
     >
       {children}
