@@ -44,9 +44,7 @@ const DialogWrapper = ({
             {`Dialog content for ${title}`}
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 px-3 bg-primary/20 border border-primary rounded-md">
-          {children}
-        </div>
+        <div className="py-4 px-3">{children}</div>
       </DialogContent>
     </Dialog>
   );
@@ -70,9 +68,7 @@ const DrawerWrapper = ({
             {`Drawer content for ${title}`}
           </DrawerDescription>
         </DrawerHeader>
-        <div className="py-4 px-3 bg-primary/20 border border-primary rounded-md">
-          {children}
-        </div>
+        <div className="py-4 px-3">{children}</div>
       </DrawerContent>
     </Drawer>
   );
