@@ -12,7 +12,7 @@ export const InterceptedLink = (
   const updatedParams = new URLSearchParams(searchParams.toString());
 
   const hasReturn = searchParams.get("returnTo");
-  !hasReturn && updatedParams.set("returnTo", pathname);
+  if (!hasReturn) updatedParams.set("returnTo", pathname);
 
   return <Link {...props} href={`${props.href}?${updatedParams.toString()}`} />;
 };
