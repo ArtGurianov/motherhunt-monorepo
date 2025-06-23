@@ -31,7 +31,7 @@ export const Navbar = () => {
       <span className="text-md text-center text-nowrap">
         {"Currently logged in as:"}
       </span>
-      <span className="flex gap-4 justify-center items-center">
+      <span className="flex gap-2 justify-center items-center">
         <Suspense fallback={"loading..."}>
           <Button
             asChild
@@ -61,7 +61,7 @@ export const Navbar = () => {
       <span className="text-md text-center text-nowrap">
         {"You are currently"}
       </span>
-      <span className="flex gap-4 justify-center items-center">
+      <span className="flex gap-2 justify-center items-center">
         <Button
           asChild
           variant="ghost"
@@ -117,7 +117,7 @@ export const Navbar = () => {
             )}
           </div>
           {session ? (
-            <div className="flex h-full min-w-16 justify-center items-center">
+            <div className="flex h-full justify-center items-center px-2">
               <Button
                 size="reset"
                 variant="ghost"
