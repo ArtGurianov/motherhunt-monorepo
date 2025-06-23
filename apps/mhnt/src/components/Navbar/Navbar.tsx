@@ -89,16 +89,16 @@ export const Navbar = () => {
   return (
     <nav
       className={cn(
-        "h-nav fixed bottom-4 left-1/2 -translate-x-1/2 transition-all duration-700 ease-in-out",
+        "h-nav fixed bottom-4 left-1/2 -translate-x-1/2 lg:left-4 lg:translate-x-0 transition-all duration-700 ease-in-out",
         {
-          "-translate-x-full left-0": !isOpened,
+          "-translate-x-full left-0 lg:-translate-x-full lg:left-0": !isOpened,
         }
       )}
     >
       <div className="relative h-full">
         <div
           className={cn(
-            "h-full flex bg-secondary/40 border rounded-2xl overflow-clip opacity-100 transition-all duration-700 ease-in-out",
+            "h-full flex border rounded-2xl overflow-clip opacity-100 transition-all duration-700 ease-in-out",
             {
               "opacity-0": !isOpened,
             }
@@ -106,7 +106,7 @@ export const Navbar = () => {
         >
           <div
             className={cn(
-              "flex h-full px-4 lg:px-6 justify-center items-center gap-4 bg-linear-to-bl from-main/100 to-main/80",
+              "flex h-full px-4 lg:px-6 justify-center items-center gap-4 bg-main/95",
               { "border-r": !!session }
             )}
           >
@@ -117,7 +117,7 @@ export const Navbar = () => {
             )}
           </div>
           {session ? (
-            <div className="flex h-full justify-center items-center px-2">
+            <div className="bg-secondary/95 flex h-full justify-center items-center px-2">
               <Button
                 size="reset"
                 variant="ghost"
@@ -132,7 +132,7 @@ export const Navbar = () => {
           size="reset"
           variant="ghost"
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 -right-px sm:-right-2 translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10",
+            "absolute top-1/2 -translate-y-1/2 -right-px translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10",
             { "-right-4": !isOpened }
           )}
           onClick={() => setIsOpened((prev) => !prev)}
