@@ -10,16 +10,7 @@ export const CameraBg = () => (
         width="0"
         height="0"
         sizes="100vh"
-        className="absolute top-2 md:top-8 left-2 md:left-8 h-24 w-24"
-        priority
-      />
-      <Image
-        src={CameraCornerSvgUrl}
-        alt="camera-corner-bl"
-        width="0"
-        height="0"
-        sizes="100vh"
-        className="-rotate-90 absolute bottom-2 lg:bottom-8 left-2 lg:left-8 h-24 w-24"
+        className="fixed top-2 md:top-8 left-2 md:left-8 h-24 w-24"
         priority
       />
       <Image
@@ -28,7 +19,16 @@ export const CameraBg = () => (
         width="0"
         height="0"
         sizes="100vh"
-        className="rotate-90 absolute top-2 lg:top-8 right-2 lg:right-8 h-24 w-24"
+        className="rotate-90 fixed top-2 lg:top-8 right-2 lg:right-8 h-24 w-24"
+        priority
+      />
+      <Image
+        src={CameraCornerSvgUrl}
+        alt="camera-corner-bl"
+        width="0"
+        height="0"
+        sizes="100vh"
+        className="-rotate-90 fixed bottom-2 lg:bottom-8 left-2 lg:left-8 h-24 w-24"
         priority
       />
       <Image
@@ -37,7 +37,7 @@ export const CameraBg = () => (
         width="0"
         height="0"
         sizes="100vh"
-        className="rotate-180 absolute bottom-2 lg:bottom-8 right-2 lg:right-8 h-24 w-24"
+        className="rotate-180 fixed bottom-2 lg:bottom-8 right-2 lg:right-8 h-24 w-24"
         priority
       />
       <Image
@@ -46,7 +46,7 @@ export const CameraBg = () => (
         width="0"
         height="0"
         sizes="100vh"
-        className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 h-18 w-32"
+        className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 h-18 w-32"
         priority
       />
     </div>

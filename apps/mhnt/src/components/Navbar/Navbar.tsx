@@ -1,12 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
-import { ChevronsLeft, LoaderCircle, MenuIcon, UserCog } from "lucide-react";
+import {
+  ChevronsLeft,
+  LoaderCircle,
+  LogIn,
+  MenuIcon,
+  UserCog,
+} from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
-import Link from "next/link";
 import { Suspense, useState } from "react";
 
 export const Navbar = () => {
@@ -15,6 +21,10 @@ export const Navbar = () => {
   const [isOpened, setIsOpened] = useState(true);
 
   if (pathname === "/signin") return null;
+
+  const displayRole = session?.session.activeOrganizationId
+    ? session.session.activeOrganizationRole
+    : session?.user.role;
 
   const displayContent = session ? (
     <div className="flex flex-col items-center">
@@ -29,11 +39,7 @@ export const Navbar = () => {
             size="reset"
             className="text-2xl text-center font-mono underline"
           >
-            <InterceptedLink href="/settings">
-              {session?.session.activeOrganizationId
-                ? session?.session.activeOrganizationRole
-                : "SCOUTER"}
-            </InterceptedLink>
+            <InterceptedLink href="/settings">{displayRole}</InterceptedLink>
           </Button>
         </Suspense>
         <Suspense fallback={"loading..."}>
@@ -51,13 +57,33 @@ export const Navbar = () => {
       </span>
     </div>
   ) : (
-    <>
-      <span className="text-xl text-center font-mono">{"Logged out"}</span>
-      <Button asChild size="lg" variant="secondary">
-        <Link href={"/signin"}>{"Sign In"}</Link>
-      </Button>
-      <span className="text-xl text-center font-mono">{"to continue"}</span>
-    </>
+    <div className="flex flex-col items-center">
+      <span className="text-md text-center text-nowrap">
+        {"You are currently"}
+      </span>
+      <span className="flex gap-4 justify-center items-center">
+        <Button
+          asChild
+          variant="ghost"
+          size="reset"
+          className="text-2xl text-center font-mono underline"
+        >
+          <Link href="/settings" className="text-nowrap">
+            {"LOGGED OUT"}
+          </Link>
+        </Button>
+        <Button
+          asChild
+          size="reset"
+          variant="secondary"
+          className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
+        >
+          <Link href={"/signin"}>
+            <LogIn />
+          </Link>
+        </Button>
+      </span>
+    </div>
   );
 
   return (
@@ -72,7 +98,7 @@ export const Navbar = () => {
       <div className="relative h-full">
         <div
           className={cn(
-            "h-full flex bg-secondary/40 border rounded-full overflow-clip opacity-100 transition-all duration-700 ease-in-out",
+            "h-full flex bg-secondary/40 border rounded-2xl overflow-clip opacity-100 transition-all duration-700 ease-in-out",
             {
               "opacity-0": !isOpened,
             }
@@ -105,7 +131,10 @@ export const Navbar = () => {
         <Button
           size="reset"
           variant="ghost"
-          className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10"
+          className={cn(
+            "absolute top-1/2 -translate-y-1/2 -right-px sm:-right-2 translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10",
+            { "-right-4": !isOpened }
+          )}
           onClick={() => setIsOpened((prev) => !prev)}
         >
           <ChevronsLeft
