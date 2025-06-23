@@ -3,9 +3,11 @@ import { AuthInfo } from "./AuthInfo";
 
 export const SettingsContentMain = () => {
   return (
-    <div className="flex flex-col gap-2 w-full justify-start items-center">
+    <div className="flex flex-col gap-4 w-full justify-start items-center">
       <AuthInfo />
-      <SignOutBtn />
+      <div className="w-full">
+        <SignOutBtn />
+      </div>
     </div>
   );
 };

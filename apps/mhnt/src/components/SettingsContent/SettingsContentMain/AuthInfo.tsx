@@ -1,4 +1,7 @@
+import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { auth } from "@/lib/auth/auth";
+import { Button } from "@shared/ui/components/button";
+import { InlineData } from "@shared/ui/components/InlineData";
 import { headers as nextHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -8,9 +11,20 @@ export const AuthInfo = async () => {
   if (!session) redirect("/signin");
 
   return (
-    <div className="flex flex-col">
-      <span>{"Currently logged in as:"}</span>
-      <span>{session.user.role}</span>
-    </div>
+    <InfoCard title="account">
+      <InlineData label="Currently logged in as:">
+        {session.user.role}
+      </InlineData>
+      <div className="w-full flex gap-4 items-center px-1">
+        <span className="text-sm font-bold text-end">{"Switch to:"}</span>
+        <Button size="sm" variant="secondary">
+          {"Scouter"}
+        </Button>
+        <span className="text-sm font-bold">{"or"}</span>
+        <Button size="sm" variant="secondary">
+          {"Agency"}
+        </Button>
+      </div>
+    </InfoCard>
   );
 };

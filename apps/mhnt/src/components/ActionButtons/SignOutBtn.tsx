@@ -18,7 +18,7 @@ export const SignOutBtn = () => {
           },
         })
       }
-      className="flex gap-1 text-lg font-light font-mono"
+      className="flex gap-1 text-lg font-light font-mono float-end"
     >
       {"Sign out"}
     </Button>

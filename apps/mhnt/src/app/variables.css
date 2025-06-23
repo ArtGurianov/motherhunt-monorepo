@@ -4,7 +4,7 @@
   --secondary: oklch(57.93% 0.18418 296.432);
   --foreground: var(--primary);
   --main-foreground: var(--primary);
-  --accent-foreground: oklch(46.81% 0.0384 226.38);
+  --accent-foreground: #74824c;
   --main: oklch(22.213% 0.00003 271.152);
   --border: var(--primary);
   --ring: var(--primary);

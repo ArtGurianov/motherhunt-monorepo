@@ -1,5 +1,5 @@
 import { PageSection } from "@shared/ui/components/PageSection";
-import { Quote } from "@/components/Quote";
+import { Quote } from "@shared/ui/components/Quote";
 import {
   Card,
   CardContent,
@@ -20,7 +20,7 @@ export const Mission = async () => {
           </CardHeader>
         </CardTitle>
         <CardContent>
-          <ul className="flex flex-col justify-center items-centerw-full px-2 gap-4">
+          <ul className="flex flex-col justify-center items-center w-full px-2 gap-4">
             <li>
               <Quote className="text-xl font-medium py-1 mb-1">
                 {t("quote-1")}
