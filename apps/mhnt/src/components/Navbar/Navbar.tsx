@@ -10,15 +10,18 @@ import {
   LogIn,
   MenuIcon,
   UserCog,
+  XIcon,
 } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense, useState } from "react";
+import { NavbarMenu } from "./NavbarMenu";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
-  const [isOpened, setIsOpened] = useState(true);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   if (pathname === "/signin") return null;
 
@@ -91,7 +94,8 @@ export const Navbar = () => {
       className={cn(
         "h-nav fixed bottom-4 left-1/2 -translate-x-1/2 lg:left-4 lg:translate-x-0 transition-all duration-700 ease-in-out",
         {
-          "-translate-x-full left-0 lg:-translate-x-full lg:left-0": !isOpened,
+          "-translate-x-full left-0 lg:-translate-x-full lg:left-0":
+            !isNavbarVisible,
         }
       )}
     >
@@ -100,46 +104,47 @@ export const Navbar = () => {
           className={cn(
             "h-full flex border rounded-2xl overflow-clip opacity-100 transition-all duration-700 ease-in-out",
             {
-              "opacity-0": !isOpened,
+              "opacity-0": !isNavbarVisible,
             }
           )}
         >
-          <div
-            className={cn(
-              "flex h-full px-4 lg:px-6 justify-center items-center gap-4 bg-main/95",
-              { "border-r": !!session }
-            )}
-          >
+          <div className="relative flex h-full justify-center items-center bg-main/95 gap-4">
             {isPending ? (
               <LoaderCircle className="py-1 animate-spin h-8 w-8" />
             ) : (
-              displayContent
+              <>
+                {displayContent}
+                <NavbarMenu isOpened={isMenuOpened} />
+                {session ? (
+                  <div className="relative h-full w-12 md:hidden">
+                    <div className="absolute top-0 left-0 w-full z-50 bg-secondary/95 flex h-full justify-center items-center border-l">
+                      <Button
+                        size="reset"
+                        variant="ghost"
+                        className="md:hidden [&_svg]:pointer-events-auto [&_svg]:size-8"
+                        onClick={() => setIsMenuOpened((prev) => !prev)}
+                      >
+                        {isMenuOpened ? <XIcon /> : <MenuIcon />}
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
+              </>
             )}
           </div>
-          {session ? (
-            <div className="bg-secondary/95 flex h-full justify-center items-center px-2">
-              <Button
-                size="reset"
-                variant="ghost"
-                className="md:hidden [&_svg]:pointer-events-auto [&_svg]:size-8"
-              >
-                <MenuIcon />
-              </Button>
-            </div>
-          ) : null}
         </div>
         <Button
           size="reset"
           variant="ghost"
           className={cn(
             "absolute top-1/2 -translate-y-1/2 -right-px translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10",
-            { "-right-4": !isOpened }
+            { "-right-4": !isNavbarVisible }
           )}
-          onClick={() => setIsOpened((prev) => !prev)}
+          onClick={() => setIsNavbarVisible((prev) => !prev)}
         >
           <ChevronsLeft
             className={cn("", {
-              "rotate-180": !isOpened,
+              "rotate-180": !isNavbarVisible,
             })}
           />
         </Button>
