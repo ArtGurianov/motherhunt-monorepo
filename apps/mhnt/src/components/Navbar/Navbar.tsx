@@ -32,13 +32,13 @@ export const Navbar = () => {
   const displayContent = session ? (
     <div
       className={cn(
-        "relative flex h-full -translate-x-0 transition-all duration-500",
+        "relative flex h-full -translate-x-0 transition-all duration-500 ease-in-out",
         {
           "-translate-x-full": isMenuOpened,
         }
       )}
     >
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center px-4">
         <span className="text-md text-center text-nowrap">
           {"Currently logged in as:"}
         </span>

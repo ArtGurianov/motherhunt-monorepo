@@ -9,7 +9,7 @@ export const NavbarMenu = ({ isOpened }: NavbarMenuProps) => {
   return (
     <div
       className={cn(
-        "absolute md:static left-full w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all duration-500 px-2",
+        "absolute md:static left-full w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all duration-500 px-2 md:pr-4",
         {
           "invisible md:visible": !isOpened,
         }
