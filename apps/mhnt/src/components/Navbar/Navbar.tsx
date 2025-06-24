@@ -30,34 +30,37 @@ export const Navbar = () => {
     : session?.user.role;
 
   const displayContent = session ? (
-    <div className="flex flex-col items-center">
-      <span className="text-md text-center text-nowrap">
-        {"Currently logged in as:"}
-      </span>
-      <span className="flex gap-2 justify-center items-center">
-        <Suspense fallback={"loading..."}>
-          <Button
-            asChild
-            variant="ghost"
-            size="reset"
-            className="text-2xl text-center font-mono underline"
-          >
-            <InterceptedLink href="/settings">{displayRole}</InterceptedLink>
-          </Button>
-        </Suspense>
-        <Suspense fallback={"loading..."}>
-          <Button
-            asChild
-            size="reset"
-            variant="secondary"
-            className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
-          >
-            <InterceptedLink href="/settings">
-              <UserCog />
-            </InterceptedLink>
-          </Button>
-        </Suspense>
-      </span>
+    <div className="relative flex h-full">
+      <div className="flex flex-col items-center justify-center">
+        <span className="text-md text-center text-nowrap">
+          {"Currently logged in as:"}
+        </span>
+        <span className="flex gap-2 justify-center items-center">
+          <Suspense fallback={"loading..."}>
+            <Button
+              asChild
+              variant="ghost"
+              size="reset"
+              className="text-2xl text-center font-mono underline"
+            >
+              <InterceptedLink href="/settings">{displayRole}</InterceptedLink>
+            </Button>
+          </Suspense>
+          <Suspense fallback={"loading..."}>
+            <Button
+              asChild
+              size="reset"
+              variant="secondary"
+              className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
+            >
+              <InterceptedLink href="/settings">
+                <UserCog />
+              </InterceptedLink>
+            </Button>
+          </Suspense>
+        </span>
+      </div>
+      <NavbarMenu isOpened={isMenuOpened} />
     </div>
   ) : (
     <div className="flex flex-col items-center">
@@ -108,16 +111,15 @@ export const Navbar = () => {
             }
           )}
         >
-          <div className="relative flex h-full justify-center items-center bg-main/95 gap-4">
+          <div className="relative flex h-full justify-center items-center bg-main/95">
             {isPending ? (
               <LoaderCircle className="py-1 animate-spin h-8 w-8" />
             ) : (
               <>
                 {displayContent}
-                <NavbarMenu isOpened={isMenuOpened} />
                 {session ? (
-                  <div className="relative h-full w-12 md:hidden">
-                    <div className="absolute top-0 left-0 w-full z-50 bg-secondary/95 flex h-full justify-center items-center border-l">
+                  <div className="relative w-12 h-full md:hidden">
+                    <div className="absolute h-full w-full top-0 left-0 bg-secondary/95 flex justify-center items-center border-l">
                       <Button
                         size="reset"
                         variant="ghost"
