@@ -9,9 +9,9 @@ export const NavbarMenu = ({ isOpened }: NavbarMenuProps) => {
   return (
     <div
       className={cn(
-        "absolute md:static left-0 w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all ease-in-out duration-500 px-2 bg-main",
+        "absolute md:static left-full w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all duration-500 px-2",
         {
-          "left-full invisible": !isOpened,
+          "invisible md:visible": !isOpened,
         }
       )}
     >
