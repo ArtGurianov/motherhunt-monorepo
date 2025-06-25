@@ -26,7 +26,7 @@ export const NavbarMenuItem = ({
   return (
     <Button
       asChild
-      className="relative grow aspect-square"
+      className="relative grow md:h-full aspect-square"
       size="reset"
       variant="ghost"
       onMouseOver={() => onHoverStateChange(currentIndex)}

@@ -26,7 +26,7 @@ export const NavbarMenu = <R extends AppRole | AgencyRole>({
   return (
     <div
       className={cn(
-        "absolute md:static left-full w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all duration-500 px-2 md:pr-4",
+        "absolute md:static left-full w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all duration-500 px-2 md:pr-4 py-2",
         {
           "invisible md:visible": !isOpened,
         }
