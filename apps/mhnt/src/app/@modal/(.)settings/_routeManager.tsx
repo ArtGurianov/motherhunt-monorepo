@@ -9,15 +9,10 @@ interface RouteManagerProps {
 
 export const RouteManager = ({ children }: RouteManagerProps) => {
   return (
-    <div>
-      <Suspense>
-        <InterceptedDialogDrawer
-          targetPath={"/settings"}
-          title={"User Settings"}
-        >
-          {children}
-        </InterceptedDialogDrawer>
-      </Suspense>
-    </div>
+    <Suspense>
+      <InterceptedDialogDrawer targetPath={"/settings"} title={"User Settings"}>
+        {children}
+      </InterceptedDialogDrawer>
+    </Suspense>
   );
 };
