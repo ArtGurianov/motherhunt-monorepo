@@ -19,7 +19,6 @@ export const NavbarMenu = <R extends AppRole | AgencyRole>({
 }: NavbarMenuProps<R>) => {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const order = NAV_ROUTES_ORDERS[role];
   const configs = NAV_CONFIG[role];
