@@ -16,6 +16,8 @@ import { cn } from "@shared/ui/lib/utils";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense, useState } from "react";
 import { NavbarMenu } from "./NavbarMenu";
+import { AppRole } from "@/lib/auth/permissions/app-permissions";
+import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -25,7 +27,7 @@ export const Navbar = () => {
 
   if (pathname === "/signin") return null;
 
-  const displayRole = session?.session.activeOrganizationId
+  const activeRole = session?.session.activeOrganizationId
     ? session.session.activeOrganizationRole
     : session?.user.role;
 
@@ -50,7 +52,7 @@ export const Navbar = () => {
               size="reset"
               className="text-2xl text-center font-mono underline"
             >
-              <InterceptedLink href="/settings">{displayRole}</InterceptedLink>
+              <InterceptedLink href="/settings">{activeRole}</InterceptedLink>
             </Button>
           </Suspense>
           <Suspense fallback={"loading..."}>
@@ -67,10 +69,13 @@ export const Navbar = () => {
           </Suspense>
         </span>
       </div>
-      <NavbarMenu isOpened={isMenuOpened} />
+      <NavbarMenu
+        isOpened={isMenuOpened}
+        role={activeRole! as AppRole | AgencyRole}
+      />
     </div>
   ) : (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center px-6">
       <span className="text-md text-center text-nowrap">
         {"You are currently"}
       </span>
@@ -120,7 +125,10 @@ export const Navbar = () => {
         >
           <div className="relative flex h-full justify-center items-center bg-main/95">
             {isPending ? (
-              <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+              <span className="flex gap-2 justify-center items-center p-6">
+                <LoaderCircle className="animate-spin h-8 w-8" />
+                {"loading... "}
+              </span>
             ) : (
               <>
                 {displayContent}

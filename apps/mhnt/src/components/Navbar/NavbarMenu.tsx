@@ -1,11 +1,29 @@
-import { Button } from "@shared/ui/components/button";
-import { cn } from "@shared/ui/lib/utils";
+"use client";
 
-interface NavbarMenuProps {
+import { cn } from "@shared/ui/lib/utils";
+import { NAV_CONFIG, NAV_ROUTES_ORDERS } from "./routes";
+import { AppRole } from "@/lib/auth/permissions/app-permissions";
+import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
+import { NavbarMenuItem } from "./NavbarMenuItem";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+
+interface NavbarMenuProps<R extends AppRole | AgencyRole> {
   isOpened: boolean;
+  role: R;
 }
 
-export const NavbarMenu = ({ isOpened }: NavbarMenuProps) => {
+export const NavbarMenu = <R extends AppRole | AgencyRole>({
+  isOpened,
+  role,
+}: NavbarMenuProps<R>) => {
+  const pathname = usePathname();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const order = NAV_ROUTES_ORDERS[role];
+  const configs = NAV_CONFIG[role];
+
   return (
     <div
       className={cn(
@@ -15,18 +33,23 @@ export const NavbarMenu = ({ isOpened }: NavbarMenuProps) => {
         }
       )}
     >
-      <Button className="p-2" size="reset" variant="secondary">
-        {"1"}
-      </Button>
-      <Button className="p-2" size="reset" variant="secondary">
-        {"2"}
-      </Button>
-      <Button className="p-2" size="reset" variant="secondary">
-        {"3"}
-      </Button>
-      <Button className="p-2" size="reset" variant="secondary">
-        {"4"}
-      </Button>
+      {order.map((routeId, index) => {
+        const config = configs[routeId as (typeof order)[number]];
+        return (
+          <NavbarMenuItem
+            key={routeId}
+            label={config.label}
+            href={config.href}
+            svgPath={config.svgPath}
+            currentIndex={index}
+            hoveredIndex={hoveredIndex}
+            onHoverStateChange={(value: number | null) => {
+              setHoveredIndex(value);
+            }}
+            isActive={pathname === config.href}
+          />
+        );
+      })}
     </div>
   );
 };
