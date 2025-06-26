@@ -8,24 +8,25 @@ import { NextRequest, NextResponse } from "next/server";
 // import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.host.startsWith("mhnt.")) {
+  const response = NextResponse.next();
+  const cookieStore = await cookies();
+  const recentLocale = cookieStore.get("recent-locale");
+
+  if (
+    request.nextUrl.host.startsWith("mhnt.") ||
+    request.nextUrl.host.startsWith("www.mhnt.")
+  ) {
     // means no language provided in subdomain
-    const cookieStore = await cookies();
-    const recentLocale = cookieStore.get("recent-locale");
-    if (recentLocale) {
+    if (recentLocale && recentLocale.value !== "en_US") {
       return NextResponse.redirect(
-        `${getAppURL(recentLocale.value as AppLocale | undefined)}${request.nextUrl.pathname}${request.nextUrl.search}`
+        `${getAppURL(recentLocale.value as AppLocale)}${request.nextUrl.pathname}${request.nextUrl.search}`
       );
     }
-  }
-
-  const response = NextResponse.next();
-
-  if (!request.nextUrl.host.startsWith("mhnt.")) {
-    // means language provided in subdomain
-    const cookieStore = await cookies();
-    const recentLocale = cookieStore.get("recent-locale");
-    const currentLangSubdomain = request.nextUrl.host.split(".")[0];
+  } else {
+    // language provided in subdomain
+    const particles = request.nextUrl.host.split(".");
+    const currentLangSubdomain =
+      particles[0] === "www" ? particles[1] : particles[0];
     if (
       currentLangSubdomain !==
       APP_LOCALE_TO_LANG_MAP[(recentLocale?.value ?? "en-US") as AppLocale]
