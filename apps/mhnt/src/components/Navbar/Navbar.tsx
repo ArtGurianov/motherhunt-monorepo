@@ -18,12 +18,14 @@ import { Suspense, useState } from "react";
 import { NavbarMenu } from "./NavbarMenu";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
+import { useTranslations } from "next-intl";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const t = useTranslations("NAVBAR");
 
   if (pathname === "/signin") return null;
 
@@ -42,7 +44,7 @@ export const Navbar = () => {
     >
       <div className="flex flex-col items-center justify-center px-4">
         <span className="text-md text-center text-nowrap">
-          {"Currently logged in as:"}
+          {`${t("signed-in-label")}:`}
         </span>
         <span className="flex gap-2 justify-center items-center">
           <Suspense fallback={"loading..."}>
@@ -77,7 +79,7 @@ export const Navbar = () => {
   ) : (
     <div className="flex flex-col items-center px-6">
       <span className="text-md text-center text-nowrap">
-        {"You are currently"}
+        {t("signed-out-label")}
       </span>
       <span className="flex gap-2 justify-center items-center">
         <Button
@@ -87,7 +89,7 @@ export const Navbar = () => {
           className="text-2xl text-center font-mono underline"
         >
           <Link href="/settings" className="text-nowrap">
-            {"LOGGED OUT"}
+            {t("signed-out-status")}
           </Link>
         </Button>
         <Button

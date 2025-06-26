@@ -1,0 +1,7 @@
+{
+  "NAVBAR": {
+    "signed-in-label": "Currently logged in as",
+    "signed-out-label": "You are currently",
+    "signed-out-status": "LOGGED OUT"
+  }
+}

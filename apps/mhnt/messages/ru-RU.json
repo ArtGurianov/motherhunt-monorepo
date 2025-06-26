@@ -1,0 +1,7 @@
+{
+  "NAVBAR": {
+    "signed-in-label": "Вход выполнен как",
+    "signed-out-label": "Вход в аккаунт",
+    "signed-out-status": "НЕ ВЫПОЛНЕН"
+  }
+}

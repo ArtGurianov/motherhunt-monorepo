@@ -50,6 +50,7 @@ export async function middleware(request: NextRequest) {
         value: updatedLocale,
         httpOnly: true,
         secure: true,
+        domain: "mhnt.app",
       });
     }
   }

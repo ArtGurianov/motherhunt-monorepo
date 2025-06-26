@@ -7,6 +7,7 @@ import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { AppProviders } from "@/components/AppProviders/AppProviders";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { CameraBg } from "@/components/CameraBg/CameraBg";
+import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,13 +42,15 @@ export default function RootLayout({
       >
         <CameraBg />
         <main className="relative flex flex-col min-h-svh w-full pt-8">
-          <AppProviders>
-            <div className="flex flex-col min-h-content w-full justify-center items-center">
-              {modal}
-              {children}
-            </div>
-            <Navbar />
-          </AppProviders>
+          <NextIntlClientProvider>
+            <AppProviders>
+              <div className="flex flex-col min-h-content w-full justify-center items-center">
+                {modal}
+                {children}
+              </div>
+              <Navbar />
+            </AppProviders>
+          </NextIntlClientProvider>
         </main>
       </body>
     </html>

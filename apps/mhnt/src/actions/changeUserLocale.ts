@@ -9,6 +9,7 @@ export const changeUserLocale = async (locale: AppLocale) => {
   cookieStore.set("recent-locale", locale, {
     httpOnly: true,
     secure: true,
+    domain: "mhnt.app",
   });
   redirect(getAppURL(locale));
 };
