@@ -154,7 +154,13 @@ const options = {
   },
   // secondaryStorage: {},
   trustedOrigins: [getAppURL(), getSiteURL()],
-  advanced: { database: { generateId: false } },
+  advanced: {
+    database: { generateId: false },
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: ".mhnt.app",
+    },
+  },
   session: {
     modelName: "session",
     additionalFields: {

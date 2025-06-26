@@ -14,7 +14,6 @@ export const LangSwitcher = () => {
     <div className="flex gap-2">
       {Object.entries(APP_LOCALE_TO_LANG_MAP).map(([locale, lang], index) => (
         <Button
-          asChild
           key={locale}
           size="reset"
           className={cn(
