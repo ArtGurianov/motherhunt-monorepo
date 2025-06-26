@@ -158,7 +158,7 @@ const options = {
     database: { generateId: false },
     crossSubDomainCookies: {
       enabled: true,
-      domain: ".mhnt.app",
+      domain: `mhnt${process.env.NODE_ENV === "production" ? ".app" : ".local"}`,
     },
   },
   session: {
