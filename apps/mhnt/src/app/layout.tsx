@@ -3,7 +3,7 @@ import "@shared/ui/globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { getAppLocale } from "@shared/ui/lib/utils";
-import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
+import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { AppProviders } from "@/components/AppProviders/AppProviders";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { CameraBg } from "@/components/CameraBg/CameraBg";
@@ -32,7 +32,7 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   const locale = getAppLocale();
-  const lang = APP_LANG_TO_LOCALE_MAP[locale];
+  const lang = APP_LOCALE_TO_LANG_MAP[locale];
 
   return (
     <html lang={lang}>

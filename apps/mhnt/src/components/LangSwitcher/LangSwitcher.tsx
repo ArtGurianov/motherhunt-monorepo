@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { changeUserLocale } from "@/actions/changeUserLocale";
 import { Button } from "@shared/ui/components/button";
-import { AppLocale, cn, getAppLocale, getSiteURL } from "@shared/ui/lib/utils";
-import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
+import { AppLocale, cn, getAppLocale } from "@shared/ui/lib/utils";
+import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
 
 export const LangSwitcher = () => {
@@ -12,7 +12,7 @@ export const LangSwitcher = () => {
 
   return (
     <div className="flex gap-2">
-      {Object.entries(APP_LANG_TO_LOCALE_MAP).map(([locale, lang], index) => (
+      {Object.entries(APP_LOCALE_TO_LANG_MAP).map(([locale, lang], index) => (
         <Button
           asChild
           key={locale}
@@ -25,15 +25,13 @@ export const LangSwitcher = () => {
                 hoveredIndex === index,
             }
           )}
+          onClick={async () => {
+            await changeUserLocale(locale as AppLocale);
+          }}
           onMouseOver={() => setHoveredIndex(index)}
           onMouseOut={() => setHoveredIndex(null)}
         >
-          <Link
-            className="h-full w-full"
-            href={getSiteURL(locale as AppLocale)}
-          >
-            {lang}
-          </Link>
+          {lang}
         </Button>
       ))}
     </div>

@@ -1,3 +1,8 @@
+import {
+  APP_LOCALE_TO_LANG_MAP,
+  AppLocale,
+  getAppURL,
+} from "@shared/ui/lib/utils";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 // import { getSessionCookie } from "better-auth/cookies";
@@ -6,10 +11,10 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.host.startsWith("mhnt.")) {
     // means no language provided in subdomain
     const cookieStore = await cookies();
-    const recentLangSubdomain = cookieStore.get("recent-lang");
-    if (recentLangSubdomain) {
+    const recentLocale = cookieStore.get("recent-locale");
+    if (recentLocale) {
       return NextResponse.redirect(
-        `https://${recentLangSubdomain}.${request.nextUrl.host}${request.nextUrl.pathname}${request.nextUrl.search}`
+        `${getAppURL(recentLocale.value as AppLocale | undefined)}${request.nextUrl.pathname}${request.nextUrl.search}`
       );
     }
   }
@@ -19,15 +24,30 @@ export async function middleware(request: NextRequest) {
   if (!request.nextUrl.host.startsWith("mhnt.")) {
     // means language provided in subdomain
     const cookieStore = await cookies();
-    const recentLangSubdomain = cookieStore.get("recent-lang");
+    const recentLocale = cookieStore.get("recent-locale");
     const currentLangSubdomain = request.nextUrl.host.split(".")[0];
     if (
-      currentLangSubdomain &&
-      currentLangSubdomain !== recentLangSubdomain?.value
+      currentLangSubdomain !==
+      APP_LOCALE_TO_LANG_MAP[(recentLocale?.value ?? "en-US") as AppLocale]
     ) {
+      let updatedLocale: AppLocale;
+      switch (currentLangSubdomain) {
+        case "es":
+          updatedLocale = "es-ES";
+          break;
+        case "cn":
+          updatedLocale = "cn-CN";
+          break;
+        case "ru":
+          updatedLocale = "ru-RU";
+          break;
+        default:
+          updatedLocale = "en-US";
+      }
+
       response.cookies.set({
-        name: "recent-lang",
-        value: currentLangSubdomain,
+        name: "recent-locale",
+        value: updatedLocale,
         httpOnly: true,
         secure: true,
       });

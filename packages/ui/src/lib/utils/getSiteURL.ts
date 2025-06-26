@@ -1,5 +1,5 @@
 import {
-  APP_LANG_TO_LOCALE_MAP,
+  APP_LOCALE_TO_LANG_MAP,
   AppLocale,
   getAppLocale,
 } from "./getAppLocale";
@@ -9,7 +9,7 @@ const APP_DOMAIN_NAME = "motherhunt";
 const APP_DOMAIN_ZONE = ".com";
 
 export const getSiteURL = (locale?: AppLocale) => {
-  const lang = APP_LANG_TO_LOCALE_MAP[locale ?? getAppLocale()];
+  const lang = APP_LOCALE_TO_LANG_MAP[locale ?? getAppLocale()];
   const prefix = process.env.NODE_ENV === "production" ? "www." : "";
   const domainZone =
     process.env.NODE_ENV === "production" ? APP_DOMAIN_ZONE : ".local";

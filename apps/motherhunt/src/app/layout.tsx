@@ -5,7 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Footer } from "@/components/Footer/Footer";
 import { getAppLocale } from "@shared/ui/lib/utils";
-import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
+import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = getAppLocale();
-  const lang = APP_LANG_TO_LOCALE_MAP[locale];
+  const lang = APP_LOCALE_TO_LANG_MAP[locale];
 
   return (
     <html lang={lang}>

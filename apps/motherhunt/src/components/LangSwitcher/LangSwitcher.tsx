@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@shared/ui/components/button";
 import { usePathname } from "next/navigation";
 import { AppLocale, cn, getAppLocale, getSiteURL } from "@shared/ui/lib/utils";
-import { APP_LANG_TO_LOCALE_MAP } from "@shared/ui/lib/utils";
+import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
 
 export const LangSwitcher = ({ className }: { className?: string }) => {
@@ -14,7 +14,7 @@ export const LangSwitcher = ({ className }: { className?: string }) => {
 
   return (
     <div className={cn("grid gap-1", className)}>
-      {Object.entries(APP_LANG_TO_LOCALE_MAP).map(([locale, lang], index) => (
+      {Object.entries(APP_LOCALE_TO_LANG_MAP).map(([locale, lang], index) => (
         <Button
           asChild
           key={locale}
