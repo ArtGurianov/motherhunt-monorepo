@@ -29,6 +29,7 @@ import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { HCaptchaFormItem } from "../HCaptchaFormItem/HCaptchaFormItem";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { LangSwitcher } from "../LangSwitcher/LangSwitcher";
 
 const formSchema = z.object({
   email: z.email(),
@@ -108,7 +109,8 @@ export const SignInForm = () => {
                 );
               }}
             />
-            <div className="w-full flex justify-end items-center">
+            <div className="w-full flex justify-between items-center">
+              <LangSwitcher />
               {formStatus === "SUCCESS" ? (
                 <span className="text-xl">{"Email sent!"}</span>
               ) : (
