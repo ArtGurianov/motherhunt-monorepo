@@ -14,8 +14,9 @@ export const LangSwitcher = () => {
     <div className="relative flex gap-2 px-2 py-1 border-2 rounded-base shadow-shadow">
       {Object.entries(APP_LOCALE_TO_LANG_MAP).map(([locale, lang], index) => (
         <CaptureBtn
-          className="px-2 py-1"
           key={locale}
+          size="reset"
+          className="px-2 py-1"
           onClick={async () => {
             await changeUserLocale(locale as AppLocale);
           }}

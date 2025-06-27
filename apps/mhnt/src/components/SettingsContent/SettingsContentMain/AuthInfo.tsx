@@ -23,13 +23,15 @@ export const AuthInfo = () => {
           </span>
         </InlineDataContent>
       </InlineData>
-      <div className="w-full flex gap-4 items-center px-1">
-        <span className="text-sm font-bold text-end">{"Switch to:"}</span>
-        <CaptureBtn shape="horizontal" size="sm">
-          {"Scouter"}
-        </CaptureBtn>
-        <span className="text-sm font-bold">{"or"}</span>
-        <CaptureBtn shape="horizontal">{"Agency"}</CaptureBtn>
+      <div className="relative w-full h-10">
+        <div className="absolute z-0 top-0 left-1/2 -translate-x-1/2 h-full flex gap-2 items-center px-1">
+          <span className="text-sm font-bold text-end text-nowrap">
+            {"Switch to:"}
+          </span>
+          <CaptureBtn shape="horizontal">{"Scouter"}</CaptureBtn>
+          <span className="text-sm font-bold">{"or"}</span>
+          <CaptureBtn shape="horizontal">{"Agency"}</CaptureBtn>
+        </div>
       </div>
     </InfoCard>
   );
