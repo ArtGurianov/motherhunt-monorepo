@@ -107,14 +107,17 @@ export const SignInForm = () => {
                 );
               }}
             />
-            <div className="w-full flex justify-between items-center">
-              <LangSwitcher />
+            <div className="relative w-full flex justify-end items-center">
+              <div className="absolute z-10 left-0 top-0">
+                <LangSwitcher />
+              </div>
               {formStatus === "SUCCESS" ? (
                 <span className="text-xl">{"Email sent!"}</span>
               ) : (
                 <Button
                   type="submit"
                   variant="secondary"
+                  size="lg"
                   disabled={
                     formStatus === "LOADING" ||
                     !form.formState.isValid ||
