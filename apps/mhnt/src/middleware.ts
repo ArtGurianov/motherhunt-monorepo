@@ -17,9 +17,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.host.startsWith("mhnt.") ||
     request.nextUrl.host.startsWith("www.mhnt.")
   ) {
-    if (recentLocale && recentLocale.value !== "en_US") {
-      console.log("redirect 1");
-      console.log(recentLocale.value);
+    if (recentLocale && recentLocale.value !== "en-US") {
       return NextResponse.redirect(
         `${getAppURL(recentLocale.value as AppLocale)}${request.nextUrl.pathname}${request.nextUrl.search}`
       );
