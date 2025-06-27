@@ -9,7 +9,7 @@ export const changeUserLocale = async (locale: AppLocale) => {
   cookieStore.set("recent-locale", locale, {
     httpOnly: true,
     secure: true,
-    domain: "mhnt.app",
+    domain: `mhnt${process.env.NODE_ENV === "production" ? ".app" : ".local"}`,
   });
   redirect(getAppURL(locale));
 };

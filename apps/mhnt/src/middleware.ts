@@ -8,7 +8,6 @@ import { NextRequest, NextResponse } from "next/server";
 // import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
   const cookieStore = await cookies();
   const recentLocale = cookieStore.get("recent-locale");
 
@@ -46,12 +45,10 @@ export async function middleware(request: NextRequest) {
           updatedLocale = "en-US";
       }
 
-      response.cookies.set({
-        name: "recent-locale",
-        value: updatedLocale,
+      cookieStore.set("recent-locale", updatedLocale, {
         httpOnly: true,
         secure: true,
-        domain: "mhnt.app",
+        domain: `mhnt${process.env.NODE_ENV === "production" ? ".app" : ".local"}`,
       });
     }
   }
@@ -62,7 +59,7 @@ export async function middleware(request: NextRequest) {
   //   return NextResponse.redirect(new URL("/signin", request.url));
   // }
 
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {
