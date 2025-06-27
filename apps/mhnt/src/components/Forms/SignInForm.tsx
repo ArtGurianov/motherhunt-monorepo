@@ -23,13 +23,12 @@ import {
   CardTitle,
 } from "@shared/ui/components/card";
 import { authClient } from "@/lib/auth/authClient";
-import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
-import { HCaptchaFormItem } from "../HCaptchaFormItem/HCaptchaFormItem";
+import { HCaptchaFormItem } from "@/components/HCaptchaFormItem/HCaptchaFormItem";
+import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { LangSwitcher } from "../LangSwitcher/LangSwitcher";
 
 const formSchema = z.object({
   email: z.email(),
@@ -37,7 +36,6 @@ const formSchema = z.object({
 });
 
 export const SignInForm = () => {
-  const pathname = usePathname();
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
 
   const hCaptchaRef = useRef<HCaptcha>(null);
@@ -58,7 +56,7 @@ export const SignInForm = () => {
     setFormStatus("LOADING");
     const result = await authClient.signIn.magicLink({
       email,
-      callbackURL: pathname,
+      callbackURL: "/",
       fetchOptions: {
         headers: {
           "x-captcha-response": hCaptchaToken,
