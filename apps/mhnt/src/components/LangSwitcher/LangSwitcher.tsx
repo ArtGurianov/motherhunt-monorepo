@@ -11,11 +11,11 @@ export const LangSwitcher = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="flex gap-2 bg-main px-2 py-1 h-10 border-2 rounded-base shadow-shadow">
+    <div className="relative flex gap-2 px-2 py-1 border-2 rounded-base shadow-shadow">
       {Object.entries(APP_LOCALE_TO_LANG_MAP).map(([locale, lang], index) => (
         <CaptureBtn
+          className="px-2 py-1"
           key={locale}
-          size="reset"
           onClick={async () => {
             await changeUserLocale(locale as AppLocale);
           }}
@@ -26,6 +26,7 @@ export const LangSwitcher = () => {
           {lang}
         </CaptureBtn>
       ))}
+      <div className="absolute -z-20 bg-main left-0 top-0 h-full w-full" />
     </div>
   );
 };

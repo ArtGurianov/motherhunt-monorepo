@@ -48,9 +48,9 @@ export const CaptureBtn = ({
   return (
     <div className="relative">
       <Button
-        asChild
         className={cn("", { "aspect-square": shape === "square" }, className)}
         variant="ghost"
+        size="reset"
         onMouseOver={(e) => {
           onMouseOver?.(e);
           setIsHovered(true);
