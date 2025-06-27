@@ -13,11 +13,13 @@ export async function middleware(request: NextRequest) {
   const recentLocale = cookieStore.get("recent-locale");
 
   if (
+    // means no language provided in subdomain
     request.nextUrl.host.startsWith("mhnt.") ||
     request.nextUrl.host.startsWith("www.mhnt.")
   ) {
-    // means no language provided in subdomain
     if (recentLocale && recentLocale.value !== "en_US") {
+      console.log("redirect 1");
+      console.log(recentLocale.value);
       return NextResponse.redirect(
         `${getAppURL(recentLocale.value as AppLocale)}${request.nextUrl.pathname}${request.nextUrl.search}`
       );
