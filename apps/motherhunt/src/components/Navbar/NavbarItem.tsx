@@ -40,8 +40,8 @@ export const NavbarItem = ({
           className="absolute -z-10 top-0 left-0"
           src={
             (isActive && hoveredIndex === null) || hoveredIndex === currentIndex
-              ? "/capture-btn-active.png"
-              : "/capture-btn-inactive.png"
+              ? "/capture-btn-square-active.png"
+              : "/capture-btn-square-inactive.png"
           }
           alt="navbar-btn-icon"
           sizes="100vh"

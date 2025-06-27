@@ -1,3 +1,4 @@
+import { AuthGuard } from "@/components/Guards/AuthGuard";
 import { RouteManager } from "./_routeManager";
 
 export default function SettingsLayout({
@@ -5,5 +6,9 @@ export default function SettingsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <RouteManager>{children}</RouteManager>;
+  return (
+    <RouteManager>
+      <AuthGuard>{children}</AuthGuard>
+    </RouteManager>
+  );
 }

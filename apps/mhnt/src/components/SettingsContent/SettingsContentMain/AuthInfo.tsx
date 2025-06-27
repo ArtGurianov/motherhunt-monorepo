@@ -1,5 +1,6 @@
 "use client";
 
+import { CaptureBtn } from "@/components/CaptureBtn";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
@@ -8,11 +9,9 @@ import {
   InlineDataContent,
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
-import { redirect } from "next/navigation";
 
 export const AuthInfo = () => {
   const session = authClient.useSession();
-  if (!session) redirect("/signin");
 
   return (
     <InfoCard title="account">
@@ -27,13 +26,11 @@ export const AuthInfo = () => {
       </InlineData>
       <div className="w-full flex gap-4 items-center px-1">
         <span className="text-sm font-bold text-end">{"Switch to:"}</span>
-        <Button size="sm" variant="secondary">
+        <CaptureBtn shape="horizontal" size="sm">
           {"Scouter"}
-        </Button>
+        </CaptureBtn>
         <span className="text-sm font-bold">{"or"}</span>
-        <Button size="sm" variant="secondary">
-          {"Agency"}
-        </Button>
+        <CaptureBtn shape="horizontal">{"Agency"}</CaptureBtn>
       </div>
     </InfoCard>
   );

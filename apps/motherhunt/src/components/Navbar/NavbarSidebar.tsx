@@ -61,8 +61,8 @@ export const NavbarSidebar = ({
                     className="absolute -z-10 top-0 left-0"
                     src={
                       pathname === href
-                        ? "/capture-btn-mobile-active.png"
-                        : "/capture-btn-mobile-inactive.png"
+                        ? "/capture-btn-horizontal-active.png"
+                        : "/capture-btn-horizontal-inactive.png"
                     }
                     alt="navbar-btn-icon"
                     sizes="100vh"

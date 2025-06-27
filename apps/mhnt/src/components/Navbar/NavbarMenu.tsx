@@ -40,12 +40,13 @@ export const NavbarMenu = <R extends AppRole | AgencyRole>({
             label={config.label}
             href={config.href}
             svgPath={config.svgPath}
-            currentIndex={index}
-            hoveredIndex={hoveredIndex}
-            onHoverStateChange={(value: number | null) => {
-              setHoveredIndex(value);
+            onMouseOver={() => {
+              setHoveredIndex(index);
             }}
-            isActive={pathname === config.href}
+            onMouseOut={() => {
+              setHoveredIndex(null);
+            }}
+            isActive={pathname === config.href && !hoveredIndex}
           />
         );
       })}
