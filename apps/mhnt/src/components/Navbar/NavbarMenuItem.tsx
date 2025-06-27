@@ -18,7 +18,7 @@ export const NavbarMenuItem = ({
   ...rest
 }: NavbarMenuItemProps) => {
   return (
-    <CaptureBtn {...rest}>
+    <CaptureBtn {...rest} size="lg">
       <Link href={href}>
         <Image
           className="absolute top-0 left-0"
