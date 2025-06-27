@@ -1,7 +1,7 @@
 "use client";
 
 import { changeUserLocale } from "@/actions/changeUserLocale";
-import { AppLocale, cn, getAppLocale } from "@shared/ui/lib/utils";
+import { AppLocale, getAppLocale } from "@shared/ui/lib/utils";
 import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
 import { CaptureBtn } from "../CaptureBtn";

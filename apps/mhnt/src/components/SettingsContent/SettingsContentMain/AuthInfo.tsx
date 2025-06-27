@@ -3,7 +3,6 @@
 import { CaptureBtn } from "@/components/CaptureBtn";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
-import { Button } from "@shared/ui/components/button";
 import {
   InlineData,
   InlineDataContent,
