@@ -46,26 +46,25 @@ export const CaptureBtn = ({
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Button
-      className={cn(
-        "relative",
-        { "aspect-square": shape === "square" },
-        className
-      )}
-      variant="ghost"
-      onMouseOver={(e) => {
-        onMouseOver?.(e);
-        setIsHovered(true);
-      }}
-      onMouseOut={(e) => {
-        onMouseOut?.(e);
-        setIsHovered(false);
-      }}
-      {...rest}
-    >
-      {children}
+    <div className="relative">
+      <Button
+        asChild
+        className={cn("", { "aspect-square": shape === "square" }, className)}
+        variant="ghost"
+        onMouseOver={(e) => {
+          onMouseOver?.(e);
+          setIsHovered(true);
+        }}
+        onMouseOut={(e) => {
+          onMouseOut?.(e);
+          setIsHovered(false);
+        }}
+        {...rest}
+      >
+        {children}
+      </Button>
       <Image
-        className="absolute top-0 left-0"
+        className="absolute -z-10 top-0 left-0"
         src={
           CAPTURE_BTN_SRC_CONFIG[shape][
             isActive || isHovered ? "active" : "inactive"
@@ -76,6 +75,6 @@ export const CaptureBtn = ({
         priority
         fill
       />
-    </Button>
+    </div>
   );
 };
