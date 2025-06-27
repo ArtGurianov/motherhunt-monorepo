@@ -17,6 +17,7 @@
     "@shared/eslint-config": "workspace:*",
     "@shared/typescript-config": "workspace:*",
     "@shared/ui": "workspace:*",
+    "@tailwindcss/postcss": "^4.0.8",
     "@tanstack/react-query": "^5.80.7",
     "better-auth": "^1.2.9",
     "lucide-react": "^0.475.0",
