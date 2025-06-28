@@ -18,7 +18,7 @@ export const AuthInfo = () => {
         <InlineDataLabel>{"Currently logged in as:"}</InlineDataLabel>
         <InlineDataContent className="relative">
           {session.data?.user.role}
-          <span className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center px-4 font-mono text-sm">
+          <span className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center px-4 font-mono text-sm text-green-500 border-border">
             {"ACTIVE"}
           </span>
         </InlineDataContent>
@@ -28,9 +28,9 @@ export const AuthInfo = () => {
           <span className="text-sm font-bold text-end text-nowrap">
             {"Switch to:"}
           </span>
-          <CaptureBtn shape="horizontal">{"Scouter"}</CaptureBtn>
+          <CaptureBtn shape="horizontal">{"SCOUTER"}</CaptureBtn>
           <span className="text-sm font-bold">{"or"}</span>
-          <CaptureBtn shape="horizontal">{"Agency"}</CaptureBtn>
+          <CaptureBtn shape="horizontal">{"AGENCY"}</CaptureBtn>
         </div>
       </div>
     </InfoCard>

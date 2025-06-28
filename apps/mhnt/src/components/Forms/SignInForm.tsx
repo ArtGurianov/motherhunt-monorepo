@@ -112,7 +112,9 @@ export const SignInForm = () => {
                 <LangSwitcher />
               </div>
               {formStatus === "SUCCESS" ? (
-                <span className="text-xl">{"Email sent!"}</span>
+                <span className="text-xl flex h-10 justify-center items-center">
+                  {"Email sent!"}
+                </span>
               ) : (
                 <Button
                   type="submit"
