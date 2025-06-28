@@ -42,7 +42,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     setFormStatus("LOADING");
     const result = await authClient.changeEmail({
       newEmail: email,
-      callbackURL: "/",
+      callbackURL: "/?toast=UPDATED",
     });
     setFormStatus(result.error ? "ERROR" : "SUCCESS");
   };

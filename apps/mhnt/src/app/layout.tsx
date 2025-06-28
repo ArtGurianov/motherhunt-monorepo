@@ -3,6 +3,7 @@ import "@shared/ui/globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { getAppLocale } from "@shared/ui/lib/utils";
+import { Toaster } from "@shared/ui/components/sonner";
 import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { AppProviders } from "@/components/AppProviders/AppProviders";
 import { Navbar } from "@/components/Navbar/Navbar";
@@ -52,6 +53,7 @@ export default function RootLayout({
             </AppProviders>
           </NextIntlClientProvider>
         </main>
+        <Toaster />
       </body>
     </html>
   );

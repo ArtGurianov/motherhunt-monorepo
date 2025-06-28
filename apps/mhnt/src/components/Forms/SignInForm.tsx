@@ -56,7 +56,7 @@ export const SignInForm = () => {
     setFormStatus("LOADING");
     const result = await authClient.signIn.magicLink({
       email,
-      callbackURL: "/",
+      callbackURL: "/?toast=SIGNED_IN",
       fetchOptions: {
         headers: {
           "x-captcha-response": hCaptchaToken,
