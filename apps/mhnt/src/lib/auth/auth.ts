@@ -205,6 +205,14 @@ const options = {
         type: "string",
         input: false,
       },
+      isSystemEmailsEnabled: {
+        type: "boolean",
+        input: false,
+      },
+      isNewsletterEmailsEnabled: {
+        type: "boolean",
+        input: false,
+      },
       recentOrganizationId: {
         type: "string",
         required: false,

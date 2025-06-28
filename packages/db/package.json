@@ -4,6 +4,7 @@
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
+    "db:format": "prisma format",
     "db:seed": "tsx src/seed.ts"
   },
   "exports": {
