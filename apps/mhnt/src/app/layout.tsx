@@ -53,7 +53,7 @@ export default function RootLayout({
             </AppProviders>
           </NextIntlClientProvider>
         </main>
-        <Toaster />
+        <Toaster position="top-right" />
       </body>
     </html>
   );

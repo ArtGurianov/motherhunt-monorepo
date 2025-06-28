@@ -8,7 +8,7 @@ import { authClient } from "@/lib/auth/authClient";
 import { redirect } from "next/navigation";
 
 export const EmailInfo = () => {
-  const { isPending, data } = authClient.useSession();
+  const { isPending, data, refetch } = authClient.useSession();
   if (isPending) return "loading...";
   if (!data) redirect("/signin");
 
@@ -23,6 +23,7 @@ export const EmailInfo = () => {
             "isSystemEmailsEnabled",
             !data.user.isSystemEmailsEnabled
           );
+          refetch();
         }}
       />
       <ToggleStateField
@@ -30,9 +31,10 @@ export const EmailInfo = () => {
         currentValue={data.user.isNewsletterEmailsEnabled}
         onToggle={async () => {
           await changeUserToggleState(
-            "isSystemEmailsEnabled",
+            "isNewsletterEmailsEnabled",
             !data.user.isNewsletterEmailsEnabled
           );
+          refetch();
         }}
       />
     </InfoCard>

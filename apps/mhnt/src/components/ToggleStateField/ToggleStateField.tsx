@@ -2,6 +2,7 @@
 
 import { Quote } from "@shared/ui/components/Quote";
 import { Checkbox } from "@shared/ui/components/checkbox";
+import { toast } from "@shared/ui/components/sonner";
 import { Ban, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
@@ -36,6 +37,7 @@ export const ToggleStateField = ({
             onToggle()
               .then(() => {
                 setValue((prev) => !prev);
+                toast("Value updated!");
               })
               .catch(() => {
                 setIsError(true);
