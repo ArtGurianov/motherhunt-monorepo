@@ -187,6 +187,19 @@ const options = {
   },
   user: {
     modelName: "user",
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({ newEmail, url }) => {
+        await sendEmail({
+          to: newEmail,
+          subject: "Change email",
+          meta: {
+            description: "You requested to change your email for mhnt.app",
+            link: url,
+          },
+        });
+      },
+    },
     additionalFields: {
       role: {
         type: "string",
