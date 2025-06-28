@@ -18,6 +18,6 @@ export const InfoCard = ({ title, children }: InfoCardProps) => (
         {`.${title}`}
       </CardTitle>
     </CardHeader>
-    <CardContent className="flex flex-col gap-2">{children}</CardContent>
+    <CardContent className="flex flex-col gap-3">{children}</CardContent>
   </Card>
 );

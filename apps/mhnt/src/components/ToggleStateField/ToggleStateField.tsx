@@ -21,8 +21,8 @@ export const ToggleStateField = ({
   const [isError, setIsError] = useState(false);
 
   return (
-    <Quote className="flex py-px px-2 font-mono font-thin items-center justify-between gap-2">
-      <span>{label}</span>
+    <Quote className="flex py-px px-2 items-center justify-between">
+      <span className="text-sm font-mono font-thin">{label}</span>
       <div className="flex gap-1 h-full justify-center items-center">
         {isLoading ? (
           <LoaderCircle className="py-1 animate-spin h-6 w-6" />

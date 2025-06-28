@@ -71,7 +71,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
                     </span>
                   ) : (
                     <Button
-                      className="h-full bg-main px-4 text-lg rounded-md hover:bg-background"
+                      className="h-full bg-main px-3 text-lg rounded-md hover:bg-background"
                       type="submit"
                       variant="ghost"
                       size="reset"
@@ -83,7 +83,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
                       }
                     >
                       {formStatus === "LOADING" ? (
-                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                        <LoaderCircle className="animate-spin h-8 w-8" />
                       ) : (
                         "Verify"
                       )}

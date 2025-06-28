@@ -35,9 +35,9 @@ const DialogWrapper = ({
 }: DialogDrawerProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
-      <DialogContent className={cn("py-8 px-4", className)}>
+      <DialogContent className={cn("py-0 px-4", className)}>
         <DialogHeader>
-          <DialogTitle className="text-center font-medium font-serif text-3xl my-4 text-muted-foreground">
+          <DialogTitle className="text-center font-medium font-serif text-3xl mt-4 text-muted-foreground">
             {title}
           </DialogTitle>
           <DialogDescription className="sr-only">
@@ -68,7 +68,7 @@ const DrawerWrapper = ({
             {`Drawer content for ${title}`}
           </DrawerDescription>
         </DrawerHeader>
-        <div className="py-4 px-3">{children}</div>
+        <div className="pb-2 px-3">{children}</div>
       </DrawerContent>
     </Drawer>
   );
