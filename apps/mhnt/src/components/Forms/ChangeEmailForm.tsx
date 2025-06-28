@@ -8,7 +8,6 @@ import { Button } from "@shared/ui/components/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
