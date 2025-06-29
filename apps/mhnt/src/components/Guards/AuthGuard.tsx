@@ -12,7 +12,12 @@ interface AuthGuardProps {
 export const AuthGuard = ({ children }: AuthGuardProps) => {
   const { isPending, data } = authClient.useSession();
 
-  if (isPending) return <LoaderCircle className="py-4 animate-spin h-8 w-8" />;
+  if (isPending)
+    return (
+      <div className="flex w-full pb-32 pt-24 justify-center items-center">
+        <LoaderCircle className="animate-spin h-12 w-12" />
+      </div>
+    );
   if (!data) redirect("/signin");
   return children;
 };

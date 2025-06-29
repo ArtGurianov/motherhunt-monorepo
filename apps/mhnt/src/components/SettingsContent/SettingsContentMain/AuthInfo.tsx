@@ -8,16 +8,19 @@ import {
   InlineDataContent,
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
+import { redirect } from "next/navigation";
 
 export const AuthInfo = () => {
-  const session = authClient.useSession();
+  const { isPending, data } = authClient.useSession();
+  if (isPending) return "loading...";
+  if (!data) redirect("/signin");
 
   return (
     <InfoCard title="account">
       <InlineData>
         <InlineDataLabel>{"Currently logged in as:"}</InlineDataLabel>
         <InlineDataContent className="relative">
-          {session.data?.user.role}
+          {data.user.role}
           <span className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center px-4 font-mono text-sm text-green-500 border-border">
             {"ACTIVE"}
           </span>
