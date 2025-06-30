@@ -3,11 +3,7 @@
 import { CaptureBtn } from "@/components/CaptureBtn";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
-import {
-  AGENCY_ROLES,
-  AgencyRole,
-} from "@/lib/auth/permissions/agency-permissions";
-import { APP_ROLES, AppRole } from "@/lib/auth/permissions/app-permissions";
+import { APP_ROLES } from "@/lib/auth/permissions/app-permissions";
 import {
   InlineData,
   InlineDataContent,
