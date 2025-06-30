@@ -35,7 +35,7 @@ const DialogWrapper = ({
 }: DialogDrawerProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
-      <DialogContent className={cn("py-0 px-4", className)}>
+      <DialogContent className={cn("py-0", className)}>
         <DialogHeader>
           <DialogTitle className="text-center font-medium font-serif text-3xl mt-4 text-muted-foreground">
             {title}
@@ -44,7 +44,7 @@ const DialogWrapper = ({
             {`Dialog content for ${title}`}
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 px-3">{children}</div>
+        <div className="py-4 h-full">{children}</div>
       </DialogContent>
     </Dialog>
   );
@@ -59,7 +59,7 @@ const DrawerWrapper = ({
 }: DialogDrawerProps) => {
   return (
     <Drawer open={isOpen} onClose={onClose} autoFocus={isOpen}>
-      <DrawerContent className={cn("px-2 py-2", className)}>
+      <DrawerContent className={cn("py-2", className)}>
         <DrawerHeader>
           <DrawerTitle className="text-center font-medium font-serif text-3xl text-muted-foreground">
             {title}
@@ -68,7 +68,7 @@ const DrawerWrapper = ({
             {`Drawer content for ${title}`}
           </DrawerDescription>
         </DrawerHeader>
-        <div className="pb-2 px-3">{children}</div>
+        <div className="h-full">{children}</div>
       </DrawerContent>
     </Drawer>
   );

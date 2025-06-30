@@ -14,7 +14,7 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   if (isPending)
     return (
-      <div className="flex w-full pb-32 pt-24 justify-center items-center">
+      <div className="flex w-full h-full justify-center items-center">
         <LoaderCircle className="animate-spin h-12 w-12" />
       </div>
     );

@@ -1,20 +1,24 @@
 "use client";
 
 import { useCloseIntercepted } from "@/lib/hooks";
-import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
+import {
+  DialogDrawer,
+  DialogDrawerProps,
+} from "@shared/ui/components/DialogDrawer/DialogDrawer";
 import { usePathname } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface InterceptedDialogDrawerProps {
+interface InterceptedDialogDrawerProps
+  extends Omit<DialogDrawerProps, "isOpen" | "onClose"> {
   targetPath: string;
   title: string;
-  children: ReactNode;
 }
 
 export const InterceptedDialogDrawer = ({
   targetPath,
   title,
   children,
+  ...rest
 }: InterceptedDialogDrawerProps) => {
   const pathname = usePathname();
   const { onInterceptedClose } = useCloseIntercepted();
@@ -27,6 +31,7 @@ export const InterceptedDialogDrawer = ({
   return (
     <DialogDrawer
       title={title}
+      {...rest}
       isOpen={isOpen}
       onClose={() => {
         onInterceptedClose();
