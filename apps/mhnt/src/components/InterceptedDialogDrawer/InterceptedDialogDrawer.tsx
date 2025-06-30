@@ -9,14 +9,17 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface InterceptedDialogDrawerProps
-  extends Omit<DialogDrawerProps, "isOpen" | "onClose"> {
+  extends Omit<DialogDrawerProps, "isOpen" | "onClose" | "title"> {
   targetPath: string;
-  title: string;
 }
+
+const DIALOG_TITLES_CONFIG: Record<string, string> = {
+  "/settings": "User Settings",
+  "/settings/agency": "My Agencies",
+} as const;
 
 export const InterceptedDialogDrawer = ({
   targetPath,
-  title,
   children,
   ...rest
 }: InterceptedDialogDrawerProps) => {
@@ -30,7 +33,7 @@ export const InterceptedDialogDrawer = ({
 
   return (
     <DialogDrawer
-      title={title}
+      title={DIALOG_TITLES_CONFIG[pathname] ?? "Unknown Route"}
       {...rest}
       isOpen={isOpen}
       onClose={() => {

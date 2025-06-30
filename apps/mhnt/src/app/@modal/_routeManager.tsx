@@ -8,11 +8,7 @@ interface RouteManagerProps {
 export const RouteManager = ({ children }: RouteManagerProps) => {
   return (
     <Suspense>
-      <InterceptedDialogDrawer
-        targetPath={"/settings"}
-        title={"User Settings"}
-        className="px-0"
-      >
+      <InterceptedDialogDrawer targetPath={"/settings"} className="px-0">
         {children}
       </InterceptedDialogDrawer>
     </Suspense>
