@@ -8,6 +8,7 @@ import {
   InlineDataContent,
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const AuthInfo = () => {
@@ -33,7 +34,9 @@ export const AuthInfo = () => {
           </span>
           <CaptureBtn shape="horizontal">{"SCOUTER"}</CaptureBtn>
           <span className="text-sm font-bold">{"or"}</span>
-          <CaptureBtn shape="horizontal">{"AGENCY"}</CaptureBtn>
+          <CaptureBtn shape="horizontal">
+            <Link href="/settings/agency">{"AGENCY"}</Link>
+          </CaptureBtn>
         </div>
       </div>
     </InfoCard>

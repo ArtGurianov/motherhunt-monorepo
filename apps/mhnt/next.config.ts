@@ -43,6 +43,9 @@ const nextConfig: NextConfig = {
     svgLoaderRule.exclude = /\.svg$/i;
     return config;
   },
+  experimental: {
+    viewTransition: true,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();
