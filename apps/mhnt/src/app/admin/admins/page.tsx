@@ -1,10 +1,9 @@
-import { CreateAgencyForm } from "@/components/Forms";
 import { auth } from "@/lib/auth/auth";
-import { AGENCY_ENTITIES } from "@/lib/auth/permissions/agency-permissions";
+import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function CreateAgencyPage() {
+export default async function AdminsPage() {
   const headersList = await headers();
 
   const session = await auth.api.getSession({
@@ -19,8 +18,7 @@ export default async function CreateAgencyPage() {
     body: {
       userId: session.user.id,
       permissions: {
-        [AGENCY_ENTITIES.AGENCY_ORGANIZATION]: ["create"],
-        [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create"],
+        [APP_ENTITIES.ADMIN]: ["create", "update", "ban"],
       },
     },
   });
@@ -29,9 +27,5 @@ export default async function CreateAgencyPage() {
     redirect("/signin");
   }
 
-  return (
-    <div className="flex flex-col gap-12 grow justify-start items-center py-12">
-      <CreateAgencyForm />
-    </div>
-  );
+  return <div>{"Protected"}</div>;
 }

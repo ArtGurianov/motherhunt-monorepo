@@ -47,6 +47,31 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     setFormStatus(result.error ? "ERROR" : "SUCCESS");
   };
 
+  let displayAction = (
+    <Button
+      className="h-full"
+      type="submit"
+      variant="flat"
+      size="sm"
+      disabled={
+        !form.formState.isValid || !!Object.keys(form.formState.errors).length
+      }
+    >
+      {"Verify"}
+    </Button>
+  );
+  if (form.getValues("email") === currentEmail) {
+    displayAction = <span className="text-green-500">{"Verified"}</span>;
+  } else if (formStatus === "SUCCESS") {
+    displayAction = <span>{"Email sent"}</span>;
+  } else if (formStatus === "LOADING") {
+    displayAction = (
+      <span className="px-4">
+        <LoaderCircle className="animate-spin h-6 w-6" />
+      </span>
+    );
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -62,33 +87,14 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
                     disabled={formStatus === "LOADING"}
                     placeholder="type your new email"
                     {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setFormStatus("PENDING");
+                    }}
                   />
                 </FormControl>
-                <div className="absolute z-10 right-0 top-0 h-full p-1">
-                  {formStatus === "SUCCESS" ? (
-                    <span className="text-md flex h-full justify-center items-center">
-                      {"Email sent!"}
-                    </span>
-                  ) : (
-                    <Button
-                      className="h-full bg-main px-3 text-lg rounded-md hover:bg-background"
-                      type="submit"
-                      variant="ghost"
-                      size="reset"
-                      disabled={
-                        formStatus === "LOADING" ||
-                        !form.formState.isValid ||
-                        !!Object.keys(form.formState.errors).length ||
-                        form.getValues("email") === currentEmail
-                      }
-                    >
-                      {formStatus === "LOADING" ? (
-                        <LoaderCircle className="animate-spin h-8 w-8" />
-                      ) : (
-                        "Verify"
-                      )}
-                    </Button>
-                  )}
+                <div className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center p-2 font-mono text-sm border-border">
+                  {displayAction}
                 </div>
               </div>
               <FormMessage />

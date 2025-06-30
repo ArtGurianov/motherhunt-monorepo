@@ -1,9 +1,10 @@
+import { CreateAgencyForm } from "@/components/Forms";
 import { auth } from "@/lib/auth/auth";
-import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
+import { AGENCY_ENTITIES } from "@/lib/auth/permissions/agency-permissions";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function SuperadminPage() {
+export default async function AgenciesCasesPage() {
   const headersList = await headers();
 
   const session = await auth.api.getSession({
@@ -18,7 +19,8 @@ export default async function SuperadminPage() {
     body: {
       userId: session.user.id,
       permissions: {
-        [APP_ENTITIES.ADMIN]: ["create", "update", "ban"],
+        [AGENCY_ENTITIES.AGENCY_ORGANIZATION]: ["create"],
+        [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create"],
       },
     },
   });
@@ -27,5 +29,9 @@ export default async function SuperadminPage() {
     redirect("/signin");
   }
 
-  return <div>{"Protected"}</div>;
+  return (
+    <div className="flex flex-col gap-12 grow justify-start items-center py-12">
+      <CreateAgencyForm />
+    </div>
+  );
 }
