@@ -39,7 +39,7 @@ const DialogWrapper = ({
     <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
       <DialogContent className={cn("py-0", className)}>
         <DialogHeader className="relative">
-          <DialogTitle className="text-center font-medium font-serif text-3xl mt-4 text-muted-foreground">
+          <DialogTitle className="text-center font-medium font-serif text-3xl text-muted-foreground">
             {title}
           </DialogTitle>
           <DialogDescription className="sr-only">
