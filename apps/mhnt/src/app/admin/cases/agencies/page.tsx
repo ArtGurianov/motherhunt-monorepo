@@ -30,7 +30,7 @@ export default async function AgenciesCasesPage() {
   }
 
   return (
-    <div className="flex flex-col gap-12 grow justify-start items-center py-12">
+    <div className="flex flex-col gap-12 grow justify-center items-center py-12">
       <CreateAgencyForm />
     </div>
   );

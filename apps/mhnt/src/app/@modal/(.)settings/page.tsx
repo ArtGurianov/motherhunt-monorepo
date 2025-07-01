@@ -5,7 +5,7 @@ import { EmailInfo } from "@/components/SettingsContent/SettingsContentMain/Emai
 
 export default function AgencySettingsPage() {
   return (
-    <div className="flex flex-col gap-4 w-full justify-start items-center">
+    <div className="flex flex-col gap-4 w-full h-full justify-center items-center">
       <AuthInfo />
       <EmailInfo />
       <div className="w-full flex justify-between items-center">
