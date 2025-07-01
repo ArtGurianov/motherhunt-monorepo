@@ -9,5 +9,5 @@ export const AgenciesList = () => {
   if (isPending) return "loading...";
   if (!data) redirect("/signin");
 
-  return <InfoCard title="available">{"hey"}</InfoCard>;
+  return <InfoCard title="switch">{"hey"}</InfoCard>;
 };
