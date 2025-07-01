@@ -1,5 +1,17 @@
-import { SettingsContentMain } from "@/components/SettingsContent/SettingsContentMain/SettingsContentMain";
+import { SignOutBtn } from "@/components/ActionButtons/SignOutBtn";
+import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
+import { AuthInfo } from "@/components/SettingsContent/SettingsContentMain/AuthInfo";
+import { EmailInfo } from "@/components/SettingsContent/SettingsContentMain/EmailInfo";
 
 export default function AgencySettingsPage() {
-  return <SettingsContentMain />;
+  return (
+    <div className="flex flex-col gap-4 w-full justify-start items-center">
+      <AuthInfo />
+      <EmailInfo />
+      <div className="w-full flex justify-between items-center">
+        <LangSwitcher />
+        <SignOutBtn />
+      </div>
+    </div>
+  );
 }
