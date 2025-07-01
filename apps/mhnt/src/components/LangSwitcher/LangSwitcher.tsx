@@ -4,7 +4,7 @@ import { changeUserLocale } from "@/actions/changeUserLocale";
 import { AppLocale, getAppLocale } from "@shared/ui/lib/utils";
 import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { useState } from "react";
-import { CaptureBtn } from "../CaptureBtn";
+import { CaptureBtn } from "@/components/CaptureBtn";
 
 export const LangSwitcher = () => {
   const activeLocale = getAppLocale();

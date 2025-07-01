@@ -23,6 +23,7 @@ export interface DialogDrawerProps {
   children: ReactNode;
   title: string;
   isOpen: boolean;
+  backBtn: ReactNode | null;
   onClose: () => void;
 }
 
@@ -31,18 +32,20 @@ const DialogWrapper = ({
   className,
   children,
   title,
+  backBtn = null,
   onClose,
 }: DialogDrawerProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
       <DialogContent className={cn("py-0", className)}>
-        <DialogHeader>
+        <DialogHeader className="relative">
           <DialogTitle className="text-center font-medium font-serif text-3xl mt-4 text-muted-foreground">
             {title}
           </DialogTitle>
           <DialogDescription className="sr-only">
             {`Dialog content for ${title}`}
           </DialogDescription>
+          {backBtn}
         </DialogHeader>
         <div className="py-4 h-full">{children}</div>
       </DialogContent>
@@ -55,18 +58,20 @@ const DrawerWrapper = ({
   children,
   title,
   isOpen,
+  backBtn,
   onClose,
 }: DialogDrawerProps) => {
   return (
     <Drawer open={isOpen} onClose={onClose} autoFocus={isOpen}>
       <DrawerContent className={cn("py-2", className)}>
-        <DrawerHeader>
+        <DrawerHeader className="relative">
           <DrawerTitle className="text-center font-medium font-serif text-3xl text-muted-foreground">
             {title}
           </DrawerTitle>
           <DrawerDescription className="sr-only">
             {`Drawer content for ${title}`}
           </DrawerDescription>
+          {backBtn}
         </DrawerHeader>
         <div className="h-full">{children}</div>
       </DrawerContent>
