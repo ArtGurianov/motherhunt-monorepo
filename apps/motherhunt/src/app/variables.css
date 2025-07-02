@@ -13,5 +13,5 @@
 
   --height-nav: calc(var(--spacing) * 24);
   --height-footer: calc(var(--spacing) * 8);
-  --height-content: calc(100svh - var(--height-nav) - var(--height-footer));
+  --height-content: calc(100% - var(--height-nav) - var(--height-footer));
 }

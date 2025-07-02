@@ -64,7 +64,7 @@ function DrawerContent({
       <DrawerPrimitive.Content
         data-slot="drawer-content"
         className={cn(
-          "bg-background bg-[linear-gradient(to_right,var(--secondary)_1px,transparent_1px),linear-gradient(to_bottom,var(--secondary),transparent_1px)] bg-[size:70px_70px] group/drawer-content fixed z-50 flex h-[90svh] max-h-[90svh] flex-col",
+          "bg-background bg-[linear-gradient(to_right,var(--secondary)_1px,transparent_1px),linear-gradient(to_bottom,var(--secondary),transparent_1px)] bg-[size:70px_70px] group/drawer-content fixed z-50 flex h-9/10 max-h-9/10 flex-col",
           "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 h-full data-[vaul-drawer-direction=top]:rounded-b-3xl border-t-2 border-t-border",
           "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 h-full data-[vaul-drawer-direction=bottom]:rounded-t-3xl border-b-2 border-b-border",
           "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:sm:max-w-sm border-r-2 border-r-border",

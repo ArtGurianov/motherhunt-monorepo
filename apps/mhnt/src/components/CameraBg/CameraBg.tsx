@@ -2,7 +2,7 @@ import Image from "next/image";
 import { CameraCornerSvgUrl, CameraMiddleSvgUrl } from "../Svg";
 
 export const CameraBg = () => (
-  <div className="fixed w-svw h-svh">
+  <div className="fixed w-full h-full">
     <div className="relative h-full -w-full">
       <Image
         src={CameraCornerSvgUrl}
