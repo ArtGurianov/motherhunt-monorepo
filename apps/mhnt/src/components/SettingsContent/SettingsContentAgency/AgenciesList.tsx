@@ -24,13 +24,13 @@ export const AgenciesList = () => {
 
   const { data: organizations, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
-  const { data: activeOrganization } = authClient.useActiveOrganization();
+  // const { data: activeOrganization } = authClient.useActiveOrganization();
 
-  const setActiveOrganization = async (organizationId: string) => {
-    await authClient.organization.setActive({
-      organizationId: organizationId,
-    });
-  };
+  // const setActiveOrganization = async (organizationId: string) => {
+  //   await authClient.organization.setActive({
+  //     organizationId: organizationId,
+  //   });
+  // };
 
   return (
     <InfoCard title="switch">

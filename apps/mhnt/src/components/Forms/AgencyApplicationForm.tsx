@@ -26,7 +26,6 @@ import { Suspense, useState } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { createAgencyApplication } from "@/actions/createAgencyApplication";
-import Link from "next/link";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 
 const formSchema = z.object({
