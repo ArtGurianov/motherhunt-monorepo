@@ -14,7 +14,7 @@ export default async function AgencyApplicationPage() {
   }
 
   return (
-    <div className="flex flex-col gap-12 grow justify-center items-center py-12 w-full px-4">
+    <div className="flex flex-col gap-12 grow justify-center items-center w-full px-4">
       <AgencyApplicationForm />
     </div>
   );
