@@ -1,4 +1,3 @@
-import { CreateAgencyForm } from "@/components/Forms";
 import { auth } from "@/lib/auth/auth";
 import { AGENCY_ENTITIES } from "@/lib/auth/permissions/agency-permissions";
 import { headers } from "next/headers";
@@ -31,7 +30,7 @@ export default async function AgenciesCasesPage() {
 
   return (
     <div className="flex flex-col gap-12 grow justify-center items-center py-12">
-      <CreateAgencyForm />
+      {"approve agency here"}
     </div>
   );
 }

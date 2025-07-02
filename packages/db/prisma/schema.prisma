@@ -79,6 +79,18 @@ model Verification {
   @@map("verification")
 }
 
+model AgencyApplication {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  applicantId     String    @db.ObjectId
+  reviewerId      String?   @db.ObjectId
+  rejectionReason String?
+  name            String
+  slug            String    
+  createdAt       DateTime  @default(now())
+
+  @@unique([slug])
+}
+
 model Organization {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String

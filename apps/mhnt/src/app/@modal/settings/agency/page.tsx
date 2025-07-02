@@ -8,7 +8,7 @@ export default function AgencySettings() {
       <AgenciesList />
       <span className="text-2xl font-mono">{"- or -"}</span>
       <Button asChild size="lg" className="text-2xl font-mono w-full">
-        <Link href="/agency/register" rel="noopener noreferrer" target="_blank">
+        <Link href="/agency/apply" rel="noopener noreferrer" target="_blank">
           {"Register an Agency"}
         </Link>
       </Button>
