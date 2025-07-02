@@ -24,7 +24,12 @@ export const createAgencyApplication = async (name: string, slug: string) => {
     }
 
     await prismaClient.agencyApplication.create({
-      data: { name, slug, applicantId: session.user.id },
+      data: {
+        name,
+        slug,
+        applicantId: session.user.id,
+        applicantEmail: session.user.email,
+      },
     });
 
     return createActionResponse({ data: { success: true } });

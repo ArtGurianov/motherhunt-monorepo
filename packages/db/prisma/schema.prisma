@@ -82,6 +82,7 @@ model Verification {
 model AgencyApplication {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   applicantId     String    @db.ObjectId
+  applicantEmail  String
   reviewerId      String?   @db.ObjectId
   rejectionReason String?
   name            String

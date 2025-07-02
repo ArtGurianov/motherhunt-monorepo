@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function AgencySettings() {
   return (
-    <div className="flex flex-col gap-2 w-full h-full justify-center items-center">
+    <div className="flex flex-col gap-2 w-full h-full justify-start items-center">
       <AgenciesList />
       <span className="text-2xl font-mono">{"- or -"}</span>
       <div className="flex flex-col gap-1">
