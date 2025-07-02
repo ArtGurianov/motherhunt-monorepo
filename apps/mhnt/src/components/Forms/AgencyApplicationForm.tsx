@@ -22,11 +22,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { createAgencyApplication } from "@/actions/createAgencyApplication";
 import Link from "next/link";
+import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -125,9 +126,13 @@ export const AgencyApplicationForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="border-t pt-2 pb-3 bg-accent-foreground/20">
-        <Button asChild size="lg" type="submit" className="w-full">
-          <Link href="/settings/agency">{"View my applications"}</Link>
-        </Button>
+        <Suspense>
+          <Button asChild size="lg" type="submit" className="w-full">
+            <InterceptedLink href="/settings/agency/requests">
+              {"View my requests"}
+            </InterceptedLink>
+          </Button>
+        </Suspense>
       </CardFooter>
     </Card>
   );

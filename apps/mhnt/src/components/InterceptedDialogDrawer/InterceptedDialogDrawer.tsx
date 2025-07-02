@@ -5,7 +5,7 @@ import {
   DialogDrawer,
   DialogDrawerProps,
 } from "@shared/ui/components/DialogDrawer/DialogDrawer";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
@@ -19,6 +19,7 @@ interface InterceptedDialogDrawerProps
 const DIALOG_TITLES_CONFIG: Record<string, string> = {
   "/settings": "User Settings",
   "/settings/agency": "My Agencies",
+  "/settings/agency/requests": "My requests",
 } as const;
 
 export const InterceptedDialogDrawer = ({
@@ -28,6 +29,7 @@ export const InterceptedDialogDrawer = ({
 }: InterceptedDialogDrawerProps) => {
   const pathname = usePathname();
   const particles = pathname.split("/");
+  const params = useSearchParams();
   const { onInterceptedClose } = useCloseIntercepted();
 
   const [isOpen, setIsOpen] = useState(pathname.startsWith(targetPath));
@@ -48,7 +50,9 @@ export const InterceptedDialogDrawer = ({
             size="reset"
             className="absolute top-0 left-4 p-px"
           >
-            <Link href={particles.slice(0, particles.length - 1).join("/")}>
+            <Link
+              href={`${particles.slice(0, particles.length - 1).join("/")}${params.size ? "?" + params.toString() : ""}`}
+            >
               <ArrowBigLeft />
             </Link>
           </Button>

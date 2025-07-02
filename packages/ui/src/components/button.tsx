@@ -23,11 +23,12 @@ const buttonVariants = cva(
         reverse:
           "text-main-foreground bg-main border-2 border-border hover:translate-x-reverseBoxShadowX hover:translate-y-reverseBoxShadowY hover:shadow-shadow",
         flat: "shadow-transparent bg-main hover:bg-secondary border",
+        link: "underline hover:text-accent-foreground",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: "h-10 px-4 py-2 text-lg",
         reset: "h-auto p-0",
-        sm: "h-9 px-3",
+        sm: "h-9 px-3 text-sm",
         lg: "h-11 px-6 text-xl",
         icon: "size-10",
       },

@@ -7,11 +7,16 @@ export default function AgencySettings() {
     <div className="flex flex-col gap-2 w-full h-full justify-center items-center">
       <AgenciesList />
       <span className="text-2xl font-mono">{"- or -"}</span>
-      <Button asChild size="lg" className="text-2xl font-mono w-full">
-        <Link href="/agency/apply" rel="noopener noreferrer" target="_blank">
-          {"Register an Agency"}
-        </Link>
-      </Button>
+      <div className="flex flex-col gap-1">
+        <Button asChild size="lg" className="font-mono">
+          <Link href="/agency/apply" rel="noopener noreferrer" target="_blank">
+            {"Register an Agency"}
+          </Link>
+        </Button>
+        <Button asChild variant="link" className="font-mono">
+          <Link href="/settings/agency/requests">{"view my requests"}</Link>
+        </Button>
+      </div>
     </div>
   );
 }
