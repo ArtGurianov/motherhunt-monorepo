@@ -96,6 +96,8 @@ model Member {
   organizationId String   @db.ObjectId
   role           String
   createdAt      DateTime @default(now())
+
+  @@map("member")
 }
 
 model Invitation {

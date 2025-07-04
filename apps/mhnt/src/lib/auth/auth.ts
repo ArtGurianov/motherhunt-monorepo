@@ -23,9 +23,7 @@ import {
 import { getAppURL, getSiteURL } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
 import { OrganizationBeforeReviewMetadata } from "../utils/types";
-import { getSessionFromDB } from "@/actions/getSessionFromDB";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
-import { APIError } from "./apiError";
+import { sessionUpdateBefore } from "./dbHooks.ts/sessionUpdateBefore";
 
 const options = {
   appName: "motherHunt",
@@ -126,70 +124,7 @@ const options = {
           },
         }),
       },
-      update: {
-        before: async (updateSessionData) => {
-          const updateActiveOrganizationId = (
-            updateSessionData as unknown as {
-              activeOrganizationId: string | null | undefined;
-            }
-          ).activeOrganizationId;
-
-          const {
-            /* eslint-disable @typescript-eslint/no-unused-vars */
-            data: { userId, id, ...oldSession },
-            errorMessage,
-          } = await getSessionFromDB();
-          if (errorMessage) throw new APIError("BAD_REQUEST");
-          if (
-            oldSession &&
-            (!!oldSession.activeOrganizationId ||
-              !!updateActiveOrganizationId) &&
-            oldSession.activeOrganizationId !== updateActiveOrganizationId
-          ) {
-            let updateOrganizationName: string | null | undefined = null;
-            let updateOrganizationRole: string | null | undefined = null;
-            if (updateActiveOrganizationId) {
-              try {
-                const organization = await prismaClient.organization.findFirst({
-                  where: { id: updateActiveOrganizationId },
-                });
-                if (!organization)
-                  throw new AppClientError("Organization Not Found");
-                updateOrganizationName = organization.name;
-
-                updateOrganizationRole = await getMemberRole(
-                  userId,
-                  organization.id
-                );
-                if (!updateOrganizationRole)
-                  throw new AppClientError("Membership not found");
-              } catch {
-                throw new APIError("BAD_REQUEST");
-              }
-              await prismaClient.user.update({
-                where: { id: userId },
-                data: {
-                  recentOrganizationId: updateActiveOrganizationId,
-                  recentOrganizationName: updateOrganizationName,
-                },
-              });
-            }
-            return {
-              data: {
-                ...oldSession,
-                ...updateSessionData,
-                ...(updateOrganizationName && updateOrganizationRole
-                  ? {
-                      activeOrganizationName: updateOrganizationName,
-                      activeOrganizationRole: updateOrganizationRole,
-                    }
-                  : {}),
-              },
-            };
-          }
-          return true;
-        },
-      },
+      update: { before: sessionUpdateBefore },
     },
   },
   // secondaryStorage: {},
