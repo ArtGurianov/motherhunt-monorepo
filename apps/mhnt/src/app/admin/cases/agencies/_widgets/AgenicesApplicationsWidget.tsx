@@ -3,7 +3,6 @@
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
 import { OrganizationAfterReviewMetadata } from "@/lib/utils/types";
-import { Organization } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
 import {
@@ -20,7 +19,6 @@ import { useState } from "react";
 
 export const AgenciesApplicationsWidget = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [targetId, setTargetId] = useState<string | null>(null);
 
   const { data: organizations, isPending } = authClient.useListOrganizations();
   if (isPending) return <span>{"loading..."}</span>;

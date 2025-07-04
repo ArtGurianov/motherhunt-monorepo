@@ -66,7 +66,7 @@ export const getSessionToken = async (
       return null;
     }
     return decodedToken.split(".")[0];
-  } catch (e) {
+  } catch {
     return null;
   }
 };

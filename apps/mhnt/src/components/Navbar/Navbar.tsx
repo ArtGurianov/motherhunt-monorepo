@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -27,8 +27,6 @@ export const Navbar = () => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const t = useTranslations("NAVBAR");
-
-  session;
 
   const { isPending: isActiveMemberPending, data: activeMember } =
     authClient.useActiveMember();

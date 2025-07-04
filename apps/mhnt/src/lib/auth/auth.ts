@@ -67,7 +67,7 @@ const options = {
         const userOrganizations = await prismaClient.member.findMany({
           where: { userId: user.id },
         });
-        for (let each of userOrganizations) {
+        for (const each of userOrganizations) {
           const organizationData = await prismaClient.organization.findFirst({
             where: { id: each.organizationId },
           });
@@ -135,6 +135,7 @@ const options = {
           ).activeOrganizationId;
 
           const {
+            /* eslint-disable @typescript-eslint/no-unused-vars */
             data: { userId, id, ...oldSession },
             errorMessage,
           } = await getSessionFromDB();

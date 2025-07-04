@@ -123,6 +123,7 @@ export class APIError extends Error {
       | ({
           message?: string;
           code?: string;
+          /* eslint-disable @typescript-eslint/no-explicit-any */
         } & Record<string, any>)
       | undefined = undefined,
     public headers: HeadersInit = {},

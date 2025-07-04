@@ -27,7 +27,6 @@ import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 import { authClient } from "@/lib/auth/authClient";
-import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
 
 const formSchema = z.object({
   name: z.string().min(3),
