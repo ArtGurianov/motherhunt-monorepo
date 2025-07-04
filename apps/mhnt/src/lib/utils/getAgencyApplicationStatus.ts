@@ -12,17 +12,21 @@ export const APPLICATION_STATUSES = {
 } as const;
 export type ApplicationStatus = ValueOf<typeof APPLICATION_STATUSES>;
 
-export const getAgencyApplicationStatus = (agencyData: Organization) => {
+export const getAgencyApplicationStatus = (
+  agencyData: Organization
+): { status: ApplicationStatus; rejectionReason?: string } => {
   const metadata = JSON.parse(
     agencyData.metadata!
   ) as unknown as OrganizationBeforeReviewMetadata &
     OrganizationAfterReviewMetadata;
-  console.log(metadata);
   if (metadata.rejectionReason) {
-    return APPLICATION_STATUSES.REJECTED;
+    return {
+      status: APPLICATION_STATUSES.REJECTED,
+      rejectionReason: metadata.rejectionReason,
+    };
   }
   if (metadata.reviewerId) {
-    return APPLICATION_STATUSES.APPROVED;
+    return { status: APPLICATION_STATUSES.APPROVED };
   }
-  return APPLICATION_STATUSES.PENDING;
+  return { status: APPLICATION_STATUSES.PENDING };
 };

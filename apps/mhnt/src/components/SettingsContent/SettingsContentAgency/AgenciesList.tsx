@@ -29,16 +29,9 @@ export const AgenciesList = () => {
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
-  // const { data: activeOrganization } = authClient.useActiveOrganization();
-
-  // const setActiveOrganization = async (organizationId: string) => {
-  //   await authClient.organization.setActive({
-  //     organizationId: organizationId,
-  //   });
-  // };
 
   const displayOrganizations = organizationsData?.reduce((temp, next) => {
-    const status = getAgencyApplicationStatus(next as Organization);
+    const { status } = getAgencyApplicationStatus(next as Organization);
     if (status === APPLICATION_STATUSES.APPROVED) {
       temp.push(next as Organization);
     }

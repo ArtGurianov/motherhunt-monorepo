@@ -51,7 +51,7 @@ export const sessionUpdateBefore = async (
         });
         if (!organization) throw new AppClientError("Organization Not Found");
 
-        applicationStatus = getAgencyApplicationStatus(organization);
+        applicationStatus = getAgencyApplicationStatus(organization).status;
         if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
           updateOrganizationName = organization.name;
           updateOrganizationRole = await getMemberRole(userId, organization.id);

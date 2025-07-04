@@ -105,7 +105,7 @@ export const AgenciesApplicationsWidget = ({
       >
         <CommentForm
           onSubmit={async (value) => {
-            if (targetDataIndex) {
+            if (typeof targetDataIndex === "number") {
               const metadata = JSON.parse(
                 data[targetDataIndex]!.metadata!
               ) as OrganizationBeforeReviewMetadata;
