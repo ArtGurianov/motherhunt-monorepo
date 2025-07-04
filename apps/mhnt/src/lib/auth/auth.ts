@@ -11,20 +11,22 @@ import {
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
 
-import { initializeHeadBooker } from "@/actions/initializeHeadBooker";
 import {
   APP_ROLES,
   APP_ROLES_CONFIG,
   appAccessControl,
 } from "@/lib/auth/permissions/app-permissions";
 import {
+  AGENCY_ROLES,
   AGENCY_ROLES_CONFIG,
   agencyAccessControl,
 } from "@/lib/auth/permissions/agency-permissions";
 import { getAppURL, getSiteURL } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
-import { getSession } from "@/actions/getSession";
+import { OrganizationBeforeReviewMetadata } from "../utils/types";
+import { getSessionFromDB } from "@/actions/getSessionFromDB";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { APIError } from "./apiError";
 
 const options = {
   appName: "motherHunt",
@@ -61,12 +63,45 @@ const options = {
     organizationPlugin({
       ac: agencyAccessControl,
       roles: AGENCY_ROLES_CONFIG,
+      creatorRole: AGENCY_ROLES.HEAD_BOOKER,
+      allowUserToCreateOrganization: async (user) => {
+        const userOrganizations = await prismaClient.member.findMany({
+          where: { userId: user.id },
+        });
+        for (let each of userOrganizations) {
+          const organizationData = await prismaClient.organization.findFirst({
+            where: { id: each.organizationId },
+          });
+          if (
+            !!organizationData?.metadata &&
+            !JSON.parse(organizationData.metadata).reviewerId
+          ) {
+            return false;
+          }
+        }
+        return true;
+      },
       organizationCreation: {
-        afterCreate: async ({ organization: { metadata, id } }) => {
-          await initializeHeadBooker({
-            organizationId: id,
-            headBookerEmail: metadata.headBookerEmail,
-            headBookerId: metadata.headBookerId,
+        beforeCreate: async ({ organization, user }) => {
+          return {
+            data: {
+              ...organization,
+              metadata: {
+                creatorId: user.id,
+                creatorEmail: user.email,
+              } as OrganizationBeforeReviewMetadata,
+            },
+          };
+        },
+        afterCreate: async ({ organization: { metadata } }) => {
+          await sendEmail({
+            to: metadata.creatorEmail,
+            subject: "Organization Setup",
+            meta: {
+              description:
+                "Your agency profile is created and currently under review",
+              link: `${getAppURL()}/signin`,
+            },
           });
         },
       },
@@ -99,7 +134,12 @@ const options = {
               activeOrganizationId: string | null | undefined;
             }
           ).activeOrganizationId;
-          const oldSession = await getSession(updateSessionData.userId!);
+
+          const {
+            data: { userId, id, ...oldSession },
+            errorMessage,
+          } = await getSessionFromDB();
+          if (errorMessage) throw new APIError("BAD_REQUEST");
           if (
             oldSession &&
             (!!oldSession.activeOrganizationId ||
@@ -118,16 +158,16 @@ const options = {
                 updateOrganizationName = organization.name;
 
                 updateOrganizationRole = await getMemberRole(
-                  oldSession.userId,
+                  userId,
                   organization.id
                 );
                 if (!updateOrganizationRole)
                   throw new AppClientError("Membership not found");
-              } catch (e) {
-                console.log(e);
+              } catch {
+                throw new APIError("BAD_REQUEST");
               }
               await prismaClient.user.update({
-                where: { id: oldSession.userId },
+                where: { id: userId },
                 data: {
                   recentOrganizationId: updateActiveOrganizationId,
                   recentOrganizationName: updateOrganizationName,

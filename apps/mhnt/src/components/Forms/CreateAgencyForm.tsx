@@ -25,15 +25,16 @@ import {
 import { Suspense, useState } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
-import { createAgencyApplication } from "@/actions/createAgencyApplication";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
+import { authClient } from "@/lib/auth/authClient";
+import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
 
 const formSchema = z.object({
   name: z.string().min(3),
   slug: z.string().min(3),
 });
 
-export const AgencyApplicationForm = () => {
+export const CreateAgencyForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,9 +49,15 @@ export const AgencyApplicationForm = () => {
   const onSubmit = async ({ name, slug }: z.infer<typeof formSchema>) => {
     setFormStatus("LOADING");
 
-    const result = await createAgencyApplication(name, slug);
-
-    setFormStatus(result.errorMessage ? "ERROR" : "SUCCESS");
+    try {
+      await authClient.organization.create({
+        name,
+        slug,
+      });
+      setFormStatus("SUCCESS");
+    } catch {
+      setFormStatus("ERROR");
+    }
   };
 
   return (

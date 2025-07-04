@@ -1,4 +1,4 @@
-import { AgencyApplicationForm } from "@/components/Forms";
+import { CreateAgencyForm } from "@/components/Forms";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,7 +15,7 @@ export default async function AgencyApplicationPage() {
 
   return (
     <div className="flex flex-col gap-12 grow justify-center items-center w-full px-4">
-      <AgencyApplicationForm />
+      <CreateAgencyForm />
     </div>
   );
 }

@@ -23,7 +23,7 @@ export interface DialogDrawerProps {
   children: ReactNode;
   title: string;
   isOpen: boolean;
-  backBtn: ReactNode | null;
+  backBtn?: ReactNode;
   onClose: () => void;
 }
 
@@ -32,7 +32,7 @@ const DialogWrapper = ({
   className,
   children,
   title,
-  backBtn = null,
+  backBtn,
   onClose,
 }: DialogDrawerProps) => {
   return (

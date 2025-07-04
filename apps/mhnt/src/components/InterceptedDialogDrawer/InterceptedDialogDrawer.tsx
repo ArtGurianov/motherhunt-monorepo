@@ -56,7 +56,7 @@ export const InterceptedDialogDrawer = ({
               <ArrowBigLeft />
             </Link>
           </Button>
-        ) : null
+        ) : undefined
       }
       onClose={() => {
         onInterceptedClose();
