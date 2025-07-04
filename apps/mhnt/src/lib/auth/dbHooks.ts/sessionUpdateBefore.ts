@@ -18,6 +18,7 @@ export const sessionUpdateBefore = async (
   | boolean
   | void
   | {
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       data: Session & Record<string, any>;
     }
 > => {
