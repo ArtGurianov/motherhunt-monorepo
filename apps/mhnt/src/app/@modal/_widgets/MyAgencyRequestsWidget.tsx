@@ -2,7 +2,8 @@
 
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
-import { OrganizationAfterReviewMetadata } from "@/lib/utils/types";
+import { getAgencyApplicationStatus } from "@/lib/utils/getAgencyApplicationStatus";
+import { Organization } from "@shared/db";
 import {
   Table,
   TableBody,
@@ -33,24 +34,19 @@ export const MyAgencyRequestsWidget = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {organizations.map((each) => {
-                const metadata = JSON.stringify(
-                  each.metadata
-                ) as unknown as OrganizationAfterReviewMetadata;
-                return (
-                  <TableRow key={each.id}>
-                    <TableCell className="w-1/3 text-center">
-                      {each.name}
-                    </TableCell>
-                    <TableCell className="w-1/3 text-center">
-                      {each.slug}
-                    </TableCell>
-                    <TableCell className="w-1/3 text-center">
-                      {metadata.rejectionReason ? "rejected" : "pending"}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {organizations.map((each) => (
+                <TableRow key={each.id}>
+                  <TableCell className="w-1/3 text-center">
+                    {each.name}
+                  </TableCell>
+                  <TableCell className="w-1/3 text-center">
+                    {each.slug}
+                  </TableCell>
+                  <TableCell className="w-1/3 text-center">
+                    {getAgencyApplicationStatus(each as Organization)}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         ) : (

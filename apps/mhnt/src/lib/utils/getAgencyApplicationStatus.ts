@@ -13,10 +13,11 @@ export const APPLICATION_STATUSES = {
 export type ApplicationStatus = ValueOf<typeof APPLICATION_STATUSES>;
 
 export const getAgencyApplicationStatus = (agencyData: Organization) => {
-  const metadata = JSON.stringify(
-    agencyData.metadata
+  const metadata = JSON.parse(
+    agencyData.metadata!
   ) as unknown as OrganizationBeforeReviewMetadata &
     OrganizationAfterReviewMetadata;
+  console.log(metadata);
   if (metadata.rejectionReason) {
     return APPLICATION_STATUSES.REJECTED;
   }
