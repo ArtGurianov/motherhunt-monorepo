@@ -20,9 +20,9 @@ export const AuthInfo = () => {
   if (!session) redirect("/signin");
 
   const {
-    isPending: isMemberPending,
-    data: activeMembership,
-    refetch: refetchMembership,
+    isPending: isActiveMemberPending,
+    data: activeMember,
+    refetch: refetchActiveMember,
   } = authClient.useActiveMember();
 
   return (
@@ -30,10 +30,10 @@ export const AuthInfo = () => {
       <InlineData>
         <InlineDataLabel>{"Currently logged in as:"}</InlineDataLabel>
         <InlineDataContent className="relative">
-          {isMemberPending ? (
+          {isActiveMemberPending ? (
             <LoaderCircle className="animate-spin h-6 w-6" />
-          ) : activeMembership ? (
-            activeMembership.role
+          ) : activeMember ? (
+            activeMember.role
           ) : (
             session.user.role
           )}
@@ -49,7 +49,7 @@ export const AuthInfo = () => {
             <span className="text-sm font-bold text-end text-nowrap">
               {"Switch to:"}
             </span>
-            {activeMembership ? (
+            {activeMember ? (
               <>
                 <CaptureBtn
                   shape="horizontal"
@@ -57,7 +57,7 @@ export const AuthInfo = () => {
                     await authClient.organization.setActive({
                       organizationId: null,
                     });
-                    await refetchMembership();
+                    await refetchActiveMember();
                   }}
                 >
                   {"SCOUTER"}

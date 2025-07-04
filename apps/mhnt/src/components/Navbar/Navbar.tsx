@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -22,16 +22,19 @@ import { useTranslations } from "next-intl";
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session, isPending: isSessionPending } =
+    authClient.useSession();
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const t = useTranslations("NAVBAR");
 
+  session;
+
+  const { isPending: isActiveMemberPending, data: activeMember } =
+    authClient.useActiveMember();
   if (pathname === "/signin") return null;
 
-  const activeRole = session?.session.activeOrganizationId
-    ? session.session.activeOrganizationRole
-    : session?.user.role;
+  const activeRole = activeMember ? activeMember.role : session?.user.role;
 
   const displayContent = session ? (
     <div
@@ -126,7 +129,7 @@ export const Navbar = () => {
           )}
         >
           <div className="relative flex h-full justify-center items-center bg-main/95">
-            {isPending ? (
+            {isSessionPending || isActiveMemberPending ? (
               <span className="flex gap-2 justify-center items-center p-6">
                 <LoaderCircle className="animate-spin h-8 w-8" />
                 {"loading... "}

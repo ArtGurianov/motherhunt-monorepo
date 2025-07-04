@@ -10,7 +10,6 @@ import {
 } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
-
 import {
   APP_ROLES,
   APP_ROLES_CONFIG,
@@ -264,24 +263,6 @@ const options = {
         input: false,
       },
     },
-    // changeEmail: {
-    //   enabled: true,
-    //   sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
-    //     // Send change email verification
-    //   },
-    // },
-    // deleteUser: {
-    //   enabled: true,
-    //   sendDeleteAccountVerification: async ({ user, url, token }) => {
-    //     // Send delete account verification
-    //   },
-    //   beforeDelete: async (user) => {
-    //     // Perform actions before user deletion
-    //   },
-    //   afterDelete: async (user) => {
-    //     // Perform cleanup after user deletion
-    //   },
-    // },
   },
 } satisfies BetterAuthOptions;
 
@@ -290,13 +271,16 @@ export const auth = betterAuth({
   plugins: [
     ...(options.plugins ?? []),
     customSession(async ({ user, session }) => {
-      const activeOrganizationId = user.recentOrganizationId;
-      const activeOrganizationName = user.recentOrganizationName;
-      let activeOrganizationRole: string | null = null;
+      const {
+        id: userId,
+        recentOrganizationId: activeOrganizationId,
+        recentOrganizationName: activeOrganizationName,
+      } = user;
 
+      let activeOrganizationRole: string | null = null;
       if (activeOrganizationId) {
         activeOrganizationRole = await getMemberRole(
-          user.id,
+          userId,
           activeOrganizationId
         );
       }
