@@ -2,8 +2,7 @@
 
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
-import { LoaderCircle, LogIn } from "lucide-react";
-import { redirect } from "next/navigation";
+import { Check, LoaderCircle, LogIn } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -13,22 +12,26 @@ import {
   TableHeader,
   TableRow,
 } from "@shared/ui/components/table";
-import Link from "next/link";
 import { Button } from "@shared/ui/components/button";
 import {
   APPLICATION_STATUSES,
   getAgencyApplicationStatus,
 } from "@/lib/utils/getAgencyApplicationStatus";
 import { Organization } from "@shared/db";
+import { useState } from "react";
+import { toast } from "@shared/ui/components/sonner";
 
 export const AgenciesList = () => {
-  const { isPending: isSessionPending, data: sessionData } =
-    authClient.useSession();
-  if (isSessionPending) return "loading...";
-  if (!sessionData) redirect("/signin");
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
+
+  const {
+    isPending: isActiveMemberPending,
+    data: activeMember,
+    refetch: refetchActiveMember,
+  } = authClient.useActiveMember();
 
   const displayOrganizations = organizationsData?.reduce((temp, next) => {
     const { status } = getAgencyApplicationStatus(next as Organization);
@@ -64,13 +67,31 @@ export const AgenciesList = () => {
                 <TableCell className="w-1/3">
                   <div className="h-full w-full flex justify-center items-center">
                     <Button
-                      asChild
+                      disabled={
+                        isAuthLoading ||
+                        activeMember?.organizationId === each.id
+                      }
                       size="reset"
                       className="p-px [&_svg]:size-6"
+                      onClick={async () => {
+                        setIsAuthLoading(true);
+                        try {
+                          await authClient.organization.setActive({
+                            organizationId: each.id,
+                          });
+                          refetchActiveMember();
+                          toast("Switched to agency");
+                        } catch {}
+                        setIsAuthLoading(false);
+                      }}
                     >
-                      <Link href={`/settings/switch/agency/${each.slug}`}>
+                      {isAuthLoading || isActiveMemberPending ? (
+                        <LoaderCircle className="animate-spin" />
+                      ) : activeMember?.organizationId === each.id ? (
+                        <Check />
+                      ) : (
                         <LogIn />
-                      </Link>
+                      )}
                     </Button>
                   </div>
                 </TableCell>

@@ -9,11 +9,15 @@ import {
   InlineDataContent,
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
+import { toast } from "@shared/ui/components/sonner";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useState } from "react";
 
 export const AuthInfo = () => {
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
+
   const { isPending: isSessionPending, data: session } =
     authClient.useSession();
   if (isSessionPending) return "loading...";
@@ -54,13 +58,22 @@ export const AuthInfo = () => {
                 <CaptureBtn
                   shape="horizontal"
                   onClick={async () => {
-                    await authClient.organization.setActive({
-                      organizationId: null,
-                    });
-                    await refetchActiveMember();
+                    setIsAuthLoading(true);
+                    try {
+                      await authClient.organization.setActive({
+                        organizationId: null,
+                      });
+                      refetchActiveMember();
+                      toast("Switched to scouter");
+                    } catch {}
+                    setIsAuthLoading(false);
                   }}
                 >
-                  {"SCOUTER"}
+                  {isAuthLoading ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    "SCOUTER"
+                  )}
                 </CaptureBtn>
                 <span className="text-sm font-bold">{"or"}</span>
               </>
