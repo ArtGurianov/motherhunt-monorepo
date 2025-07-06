@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { InlineDataLabel } from ".";
 import { cn } from "@shared/ui/lib/utils";
 
 interface InlineDataProps {

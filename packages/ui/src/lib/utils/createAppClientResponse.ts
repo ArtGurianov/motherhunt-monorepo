@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { AppClientError } from "./appClientError";
 
 type NonUndefined<T> = T extends undefined ? never : T;

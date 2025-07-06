@@ -1,0 +1,9 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "extends": ["//"],
+    "tasks": {
+        "build": {
+            "env": ["NODE_ENV", "NEXT_PUBLIC_APP_LOCALE"]
+        }
+    }
+}
