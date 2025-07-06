@@ -17,6 +17,9 @@ import { Textarea } from "@shared/ui/components/textarea";
 import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { ErrorBlock } from "./ErrorBlock";
+import { SuccessBlock } from "./SuccessBlock";
 
 const formSchema = z.object({
   value: z.string().min(20),
@@ -35,6 +38,7 @@ export const CommentForm = ({
 }: CommentFormProps) => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -45,11 +49,20 @@ export const CommentForm = ({
   });
 
   const handleSubmit = async ({ value }: z.infer<typeof formSchema>) => {
+    setErrorMessage(null);
     startTransition(async () => {
       try {
+        if (!value || value.length < 20) {
+          throw new AppClientError("Comment must be at least 20 characters");
+        }
         await onSubmit(value);
         setFormStatus("SUCCESS");
-      } catch {
+      } catch (error) {
+        if (error instanceof AppClientError) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
         setFormStatus("ERROR");
       }
     });
@@ -70,12 +83,26 @@ export const CommentForm = ({
               <FormControl className="grow">
                 <Textarea
                   className="h-full"
-                  disabled={isPending}
+                  disabled={isPending || formStatus === "SUCCESS"}
                   placeholder={placeholder}
+                  aria-invalid={!!form.formState.errors.value || !!errorMessage}
                   {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    setFormStatus("PENDING");
+                    setErrorMessage(null);
+                  }}
                 />
               </FormControl>
               <FormMessage />
+              <ErrorBlock message={errorMessage} />
+              <SuccessBlock
+                message={
+                  formStatus === "SUCCESS"
+                    ? "Success! Your comment was submitted."
+                    : undefined
+                }
+              />
             </FormItem>
           )}
         />

@@ -20,6 +20,7 @@ import {
 import { Organization } from "@shared/db";
 import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 export const AgenciesList = () => {
   const [isPending, startTransition] = useTransition();
@@ -80,7 +81,13 @@ export const AgenciesList = () => {
                             });
                             refetchActiveMember();
                             toast("Switched to agency");
-                          } catch {}
+                          } catch (error) {
+                            if (error instanceof AppClientError) {
+                              toast(error.message);
+                            } else {
+                              toast("An unexpected error occurred");
+                            }
+                          }
                         });
                       }}
                     >

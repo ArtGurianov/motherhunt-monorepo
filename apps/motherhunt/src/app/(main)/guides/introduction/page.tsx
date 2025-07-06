@@ -1,6 +1,7 @@
 import MdxLayout from "@/components/MdxLayout/MdxLayout";
 import { getAppLocale } from "@shared/ui/lib/utils";
 import { notFound } from "next/navigation";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 export default async function IntroductionPage() {
   const locale = getAppLocale();
@@ -12,7 +13,10 @@ export default async function IntroductionPage() {
         <Content />
       </MdxLayout>
     );
-  } catch {
+  } catch (error) {
+    if (error instanceof AppClientError) {
+      throw error;
+    }
     notFound();
   }
 }

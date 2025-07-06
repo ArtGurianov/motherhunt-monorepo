@@ -14,6 +14,7 @@ import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useTransition } from "react";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 export const AuthInfo = () => {
   const [isPending, startTransition] = useTransition();
@@ -65,7 +66,13 @@ export const AuthInfo = () => {
                         });
                         refetchActiveMember();
                         toast("Switched to scouter");
-                      } catch {}
+                      } catch (error) {
+                        if (error instanceof AppClientError) {
+                          toast(error.message);
+                        } else {
+                          toast("An unexpected error occurred");
+                        }
+                      }
                     });
                   }}
                 >

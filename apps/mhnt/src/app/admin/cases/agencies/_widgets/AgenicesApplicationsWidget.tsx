@@ -67,12 +67,20 @@ export const AgenciesApplicationsWidget = ({
                         const metadata = JSON.parse(
                           each.metadata!
                         ) as OrganizationBeforeReviewMetadata;
-                        await processAgencyApplication({
-                          organizationId: each.id,
-                          headBookerEmail: metadata.creatorEmail,
-                        });
-                        toast("Approved an agency!");
-                        router.refresh();
+                        try {
+                          await processAgencyApplication({
+                            organizationId: each.id,
+                            headBookerEmail: metadata.creatorEmail,
+                          });
+                          toast("Approved an agency!");
+                          router.refresh();
+                        } catch (error) {
+                          if (error instanceof Error) {
+                            toast(error.message);
+                          } else {
+                            toast("An unexpected error occurred");
+                          }
+                        }
                       }}
                     >
                       <ThumbsUp />
@@ -109,14 +117,22 @@ export const AgenciesApplicationsWidget = ({
               const metadata = JSON.parse(
                 data[targetDataIndex]!.metadata!
               ) as OrganizationBeforeReviewMetadata;
-              await processAgencyApplication({
-                organizationId: data[targetDataIndex]!.id,
-                headBookerEmail: metadata.creatorEmail,
-                rejectionReason: value,
-              });
-              setTargetDataIndex(null);
-              toast("Rejected an agency!");
-              router.refresh();
+              try {
+                await processAgencyApplication({
+                  organizationId: data[targetDataIndex]!.id,
+                  headBookerEmail: metadata.creatorEmail,
+                  rejectionReason: value,
+                });
+                setTargetDataIndex(null);
+                toast("Rejected an agency!");
+                router.refresh();
+              } catch (error) {
+                if (error instanceof Error) {
+                  toast(error.message);
+                } else {
+                  toast("An unexpected error occurred");
+                }
+              }
             }
           }}
         />

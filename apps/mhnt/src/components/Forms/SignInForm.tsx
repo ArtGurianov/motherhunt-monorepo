@@ -29,6 +29,9 @@ import { LoaderCircle } from "lucide-react";
 import { HCaptchaFormItem } from "@/components/HCaptchaFormItem/HCaptchaFormItem";
 import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { ErrorBlock } from "./ErrorBlock";
+import { SuccessBlock } from "./SuccessBlock";
 
 const formSchema = z.object({
   email: z.email(),
@@ -38,6 +41,7 @@ const formSchema = z.object({
 export const SignInForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const hCaptchaRef = useRef<HCaptcha>(null);
 
@@ -54,17 +58,38 @@ export const SignInForm = () => {
     email,
     hCaptchaToken,
   }: z.infer<typeof formSchema>) => {
+    setErrorMessage(null);
     startTransition(async () => {
-      const result = await authClient.signIn.magicLink({
-        email,
-        callbackURL: "/?toast=SIGNED_IN",
-        fetchOptions: {
-          headers: {
-            "x-captcha-response": hCaptchaToken,
+      try {
+        if (!email) {
+          throw new AppClientError("Email is required");
+        }
+        if (!hCaptchaToken) {
+          throw new AppClientError("You must verify you're human");
+        }
+        const result = await authClient.signIn.magicLink({
+          email,
+          callbackURL: "/?toast=SIGNED_IN",
+          fetchOptions: {
+            headers: {
+              "x-captcha-response": hCaptchaToken,
+            },
           },
-        },
-      });
-      setFormStatus(result.error ? "ERROR" : "SUCCESS");
+        });
+        if (result?.error) {
+          setErrorMessage(result.error.message || "Failed to sign in");
+          setFormStatus("ERROR");
+          return;
+        }
+        setFormStatus("SUCCESS");
+      } catch (error) {
+        if (error instanceof AppClientError) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
+        setFormStatus("ERROR");
+      }
     });
   };
 
@@ -87,9 +112,17 @@ export const SignInForm = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      disabled={isPending || formStatus === "SUCCESS"}
                       placeholder="type your email"
+                      aria-invalid={
+                        !!form.formState.errors.email || !!errorMessage
+                      }
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setFormStatus("PENDING");
+                        setErrorMessage(null);
+                      }}
                     />
                   </FormControl>
                   <FormDescription>{"Some description"}</FormDescription>
@@ -108,6 +141,14 @@ export const SignInForm = () => {
                   />
                 );
               }}
+            />
+            <ErrorBlock message={errorMessage} />
+            <SuccessBlock
+              message={
+                formStatus === "SUCCESS"
+                  ? "Email sent! Please check your inbox."
+                  : undefined
+              }
             />
             <div className="relative w-full flex justify-end items-center">
               <div className="absolute z-10 left-0 top-0">

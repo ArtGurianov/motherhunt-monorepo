@@ -5,6 +5,7 @@ import { Checkbox } from "@shared/ui/components/checkbox";
 import { toast } from "@shared/ui/components/sonner";
 import { Ban, LoaderCircle } from "lucide-react";
 import { useState, useTransition } from "react";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 interface ToggleStateFieldProps {
   label: string;
@@ -38,8 +39,13 @@ export const ToggleStateField = ({
                 await onToggle();
                 setValue((prev) => !prev);
                 toast("Value updated!");
-              } catch {
+              } catch (error) {
                 setIsError(true);
+                if (error instanceof AppClientError) {
+                  toast(error.message);
+                } else {
+                  toast("An unexpected error occurred");
+                }
               }
             });
           }}

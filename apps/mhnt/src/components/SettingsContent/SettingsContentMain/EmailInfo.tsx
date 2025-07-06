@@ -6,6 +6,7 @@ import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ToggleStateField } from "@/components/ToggleStateField/ToggleStateField";
 import { authClient } from "@/lib/auth/authClient";
 import { redirect } from "next/navigation";
+import { toast } from "@shared/ui/components/sonner";
 
 export const EmailInfo = () => {
   const { isPending, data, refetch } = authClient.useSession();
@@ -19,22 +20,38 @@ export const EmailInfo = () => {
         label="Subscribe to system notifications:"
         currentValue={data.user.isSystemEmailsEnabled}
         onToggle={async () => {
-          await changeUserToggleState(
-            "isSystemEmailsEnabled",
-            !data.user.isSystemEmailsEnabled
-          );
-          refetch();
+          try {
+            await changeUserToggleState(
+              "isSystemEmailsEnabled",
+              !data.user.isSystemEmailsEnabled
+            );
+            refetch();
+          } catch (error) {
+            if (error instanceof Error) {
+              toast(error.message);
+            } else {
+              toast("An unexpected error occurred");
+            }
+          }
         }}
       />
       <ToggleStateField
         label="Subscribe to newsletter:"
         currentValue={data.user.isNewsletterEmailsEnabled}
         onToggle={async () => {
-          await changeUserToggleState(
-            "isNewsletterEmailsEnabled",
-            !data.user.isNewsletterEmailsEnabled
-          );
-          refetch();
+          try {
+            await changeUserToggleState(
+              "isNewsletterEmailsEnabled",
+              !data.user.isNewsletterEmailsEnabled
+            );
+            refetch();
+          } catch (error) {
+            if (error instanceof Error) {
+              toast(error.message);
+            } else {
+              toast("An unexpected error occurred");
+            }
+          }
         }}
       />
     </InfoCard>

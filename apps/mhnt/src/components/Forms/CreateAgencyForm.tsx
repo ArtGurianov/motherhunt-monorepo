@@ -27,6 +27,9 @@ import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 import { authClient } from "@/lib/auth/authClient";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { ErrorBlock } from "./ErrorBlock";
+import { SuccessBlock } from "./SuccessBlock";
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -36,6 +39,7 @@ const formSchema = z.object({
 export const CreateAgencyForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -47,14 +51,29 @@ export const CreateAgencyForm = () => {
   });
 
   const onSubmit = async ({ name, slug }: z.infer<typeof formSchema>) => {
+    setErrorMessage(null);
     startTransition(async () => {
       try {
-        await authClient.organization.create({
+        if (!name || !slug) {
+          throw new AppClientError("Name and slug are required");
+        }
+        const result = await authClient.organization.create({
           name,
           slug,
         });
+        if (result?.error) {
+          setErrorMessage(result.error.message || "Failed to create agency");
+          setFormStatus("ERROR");
+          return;
+        }
         setFormStatus("SUCCESS");
-      } catch {
+        form.reset();
+      } catch (error) {
+        if (error instanceof AppClientError) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
         setFormStatus("ERROR");
       }
     });
@@ -73,12 +92,18 @@ export const CreateAgencyForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{"Agency Name"}</FormLabel>
+                  <FormLabel htmlFor="agency-name">{"Agency Name"}</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      id="agency-name"
+                      aria-invalid={!!form.formState.errors.name}
+                      disabled={isPending || formStatus === "SUCCESS"}
                       placeholder="Provide name of the agency"
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setErrorMessage(null);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -90,12 +115,18 @@ export const CreateAgencyForm = () => {
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{"Agency Slug"}</FormLabel>
+                  <FormLabel htmlFor="agency-slug">{"Agency Slug"}</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      id="agency-slug"
+                      aria-invalid={!!form.formState.errors.slug}
+                      disabled={isPending || formStatus === "SUCCESS"}
                       placeholder="Enter unique slug of the agency"
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setErrorMessage(null);
+                      }}
                     />
                   </FormControl>
                   <FormDescription>
@@ -104,6 +135,14 @@ export const CreateAgencyForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+            <ErrorBlock message={errorMessage} />
+            <SuccessBlock
+              message={
+                formStatus === "SUCCESS"
+                  ? "Agency created successfully!"
+                  : undefined
+              }
             />
             <div className="w-full flex justify-end items-center">
               {formStatus === "SUCCESS" ? (

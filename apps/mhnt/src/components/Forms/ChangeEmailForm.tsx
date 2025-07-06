@@ -18,6 +18,9 @@ import { authClient } from "@/lib/auth/authClient";
 import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { ErrorBlock } from "./ErrorBlock";
+import { SuccessBlock } from "./SuccessBlock";
 
 interface ChangeEmailFormProps {
   currentEmail: string;
@@ -30,6 +33,7 @@ const formSchema = z.object({
 export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -40,12 +44,30 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
   });
 
   const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
+    setErrorMessage(null);
     startTransition(async () => {
-      const result = await authClient.changeEmail({
-        newEmail: email,
-        callbackURL: "/?toast=UPDATED",
-      });
-      setFormStatus(result.error ? "ERROR" : "SUCCESS");
+      try {
+        if (!email) {
+          throw new AppClientError("Email is required");
+        }
+        const result = await authClient.changeEmail({
+          newEmail: email,
+          callbackURL: "/?toast=UPDATED",
+        });
+        if (result?.error) {
+          setErrorMessage(result.error.message || "Failed to change email");
+          setFormStatus("ERROR");
+          return;
+        }
+        setFormStatus("SUCCESS");
+      } catch (error) {
+        if (error instanceof AppClientError) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
+        setFormStatus("ERROR");
+      }
     });
   };
 
@@ -56,7 +78,9 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
       variant="flat"
       size="sm"
       disabled={
-        !form.formState.isValid || !!Object.keys(form.formState.errors).length
+        !form.formState.isValid ||
+        !!Object.keys(form.formState.errors).length ||
+        isPending
       }
     >
       {"Verify"}
@@ -86,12 +110,16 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
               <div className="relative">
                 <FormControl>
                   <Input
-                    disabled={isPending}
+                    disabled={isPending || formStatus === "SUCCESS"}
                     placeholder="type your new email"
+                    aria-invalid={
+                      !!form.formState.errors.email || !!errorMessage
+                    }
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
                       setFormStatus("PENDING");
+                      setErrorMessage(null);
                     }}
                   />
                 </FormControl>
@@ -100,6 +128,14 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
                 </div>
               </div>
               <FormMessage />
+              <ErrorBlock message={errorMessage} />
+              <SuccessBlock
+                message={
+                  formStatus === "SUCCESS"
+                    ? "Email change request sent. Please check your inbox."
+                    : undefined
+                }
+              />
             </FormItem>
           )}
         />

@@ -1,6 +1,7 @@
 "use server";
 
 import { transporter } from "@/lib/nodemailer";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 const styles = {
   container:
@@ -39,7 +40,10 @@ export const sendEmail = async ({
     await transporter.sendMail(mailOptions);
     return { success: true };
   } catch (e) {
+    if (e instanceof AppClientError) {
+      return { success: false, error: e.message };
+    }
     console.error("sendEmailAction: ", e);
-    return { success: false };
+    return { success: false, error: "Server error" };
   }
 };

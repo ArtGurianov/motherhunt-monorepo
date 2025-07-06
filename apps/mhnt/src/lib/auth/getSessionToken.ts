@@ -1,4 +1,5 @@
 import { createHMAC } from "@better-auth/utils/hmac";
+import { APIError } from "./apiError";
 
 function parseCookies(cookieHeader: string) {
   const cookies = cookieHeader.split("; ");
@@ -53,20 +54,17 @@ export const getSessionToken = async (
     path?: string;
   }
 ) => {
-  try {
-    const token = getSessionCookie(request, config);
-    if (!token) return null;
-    const decodedToken = decodeURIComponent(token);
-    const isValid = await createHMAC("SHA-256", "base64urlnopad").verify(
-      process.env.BETTER_AUTH_SECRET!,
-      decodedToken.split(".")[0]!,
-      decodedToken.split(".")[1]!
-    );
-    if (!isValid) {
-      return null;
-    }
-    return decodedToken.split(".")[0];
-  } catch {
-    return null;
+  const token = getSessionCookie(request, config);
+  if (!token)
+    throw new APIError("UNAUTHORIZED", { message: "Session token not found" });
+  const decodedToken = decodeURIComponent(token);
+  const isValid = await createHMAC("SHA-256", "base64urlnopad").verify(
+    process.env.BETTER_AUTH_SECRET!,
+    decodedToken.split(".")[0]!,
+    decodedToken.split(".")[1]!
+  );
+  if (!isValid) {
+    throw new APIError("UNAUTHORIZED", { message: "Invalid session token" });
   }
+  return decodedToken.split(".")[0];
 };

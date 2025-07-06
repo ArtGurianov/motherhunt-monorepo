@@ -1,15 +1,14 @@
 "use server";
 
 import { prismaClient } from "@/lib/db";
-import { Member } from "@shared/db";
+import { APIError } from "@/lib/auth/apiError";
 
 export const getMemberRole = async (userId: string, organizationId: string) => {
-  let membership: Member | null = null;
-  try {
-    membership = await prismaClient.member.findFirst({
-      where: { userId, organizationId },
-    });
-  } catch {}
-
-  return membership?.role ?? null;
+  const membership = await prismaClient.member.findFirst({
+    where: { userId, organizationId },
+  });
+  if (!membership) {
+    throw new APIError("NOT_FOUND", { message: "Membership not found" });
+  }
+  return membership.role;
 };
