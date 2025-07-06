@@ -18,11 +18,11 @@ import {
   getAgencyApplicationStatus,
 } from "@/lib/utils/getAgencyApplicationStatus";
 import { Organization } from "@shared/db";
-import { useState } from "react";
+import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 
 export const AgenciesList = () => {
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
@@ -68,24 +68,23 @@ export const AgenciesList = () => {
                   <div className="h-full w-full flex justify-center items-center">
                     <Button
                       disabled={
-                        isAuthLoading ||
-                        activeMember?.organizationId === each.id
+                        isPending || activeMember?.organizationId === each.id
                       }
                       size="reset"
                       className="p-px [&_svg]:size-6"
-                      onClick={async () => {
-                        setIsAuthLoading(true);
-                        try {
-                          await authClient.organization.setActive({
-                            organizationId: each.id,
-                          });
-                          refetchActiveMember();
-                          toast("Switched to agency");
-                        } catch {}
-                        setIsAuthLoading(false);
+                      onClick={() => {
+                        startTransition(async () => {
+                          try {
+                            await authClient.organization.setActive({
+                              organizationId: each.id,
+                            });
+                            refetchActiveMember();
+                            toast("Switched to agency");
+                          } catch {}
+                        });
                       }}
                     >
-                      {isAuthLoading || isActiveMemberPending ? (
+                      {isPending || isActiveMemberPending ? (
                         <LoaderCircle className="animate-spin" />
                       ) : activeMember?.organizationId === each.id ? (
                         <Check />

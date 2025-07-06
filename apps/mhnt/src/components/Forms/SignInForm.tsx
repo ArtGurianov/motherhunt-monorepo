@@ -23,7 +23,7 @@ import {
   CardTitle,
 } from "@shared/ui/components/card";
 import { authClient } from "@/lib/auth/authClient";
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { HCaptchaFormItem } from "@/components/HCaptchaFormItem/HCaptchaFormItem";
@@ -37,6 +37,7 @@ const formSchema = z.object({
 
 export const SignInForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+  const [isPending, startTransition] = useTransition();
 
   const hCaptchaRef = useRef<HCaptcha>(null);
 
@@ -53,17 +54,18 @@ export const SignInForm = () => {
     email,
     hCaptchaToken,
   }: z.infer<typeof formSchema>) => {
-    setFormStatus("LOADING");
-    const result = await authClient.signIn.magicLink({
-      email,
-      callbackURL: "/?toast=SIGNED_IN",
-      fetchOptions: {
-        headers: {
-          "x-captcha-response": hCaptchaToken,
+    startTransition(async () => {
+      const result = await authClient.signIn.magicLink({
+        email,
+        callbackURL: "/?toast=SIGNED_IN",
+        fetchOptions: {
+          headers: {
+            "x-captcha-response": hCaptchaToken,
+          },
         },
-      },
+      });
+      setFormStatus(result.error ? "ERROR" : "SUCCESS");
     });
-    setFormStatus(result.error ? "ERROR" : "SUCCESS");
   };
 
   return (
@@ -85,7 +87,7 @@ export const SignInForm = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={formStatus === "LOADING"}
+                      disabled={isPending}
                       placeholder="type your email"
                       {...field}
                     />
@@ -121,12 +123,12 @@ export const SignInForm = () => {
                   variant="secondary"
                   size="lg"
                   disabled={
-                    formStatus === "LOADING" ||
+                    isPending ||
                     !form.formState.isValid ||
                     !!Object.keys(form.formState.errors).length
                   }
                 >
-                  {formStatus === "LOADING" ? (
+                  {isPending ? (
                     <LoaderCircle className="py-1 animate-spin h-8 w-8" />
                   ) : (
                     "Send link"

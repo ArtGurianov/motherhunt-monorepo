@@ -13,10 +13,10 @@ import { toast } from "@shared/ui/components/sonner";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useTransition } from "react";
 
 export const AuthInfo = () => {
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const { isPending: isSessionPending, data: session } =
     authClient.useSession();
@@ -57,19 +57,19 @@ export const AuthInfo = () => {
               <>
                 <CaptureBtn
                   shape="horizontal"
-                  onClick={async () => {
-                    setIsAuthLoading(true);
-                    try {
-                      await authClient.organization.setActive({
-                        organizationId: null,
-                      });
-                      refetchActiveMember();
-                      toast("Switched to scouter");
-                    } catch {}
-                    setIsAuthLoading(false);
+                  onClick={() => {
+                    startTransition(async () => {
+                      try {
+                        await authClient.organization.setActive({
+                          organizationId: null,
+                        });
+                        refetchActiveMember();
+                        toast("Switched to scouter");
+                      } catch {}
+                    });
                   }}
                 >
-                  {isAuthLoading ? (
+                  {isPending ? (
                     <LoaderCircle className="animate-spin" />
                   ) : (
                     "SCOUTER"

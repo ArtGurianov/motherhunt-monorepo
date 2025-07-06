@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@shared/ui/components/form";
 import { Textarea } from "@shared/ui/components/textarea";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 
@@ -34,6 +34,7 @@ export const CommentForm = ({
   onSubmit,
 }: CommentFormProps) => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -44,14 +45,14 @@ export const CommentForm = ({
   });
 
   const handleSubmit = async ({ value }: z.infer<typeof formSchema>) => {
-    setFormStatus("LOADING");
-
-    try {
-      await onSubmit(value);
-      setFormStatus("SUCCESS");
-    } catch {
-      setFormStatus("ERROR");
-    }
+    startTransition(async () => {
+      try {
+        await onSubmit(value);
+        setFormStatus("SUCCESS");
+      } catch {
+        setFormStatus("ERROR");
+      }
+    });
   };
 
   return (
@@ -69,7 +70,7 @@ export const CommentForm = ({
               <FormControl className="grow">
                 <Textarea
                   className="h-full"
-                  disabled={formStatus === "LOADING"}
+                  disabled={isPending}
                   placeholder={placeholder}
                   {...field}
                 />
@@ -89,11 +90,11 @@ export const CommentForm = ({
               variant="secondary"
               disabled={
                 !form.formState.isDirty ||
-                formStatus === "LOADING" ||
+                isPending ||
                 !!Object.keys(form.formState.errors).length
               }
             >
-              {formStatus === "LOADING" ? (
+              {isPending ? (
                 <LoaderCircle className="py-1 animate-spin h-8 w-8" />
               ) : (
                 "Submit"

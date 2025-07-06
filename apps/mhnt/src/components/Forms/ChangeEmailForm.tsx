@@ -15,7 +15,7 @@ import {
 } from "@shared/ui/components/form";
 import { Input } from "@shared/ui/components/input";
 import { authClient } from "@/lib/auth/authClient";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 
@@ -29,6 +29,7 @@ const formSchema = z.object({
 
 export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -39,12 +40,13 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
   });
 
   const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
-    setFormStatus("LOADING");
-    const result = await authClient.changeEmail({
-      newEmail: email,
-      callbackURL: "/?toast=UPDATED",
+    startTransition(async () => {
+      const result = await authClient.changeEmail({
+        newEmail: email,
+        callbackURL: "/?toast=UPDATED",
+      });
+      setFormStatus(result.error ? "ERROR" : "SUCCESS");
     });
-    setFormStatus(result.error ? "ERROR" : "SUCCESS");
   };
 
   let displayAction = (
@@ -64,7 +66,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     displayAction = <span className="text-green-500">{"Verified"}</span>;
   } else if (formStatus === "SUCCESS") {
     displayAction = <span>{"Email sent"}</span>;
-  } else if (formStatus === "LOADING") {
+  } else if (isPending) {
     displayAction = (
       <span className="px-4">
         <LoaderCircle className="animate-spin h-6 w-6" />
@@ -84,7 +86,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
               <div className="relative">
                 <FormControl>
                   <Input
-                    disabled={formStatus === "LOADING"}
+                    disabled={isPending}
                     placeholder="type your new email"
                     {...field}
                     onChange={(e) => {

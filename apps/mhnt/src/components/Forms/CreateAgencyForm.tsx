@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
@@ -35,6 +35,7 @@ const formSchema = z.object({
 
 export const CreateAgencyForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -46,17 +47,17 @@ export const CreateAgencyForm = () => {
   });
 
   const onSubmit = async ({ name, slug }: z.infer<typeof formSchema>) => {
-    setFormStatus("LOADING");
-
-    try {
-      await authClient.organization.create({
-        name,
-        slug,
-      });
-      setFormStatus("SUCCESS");
-    } catch {
-      setFormStatus("ERROR");
-    }
+    startTransition(async () => {
+      try {
+        await authClient.organization.create({
+          name,
+          slug,
+        });
+        setFormStatus("SUCCESS");
+      } catch {
+        setFormStatus("ERROR");
+      }
+    });
   };
 
   return (
@@ -75,7 +76,7 @@ export const CreateAgencyForm = () => {
                   <FormLabel>{"Agency Name"}</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={formStatus === "LOADING"}
+                      disabled={isPending}
                       placeholder="Provide name of the agency"
                       {...field}
                     />
@@ -92,7 +93,7 @@ export const CreateAgencyForm = () => {
                   <FormLabel>{"Agency Slug"}</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={formStatus === "LOADING"}
+                      disabled={isPending}
                       placeholder="Enter unique slug of the agency"
                       {...field}
                     />
@@ -115,11 +116,11 @@ export const CreateAgencyForm = () => {
                   variant="secondary"
                   disabled={
                     !form.formState.isDirty ||
-                    formStatus === "LOADING" ||
+                    isPending ||
                     !!Object.keys(form.formState.errors).length
                   }
                 >
-                  {formStatus === "LOADING" ? (
+                  {isPending ? (
                     <LoaderCircle className="py-1 animate-spin h-8 w-8" />
                   ) : (
                     "Register"
