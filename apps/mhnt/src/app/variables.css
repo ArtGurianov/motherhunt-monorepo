@@ -4,7 +4,7 @@
   --secondary: oklch(57.93% 0.18418 296.432);
   --foreground: var(--primary);
   --main-foreground: var(--primary);
-  --accent-foreground: #74824c;
+  --accent-foreground: oklch(58.16% 0.0782 120.75);
   --main: oklch(22.213% 0.00003 271.152);
   --border: var(--primary);
   --ring: var(--primary);
@@ -14,5 +14,5 @@
   --height-gaps: calc(
     var(--spacing) * 8 + var(--spacing) * 4 + var(--spacing) * 4
   );
-  --height-content: calc(100% - var(--height-nav) - var(--height-gaps));
+  --height-content: calc(100svh - var(--height-nav) - var(--height-gaps));
 }

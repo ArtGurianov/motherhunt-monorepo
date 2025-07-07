@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       <body
-        className={`relative ${geistSans.variable} ${geistMono.variable} overflow-x-clip antialiased`}
+        className={`relative ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CameraBg />
         <main className="relative flex flex-col min-h-svh w-full pt-8">
