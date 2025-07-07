@@ -3,5 +3,136 @@
     "signed-in-label": "Вход выполнен как",
     "signed-out-label": "Вход в аккаунт",
     "signed-out-status": "НЕ ВЫПОЛНЕН"
+  },
+  "ROLES": {
+    "SCOUTER": "СКАУТ",
+    "HEAD_BOOKER": "ГЛАВНЫЙ БУКЕР",
+    "BOOKER": "БУКЕР",
+    "ADMIN": "АДМИН",
+    "SUPER_ADMIN": "СУПЕР АДМИН"
+  },
+  "APPLICATION_STATUSES": {
+    "PENDING": "В ожидании",
+    "APPROVED": "Одобрено",
+    "REJECTED": "Отклонено"
+  },
+  "SIGNIN": {
+    "title": "Войти в аккаунт",
+    "description": "Введите ваш email для входа",
+    "email-label": "Электронная почта",
+    "email-placeholder": "введите ваш email",
+    "email-description": "Описание поля email",
+    "success-message": "Письмо отправлено! Проверьте вашу почту.",
+    "send-link": "Войти"
+  },
+  "CHANGE_EMAIL": {
+    "verify": "Подтвердить",
+    "verified": "Подтверждено",
+    "email-sent": "Письмо отправлено",
+    "email-label": "Электронная почта",
+    "email-placeholder": "введите новый email",
+    "success-message": "Запрос на смену email отправлен. Проверьте вашу почту."
+  },
+  "COMMENT": {
+    "label": "Комментарий",
+    "placeholder": "Напишите ваш комментарий",
+    "success-message": "Успешно! Комментарий отправлен.",
+    "submit": "Отправить"
+  },
+  "CREATE_AGENCY": {
+    "title": "Заявка на агентство",
+    "name-label": "Название агентства",
+    "name-placeholder": "Введите название агентства",
+    "slug-label": "Слаг агентства",
+    "slug-placeholder": "Введите уникальный слаг агентства",
+    "slug-description": "Будет использоваться как уникальный идентификатор",
+    "success-message": "Агентство успешно создано!",
+    "register": "Зарегистрировать",
+    "view-requests": "Посмотреть мои заявки"
+  },
+  "ADMIN_AGENCY_APPLICATIONS": {
+    "table-caption": "Список ожидающих заявок",
+    "name": "Название",
+    "slug": "Слаг",
+    "created-at": "Создано",
+    "action": "Действие",
+    "no-applications": "Нет ожидающих заявок.",
+    "reject-title": "Отклонить заявку агентства",
+    "approved-message": "Агентство одобрено!",
+    "rejected-message": "Агентство отклонено!"
+  },
+  "AGENCIES_LIST": {
+    "table-caption": "Список ваших агентств.",
+    "name": "Название",
+    "slug": "Слаг",
+    "enter": "Войти",
+    "no-membership": "Вы не состоите в агентствах."
+  },
+  "MY_AGENCY_REQUESTS": {
+    "table-caption": "Список ваших заявок",
+    "name": "Название",
+    "slug": "Слаг",
+    "status": "Статус",
+    "no-requests": "Нет заявок на создание агентства."
+  },
+  "AUTH_INFO": {
+    "logged-in-as": "Вход выполнен как:",
+    "active": "АКТИВЕН",
+    "switch-to": "Переключиться на:",
+    "scouter": "СКАУТЕР",
+    "or": "или",
+    "agency": "АГЕНТСТВО",
+    "switched-to-scouter": "Переключился на скаутера",
+    "switched-to-agency": "Переключился на агентство"
+  },
+  "SETTINGS_DIALOG_TITLES": {
+    "settings": "Настройки пользователя",
+    "agency": "Мои агентства",
+    "requests": "Мои заявки",
+    "default": "Неизвестный путь"
+  },
+  "TOGGLE_STATE": {
+    "updated": "Значение обновлено!",
+    "unexpected-error": "Произошла непредвиденная ошибка"
+  },
+  "EMAIL": {
+    "agency-rejected-subject": "Агентство отклонено",
+    "agency-rejected-description": "Ваша заявка на создание агентства была отклонена. Причина: {reason}",
+    "agency-accepted-subject": "Агентство принято",
+    "agency-accepted-description": "Поздравляем! Ваше агентство создано! Войдите и начните бронировать моделей!",
+    "magic-link-subject": "Вход в аккаунт",
+    "magic-link-description": "Вы запросили вход на mhnt.app",
+    "org-setup-subject": "Создание агентства",
+    "org-setup-description": "Профиль вашего агентства создан и находится на рассмотрении",
+    "change-email-subject": "Смена email",
+    "change-email-description": "Вы запросили смену email для mhnt.app",
+    "cta": "Перейти по ссылке"
+  },
+  "INFO_CARD_TITLES": {
+    "requests": "заявки",
+    "applications": "заявки",
+    "email": "почта",
+    "account": "аккаунт",
+    "switch": "переключение"
+  },
+  "TOGGLE_LABELS": {
+    "system-notifications": "Подписаться на системные уведомления:",
+    "newsletter": "Подписаться на рассылку:"
+  },
+  "ACTION_BUTTONS": {
+    "sign-out": "Выйти"
+  },
+  "COMMON": {
+    "loading": "загрузка...",
+    "unexpected-error": "Произошла непредвиденная ошибка. Попробуйте еще раз."
+  },
+  "AGENCY_SETTINGS": {
+    "register-agency": "Зарегистрировать агентство",
+    "view-requests": "посмотреть мои заявки",
+    "or-separator": "- или -"
+  },
+  "NOT_FOUND": {
+    "page-not-found": "Страница не найдена",
+    "go-home": "Вернись домой"
   }
 }

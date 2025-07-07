@@ -20,10 +20,14 @@ import {
   AGENCY_ROLES_CONFIG,
   agencyAccessControl,
 } from "@/lib/auth/permissions/agency-permissions";
-import { getAppURL, getSiteURL } from "@shared/ui/lib/utils";
+import { getAppURL, getSiteURL, getAppLocale } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
 import { OrganizationBeforeReviewMetadata } from "../utils/types";
 import { sessionUpdateBefore } from "./dbHooks.ts/sessionUpdateBefore";
+import { getTranslations } from "next-intl/server";
+
+const locale = getAppLocale();
+const t = await getTranslations({ locale, namespace: "EMAIL" });
 
 const options = {
   appName: "motherHunt",
@@ -42,9 +46,9 @@ const options = {
       sendMagicLink: async ({ email, url }) => {
         await sendEmail({
           to: email,
-          subject: "Sign in",
+          subject: t("magic-link-subject"),
           meta: {
-            description: "You requested a login to mhnt.app",
+            description: t("magic-link-description"),
             link: url,
           },
         });
@@ -93,11 +97,10 @@ const options = {
         afterCreate: async ({ organization: { metadata } }) => {
           await sendEmail({
             to: metadata.creatorEmail,
-            subject: "Organization Setup",
+            subject: t("org-setup-subject"),
             meta: {
-              description:
-                "Your agency profile is created and currently under review",
-              link: `${getAppURL()}/signin`,
+              description: t("org-setup-description"),
+              link: `${getAppURL(locale)}/signin`,
             },
           });
         },
@@ -167,9 +170,9 @@ const options = {
       sendChangeEmailVerification: async ({ newEmail, url }) => {
         await sendEmail({
           to: newEmail,
-          subject: "Change email",
+          subject: t("change-email-subject"),
           meta: {
-            description: "You requested to change your email for mhnt.app",
+            description: t("change-email-description"),
             link: url,
           },
         });

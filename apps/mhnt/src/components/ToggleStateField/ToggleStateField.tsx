@@ -6,6 +6,7 @@ import { toast } from "@shared/ui/components/sonner";
 import { Ban, LoaderCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { useTranslations } from "next-intl";
 
 interface ToggleStateFieldProps {
   label: string;
@@ -21,6 +22,7 @@ export const ToggleStateField = ({
   const [value, setValue] = useState(currentValue);
   const [isError, setIsError] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("TOGGLE_STATE");
 
   return (
     <Quote className="flex py-px px-2 items-center justify-between">
@@ -38,13 +40,13 @@ export const ToggleStateField = ({
               try {
                 await onToggle();
                 setValue((prev) => !prev);
-                toast("Value updated!");
+                toast(t("updated"));
               } catch (error) {
                 setIsError(true);
                 if (error instanceof AppClientError) {
                   toast(error.message);
                 } else {
-                  toast("An unexpected error occurred");
+                  toast(t("unexpected-error"));
                 }
               }
             });

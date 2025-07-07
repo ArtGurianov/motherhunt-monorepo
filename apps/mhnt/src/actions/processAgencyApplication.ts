@@ -3,11 +3,14 @@
 import { auth } from "@/lib/auth/auth";
 import { AGENCY_ENTITIES } from "@/lib/auth/permissions/agency-permissions";
 import { prismaClient } from "@/lib/db";
-import { getAppURL } from "@shared/ui/lib/utils";
+import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 import { headers } from "next/headers";
 import { sendEmail } from "./sendEmail";
 import { OrganizationAfterReviewMetadata } from "@/lib/utils/types";
 import { APIError } from "@/lib/auth/apiError";
+import { getTranslations } from "next-intl/server";
+
+const locale = getAppLocale();
 
 export const processAgencyApplication = async ({
   organizationId,
@@ -55,14 +58,18 @@ export const processAgencyApplication = async ({
     },
   });
 
+  const t = await getTranslations({ locale, namespace: "EMAIL" });
+
   await sendEmail({
     to: headBookerEmail,
-    subject: rejectionReason ? "Agency Rejected" : "Agency Accepted",
+    subject: rejectionReason
+      ? t("agency-rejected-subject")
+      : t("agency-accepted-subject"),
     meta: {
       description: rejectionReason
-        ? `Your request for setting up an organization was rejected. Reason: ${rejectionReason}`
-        : "Congratulations! Your agency is now setup! Sign in now and start booking models!",
-      link: `${getAppURL()}/signin`,
+        ? t("agency-rejected-description")
+        : t("agency-accepted-description"),
+      link: `${getAppURL(locale)}/signin`,
     },
   });
 };

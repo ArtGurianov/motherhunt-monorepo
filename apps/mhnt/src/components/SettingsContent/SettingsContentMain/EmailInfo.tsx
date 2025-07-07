@@ -7,17 +7,22 @@ import { ToggleStateField } from "@/components/ToggleStateField/ToggleStateField
 import { authClient } from "@/lib/auth/authClient";
 import { redirect } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";
+import { useTranslations } from "next-intl";
 
 export const EmailInfo = () => {
   const { isPending, data, refetch } = authClient.useSession();
-  if (isPending) return "loading...";
+  const t = useTranslations("TOGGLE_LABELS");
+  const tCommon = useTranslations("COMMON");
+  const tTitles = useTranslations("INFO_CARD_TITLES");
+
+  if (isPending) return tCommon("loading");
   if (!data) redirect("/signin");
 
   return (
-    <InfoCard title="email">
+    <InfoCard title={tTitles("email")}>
       <ChangeEmailForm currentEmail={data.user.email} />
       <ToggleStateField
-        label="Subscribe to system notifications:"
+        label={t("system-notifications")}
         currentValue={data.user.isSystemEmailsEnabled}
         onToggle={async () => {
           try {
@@ -30,13 +35,13 @@ export const EmailInfo = () => {
             if (error instanceof Error) {
               toast(error.message);
             } else {
-              toast("An unexpected error occurred");
+              toast(tCommon("unexpected-error"));
             }
           }
         }}
       />
       <ToggleStateField
-        label="Subscribe to newsletter:"
+        label={t("newsletter")}
         currentValue={data.user.isNewsletterEmailsEnabled}
         onToggle={async () => {
           try {
@@ -49,7 +54,7 @@ export const EmailInfo = () => {
             if (error instanceof Error) {
               toast(error.message);
             } else {
-              toast("An unexpected error occurred");
+              toast(tCommon("unexpected-error"));
             }
           }
         }}

@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/ui/components/button";
 import {
@@ -50,6 +51,8 @@ export const CreateAgencyForm = () => {
     },
   });
 
+  const t = useTranslations("CREATE_AGENCY");
+
   const onSubmit = async ({ name, slug }: z.infer<typeof formSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
@@ -82,7 +85,7 @@ export const CreateAgencyForm = () => {
   return (
     <Card className="w-full max-w-sm pb-0">
       <CardHeader>
-        <CardTitle>{"New Agency Application"}</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -92,13 +95,13 @@ export const CreateAgencyForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="agency-name">{"Agency Name"}</FormLabel>
+                  <FormLabel htmlFor="agency-name">{t("name-label")}</FormLabel>
                   <FormControl>
                     <Input
                       id="agency-name"
                       aria-invalid={!!form.formState.errors.name}
                       disabled={isPending || formStatus === "SUCCESS"}
-                      placeholder="Provide name of the agency"
+                      placeholder={t("name-placeholder")}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -115,13 +118,13 @@ export const CreateAgencyForm = () => {
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="agency-slug">{"Agency Slug"}</FormLabel>
+                  <FormLabel htmlFor="agency-slug">{t("slug-label")}</FormLabel>
                   <FormControl>
                     <Input
                       id="agency-slug"
                       aria-invalid={!!form.formState.errors.slug}
                       disabled={isPending || formStatus === "SUCCESS"}
-                      placeholder="Enter unique slug of the agency"
+                      placeholder={t("slug-placeholder")}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -129,44 +132,35 @@ export const CreateAgencyForm = () => {
                       }}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {"Will be used as unique identidier"}
-                  </FormDescription>
+                  <FormDescription>{t("slug-description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <ErrorBlock message={errorMessage} />
+            <div className="w-full flex justify-end items-center">
+              <Button
+                type="submit"
+                variant="secondary"
+                disabled={
+                  !form.formState.isDirty ||
+                  isPending ||
+                  !!Object.keys(form.formState.errors).length ||
+                  formStatus === "SUCCESS"
+                }
+              >
+                {isPending ? (
+                  <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                ) : (
+                  t("register")
+                )}
+              </Button>
+            </div>
             <SuccessBlock
               message={
-                formStatus === "SUCCESS"
-                  ? "Agency created successfully!"
-                  : undefined
+                formStatus === "SUCCESS" ? t("success-message") : undefined
               }
             />
-            <div className="w-full flex justify-end items-center">
-              {formStatus === "SUCCESS" ? (
-                <span className="text-xl flex h-10 justify-center items-center">
-                  {"Submitted!"}
-                </span>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  disabled={
-                    !form.formState.isDirty ||
-                    isPending ||
-                    !!Object.keys(form.formState.errors).length
-                  }
-                >
-                  {isPending ? (
-                    <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                  ) : (
-                    "Register"
-                  )}
-                </Button>
-              )}
-            </div>
           </form>
         </Form>
       </CardContent>
@@ -174,7 +168,7 @@ export const CreateAgencyForm = () => {
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
             <InterceptedLink href="/settings/agency/requests">
-              {"View my requests"}
+              {t("view-requests")}
             </InterceptedLink>
           </Button>
         </Suspense>

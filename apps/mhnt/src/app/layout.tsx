@@ -39,10 +39,10 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       <body
-        className={`flex flex-col items-center ${geistSans.variable} ${geistMono.variable} overflow-x-clip antialiased`}
+        className={`relative ${geistSans.variable} ${geistMono.variable} overflow-x-clip antialiased`}
       >
         <CameraBg />
-        <main className="relative flex flex-col h-full w-full pt-8">
+        <main className="relative flex flex-col min-h-svh w-full pt-8">
           <NextIntlClientProvider>
             <AppProviders>
               <div className="flex flex-col min-h-content w-full justify-center items-center">

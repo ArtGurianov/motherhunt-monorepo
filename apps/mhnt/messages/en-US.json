@@ -3,5 +3,136 @@
     "signed-in-label": "Currently logged in as",
     "signed-out-label": "You are currently",
     "signed-out-status": "LOGGED OUT"
+  },
+  "ROLES": {
+    "SCOUTER": "SCOUTER",
+    "HEAD_BOOKER": "HEAD BOOKER",
+    "BOOKER": "BOOKER",
+    "ADMIN": "ADMIN",
+    "SUPER_ADMIN": "SUPER ADMIN"
+  },
+  "APPLICATION_STATUSES": {
+    "PENDING": "Pending",
+    "APPROVED": "Approved",
+    "REJECTED": "Rejected"
+  },
+  "SIGNIN": {
+    "title": "Login to your account",
+    "description": "Enter your email below to login to your account",
+    "email-label": "Email",
+    "email-placeholder": "type your email",
+    "email-description": "Some description",
+    "success-message": "Email sent! Please check your inbox.",
+    "send-link": "Send link"
+  },
+  "CHANGE_EMAIL": {
+    "verify": "Verify",
+    "verified": "Verified",
+    "email-sent": "Email sent",
+    "email-label": "Email",
+    "email-placeholder": "type your new email",
+    "success-message": "Email change request sent. Please check your inbox."
+  },
+  "COMMENT": {
+    "label": "Comment",
+    "placeholder": "Write down your comment",
+    "success-message": "Success! Your comment was submitted.",
+    "submit": "Submit"
+  },
+  "CREATE_AGENCY": {
+    "title": "New Agency Application",
+    "name-label": "Agency Name",
+    "name-placeholder": "Provide name of the agency",
+    "slug-label": "Agency Slug",
+    "slug-placeholder": "Enter unique slug of the agency",
+    "slug-description": "Will be used as unique identidier",
+    "success-message": "Agency created successfully!",
+    "register": "Register",
+    "view-requests": "View my requests"
+  },
+  "ADMIN_AGENCY_APPLICATIONS": {
+    "table-caption": "List of pending applications",
+    "name": "Name",
+    "slug": "Slug",
+    "created-at": "Created At",
+    "action": "Action",
+    "no-applications": "There are no pending applications.",
+    "reject-title": "Reject Agency Application",
+    "approved-message": "Approved an agency!",
+    "rejected-message": "Rejected an agency!"
+  },
+  "AGENCIES_LIST": {
+    "table-caption": "A list of your organizations.",
+    "name": "Name",
+    "slug": "Slug",
+    "enter": "Enter",
+    "no-membership": "You have no membership records."
+  },
+  "MY_AGENCY_REQUESTS": {
+    "table-caption": "A list of your requests",
+    "name": "Name",
+    "slug": "Slug",
+    "status": "Status",
+    "no-requests": "There are no requests for agency creation."
+  },
+  "AUTH_INFO": {
+    "logged-in-as": "Currently logged in as:",
+    "active": "ACTIVE",
+    "switch-to": "Switch to:",
+    "scouter": "SCOUTER",
+    "or": "or",
+    "agency": "AGENCY",
+    "switched-to-scouter": "Switched to scouter",
+    "switched-to-agency": "Switched to agency"
+  },
+  "SETTINGS_DIALOG_TITLES": {
+    "settings": "User Settings",
+    "agency": "My Agencies",
+    "requests": "My requests",
+    "default": "Unknown Route"
+  },
+  "TOGGLE_STATE": {
+    "updated": "Value updated!",
+    "unexpected-error": "An unexpected error occurred"
+  },
+  "EMAIL": {
+    "agency-rejected-subject": "Agency Rejected",
+    "agency-rejected-description": "Your request for setting up an organization was rejected. Reason: {reason}",
+    "agency-accepted-subject": "Agency Accepted",
+    "agency-accepted-description": "Congratulations! Your agency is now setup! Sign in now and start booking models!",
+    "magic-link-subject": "Sign in",
+    "magic-link-description": "You requested a login to mhnt.app",
+    "org-setup-subject": "Organization Setup",
+    "org-setup-description": "Your agency profile is created and currently under review",
+    "change-email-subject": "Change email",
+    "change-email-description": "You requested to change your email for mhnt.app",
+    "cta": "Click here"
+  },
+  "INFO_CARD_TITLES": {
+    "requests": "requests",
+    "applications": "applications",
+    "email": "email",
+    "account": "account",
+    "switch": "switch"
+  },
+  "TOGGLE_LABELS": {
+    "system-notifications": "Subscribe to system notifications:",
+    "newsletter": "Subscribe to newsletter:"
+  },
+  "ACTION_BUTTONS": {
+    "sign-out": "Sign out"
+  },
+  "COMMON": {
+    "loading": "loading...",
+    "unexpected-error": "An unexpected error occurred. Please try again."
+  },
+  "AGENCY_SETTINGS": {
+    "register-agency": "Register an Agency",
+    "view-requests": "view my requests",
+    "or-separator": "- or -"
+  },
+  "NOT_FOUND": {
+    "page-not-found": "Page not found",
+    "go-home": "Let's just go home"
   }
 }

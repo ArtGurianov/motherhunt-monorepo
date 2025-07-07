@@ -1,7 +1,138 @@
 {
   "NAVBAR": {
-    "signed-in-label": "Currently logged in as",
-    "signed-out-label": "You are currently",
-    "signed-out-status": "LOGGED OUT"
+    "signed-in-label": "Actualmente conectado como",
+    "signed-out-label": "Actualmente estás",
+    "signed-out-status": "DESCONECTADO"
+  },
+  "ROLES": {
+    "SCOUTER": "SCOUTER",
+    "HEAD_BOOKER": "RESERVADOR PRINCIPAL",
+    "BOOKER": "RESERVADOR",
+    "ADMIN": "ADMIN",
+    "SUPER_ADMIN": "SUPER ADMIN"
+  },
+  "APPLICATION_STATUSES": {
+    "PENDING": "Pendiente",
+    "APPROVED": "Aprobado",
+    "REJECTED": "Rechazado"
+  },
+  "SIGNIN": {
+    "title": "Inicia sesión en tu cuenta",
+    "description": "Ingresa tu email a continuación para iniciar sesión en tu cuenta",
+    "email-label": "Email",
+    "email-placeholder": "escribe tu email",
+    "email-description": "Alguna descripción",
+    "success-message": "¡Email enviado! Por favor revisa tu bandeja de entrada.",
+    "send-link": "Iniciar sesión"
+  },
+  "CHANGE_EMAIL": {
+    "verify": "Verificar",
+    "verified": "Verificado",
+    "email-sent": "Email enviado",
+    "email-label": "Email",
+    "email-placeholder": "escribe tu nuevo email",
+    "success-message": "Solicitud de cambio de email enviada. Por favor revisa tu bandeja de entrada."
+  },
+  "COMMENT": {
+    "label": "Comentario",
+    "placeholder": "Escribe tu comentario",
+    "success-message": "¡Éxito! Tu comentario fue enviado.",
+    "submit": "Enviar"
+  },
+  "CREATE_AGENCY": {
+    "title": "Nueva Solicitud de Agencia",
+    "name-label": "Nombre de la Agencia",
+    "name-placeholder": "Proporciona el nombre de la agencia",
+    "slug-label": "Slug de la Agencia",
+    "slug-placeholder": "Ingresa el slug único de la agencia",
+    "slug-description": "Se usará como identificador único",
+    "success-message": "¡Agencia creada exitosamente!",
+    "register": "Registrar",
+    "view-requests": "Ver mis solicitudes"
+  },
+  "ADMIN_AGENCY_APPLICATIONS": {
+    "table-caption": "Lista de solicitudes pendientes",
+    "name": "Nombre",
+    "slug": "Slug",
+    "created-at": "Creado En",
+    "action": "Acción",
+    "no-applications": "No hay solicitudes pendientes.",
+    "reject-title": "Rechazar Solicitud de Agencia",
+    "approved-message": "¡Agencia aprobada!",
+    "rejected-message": "¡Agencia rechazada!"
+  },
+  "AGENCIES_LIST": {
+    "table-caption": "Una lista de tus organizaciones.",
+    "name": "Nombre",
+    "slug": "Slug",
+    "enter": "Entrar",
+    "no-membership": "No tienes registros de membresía."
+  },
+  "MY_AGENCY_REQUESTS": {
+    "table-caption": "Una lista de tus solicitudes",
+    "name": "Nombre",
+    "slug": "Slug",
+    "status": "Estado",
+    "no-requests": "No hay solicitudes para la creación de agencias."
+  },
+  "AUTH_INFO": {
+    "logged-in-as": "Actualmente conectado como:",
+    "active": "ACTIVO",
+    "switch-to": "Cambiar a:",
+    "scouter": "SCOUTER",
+    "or": "o",
+    "agency": "AGENCIA",
+    "switched-to-scouter": "Cambiado a scouter",
+    "switched-to-agency": "Cambiado a agencia"
+  },
+  "SETTINGS_DIALOG_TITLES": {
+    "settings": "Configuración de Usuario",
+    "agency": "Mis Agencias",
+    "requests": "Mis solicitudes",
+    "default": "Ruta Desconocida"
+  },
+  "TOGGLE_STATE": {
+    "updated": "¡Valor actualizado!",
+    "unexpected-error": "Ocurrió un error inesperado"
+  },
+  "EMAIL": {
+    "agency-rejected-subject": "Agencia Rechazada",
+    "agency-rejected-description": "Tu solicitud para configurar una organización fue rechazada. Razón: {reason}",
+    "agency-accepted-subject": "Agencia Aceptada",
+    "agency-accepted-description": "¡Felicitaciones! ¡Tu agencia está configurada! ¡Inicia sesión ahora y comienza a reservar modelos!",
+    "magic-link-subject": "Iniciar sesión",
+    "magic-link-description": "Solicitaste un inicio de sesión en mhnt.app",
+    "org-setup-subject": "Configuración de Organización",
+    "org-setup-description": "Tu perfil de agencia está creado y actualmente bajo revisión",
+    "change-email-subject": "Cambiar email",
+    "change-email-description": "Solicitaste cambiar tu email para mhnt.app",
+    "cta": "Haz clic aquí"
+  },
+  "INFO_CARD_TITLES": {
+    "requests": "solicitudes",
+    "applications": "solicitudes",
+    "email": "email",
+    "account": "cuenta",
+    "switch": "cambiar"
+  },
+  "TOGGLE_LABELS": {
+    "system-notifications": "Suscribirse a notificaciones del sistema:",
+    "newsletter": "Suscribirse al boletín:"
+  },
+  "ACTION_BUTTONS": {
+    "sign-out": "Cerrar sesión"
+  },
+  "COMMON": {
+    "loading": "cargando...",
+    "unexpected-error": "Ocurrió un error inesperado. Por favor inténtalo de nuevo."
+  },
+  "AGENCY_SETTINGS": {
+    "register-agency": "Registrar una Agencia",
+    "view-requests": "ver mis solicitudes",
+    "or-separator": "- o -"
+  },
+  "NOT_FOUND": {
+    "page-not-found": "Página no encontrada",
+    "go-home": "Vamos a casa"
   }
 }

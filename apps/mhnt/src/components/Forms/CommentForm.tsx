@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/ui/components/button";
 import {
@@ -27,18 +28,18 @@ const formSchema = z.object({
 
 interface CommentFormProps {
   defaultValue?: string;
-  placeholder?: string;
   onSubmit: (_: string) => Promise<void>;
 }
 
 export const CommentForm = ({
   defaultValue = "",
-  placeholder = "Write down your comment",
   onSubmit,
 }: CommentFormProps) => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const t = useTranslations("COMMENT");
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -79,12 +80,12 @@ export const CommentForm = ({
           name="value"
           render={({ field }) => (
             <FormItem className="grow flex flex-col">
-              <FormLabel>{"Comment"}</FormLabel>
+              <FormLabel>{t("label")}</FormLabel>
               <FormControl className="grow">
                 <Textarea
                   className="h-full"
                   disabled={isPending || formStatus === "SUCCESS"}
-                  placeholder={placeholder}
+                  placeholder={t("placeholder")}
                   aria-invalid={!!form.formState.errors.value || !!errorMessage}
                   {...field}
                   onChange={(e) => {
@@ -96,39 +97,30 @@ export const CommentForm = ({
               </FormControl>
               <FormMessage />
               <ErrorBlock message={errorMessage} />
-              <SuccessBlock
-                message={
-                  formStatus === "SUCCESS"
-                    ? "Success! Your comment was submitted."
-                    : undefined
-                }
-              />
             </FormItem>
           )}
         />
         <div className="w-full flex justify-end items-center">
-          {formStatus === "SUCCESS" ? (
-            <span className="text-xl flex h-10 justify-center items-center">
-              {"Success!"}
-            </span>
-          ) : (
-            <Button
-              type="submit"
-              variant="secondary"
-              disabled={
-                !form.formState.isDirty ||
-                isPending ||
-                !!Object.keys(form.formState.errors).length
-              }
-            >
-              {isPending ? (
-                <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-              ) : (
-                "Submit"
-              )}
-            </Button>
-          )}
+          <Button
+            type="submit"
+            variant="secondary"
+            disabled={
+              !form.formState.isDirty ||
+              isPending ||
+              !!Object.keys(form.formState.errors).length ||
+              formStatus === "SUCCESS"
+            }
+          >
+            {isPending ? (
+              <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+            ) : (
+              t("submit")
+            )}
+          </Button>
         </div>
+        <SuccessBlock
+          message={formStatus === "SUCCESS" ? t("success-message") : undefined}
+        />
       </form>
     </Form>
   );

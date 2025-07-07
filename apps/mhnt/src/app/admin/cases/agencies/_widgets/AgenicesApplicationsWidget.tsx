@@ -20,6 +20,7 @@ import {
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -30,21 +31,24 @@ export const AgenciesApplicationsWidget = ({
 }: AgenciesApplicationsWidgetProps) => {
   const router = useRouter();
   const [targetDataIndex, setTargetDataIndex] = useState<number | null>(null);
+  const t = useTranslations("ADMIN_AGENCY_APPLICATIONS");
+  const tTitles = useTranslations("INFO_CARD_TITLES");
+  const tCommon = useTranslations("COMMON");
 
   return (
     <div className="flex flex-col gap-12 grow justify-center items-center">
-      <InfoCard title="applications">
+      <InfoCard title={tTitles("applications")}>
         {data.length ? (
           <Table>
             <TableCaption className="text-foreground">
-              {"List of pending applications"}
+              {t("table-caption")}
             </TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-center">{"Name"}</TableHead>
-                <TableHead className="text-center">{"Slug"}</TableHead>
-                <TableHead className="text-center">{"Created At"}</TableHead>
-                <TableHead className="text-center">{"Action"}</TableHead>
+                <TableHead className="text-center">{t("name")}</TableHead>
+                <TableHead className="text-center">{t("slug")}</TableHead>
+                <TableHead className="text-center">{t("created-at")}</TableHead>
+                <TableHead className="text-center">{t("action")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -72,13 +76,13 @@ export const AgenciesApplicationsWidget = ({
                             organizationId: each.id,
                             headBookerEmail: metadata.creatorEmail,
                           });
-                          toast("Approved an agency!");
+                          toast(t("approved-message"));
                           router.refresh();
                         } catch (error) {
                           if (error instanceof Error) {
                             toast(error.message);
                           } else {
-                            toast("An unexpected error occurred");
+                            toast(tCommon("unexpected-error"));
                           }
                         }
                       }}
@@ -99,13 +103,11 @@ export const AgenciesApplicationsWidget = ({
             </TableBody>
           </Table>
         ) : (
-          <span className="w-full text-center">
-            {"There are no pending applications."}
-          </span>
+          <span className="w-full text-center">{t("no-applications")}</span>
         )}
       </InfoCard>
       <DialogDrawer
-        title="Reject Agency Application"
+        title={t("reject-title")}
         isOpen={typeof targetDataIndex === "number"}
         onClose={() => {
           setTargetDataIndex(null);
@@ -124,13 +126,13 @@ export const AgenciesApplicationsWidget = ({
                   rejectionReason: value,
                 });
                 setTargetDataIndex(null);
-                toast("Rejected an agency!");
+                toast(t("rejected-message"));
                 router.refresh();
               } catch (error) {
                 if (error instanceof Error) {
                   toast(error.message);
                 } else {
-                  toast("An unexpected error occurred");
+                  toast(tCommon("unexpected-error"));
                 }
               }
             }

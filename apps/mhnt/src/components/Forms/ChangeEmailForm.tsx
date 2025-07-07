@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/ui/components/button";
 import {
@@ -43,6 +44,8 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     },
   });
 
+  const t = useTranslations("CHANGE_EMAIL");
+
   const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
@@ -71,33 +74,6 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     });
   };
 
-  let displayAction = (
-    <Button
-      className="h-full"
-      type="submit"
-      variant="flat"
-      size="sm"
-      disabled={
-        !form.formState.isValid ||
-        !!Object.keys(form.formState.errors).length ||
-        isPending
-      }
-    >
-      {"Verify"}
-    </Button>
-  );
-  if (form.getValues("email") === currentEmail) {
-    displayAction = <span className="text-green-500">{"Verified"}</span>;
-  } else if (formStatus === "SUCCESS") {
-    displayAction = <span>{"Email sent"}</span>;
-  } else if (isPending) {
-    displayAction = (
-      <span className="px-4">
-        <LoaderCircle className="animate-spin h-6 w-6" />
-      </span>
-    );
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -106,12 +82,12 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{"Email"}</FormLabel>
+              <FormLabel>{t("email-label")}</FormLabel>
               <div className="relative">
                 <FormControl>
                   <Input
                     disabled={isPending || formStatus === "SUCCESS"}
-                    placeholder="type your new email"
+                    placeholder={t("email-placeholder")}
                     aria-invalid={
                       !!form.formState.errors.email || !!errorMessage
                     }
@@ -124,16 +100,34 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
                   />
                 </FormControl>
                 <div className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center p-2 font-mono text-sm border-border">
-                  {displayAction}
+                  <Button
+                    className="h-full"
+                    type="submit"
+                    variant="flat"
+                    size="sm"
+                    disabled={
+                      !form.formState.isValid ||
+                      !!Object.keys(form.formState.errors).length ||
+                      isPending ||
+                      formStatus === "SUCCESS" ||
+                      form.getValues("email") === currentEmail
+                    }
+                  >
+                    {isPending ? (
+                      <LoaderCircle className="animate-spin h-6 w-6" />
+                    ) : form.getValues("email") === currentEmail ? (
+                      t("verified")
+                    ) : (
+                      t("verify")
+                    )}
+                  </Button>
                 </div>
               </div>
               <FormMessage />
               <ErrorBlock message={errorMessage} />
               <SuccessBlock
                 message={
-                  formStatus === "SUCCESS"
-                    ? "Email change request sent. Please check your inbox."
-                    : undefined
+                  formStatus === "SUCCESS" ? t("success-message") : undefined
                 }
               />
             </FormItem>

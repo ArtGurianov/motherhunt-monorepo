@@ -21,9 +21,14 @@ import { Organization } from "@shared/db";
 import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { useTranslations } from "next-intl";
 
 export const AgenciesList = () => {
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("AGENCIES_LIST");
+  const tTitles = useTranslations("INFO_CARD_TITLES");
+  const tCommon = useTranslations("COMMON");
+  const tAuth = useTranslations("AUTH_INFO");
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
@@ -43,7 +48,7 @@ export const AgenciesList = () => {
   }, [] as Organization[]);
 
   return (
-    <InfoCard title="switch">
+    <InfoCard title={tTitles("switch")}>
       {isOrganizationsPending ? (
         <span className="w-full flex justify-center items-center">
           <LoaderCircle className="animate-spin h-8 w-8" />
@@ -51,13 +56,13 @@ export const AgenciesList = () => {
       ) : displayOrganizations?.length ? (
         <Table>
           <TableCaption className="text-foreground">
-            {"A list of your organizations."}
+            {t("table-caption")}
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/3 text-center">{"Name"}</TableHead>
-              <TableHead className="w-1/3 text-center">{"Slug"}</TableHead>
-              <TableHead className="w-1/3 text-center">{"Enter"}</TableHead>
+              <TableHead className="w-1/3 text-center">{t("name")}</TableHead>
+              <TableHead className="w-1/3 text-center">{t("slug")}</TableHead>
+              <TableHead className="w-1/3 text-center">{t("enter")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -80,12 +85,12 @@ export const AgenciesList = () => {
                               organizationId: each.id,
                             });
                             refetchActiveMember();
-                            toast("Switched to agency");
+                            toast(tAuth("switched-to-agency"));
                           } catch (error) {
                             if (error instanceof AppClientError) {
                               toast(error.message);
                             } else {
-                              toast("An unexpected error occurred");
+                              toast(tCommon("unexpected-error"));
                             }
                           }
                         });
@@ -106,9 +111,7 @@ export const AgenciesList = () => {
           </TableBody>
         </Table>
       ) : (
-        <span className="w-full text-center">
-          {"You have no membership records."}
-        </span>
+        <span className="w-full text-center">{t("no-membership")}</span>
       )}
     </InfoCard>
   );

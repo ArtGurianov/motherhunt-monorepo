@@ -15,27 +15,35 @@ import {
 } from "@shared/ui/components/table";
 import { TooltipPopover } from "@shared/ui/components/TooltipPopover";
 import { AlertCircleIcon, LoaderCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export const MyAgencyRequestsWidget = () => {
   const { data: organizations, isPending } = authClient.useListOrganizations();
+  const t = useTranslations("MY_AGENCY_REQUESTS");
+  const tTitles = useTranslations("INFO_CARD_TITLES");
+  const tStatuses = useTranslations("APPLICATION_STATUSES");
 
   return (
     <div className="flex flex-col gap-12 grow justify-center items-center h-full">
       {isPending ? (
         <LoaderCircle className="animate-spin h-12 w-12" />
       ) : (
-        <InfoCard title="requests">
+        <InfoCard title={tTitles("requests")}>
           {organizations?.length ? (
             <Table>
               <TableCaption className="text-foreground">
-                {"A list of your requests"}
+                {t("table-caption")}
               </TableCaption>
               <TableHeader>
                 <TableRow className="bg-accent-foreground/30">
-                  <TableHead className="w-1/3 text-center">{"Name"}</TableHead>
-                  <TableHead className="w-1/3 text-center">{"Slug"}</TableHead>
                   <TableHead className="w-1/3 text-center">
-                    {"Status"}
+                    {t("name")}
+                  </TableHead>
+                  <TableHead className="w-1/3 text-center">
+                    {t("slug")}
+                  </TableHead>
+                  <TableHead className="w-1/3 text-center">
+                    {t("status")}
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -53,7 +61,7 @@ export const MyAgencyRequestsWidget = () => {
                       </TableCell>
                       <TableCell className="w-1/3">
                         <div className="w-full flex justify-center items-center gap-2">
-                          <span>{status}</span>
+                          <span>{tStatuses(status)}</span>
                           {rejectionReason ? (
                             <TooltipPopover content={rejectionReason}>
                               {
@@ -72,9 +80,7 @@ export const MyAgencyRequestsWidget = () => {
               </TableBody>
             </Table>
           ) : (
-            <span className="w-full text-center">
-              {"There are no requests for agency creation."}
-            </span>
+            <span className="w-full text-center">{t("no-requests")}</span>
           )}
         </InfoCard>
       )}

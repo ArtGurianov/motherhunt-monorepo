@@ -10,16 +10,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
 import { Button } from "@shared/ui/components/button";
+import { useTranslations } from "next-intl";
 
 interface InterceptedDialogDrawerProps
   extends Omit<DialogDrawerProps, "isOpen" | "onClose" | "title" | "backBtn"> {
   targetPath: string;
 }
 
-const DIALOG_TITLES_CONFIG: Record<string, string> = {
-  "/settings": "User Settings",
-  "/settings/agency": "My Agencies",
-  "/settings/agency/requests": "My requests",
+const SETTINGS_DIALOG_TITLES_KEYS: Record<string, string> = {
+  "/settings": "settings",
+  "/settings/agency": "agency",
+  "/settings/agency/requests": "requests",
 } as const;
 
 export const InterceptedDialogDrawer = ({
@@ -31,6 +32,7 @@ export const InterceptedDialogDrawer = ({
   const particles = pathname.split("/");
   const params = useSearchParams();
   const { onInterceptedClose } = useCloseIntercepted();
+  const t = useTranslations("SETTINGS_DIALOG_TITLES");
 
   const [isOpen, setIsOpen] = useState(pathname.startsWith(targetPath));
   useEffect(() => {
@@ -39,7 +41,11 @@ export const InterceptedDialogDrawer = ({
 
   return (
     <DialogDrawer
-      title={DIALOG_TITLES_CONFIG[pathname] ?? "Unknown Route"}
+      title={t(
+        pathname in SETTINGS_DIALOG_TITLES_KEYS
+          ? SETTINGS_DIALOG_TITLES_KEYS[pathname]!
+          : "default"
+      )}
       {...rest}
       isOpen={isOpen}
       backBtn={

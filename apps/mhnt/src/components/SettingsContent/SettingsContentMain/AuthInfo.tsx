@@ -15,13 +15,18 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useTransition } from "react";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { useTranslations } from "next-intl";
 
 export const AuthInfo = () => {
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("AUTH_INFO");
+  const tCommon = useTranslations("COMMON");
+  const tTitles = useTranslations("INFO_CARD_TITLES");
+  const tRoles = useTranslations("ROLES");
 
   const { isPending: isSessionPending, data: session } =
     authClient.useSession();
-  if (isSessionPending) return "loading...";
+  if (isSessionPending) return tCommon("loading");
   if (!session) redirect("/signin");
 
   const {
@@ -31,19 +36,17 @@ export const AuthInfo = () => {
   } = authClient.useActiveMember();
 
   return (
-    <InfoCard title="account">
+    <InfoCard title={tTitles("account")}>
       <InlineData>
-        <InlineDataLabel>{"Currently logged in as:"}</InlineDataLabel>
+        <InlineDataLabel>{t("logged-in-as")}</InlineDataLabel>
         <InlineDataContent className="relative">
           {isActiveMemberPending ? (
             <LoaderCircle className="animate-spin h-6 w-6" />
-          ) : activeMember ? (
-            activeMember.role
           ) : (
-            session.user.role
+            tRoles(activeMember ? activeMember.role : session.user.role)
           )}
           <span className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center px-4 font-mono text-sm text-green-500 border-border">
-            {"ACTIVE"}
+            {t("active")}
           </span>
         </InlineDataContent>
       </InlineData>
@@ -52,7 +55,7 @@ export const AuthInfo = () => {
         <div className="relative w-full h-10">
           <div className="absolute z-0 top-0 left-1/2 -translate-x-1/2 h-full flex gap-2 items-center px-1">
             <span className="text-sm font-bold text-end text-nowrap">
-              {"Switch to:"}
+              {t("switch-to")}
             </span>
             {activeMember ? (
               <>
@@ -65,12 +68,12 @@ export const AuthInfo = () => {
                           organizationId: null,
                         });
                         refetchActiveMember();
-                        toast("Switched to scouter");
+                        toast(t("switched-to-scouter"));
                       } catch (error) {
                         if (error instanceof AppClientError) {
                           toast(error.message);
                         } else {
-                          toast("An unexpected error occurred");
+                          toast(tCommon("unexpected-error"));
                         }
                       }
                     });
@@ -79,14 +82,14 @@ export const AuthInfo = () => {
                   {isPending ? (
                     <LoaderCircle className="animate-spin" />
                   ) : (
-                    "SCOUTER"
+                    t("scouter")
                   )}
                 </CaptureBtn>
-                <span className="text-sm font-bold">{"or"}</span>
+                <span className="text-sm font-bold">{t("or")}</span>
               </>
             ) : null}
             <CaptureBtn shape="horizontal">
-              <Link href="/settings/agency">{"AGENCY"}</Link>
+              <Link href="/settings/agency">{t("agency")}</Link>
             </CaptureBtn>
           </div>
         </div>

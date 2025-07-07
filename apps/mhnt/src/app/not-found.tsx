@@ -3,8 +3,11 @@
 import { PageSection } from "@shared/ui/components/PageSection";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function NotFound() {
+  const t = useTranslations("NOT_FOUND");
+
   return (
     <PageSection className="flex grow justify-center items-center">
       <div className="w-full max-w-sm flex flex-col justify-center items-center">
@@ -18,9 +21,9 @@ export default function NotFound() {
           priority
         />
         <span className="text-lg text-foreground/90">
-          {"Page not found"}
+          {t("page-not-found")}
           <Link className="ml-2 underline" href="/">
-            {"Let's just go home"}
+            {t("go-home")}
           </Link>
         </span>
       </div>

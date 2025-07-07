@@ -32,6 +32,7 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   email: z.email(),
@@ -44,6 +45,7 @@ export const SignInForm = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const hCaptchaRef = useRef<HCaptcha>(null);
+  const t = useTranslations("SIGNIN");
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -96,10 +98,8 @@ export const SignInForm = () => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -109,11 +109,11 @@ export const SignInForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("email-label")}</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending || formStatus === "SUCCESS"}
-                      placeholder="type your email"
+                      placeholder={t("email-placeholder")}
                       aria-invalid={
                         !!form.formState.errors.email || !!errorMessage
                       }
@@ -125,7 +125,7 @@ export const SignInForm = () => {
                       }}
                     />
                   </FormControl>
-                  <FormDescription>{"Some description"}</FormDescription>
+                  <FormDescription>{t("email-description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -143,40 +143,33 @@ export const SignInForm = () => {
               }}
             />
             <ErrorBlock message={errorMessage} />
-            <SuccessBlock
-              message={
-                formStatus === "SUCCESS"
-                  ? "Email sent! Please check your inbox."
-                  : undefined
-              }
-            />
             <div className="relative w-full flex justify-end items-center">
               <div className="absolute z-10 left-0 top-0">
                 <LangSwitcher />
               </div>
-              {formStatus === "SUCCESS" ? (
-                <span className="text-xl flex h-10 justify-center items-center">
-                  {"Email sent!"}
-                </span>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  size="lg"
-                  disabled={
-                    isPending ||
-                    !form.formState.isValid ||
-                    !!Object.keys(form.formState.errors).length
-                  }
-                >
-                  {isPending ? (
-                    <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                  ) : (
-                    "Send link"
-                  )}
-                </Button>
-              )}
+              <Button
+                type="submit"
+                variant="secondary"
+                size="lg"
+                disabled={
+                  isPending ||
+                  !form.formState.isValid ||
+                  !!Object.keys(form.formState.errors).length ||
+                  formStatus === "SUCCESS"
+                }
+              >
+                {isPending ? (
+                  <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                ) : (
+                  t("send-link")
+                )}
+              </Button>
             </div>
+            <SuccessBlock
+              message={
+                formStatus === "SUCCESS" ? t("success-message") : undefined
+              }
+            />
           </form>
         </Form>
       </CardContent>

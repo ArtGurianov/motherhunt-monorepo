@@ -27,6 +27,8 @@ export const Navbar = () => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const t = useTranslations("NAVBAR");
+  const tCommon = useTranslations("COMMON");
+  const tRoles = useTranslations("ROLES");
 
   const { isPending: isActiveMemberPending, data: activeMember } =
     authClient.useActiveMember();
@@ -48,17 +50,19 @@ export const Navbar = () => {
           {`${t("signed-in-label")}:`}
         </span>
         <span className="flex gap-2 justify-center items-center">
-          <Suspense fallback={"loading..."}>
+          <Suspense fallback={tCommon("loading")}>
             <Button
               asChild
               variant="ghost"
               size="reset"
               className="text-2xl text-center font-mono underline"
             >
-              <InterceptedLink href="/settings">{activeRole}</InterceptedLink>
+              <InterceptedLink href="/settings">
+                {tRoles(activeRole!)}
+              </InterceptedLink>
             </Button>
           </Suspense>
-          <Suspense fallback={"loading..."}>
+          <Suspense fallback={tCommon("loading")}>
             <Button
               asChild
               size="reset"
@@ -130,7 +134,7 @@ export const Navbar = () => {
             {isSessionPending || isActiveMemberPending ? (
               <span className="flex gap-2 justify-center items-center p-6">
                 <LoaderCircle className="animate-spin h-8 w-8" />
-                {"loading... "}
+                {tCommon("loading")}
               </span>
             ) : (
               <>
