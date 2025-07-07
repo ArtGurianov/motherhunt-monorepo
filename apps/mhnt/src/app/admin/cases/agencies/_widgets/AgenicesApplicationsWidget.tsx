@@ -32,6 +32,7 @@ export const AgenciesApplicationsWidget = ({
   const router = useRouter();
   const [targetDataIndex, setTargetDataIndex] = useState<number | null>(null);
   const t = useTranslations("ADMIN_AGENCY_APPLICATIONS");
+  const tToasts = useTranslations("TOASTS");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tCommon = useTranslations("COMMON");
 
@@ -76,7 +77,7 @@ export const AgenciesApplicationsWidget = ({
                             organizationId: each.id,
                             headBookerEmail: metadata.creatorEmail,
                           });
-                          toast(t("approved-message"));
+                          toast(tToasts("approved-message"));
                           router.refresh();
                         } catch (error) {
                           if (error instanceof Error) {
@@ -126,7 +127,7 @@ export const AgenciesApplicationsWidget = ({
                   rejectionReason: value,
                 });
                 setTargetDataIndex(null);
-                toast(t("rejected-message"));
+                toast(tToasts("rejected-message"));
                 router.refresh();
               } catch (error) {
                 if (error instanceof Error) {

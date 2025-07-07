@@ -26,6 +26,7 @@ import { OrganizationBeforeReviewMetadata } from "../utils/types";
 import { sessionUpdateBefore } from "./dbHooks.ts/sessionUpdateBefore";
 import { getTranslations } from "next-intl/server";
 import { APIError } from "./apiError";
+import { revalidatePath } from "next/cache";
 
 const locale = getAppLocale();
 const t = await getTranslations({ locale, namespace: "EMAIL" });
@@ -96,6 +97,7 @@ const options = {
           };
         },
         afterCreate: async ({ organization: { metadata } }) => {
+          revalidatePath("/admin/cases/agencies");
           await sendEmail({
             to: metadata.creatorEmail,
             subject: t("org-setup-subject"),
