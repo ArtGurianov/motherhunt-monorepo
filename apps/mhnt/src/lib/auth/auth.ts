@@ -25,6 +25,7 @@ import { getMemberRole } from "@/actions/getMemberRole";
 import { OrganizationBeforeReviewMetadata } from "../utils/types";
 import { sessionUpdateBefore } from "./dbHooks.ts/sessionUpdateBefore";
 import { getTranslations } from "next-intl/server";
+import { APIError } from "./apiError";
 
 const locale = getAppLocale();
 const t = await getTranslations({ locale, namespace: "EMAIL" });
@@ -65,25 +66,25 @@ const options = {
       ac: agencyAccessControl,
       roles: AGENCY_ROLES_CONFIG,
       creatorRole: AGENCY_ROLES.HEAD_BOOKER,
-      allowUserToCreateOrganization: async (user) => {
-        const userOrganizations = await prismaClient.member.findMany({
-          where: { userId: user.id },
-        });
-        for (const each of userOrganizations) {
-          const organizationData = await prismaClient.organization.findFirst({
-            where: { id: each.organizationId },
-          });
-          if (
-            !!organizationData?.metadata &&
-            !JSON.parse(organizationData.metadata).reviewerId
-          ) {
-            return false;
-          }
-        }
-        return true;
-      },
       organizationCreation: {
         beforeCreate: async ({ organization, user }) => {
+          const userOrganizations = await prismaClient.member.findMany({
+            where: { userId: user.id },
+          });
+          for (const each of userOrganizations) {
+            const organizationData = await prismaClient.organization.findFirst({
+              where: { id: each.organizationId },
+            });
+            if (
+              !!organizationData?.metadata &&
+              !JSON.parse(organizationData.metadata).reviewerId
+            ) {
+              throw new APIError("FORBIDDEN", {
+                message: "Your previous request is still pending.",
+              });
+            }
+          }
+
           return {
             data: {
               ...organization,
