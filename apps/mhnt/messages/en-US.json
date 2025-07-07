@@ -89,7 +89,7 @@
   },
   "EMAIL": {
     "agency-rejected-subject": "Agency Rejected",
-    "agency-rejected-description": "Your request for setting up an organization was rejected. Reason: {reason}",
+    "agency-rejected-description": "Your request for setting up an organization was rejected.",
     "agency-accepted-subject": "Agency Accepted",
     "agency-accepted-description": "Congratulations! Your agency is now setup! Sign in now and start booking models!",
     "magic-link-subject": "Sign in",

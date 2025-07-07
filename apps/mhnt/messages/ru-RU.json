@@ -76,8 +76,8 @@
   "AUTH_INFO": {
     "logged-in-as": "Вход выполнен как:",
     "active": "АКТИВЕН",
-    "switch-to": "Переключиться на:",
-    "scouter": "СКАУТЕР",
+    "switch-to": "Сменить на:",
+    "scouter": "СКАУТ",
     "or": "или",
     "agency": "АГЕНТСТВО"
   },
@@ -89,13 +89,13 @@
   },
   "EMAIL": {
     "agency-rejected-subject": "Агентство отклонено",
-    "agency-rejected-description": "Ваша заявка на создание агентства была отклонена. Причина: {reason}",
+    "agency-rejected-description": "Ваша заявка на создание агентства была отклонена.",
     "agency-accepted-subject": "Агентство принято",
     "agency-accepted-description": "Поздравляем! Ваше агентство создано! Войдите и начните бронировать моделей!",
     "magic-link-subject": "Вход в аккаунт",
     "magic-link-description": "Вы запросили вход на mhnt.app",
     "org-setup-subject": "Создание агентства",
-    "org-setup-description": "Профиль вашего агентства создан и находится на рассмотрении",
+    "org-setup-description": "Профиль агентства создан и находится на рассмотрении",
     "change-email-subject": "Смена email",
     "change-email-description": "Вы запросили смену email для mhnt.app",
     "cta": "Перейти по ссылке"
@@ -105,7 +105,7 @@
     "applications": "заявки",
     "email": "почта",
     "account": "аккаунт",
-    "switch": "переключение"
+    "switch": "сменить"
   },
   "TOGGLE_LABELS": {
     "system-notifications": "Подписаться на системные уведомления:",
@@ -125,12 +125,12 @@
   },
   "NOT_FOUND": {
     "page-not-found": "Страница не найдена",
-    "go-home": "Вернись домой"
+    "go-home": "Пойдем домой"
   },
   "TOASTS": {
-    "approved-message": "Агентство одобрено!",
-    "rejected-message": "Агентство отклонено!",
-    "switched-to-scouter": "Переключено на скаутера",
+    "approved-message": "Заявка одобрена!",
+    "rejected-message": "Заявка отклонена!",
+    "switched-to-scouter": "Переключено на скаута",
     "switched-to-agency": "Переключено на агентство",
     "unexpected-error": "Произошла непредвиденная ошибка",
     "SIGNED_IN": "Вход выполнен!",

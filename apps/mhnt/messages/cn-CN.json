@@ -89,7 +89,7 @@
   },
   "EMAIL": {
     "agency-rejected-subject": "代理机构被拒绝",
-    "agency-rejected-description": "您设置组织的请求被拒绝。原因：{reason}",
+    "agency-rejected-description": "您设置组织的请求被拒绝。",
     "agency-accepted-subject": "代理机构已接受",
     "agency-accepted-description": "恭喜！您的代理机构已设置完成！立即登录并开始预订模特！",
     "magic-link-subject": "登录",

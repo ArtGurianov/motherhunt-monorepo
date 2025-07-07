@@ -89,7 +89,7 @@
   },
   "EMAIL": {
     "agency-rejected-subject": "Agencia Rechazada",
-    "agency-rejected-description": "Tu solicitud para configurar una organización fue rechazada. Razón: {reason}",
+    "agency-rejected-description": "Tu solicitud para configurar una organización fue rechazada.",
     "agency-accepted-subject": "Agencia Aceptada",
     "agency-accepted-description": "¡Felicitaciones! ¡Tu agencia está configurada! ¡Inicia sesión ahora y comienza a reservar modelos!",
     "magic-link-subject": "Iniciar sesión",
