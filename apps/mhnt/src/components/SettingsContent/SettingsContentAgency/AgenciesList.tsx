@@ -28,7 +28,7 @@ export const AgenciesList = () => {
   const t = useTranslations("AGENCIES_LIST");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tCommon = useTranslations("COMMON");
-  const tAuth = useTranslations("AUTH_INFO");
+  const tToasts = useTranslations("TOASTS");
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
@@ -85,7 +85,7 @@ export const AgenciesList = () => {
                               organizationId: each.id,
                             });
                             refetchActiveMember();
-                            toast(tAuth("switched-to-agency"));
+                            toast(tToasts("switched-to-agency"));
                           } catch (error) {
                             if (error instanceof AppClientError) {
                               toast(error.message);

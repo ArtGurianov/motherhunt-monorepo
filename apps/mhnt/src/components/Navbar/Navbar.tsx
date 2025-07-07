@@ -55,7 +55,7 @@ export const Navbar = () => {
               asChild
               variant="ghost"
               size="reset"
-              className="text-2xl text-center font-mono underline"
+              className="text-2xl text-center font-mono underline text-nowrap"
             >
               <InterceptedLink href="/settings">
                 {tRoles(activeRole!)}

@@ -20,6 +20,7 @@ import { useTranslations } from "next-intl";
 export const AuthInfo = () => {
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("AUTH_INFO");
+  const tToasts = useTranslations("TOASTS");
   const tCommon = useTranslations("COMMON");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tRoles = useTranslations("ROLES");
@@ -68,7 +69,7 @@ export const AuthInfo = () => {
                           organizationId: null,
                         });
                         refetchActiveMember();
-                        toast(t("switched-to-scouter"));
+                        toast(tToasts("switched-to-scouter"));
                       } catch (error) {
                         if (error instanceof AppClientError) {
                           toast(error.message);

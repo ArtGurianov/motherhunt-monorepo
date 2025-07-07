@@ -57,9 +57,7 @@
     "created-at": "Creado En",
     "action": "Acción",
     "no-applications": "No hay solicitudes pendientes.",
-    "reject-title": "Rechazar Solicitud de Agencia",
-    "approved-message": "¡Agencia aprobada!",
-    "rejected-message": "¡Agencia rechazada!"
+    "reject-title": "Rechazar Solicitud de Agencia"
   },
   "AGENCIES_LIST": {
     "table-caption": "Una lista de tus organizaciones.",
@@ -81,19 +79,13 @@
     "switch-to": "Cambiar a:",
     "scouter": "SCOUTER",
     "or": "o",
-    "agency": "AGENCIA",
-    "switched-to-scouter": "Cambiado a scouter",
-    "switched-to-agency": "Cambiado a agencia"
+    "agency": "AGENCIA"
   },
   "SETTINGS_DIALOG_TITLES": {
     "settings": "Configuración de Usuario",
     "agency": "Mis Agencias",
     "requests": "Mis solicitudes",
     "default": "Ruta Desconocida"
-  },
-  "TOGGLE_STATE": {
-    "updated": "¡Valor actualizado!",
-    "unexpected-error": "Ocurrió un error inesperado"
   },
   "EMAIL": {
     "agency-rejected-subject": "Agencia Rechazada",
@@ -134,5 +126,15 @@
   "NOT_FOUND": {
     "page-not-found": "Página no encontrada",
     "go-home": "Vamos a casa"
+  },
+  "TOASTS": {
+    "approved-message": "¡Agencia aprobada!",
+    "rejected-message": "¡Agencia rechazada!",
+    "switched-to-scouter": "Cambiado a scouter",
+    "switched-to-agency": "Cambiado a agencia",
+    "unexpected-error": "Ocurrió un error inesperado",
+    "SIGNED_IN": "¡Sesión iniciada!",
+    "SIGNED_OUT": "¡Sesión cerrada!",
+    "UPDATED": "¡Actualizado correctamente!"
   }
 }

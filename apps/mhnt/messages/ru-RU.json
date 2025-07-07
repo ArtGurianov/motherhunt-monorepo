@@ -6,10 +6,10 @@
   },
   "ROLES": {
     "SCOUTER": "СКАУТ",
-    "HEAD_BOOKER": "ГЛАВНЫЙ БУКЕР",
+    "HEAD_BOOKER": "ХЭДБУКЕР",
     "BOOKER": "БУКЕР",
     "ADMIN": "АДМИН",
-    "SUPER_ADMIN": "СУПЕР АДМИН"
+    "SUPER_ADMIN": "СУПЕРАДМИН"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "В ожидании",
@@ -18,20 +18,20 @@
   },
   "SIGNIN": {
     "title": "Войти в аккаунт",
-    "description": "Введите ваш email для входа",
+    "description": "Введите ваш email",
     "email-label": "Электронная почта",
     "email-placeholder": "введите ваш email",
     "email-description": "Описание поля email",
-    "success-message": "Письмо отправлено! Проверьте вашу почту.",
+    "success-message": "Письмо отправлено! Проверьте почту.",
     "send-link": "Войти"
   },
   "CHANGE_EMAIL": {
     "verify": "Подтвердить",
-    "verified": "Подтверждено",
+    "verified": "Подтвержден",
     "email-sent": "Письмо отправлено",
     "email-label": "Электронная почта",
     "email-placeholder": "введите новый email",
-    "success-message": "Запрос на смену email отправлен. Проверьте вашу почту."
+    "success-message": "Запрос на смену email отправлен. Проверьте почту."
   },
   "COMMENT": {
     "label": "Комментарий",
@@ -46,7 +46,7 @@
     "slug-label": "Слаг агентства",
     "slug-placeholder": "Введите уникальный слаг агентства",
     "slug-description": "Будет использоваться как уникальный идентификатор",
-    "success-message": "Агентство успешно создано!",
+    "success-message": "Заявка успешно создана!",
     "register": "Зарегистрировать",
     "view-requests": "Посмотреть мои заявки"
   },
@@ -57,12 +57,10 @@
     "created-at": "Создано",
     "action": "Действие",
     "no-applications": "Нет ожидающих заявок.",
-    "reject-title": "Отклонить заявку агентства",
-    "approved-message": "Агентство одобрено!",
-    "rejected-message": "Агентство отклонено!"
+    "reject-title": "Отклонить заявку агентства"
   },
   "AGENCIES_LIST": {
-    "table-caption": "Список ваших агентств.",
+    "table-caption": "Список моих агентств.",
     "name": "Название",
     "slug": "Слаг",
     "enter": "Войти",
@@ -81,19 +79,13 @@
     "switch-to": "Переключиться на:",
     "scouter": "СКАУТЕР",
     "or": "или",
-    "agency": "АГЕНТСТВО",
-    "switched-to-scouter": "Переключился на скаутера",
-    "switched-to-agency": "Переключился на агентство"
+    "agency": "АГЕНТСТВО"
   },
   "SETTINGS_DIALOG_TITLES": {
     "settings": "Настройки пользователя",
     "agency": "Мои агентства",
     "requests": "Мои заявки",
     "default": "Неизвестный путь"
-  },
-  "TOGGLE_STATE": {
-    "updated": "Значение обновлено!",
-    "unexpected-error": "Произошла непредвиденная ошибка"
   },
   "EMAIL": {
     "agency-rejected-subject": "Агентство отклонено",
@@ -134,5 +126,15 @@
   "NOT_FOUND": {
     "page-not-found": "Страница не найдена",
     "go-home": "Вернись домой"
+  },
+  "TOASTS": {
+    "approved-message": "Агентство одобрено!",
+    "rejected-message": "Агентство отклонено!",
+    "switched-to-scouter": "Переключено на скаутера",
+    "switched-to-agency": "Переключено на агентство",
+    "unexpected-error": "Произошла непредвиденная ошибка",
+    "SIGNED_IN": "Вход выполнен!",
+    "SIGNED_OUT": "Выход выполнен!",
+    "UPDATED": "Успешно обновлено!"
   }
 }

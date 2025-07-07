@@ -22,7 +22,7 @@ export const ToggleStateField = ({
   const [value, setValue] = useState(currentValue);
   const [isError, setIsError] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const t = useTranslations("TOGGLE_STATE");
+  const t = useTranslations("TOASTS");
 
   return (
     <Quote className="flex py-px px-2 items-center justify-between">
@@ -40,7 +40,7 @@ export const ToggleStateField = ({
               try {
                 await onToggle();
                 setValue((prev) => !prev);
-                toast(t("updated"));
+                toast(t("UPDATED"));
               } catch (error) {
                 setIsError(true);
                 if (error instanceof AppClientError) {

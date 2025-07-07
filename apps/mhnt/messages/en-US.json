@@ -57,9 +57,7 @@
     "created-at": "Created At",
     "action": "Action",
     "no-applications": "There are no pending applications.",
-    "reject-title": "Reject Agency Application",
-    "approved-message": "Approved an agency!",
-    "rejected-message": "Rejected an agency!"
+    "reject-title": "Reject Agency Application"
   },
   "AGENCIES_LIST": {
     "table-caption": "A list of your organizations.",
@@ -81,19 +79,13 @@
     "switch-to": "Switch to:",
     "scouter": "SCOUTER",
     "or": "or",
-    "agency": "AGENCY",
-    "switched-to-scouter": "Switched to scouter",
-    "switched-to-agency": "Switched to agency"
+    "agency": "AGENCY"
   },
   "SETTINGS_DIALOG_TITLES": {
     "settings": "User Settings",
     "agency": "My Agencies",
     "requests": "My requests",
     "default": "Unknown Route"
-  },
-  "TOGGLE_STATE": {
-    "updated": "Value updated!",
-    "unexpected-error": "An unexpected error occurred"
   },
   "EMAIL": {
     "agency-rejected-subject": "Agency Rejected",
@@ -134,5 +126,15 @@
   "NOT_FOUND": {
     "page-not-found": "Page not found",
     "go-home": "Let's just go home"
+  },
+  "TOASTS": {
+    "approved-message": "Approved an agency!",
+    "rejected-message": "Rejected an agency!",
+    "switched-to-scouter": "Switched to scouter",
+    "switched-to-agency": "Switched to agency",
+    "unexpected-error": "An unexpected error occurred",
+    "SIGNED_IN": "Signed in!",
+    "SIGNED_OUT": "Signed out!",
+    "UPDATED": "Successfully updated!"
   }
 }
