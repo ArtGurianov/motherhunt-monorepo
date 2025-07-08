@@ -1,12 +1,16 @@
 "use client";
 
 import { cn } from "@shared/ui/lib/utils";
-import { NAV_CONFIG, NAV_ROUTES_ORDERS } from "./routes";
+import {
+  NAV_ROUTES_ORDERS,
+  NAV_ROUTES_SVG_PATHS,
+} from "@/lib/routes/navRoutes";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
 import { NavbarMenuItem } from "./NavbarMenuItem";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 interface NavbarMenuProps<R extends AppRole | AgencyRole> {
   isOpened: boolean;
@@ -21,7 +25,6 @@ export const NavbarMenu = <R extends AppRole | AgencyRole>({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const order = NAV_ROUTES_ORDERS[role];
-  const configs = NAV_CONFIG[role];
 
   return (
     <div
@@ -33,13 +36,13 @@ export const NavbarMenu = <R extends AppRole | AgencyRole>({
       )}
     >
       {order.map((routeId, index) => {
-        const config = configs[routeId as (typeof order)[number]];
+        const config = APP_ROUTES_CONFIG[routeId as (typeof order)[number]];
         return (
           <NavbarMenuItem
             key={routeId}
             label={config.label}
             href={config.href}
-            svgPath={config.svgPath}
+            svgPath={NAV_ROUTES_SVG_PATHS[routeId]}
             onMouseOver={() => {
               setHoveredIndex(index);
             }}
