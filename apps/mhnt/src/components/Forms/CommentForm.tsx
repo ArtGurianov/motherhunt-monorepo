@@ -42,7 +42,7 @@ export const CommentForm = ({
   const t = useTranslations("COMMENT");
 
   const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onChange",
+    mode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
       value: defaultValue,
