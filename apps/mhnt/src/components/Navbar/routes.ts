@@ -24,6 +24,7 @@ export const NAV_ROUTES = {
 export type NavRoute = ValueOf<typeof NAV_ROUTES>;
 
 export const SUPER_ADMIN_NAV_ROUTES_ORDER = [
+  NAV_ROUTES.AUCTION,
   NAV_ROUTES.ADMINS,
   NAV_ROUTES.CASES,
 ] as const;
@@ -59,6 +60,12 @@ export const SUPER_ADMIN_NAV_CONFIG: Record<
   (typeof SUPER_ADMIN_NAV_ROUTES_ORDER)[number],
   NavConfigItem<(typeof SUPER_ADMIN_NAV_ROUTES_ORDER)[number]>
 > = {
+  [NAV_ROUTES.AUCTION]: {
+    key: NAV_ROUTES.AUCTION,
+    label: "Auction",
+    href: "/",
+    svgPath: LookSvgUrl,
+  },
   [NAV_ROUTES.ADMINS]: {
     key: NAV_ROUTES.ADMINS,
     label: "Admins",

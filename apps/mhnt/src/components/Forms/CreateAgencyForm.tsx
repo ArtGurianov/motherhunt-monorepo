@@ -32,6 +32,16 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 
+const transformStringToSlug = (value: string) => {
+  let slug = value.trim();
+  return slug
+    .replace(/[^a-zA-Z0-9 ]+/g, "")
+    .replace(/([^ A-Z])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/ +/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
+
 const formSchema = z.object({
   name: z.string().min(3),
   slug: z.string().min(3),
@@ -105,6 +115,10 @@ export const CreateAgencyForm = () => {
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
+                        form.setValue(
+                          "slug",
+                          transformStringToSlug(e.target.value)
+                        );
                         setErrorMessage(null);
                       }}
                     />
@@ -123,7 +137,7 @@ export const CreateAgencyForm = () => {
                     <Input
                       id="agency-slug"
                       aria-invalid={!!form.formState.errors.slug}
-                      disabled={isPending || formStatus === "SUCCESS"}
+                      disabled
                       placeholder={t("slug-placeholder")}
                       {...field}
                       onChange={(e) => {

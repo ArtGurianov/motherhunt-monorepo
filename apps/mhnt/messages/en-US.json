@@ -44,7 +44,7 @@
     "name-label": "Agency Name",
     "name-placeholder": "Provide name of the agency",
     "slug-label": "Agency Slug",
-    "slug-placeholder": "Enter unique slug of the agency",
+    "slug-placeholder": "Unique slug of the agency",
     "slug-description": "Will be used as unique identidier",
     "success-message": "Agency created successfully!",
     "register": "Register",
