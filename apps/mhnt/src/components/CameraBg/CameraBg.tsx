@@ -10,7 +10,7 @@ export const CameraBg = () => (
         width="0"
         height="0"
         sizes="100vh"
-        className="fixed top-2 md:top-8 left-2 md:left-8 h-24 w-24"
+        className="fixed top-2 lg:top-8 left-2 lg:left-8 h-24 w-24"
         priority
       />
       <Image
