@@ -32,15 +32,14 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 
-const transformStringToSlug = (value: string) => {
-  let slug = value.trim();
-  return slug
+const transformStringToSlug = (value: string) =>
+  value
+    .trim()
     .replace(/[^a-zA-Z0-9 ]+/g, "")
     .replace(/([^ A-Z])([A-Z])/g, "$1-$2")
     .toLowerCase()
     .replace(/ +/g, "-")
     .replace(/^-+|-+$/g, "");
-};
 
 const formSchema = z.object({
   name: z.string().min(3),
