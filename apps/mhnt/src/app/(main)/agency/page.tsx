@@ -1,3 +1,9 @@
+import { ManageBookers } from "./_widgets/ManageBookers";
+
 export default function AgencyPage() {
-  return <>{"Agency"}</>;
+  return (
+    <>
+      <ManageBookers />
+    </>
+  );
 }

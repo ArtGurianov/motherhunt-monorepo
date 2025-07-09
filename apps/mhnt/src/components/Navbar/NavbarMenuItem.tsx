@@ -5,14 +5,12 @@ import Image from "next/image";
 import { CaptureBtn, CaptureBtnProps } from "@/components/CaptureBtn";
 
 interface NavbarMenuItemProps extends CaptureBtnProps {
-  label: string;
   href: string;
   svgPath: string;
   isActive: boolean;
 }
 
 export const NavbarMenuItem = ({
-  label,
   href,
   svgPath,
   ...rest
@@ -23,7 +21,7 @@ export const NavbarMenuItem = ({
         <Image
           className="absolute top-0 left-0"
           src={svgPath}
-          alt={label}
+          alt={`icon for ${href}`}
           sizes="100vh"
           priority
           fill

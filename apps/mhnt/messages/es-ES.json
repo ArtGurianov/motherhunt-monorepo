@@ -81,11 +81,18 @@
     "or": "o",
     "agency": "AGENCIA"
   },
-  "SETTINGS_DIALOG_TITLES": {
-    "settings": "Configuración de Usuario",
-    "agency": "Mis Agencias",
-    "requests": "Mis solicitudes",
-    "default": "Ruta Desconocida"
+  "ROUTES_TITLES": {
+    "MODAL_SETTINGS": "Configuración de usuario",
+    "MODAL_MY_AGENCIES": "Mis agencias",
+    "MODAL_MY_REQUESTS": "Mis solicitudes",
+    "AUCTION": "Subasta",
+    "CASES": "Casos",
+    "DEALS": "Tratos",
+    "HUNT": "Caza",
+    "AGENCY": "Agencia",
+    "ADMINS": "Administradores",
+    "AGENCY_APPLY": "Solicitud de agencia",
+    "default": "Ruta desconocida"
   },
   "EMAIL": {
     "agency-rejected-subject": "Agencia Rechazada",
@@ -135,6 +142,7 @@
     "unexpected-error": "Ocurrió un error inesperado",
     "SIGNED_IN": "¡Sesión iniciada!",
     "SIGNED_OUT": "¡Sesión cerrada!",
-    "UPDATED": "¡Actualizado correctamente!"
+    "UPDATED": "¡Actualizado correctamente!",
+    "ACCESS_DENIED": "Acceso denegado"
   }
 }

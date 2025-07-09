@@ -81,11 +81,18 @@
     "or": "или",
     "agency": "АГЕНТСТВО"
   },
-  "SETTINGS_DIALOG_TITLES": {
-    "settings": "Настройки пользователя",
-    "agency": "Мои агентства",
-    "requests": "Мои заявки",
-    "default": "Неизвестный путь"
+  "ROUTES_TITLES": {
+    "MODAL_SETTINGS": "Настройки пользователя",
+    "MODAL_MY_AGENCIES": "Мои агентства",
+    "MODAL_MY_REQUESTS": "Мои заявки",
+    "AUCTION": "Аукцион",
+    "CASES": "Дела",
+    "DEALS": "Сделки",
+    "HUNT": "Охота",
+    "AGENCY": "Агентство",
+    "ADMINS": "Администраторы",
+    "AGENCY_APPLY": "Заявка в агентство",
+    "default": "Неизвестный маршрут"
   },
   "EMAIL": {
     "agency-rejected-subject": "Агентство отклонено",
@@ -135,6 +142,7 @@
     "unexpected-error": "Произошла непредвиденная ошибка",
     "SIGNED_IN": "Вход выполнен!",
     "SIGNED_OUT": "Выход выполнен!",
-    "UPDATED": "Успешно обновлено!"
+    "UPDATED": "Успешно обновлено!",
+    "ACCESS_DENIED": "Доступ запрещён"
   }
 }

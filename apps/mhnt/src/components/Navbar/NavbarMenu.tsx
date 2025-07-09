@@ -40,7 +40,6 @@ export const NavbarMenu = <R extends AppRole | AgencyRole>({
         return (
           <NavbarMenuItem
             key={routeId}
-            label={config.label}
             href={config.href}
             svgPath={NAV_ROUTES_SVG_PATHS[routeId]}
             onMouseOver={() => {

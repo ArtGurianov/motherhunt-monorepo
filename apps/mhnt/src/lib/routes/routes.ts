@@ -7,43 +7,51 @@ export const APP_ROUTES = {
   AGENCY: "AGENCY",
   DEALS: "DEALS",
   HUNT: "HUNT",
+  AGENCY_APPLY: "AGENCY_APPLY",
+  MODAL_SETTINGS: "MODAL_SETTINGS",
+  MODAL_MY_AGENCIES: "MODAL_MY_AGENCIES",
+  MODAL_MY_REQUESTS: "MODAL_MY_REQUESTS",
 } as const;
-
-export const MAIN_ROUTES: AppRoute[] = [
-  APP_ROUTES.AUCTION,
-  APP_ROUTES.DEALS,
-  APP_ROUTES.HUNT,
-  APP_ROUTES.CASES,
-];
 
 export type AppRoute = ValueOf<typeof APP_ROUTES>;
 export interface AppRouteConfig<T extends AppRoute> {
   key: T;
-  label: string;
   href: string;
 }
 
 export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
   [APP_ROUTES.AUCTION]: {
     key: APP_ROUTES.AUCTION,
-    label: "Auction",
     href: "/",
   },
   [APP_ROUTES.ADMINS]: {
     key: APP_ROUTES.ADMINS,
-    label: "Admins",
     href: "/admin/admins",
   },
   [APP_ROUTES.CASES]: {
     key: APP_ROUTES.CASES,
-    label: "Cases",
     href: "/admin/cases",
   },
-  [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, label: "Deals", href: "/deals" },
-  [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, label: "Hunt", href: "/hunt" },
+  [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, href: "/deals" },
+  [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, href: "/hunt" },
   [APP_ROUTES.AGENCY]: {
     key: APP_ROUTES.AGENCY,
-    label: "Agency",
     href: "/agency",
+  },
+  [APP_ROUTES.AGENCY_APPLY]: {
+    key: APP_ROUTES.AGENCY_APPLY,
+    href: "/agency/apply",
+  },
+  [APP_ROUTES.MODAL_SETTINGS]: {
+    key: APP_ROUTES.MODAL_SETTINGS,
+    href: "/settings",
+  },
+  [APP_ROUTES.MODAL_MY_AGENCIES]: {
+    key: APP_ROUTES.MODAL_MY_AGENCIES,
+    href: "/settings/agency",
+  },
+  [APP_ROUTES.MODAL_MY_REQUESTS]: {
+    key: APP_ROUTES.MODAL_MY_REQUESTS,
+    href: "/settings/agency/requests",
   },
 };

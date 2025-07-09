@@ -81,10 +81,17 @@
     "or": "or",
     "agency": "AGENCY"
   },
-  "SETTINGS_DIALOG_TITLES": {
-    "settings": "User Settings",
-    "agency": "My Agencies",
-    "requests": "My requests",
+  "ROUTES_TITLES": {
+    "MODAL_SETTINGS": "User Settings",
+    "MODAL_MY_AGENCIES": "My Agencies",
+    "MODAL_MY_REQUESTS": "My requests",
+    "AUCTION": "Auction",
+    "CASES": "Cases",
+    "DEALS": "Deals",
+    "HUNT": "Hunt",
+    "AGENCY": "Agency",
+    "ADMINS": "Admins",
+    "AGENCY_APPLY": "Agency Application",
     "default": "Unknown Route"
   },
   "EMAIL": {
@@ -135,6 +142,7 @@
     "unexpected-error": "An unexpected error occurred",
     "SIGNED_IN": "Signed in!",
     "SIGNED_OUT": "Signed out!",
-    "UPDATED": "Successfully updated!"
+    "UPDATED": "Successfully updated!",
+    "ACCESS_DENIED": "Access denied!"
   }
 }

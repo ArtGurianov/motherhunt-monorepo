@@ -7,7 +7,6 @@ export const APP_ENTITIES = {
   ADMIN: "ADMIN",
   SCOUTER: "SCOUTER",
   LOT: "LOT",
-  BID: "BID",
 } as const;
 export type AppEntity = ValueOf<typeof APP_ENTITIES>;
 
@@ -18,7 +17,6 @@ const appActions = {
   [AGENCY_ENTITIES.AGENCY_ORGANIZATION]: ["create", "update", "ban"],
   [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create", "update", "ban"],
   [APP_ENTITIES.LOT]: ["create", "update", "ban"],
-  [APP_ENTITIES.BID]: ["create", "update"],
 } as const;
 
 export const appAccessControl = createAccessControl(appActions);
@@ -33,18 +31,16 @@ export type AppRole = ValueOf<typeof APP_ROLES>;
 export const APP_ROLES_CONFIG = {
   [APP_ROLES.SUPER_ADMIN]: appAccessControl.newRole({
     [APP_ENTITIES.SUPER_ADMIN]: ["update"],
-    [APP_ENTITIES.ADMIN]: ["create", "update", "ban"],
+    [APP_ENTITIES.ADMIN]: ["update", "ban"],
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.LOT]: ["update", "ban"],
-    [AGENCY_ENTITIES.AGENCY_ORGANIZATION]: ["create", "update", "ban"],
-    [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create", "update", "ban"],
   }),
   [APP_ROLES.ADMIN]: appAccessControl.newRole({
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.LOT]: ["update", "ban"],
-    [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create", "update", "ban"],
   }),
   [APP_ROLES.SCOUTER]: appAccessControl.newRole({
     [APP_ENTITIES.SCOUTER]: ["update"],
+    [APP_ENTITIES.LOT]: ["create", "update"],
   }),
 };

@@ -81,10 +81,17 @@
     "or": "或",
     "agency": "代理机构"
   },
-  "SETTINGS_DIALOG_TITLES": {
-    "settings": "用户设置",
-    "agency": "我的代理机构",
-    "requests": "我的申请",
+  "ROUTES_TITLES": {
+    "MODAL_SETTINGS": "用户设置",
+    "MODAL_MY_AGENCIES": "我的机构",
+    "MODAL_MY_REQUESTS": "我的申请",
+    "AUCTION": "拍卖",
+    "CASES": "案件",
+    "DEALS": "交易",
+    "HUNT": "猎捕",
+    "AGENCY": "机构",
+    "ADMINS": "管理员",
+    "AGENCY_APPLY": "机构申请",
     "default": "未知路由"
   },
   "EMAIL": {
@@ -135,6 +142,7 @@
     "unexpected-error": "发生意外错误",
     "SIGNED_IN": "登录成功！",
     "SIGNED_OUT": "已退出登录！",
-    "UPDATED": "更新成功！"
+    "UPDATED": "更新成功！",
+    "ACCESS_DENIED": "无权访问"
   }
 }
