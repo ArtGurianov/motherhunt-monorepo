@@ -5,11 +5,11 @@
     "signed-out-status": "НЕ ВЫПОЛНЕН"
   },
   "ROLES": {
-    "SCOUTER": "СКАУТ",
-    "HEAD_BOOKER": "ХЭДБУКЕР",
-    "BOOKER": "БУКЕР",
-    "ADMIN": "АДМИН",
-    "SUPER_ADMIN": "СУПЕРАДМИН"
+    "SCOUTER_ROLE": "СКАУТ",
+    "HEAD_BOOKER_ROLE": "ХЭДБУКЕР",
+    "BOOKER_ROLE": "БУКЕР",
+    "ADMIN_ROLE": "АДМИН",
+    "SUPER_ADMIN_ROLE": "СУПЕРАДМИН"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "В ожидании",

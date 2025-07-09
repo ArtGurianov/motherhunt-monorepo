@@ -6,7 +6,7 @@ import {
   customSessionClient,
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import { auth } from "./auth";
+import auth from "./auth";
 import {
   APP_ROLES_CONFIG,
   appAccessControl,

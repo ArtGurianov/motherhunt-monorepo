@@ -23,7 +23,7 @@ import {
 import { getAppURL, getSiteURL, getAppLocale } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
 import { OrganizationBeforeReviewMetadata } from "../utils/types";
-import { sessionUpdateBefore } from "./dbHooks.ts/sessionUpdateBefore";
+import { sessionUpdateBefore } from "./dbHooks/sessionUpdateBefore";
 import { getTranslations } from "next-intl/server";
 import { APIError } from "./apiError";
 import { revalidatePath } from "next/cache";
@@ -59,14 +59,14 @@ const options = {
     }) as unknown as BetterAuthPlugin,
     adminPlugin({
       ac: appAccessControl,
-      defaultRole: APP_ROLES.SCOUTER,
-      adminRoles: [APP_ROLES.SUPER_ADMIN, APP_ROLES.ADMIN],
+      defaultRole: APP_ROLES.SCOUTER_ROLE,
+      adminRoles: [APP_ROLES.SUPER_ADMIN_ROLE, APP_ROLES.ADMIN_ROLE],
       roles: APP_ROLES_CONFIG,
     }),
     organizationPlugin({
       ac: agencyAccessControl,
       roles: AGENCY_ROLES_CONFIG,
-      creatorRole: AGENCY_ROLES.HEAD_BOOKER,
+      creatorRole: AGENCY_ROLES.HEAD_BOOKER_ROLE,
       organizationCreation: {
         beforeCreate: async ({ organization, user }) => {
           const userOrganizations = await prismaClient.member.findMany({
@@ -208,7 +208,7 @@ const options = {
   },
 } satisfies BetterAuthOptions;
 
-export const auth = betterAuth({
+const auth = betterAuth({
   ...options,
   plugins: [
     ...(options.plugins ?? []),
@@ -245,3 +245,18 @@ export const auth = betterAuth({
     }, options),
   ],
 });
+
+type AuthWithHasPermission = typeof auth & {
+  api: (typeof auth)["api"] & {
+    hasPermission(props: {
+      headers: Headers;
+      body: {
+        organizationId: string;
+        permissions: Record<string, string[]>;
+      };
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+    }): { error: any; success: boolean };
+  };
+};
+
+export default auth as AuthWithHasPermission;

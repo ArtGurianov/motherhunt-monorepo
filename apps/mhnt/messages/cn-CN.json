@@ -5,11 +5,11 @@
     "signed-out-status": "未登录"
   },
   "ROLES": {
-    "SCOUTER": "星探",
-    "HEAD_BOOKER": "首席预订员",
-    "BOOKER": "预订员",
-    "ADMIN": "管理员",
-    "SUPER_ADMIN": "超级管理员"
+    "SCOUTER_ROLE": "星探",
+    "HEAD_BOOKER_ROLE": "首席预订员",
+    "BOOKER_ROLE": "预订员",
+    "ADMIN_ROLE": "管理员",
+    "SUPER_ADMIN_ROLE": "超级管理员"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "待处理",

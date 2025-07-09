@@ -11,7 +11,7 @@ async function main() {
       email: superAdminEmail,
       name: "Super Admin",
       emailVerified: true,
-      role: "SUPER_ADMIN",
+      role: "SUPER_ADMIN_ROLE",
     },
     update: {},
   });

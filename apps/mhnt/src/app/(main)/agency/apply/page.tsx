@@ -1,11 +1,10 @@
+import auth from "@/lib/auth/auth";
 import { CreateAgencyForm } from "@/components/Forms";
-import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function AgencyApplicationPage() {
   const headersList = await headers();
-
   const session = await auth.api.getSession({
     headers: headersList,
   });

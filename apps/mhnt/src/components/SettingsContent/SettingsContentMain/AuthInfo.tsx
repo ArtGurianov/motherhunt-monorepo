@@ -51,8 +51,8 @@ export const AuthInfo = () => {
           </span>
         </InlineDataContent>
       </InlineData>
-      {session.user.role !== APP_ROLES.SUPER_ADMIN &&
-      session.user.role !== APP_ROLES.ADMIN ? (
+      {session.user.role !== APP_ROLES.SUPER_ADMIN_ROLE &&
+      session.user.role !== APP_ROLES.ADMIN_ROLE ? (
         <div className="relative w-full h-10">
           <div className="absolute z-0 top-0 left-1/2 -translate-x-1/2 h-full flex gap-2 items-center px-1">
             <span className="text-sm font-bold text-end text-nowrap">

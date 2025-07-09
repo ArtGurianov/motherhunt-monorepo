@@ -1,7 +1,6 @@
 "use server";
 
-import { auth } from "@/lib/auth/auth";
-import { AGENCY_ENTITIES } from "@/lib/auth/permissions/agency-permissions";
+import auth from "@/lib/auth/auth";
 import { prismaClient } from "@/lib/db";
 import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 import { headers } from "next/headers";
@@ -27,19 +26,6 @@ export const processAgencyApplication = async ({
   });
   if (!session) {
     throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
-  }
-  const permissionResult = await auth.api.userHasPermission({
-    headers: headersList,
-    body: {
-      userId: session.user.id,
-      permissions: {
-        [AGENCY_ENTITIES.AGENCY_ORGANIZATION]: ["create"],
-        [AGENCY_ENTITIES.AGENCY_HEAD_BOOKER]: ["create"],
-      },
-    },
-  });
-  if (!permissionResult.success) {
-    throw new APIError("FORBIDDEN", { message: "Permission Denied" });
   }
 
   const updateMetadata: OrganizationAfterReviewMetadata = rejectionReason

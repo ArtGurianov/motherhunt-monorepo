@@ -5,11 +5,11 @@
     "signed-out-status": "LOGGED OUT"
   },
   "ROLES": {
-    "SCOUTER": "SCOUTER",
-    "HEAD_BOOKER": "HEAD BOOKER",
-    "BOOKER": "BOOKER",
-    "ADMIN": "ADMIN",
-    "SUPER_ADMIN": "SUPER ADMIN"
+    "SCOUTER_ROLE": "SCOUTER",
+    "HEAD_BOOKER_ROLE": "HEAD BOOKER",
+    "BOOKER_ROLE": "BOOKER",
+    "ADMIN_ROLE": "ADMIN",
+    "SUPER_ADMIN_ROLE": "SUPER ADMIN"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "Pending",
