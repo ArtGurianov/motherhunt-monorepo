@@ -1,9 +1,9 @@
 "use server";
 
 import { headers } from "next/headers";
-import auth from "../../auth";
-import { AGENCY_ROLES } from "../agency-permissions";
-import { APP_ROLES } from "../app-permissions";
+import auth from "../auth";
+import { AGENCY_ROLES } from "./agency-permissions";
+import { APP_ROLES } from "./app-permissions";
 
 export const canViewSuperAdmin = async () => {
   try {

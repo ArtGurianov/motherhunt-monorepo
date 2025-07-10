@@ -33,15 +33,15 @@ export const StatusCard = ({
   return (
     <Card
       className={cn(
-        "flex flex-col items-center justify-center gap-2",
+        "flex flex-col items-center justify-center gap-2 max-w-md w-full",
         {
-          "bg-red-700": type === StatusCardTypes.ERROR,
+          "bg-red-700/70": type === StatusCardTypes.ERROR,
         },
         className
       )}
     >
-      <CardHeader className="text-center lg:text-end">
-        <CardTitle className="font-elliot text-foreground">{title}</CardTitle>
+      <CardHeader className="text-center w-full">
+        <CardTitle className="text-nowrap">{title}</CardTitle>
         {description ? (
           <CardDescription className="font-sans text-lg text-card">
             {description}
