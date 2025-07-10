@@ -9,8 +9,8 @@ const locale = getAppLocale();
 export default async function SuperAdminLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const canView = await canViewSuperAdmin();
-  if (!canView) {
+  const { canAccess } = await canViewSuperAdmin();
+  if (!canAccess) {
     const t = await getTranslations({ locale, namespace: "TOASTS" });
     return (
       <StatusCard type={StatusCardTypes.ERROR} title={t("ACCESS_DENIED")} />

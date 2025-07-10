@@ -3,21 +3,51 @@ import { ManageBookers } from "./_widgets/ManageBookers";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { getTranslations } from "next-intl/server";
 import { getAppLocale } from "@shared/ui/lib/utils";
+import { prismaClient } from "@/lib/db";
+import { User } from "@shared/db";
 
 const locale = getAppLocale();
 
 export default async function AgencyManagePage() {
-  const canAccess = await canViewHeadBooker();
-  if (!canAccess) {
+  const { canAccess, data: organizationId } = await canViewHeadBooker();
+  if (!canAccess || !organizationId) {
     const t = await getTranslations({ locale, namespace: "TOASTS" });
     return (
       <StatusCard type={StatusCardTypes.ERROR} title={t("ACCESS_DENIED")} />
     );
   }
 
+  const bookersList = await prismaClient.member.findMany({
+    where: { organizationId },
+  });
+  const usersList = bookersList.length
+    ? await prismaClient.user.findMany({
+        where: { id: { in: bookersList.map((each) => each.userId) } },
+      })
+    : [];
+
+  const usersMap = usersList.reduce(
+    (temp, next) => ({
+      ...temp,
+      [next.id]: next,
+    }),
+    {} as Record<string, User>
+  );
+
+  const bookersData = bookersList.reduce(
+    (temp, { role, userId }) => [
+      ...temp,
+      { role, email: usersMap[userId]?.email ?? "unknown email", userId },
+    ],
+    [] as Array<{ role: string; email: string; userId: string }>
+  );
+
   return (
     <>
-      <ManageBookers />
+      <ManageBookers
+        organizationId={organizationId}
+        bookersData={bookersData}
+      />
     </>
   );
 }

@@ -5,13 +5,18 @@ import auth from "../auth";
 import { AGENCY_ROLES } from "./agency-permissions";
 import { APP_ROLES } from "./app-permissions";
 
-export const canViewSuperAdmin = async () => {
+export type CanAccessReturnType = {
+  canAccess: boolean;
+  data?: string;
+};
+
+export const canViewSuperAdmin = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
       headers: headersList,
     });
-    if (!session) return false;
+    if (!session) return { canAccess: false };
 
     const result = await auth.api.userHasPermission({
       body: {
@@ -22,19 +27,19 @@ export const canViewSuperAdmin = async () => {
       },
     });
 
-    return result.success;
+    return { canAccess: result.success };
   } catch {
-    return false;
+    return { canAccess: false };
   }
 };
 
-export const canViewAdmin = async () => {
+export const canViewAdmin = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
       headers: headersList,
     });
-    if (!session) return false;
+    if (!session) return { canAccess: false };
 
     const result = await auth.api.userHasPermission({
       body: {
@@ -44,19 +49,19 @@ export const canViewAdmin = async () => {
         },
       },
     });
-    return result.success;
+    return { canAccess: result.success };
   } catch {
-    return false;
+    return { canAccess: false };
   }
 };
 
-export const canViewScouter = async () => {
+export const canViewScouter = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
       headers: headersList,
     });
-    if (!session) return false;
+    if (!session) return { canAccess: false };
 
     const result = await auth.api.userHasPermission({
       body: {
@@ -66,19 +71,19 @@ export const canViewScouter = async () => {
         },
       },
     });
-    return result.success;
+    return { canAccess: result.success };
   } catch {
-    return false;
+    return { canAccess: false };
   }
 };
 
-export const canViewHeadBooker = async () => {
+export const canViewHeadBooker = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
       headers: headersList,
     });
-    if (!session?.session.activeOrganizationId) return false;
+    if (!session?.session.activeOrganizationId) return { canAccess: false };
 
     const result = await auth.api.hasPermission({
       headers: headersList,
@@ -89,8 +94,11 @@ export const canViewHeadBooker = async () => {
         },
       },
     });
-    return result.success;
+    return {
+      canAccess: result.success,
+      data: session.session.activeOrganizationId,
+    };
   } catch {
-    return false;
+    return { canAccess: false };
   }
 };

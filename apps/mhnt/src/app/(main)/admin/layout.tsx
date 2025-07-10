@@ -9,8 +9,8 @@ const locale = getAppLocale();
 export default async function AdminLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const canView = await canViewAdmin();
-  if (!canView) {
+  const { canAccess } = await canViewAdmin();
+  if (!canAccess) {
     const t = await getTranslations({ locale, namespace: "TOASTS" });
     return (
       <StatusCard
