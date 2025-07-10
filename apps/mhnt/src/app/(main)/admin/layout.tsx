@@ -13,7 +13,11 @@ export default async function AdminLayout({
   if (!canView) {
     const t = await getTranslations({ locale, namespace: "TOASTS" });
     return (
-      <StatusCard type={StatusCardTypes.ERROR} title={t("ACCESS_DENIED")} />
+      <StatusCard
+        type={StatusCardTypes.ERROR}
+        title={t("ACCESS_DENIED")}
+        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
+      />
     );
   }
 

@@ -93,6 +93,7 @@
     "ADMINS": "Administradores",
     "AGENCY_APPLY": "Solicitud de agencia",
     "AGENCY_MANAGE": "Administrar de agencia",
+    "AGENCIES_APPLICATIONS": "Aplicaciones de Agencias",
     "default": "Ruta desconocida"
   },
   "EMAIL": {

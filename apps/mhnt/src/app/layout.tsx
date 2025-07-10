@@ -42,7 +42,7 @@ export default function RootLayout({
         className={`relative ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CameraBg />
-        <main className="relative flex flex-col min-h-svh w-full pt-8 md:pt-12">
+        <main className="relative flex flex-col min-h-svh w-full pt-8">
           <NextIntlClientProvider>
             <AppProviders>
               <div className="flex flex-col min-h-content w-full justify-start items-center">

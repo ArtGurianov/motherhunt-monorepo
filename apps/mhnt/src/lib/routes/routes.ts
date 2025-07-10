@@ -3,6 +3,7 @@ import { ValueOf } from "@shared/ui/lib/types";
 export const APP_ROUTES = {
   ADMINS: "ADMINS",
   CASES: "CASES",
+  AGENCIES_APPLICATIONS: "AGENCIES_APPLICATIONS",
   AUCTION: "AUCTION",
   AGENCY: "AGENCY",
   DEALS: "DEALS",
@@ -32,6 +33,10 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
   [APP_ROUTES.CASES]: {
     key: APP_ROUTES.CASES,
     href: "/admin/cases",
+  },
+  [APP_ROUTES.AGENCIES_APPLICATIONS]: {
+    key: APP_ROUTES.AGENCIES_APPLICATIONS,
+    href: "/admin/cases/agencies",
   },
   [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, href: "/deals" },
   [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, href: "/hunt" },

@@ -93,6 +93,7 @@
     "ADMINS": "Admins",
     "AGENCY_APPLY": "Agency Application",
     "AGENCY_MANAGE": "Manage Agency",
+    "AGENCIES_APPLICATIONS": "Agencies Applications",
     "default": "Unknown Route"
   },
   "EMAIL": {

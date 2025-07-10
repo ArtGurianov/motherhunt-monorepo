@@ -93,6 +93,7 @@
     "ADMINS": "管理员",
     "AGENCY_APPLY": "机构申请",
     "AGENCY_MANAGE": "管理机构",
+    "AGENCIES_APPLICATIONS": "机构申请",
     "default": "未知路由"
   },
   "EMAIL": {
