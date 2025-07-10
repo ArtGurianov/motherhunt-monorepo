@@ -33,7 +33,7 @@ export const StatusCard = ({
   return (
     <Card
       className={cn(
-        "flex flex-col items-center justify-center gap-2 max-w-md w-full",
+        "flex flex-col items-center justify-center gap-2",
         {
           "bg-red-700/70": type === StatusCardTypes.ERROR,
         },
