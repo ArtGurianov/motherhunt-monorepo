@@ -1,7 +1,9 @@
 "use client";
 
+import { DangerousActionDialog } from "@/components/DangerousActionDialog/DangerousActionDialog";
 import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
+import { authClient } from "@/lib/auth/authClient";
 import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -14,16 +16,50 @@ import {
   TableRow,
 } from "@shared/ui/components/table";
 import { Ban, Crown } from "lucide-react";
+import { redirect } from "next/navigation";
+import { useState } from "react";
 
 interface ManageBookersProps {
   organizationId: string;
   bookersData: Array<{ role: string; email: string; userId: string }>;
 }
 
-export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
+export const ManageBookers = ({
+  bookersData,
+  organizationId,
+}: ManageBookersProps) => {
+  const [targetActionData, setTargetActionData] = useState<{
+    targetId: string;
+    action: "revoke" | "transfer";
+  } | null>(null);
+
+  const revokeBooker = async () => {
+    if (targetActionData) {
+      await authClient.organization.removeMember({
+        memberIdOrEmail: targetActionData.targetId,
+        organizationId,
+      });
+    }
+  };
+
+  const transferHeadBooker = async () => {
+    console.log("transfer");
+    redirect("/");
+  };
+
+  const onActionConfirm = async () => {
+    if (!targetActionData) return;
+    if (targetActionData.action === "revoke") {
+      await revokeBooker();
+    }
+    if (targetActionData.action === "transfer") {
+      await transferHeadBooker();
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-12 grow justify-center items-center">
-      <InfoCard title={"bookers"}>
+    <>
+      <InfoCard title={"bookers"} className="w-auto">
         {bookersData.length ? (
           <Table>
             <TableCaption className="text-foreground">
@@ -48,7 +84,12 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
                         disabled={role === AGENCY_ROLES.HEAD_BOOKER_ROLE}
                         size="reset"
                         className="p-px [&_svg]:size-6"
-                        onClick={async () => {}}
+                        onClick={() => {
+                          setTargetActionData({
+                            action: "revoke",
+                            targetId: userId,
+                          });
+                        }}
                       >
                         <Ban />
                       </Button>
@@ -60,7 +101,12 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
                         disabled={role === AGENCY_ROLES.HEAD_BOOKER_ROLE}
                         size="reset"
                         className="p-px [&_svg]:size-6"
-                        onClick={async () => {}}
+                        onClick={() => {
+                          setTargetActionData({
+                            action: "transfer",
+                            targetId: userId,
+                          });
+                        }}
                       >
                         <Crown />
                       </Button>
@@ -75,39 +121,16 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
         )}
         <BookerInvitationForm />
       </InfoCard>
-      {/* <DialogDrawer
-        title={t("reject-title")}
-        isOpen={typeof targetDataIndex === "number"}
-        onClose={() => {
-          setTargetDataIndex(null);
-        }}
-      >
-        <CommentForm
-          onSubmit={async (value) => {
-            if (typeof targetDataIndex === "number") {
-              const metadata = JSON.parse(
-                data[targetDataIndex]!.metadata!
-              ) as OrganizationBeforeReviewMetadata;
-              try {
-                await processAgencyApplication({
-                  organizationId: data[targetDataIndex]!.id,
-                  headBookerEmail: metadata.creatorEmail,
-                  rejectionReason: value,
-                });
-                setTargetDataIndex(null);
-                toast(tToasts("rejected-message"));
-                router.refresh();
-              } catch (error) {
-                if (error instanceof Error) {
-                  toast(error.message);
-                } else {
-                  toast(tCommon("unexpected-error"));
-                }
-              }
-            }
-          }}
-        />
-      </DialogDrawer> */}
-    </div>
+      <DangerousActionDialog
+        title={
+          targetActionData?.action === "revoke"
+            ? "Revoke Booker"
+            : "Transfer Role"
+        }
+        isOpen={!!targetActionData}
+        onClose={() => setTargetActionData(null)}
+        onActionConfirm={onActionConfirm}
+      />
+    </>
   );
 };
