@@ -16,7 +16,7 @@
     "APPROVED": "Aprobado",
     "REJECTED": "Rechazado"
   },
-  "SIGNIN": {
+  "SIGN_IN": {
     "title": "Inicia sesión en tu cuenta",
     "description": "Ingresa tu email a continuación para iniciar sesión en tu cuenta",
     "email-label": "Email",
@@ -145,6 +145,7 @@
     "SIGNED_IN": "¡Sesión iniciada!",
     "SIGNED_OUT": "¡Sesión cerrada!",
     "UPDATED": "¡Actualizado correctamente!",
+    "SUCCESS": "SUCCESS",
     "ACCESS_DENIED": "Acceso denegado"
   }
 }

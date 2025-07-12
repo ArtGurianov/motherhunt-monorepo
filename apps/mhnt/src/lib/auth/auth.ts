@@ -27,13 +27,15 @@ import { sessionUpdateBefore } from "./dbHooks/sessionUpdateBefore";
 import { getTranslations } from "next-intl/server";
 import { APIError } from "./apiError";
 import { revalidatePath } from "next/cache";
+import { inviteBooker } from "@/actions/inviteBooker";
 
 const locale = getAppLocale();
+const appURL = getAppURL(locale);
 const t = await getTranslations({ locale, namespace: "EMAIL" });
 
 const options = {
   appName: "motherHunt",
-  baseURL: getAppURL(),
+  baseURL: appURL,
   basePath: "/api/auth",
   database: prismaAdapter(prismaClient, {
     provider: "mongodb",
@@ -103,11 +105,12 @@ const options = {
             subject: t("org-setup-subject"),
             meta: {
               description: t("org-setup-description"),
-              link: `${getAppURL(locale)}/signin`,
+              link: `${appURL}/sign-in`,
             },
           });
         },
       },
+      sendInvitationEmail: inviteBooker,
     }) as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
   ],
@@ -134,7 +137,7 @@ const options = {
     },
   },
   // secondaryStorage: {},
-  trustedOrigins: [getAppURL(), getSiteURL()],
+  trustedOrigins: [appURL, getSiteURL()],
   advanced: {
     database: { generateId: false },
     crossSubDomainCookies: {
@@ -214,17 +217,19 @@ const auth = betterAuth({
     ...(options.plugins ?? []),
     customSession(async ({ user, session }) => {
       const {
-        id: userId,
+        id,
+        email,
         recentOrganizationId: activeOrganizationId,
         recentOrganizationName: activeOrganizationName,
       } = user;
 
       let activeOrganizationRole: string | null = null;
       if (activeOrganizationId) {
-        activeOrganizationRole = await getMemberRole(
-          userId,
-          activeOrganizationId
-        );
+        activeOrganizationRole = await getMemberRole({
+          userId: id,
+          email,
+          organizationId: activeOrganizationId,
+        });
       }
 
       return {

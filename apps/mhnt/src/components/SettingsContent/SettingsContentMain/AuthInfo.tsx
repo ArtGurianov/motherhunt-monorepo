@@ -16,6 +16,7 @@ import { redirect } from "next/navigation";
 import { useTransition } from "react";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useTranslations } from "next-intl";
+import { useActiveMember } from "@/lib/hooks/useActiveMember";
 
 export const AuthInfo = () => {
   const [isPending, startTransition] = useTransition();
@@ -25,16 +26,17 @@ export const AuthInfo = () => {
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tRoles = useTranslations("ROLES");
 
-  const { isPending: isSessionPending, data: session } =
-    authClient.useSession();
-  if (isSessionPending) return tCommon("loading");
-  if (!session) redirect("/signin");
-
   const {
     isPending: isActiveMemberPending,
     data: activeMember,
     refetch: refetchActiveMember,
-  } = authClient.useActiveMember();
+  } = useActiveMember();
+
+  const { isPending: isSessionPending, data: session } =
+    authClient.useSession();
+
+  if (isSessionPending) return tCommon("loading");
+  if (!session) redirect("/sign-in");
 
   return (
     <InfoCard title={tTitles("account")}>

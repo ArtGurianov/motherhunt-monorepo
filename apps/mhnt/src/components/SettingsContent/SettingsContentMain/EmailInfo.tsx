@@ -16,7 +16,7 @@ export const EmailInfo = () => {
   const tTitles = useTranslations("INFO_CARD_TITLES");
 
   if (isPending) return tCommon("loading");
-  if (!data) redirect("/signin");
+  if (!data) redirect("/sign-in");
 
   return (
     <InfoCard title={tTitles("email")}>

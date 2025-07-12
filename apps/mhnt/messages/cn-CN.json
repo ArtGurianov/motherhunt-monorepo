@@ -16,7 +16,7 @@
     "APPROVED": "已批准",
     "REJECTED": "已拒绝"
   },
-  "SIGNIN": {
+  "SIGN_IN": {
     "title": "登录您的账户",
     "description": "在下方输入您的邮箱以登录账户",
     "email-label": "邮箱",
@@ -145,6 +145,7 @@
     "SIGNED_IN": "登录成功！",
     "SIGNED_OUT": "已退出登录！",
     "UPDATED": "更新成功！",
+    "SUCCESS": "SUCCESS",
     "ACCESS_DENIED": "无权访问"
   }
 }

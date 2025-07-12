@@ -24,6 +24,7 @@ const agencyActions = {
   [AGENCY_ENTITIES.SELECTION]: ["create", "update"],
   [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view"],
   [AGENCY_ROLES.BOOKER_ROLE]: ["view"],
+  invitation: ["create"],
 } as const;
 
 export const agencyAccessControl = createAccessControl(agencyActions);
@@ -37,6 +38,7 @@ export const AGENCY_ROLES_CONFIG = {
     [AGENCY_ENTITIES.SELECTION]: ["create", "update"],
     [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view"],
     [AGENCY_ROLES.BOOKER_ROLE]: ["view"],
+    invitation: ["create"],
   }),
   [AGENCY_ROLES.BOOKER_ROLE]: agencyAccessControl.newRole({
     [AGENCY_ENTITIES.SELECTION]: ["create", "update"],

@@ -1,17 +1,15 @@
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAppParams } from "./useAppParams";
 
 export const useCloseIntercepted = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const returnTo = searchParams.get("returnTo");
-  const updatedParams = new URLSearchParams(searchParams.toString());
-  updatedParams.delete("returnTo");
+  const { getParam, deleteParam, getUpdatedParamsString } = useAppParams();
+  const returnTo = getParam("returnTo");
 
   return {
     onInterceptedClose: () => {
-      router.push(
-        `${returnTo ?? "/"}${updatedParams.size ? "?" + updatedParams.toString() : ""}`
-      );
+      deleteParam("returnTo");
+      router.push(`${returnTo ?? "/"}${getUpdatedParamsString()}`);
     },
   };
 };

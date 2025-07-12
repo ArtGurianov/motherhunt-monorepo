@@ -1,5 +1,6 @@
 "use client";
 
+import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
 import { Button } from "@shared/ui/components/button";
@@ -72,6 +73,7 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
         ) : (
           <span className="w-full text-center">{"No bookers found"}</span>
         )}
+        <BookerInvitationForm />
       </InfoCard>
       {/* <DialogDrawer
         title={t("reject-title")}

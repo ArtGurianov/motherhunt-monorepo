@@ -55,7 +55,7 @@ export const processAgencyApplication = async ({
       description: rejectionReason
         ? t("agency-rejected-description")
         : t("agency-accepted-description"),
-      link: `${getAppURL(locale)}/signin`,
+      link: `${getAppURL(locale)}/sign-in`,
     },
   });
 };

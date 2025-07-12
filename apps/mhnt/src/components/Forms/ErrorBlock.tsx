@@ -1,3 +1,4 @@
+import { cn } from "@shared/ui/lib/utils";
 import React from "react";
 
 interface ErrorBlockProps {
@@ -14,7 +15,7 @@ export const ErrorBlock: React.FC<ErrorBlockProps> = ({
     <div
       aria-live="polite"
       role="alert"
-      className={className ?? "text-red-500 text-sm font-bold text-center"}
+      className={cn("text-red-500 text-sm font-bold text-center", className)}
     >
       {message}
     </div>

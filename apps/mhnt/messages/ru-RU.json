@@ -16,7 +16,7 @@
     "APPROVED": "Одобрено",
     "REJECTED": "Отклонено"
   },
-  "SIGNIN": {
+  "SIGN_IN": {
     "title": "Войти в аккаунт",
     "description": "Введите ваш email",
     "email-label": "Электронная почта",
@@ -145,6 +145,7 @@
     "SIGNED_IN": "Вход выполнен!",
     "SIGNED_OUT": "Выход выполнен!",
     "UPDATED": "Успешно обновлено!",
+    "SUCCESS": "SUCCESS",
     "ACCESS_DENIED": "Доступ запрещён"
   }
 }

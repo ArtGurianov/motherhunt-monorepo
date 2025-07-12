@@ -14,7 +14,7 @@ export const SignOutBtn = () => {
         authClient.signOut({
           fetchOptions: {
             onSuccess: () => {
-              redirect("/signin?toast=SIGNED_OUT"); // redirect to signin page
+              redirect("/sign-in?toast=SIGNED_OUT"); // redirect to sign-in page
             },
           },
         })

@@ -1,18 +1,18 @@
 "use client";
 
+import { useAppParams } from "@/lib/hooks/useAppParams";
 import Link, { LinkProps } from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { HTMLAttributes } from "react";
 
 export const InterceptedLink = (
   props: LinkProps & HTMLAttributes<HTMLAnchorElement>
 ) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const updatedParams = new URLSearchParams(searchParams.toString());
+  const { getParam, setParam, getUpdatedParamsString } = useAppParams();
 
-  const hasReturn = searchParams.get("returnTo");
-  if (!hasReturn) updatedParams.set("returnTo", pathname);
+  const hasReturn = getParam("returnTo");
+  if (!hasReturn) setParam("returnTo", pathname);
 
-  return <Link {...props} href={`${props.href}?${updatedParams.toString()}`} />;
+  return <Link {...props} href={`${props.href}${getUpdatedParamsString()}`} />;
 };

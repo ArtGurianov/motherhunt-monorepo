@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/ui/components/button";
 import {
@@ -18,22 +17,17 @@ import { Input } from "@shared/ui/components/input";
 import { authClient } from "@/lib/auth/authClient";
 import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
-import { LoaderCircle } from "lucide-react";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
-import { useAppParams } from "@/lib/hooks/useAppParams";
-
-interface ChangeEmailFormProps {
-  currentEmail: string;
-}
+import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z.email(),
 });
 
-export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
-  const { setParam, getUpdatedPathString } = useAppParams();
+export const BookerInvitationForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -42,11 +36,9 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     mode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: currentEmail,
+      email: "",
     },
   });
-
-  const t = useTranslations("CHANGE_EMAIL");
 
   const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
     setErrorMessage(null);
@@ -55,13 +47,12 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
         if (!email) {
           throw new AppClientError("Email is required");
         }
-        setParam("toast", "UPDATED");
-        const result = await authClient.changeEmail({
-          newEmail: email,
-          callbackURL: getUpdatedPathString(),
+        const result = await authClient.organization.inviteMember({
+          email,
+          role: AGENCY_ROLES.BOOKER_ROLE,
         });
         if (result?.error) {
-          setErrorMessage(result.error.message || "Failed to change email");
+          setErrorMessage(result.error.message || "Failed to send invitation");
           setFormStatus("ERROR");
           return;
         }
@@ -85,12 +76,12 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("email-label")}</FormLabel>
+              <FormLabel>{"Invite new booker"}</FormLabel>
               <div className="relative">
                 <FormControl>
                   <Input
                     disabled={isPending || formStatus === "SUCCESS"}
-                    placeholder={t("email-placeholder")}
+                    placeholder={"user email"}
                     aria-invalid={
                       !!form.formState.errors.email || !!errorMessage
                     }
@@ -112,16 +103,13 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
                       !form.formState.isValid ||
                       !!Object.keys(form.formState.errors).length ||
                       isPending ||
-                      formStatus === "SUCCESS" ||
-                      form.getValues("email") === currentEmail
+                      formStatus === "SUCCESS"
                     }
                   >
                     {isPending ? (
                       <LoaderCircle className="animate-spin h-6 w-6" />
-                    ) : form.getValues("email") === currentEmail ? (
-                      t("verified")
                     ) : (
-                      t("verify")
+                      "Invite"
                     )}
                   </Button>
                 </div>
@@ -129,9 +117,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
               <FormMessage />
               <ErrorBlock message={errorMessage} />
               <SuccessBlock
-                message={
-                  formStatus === "SUCCESS" ? t("success-message") : undefined
-                }
+                message={formStatus === "SUCCESS" ? "success" : undefined}
               />
             </FormItem>
           )}

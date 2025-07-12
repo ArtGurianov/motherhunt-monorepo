@@ -1,11 +1,11 @@
 import { SignInForm } from "@/components/Forms";
 import auth from "@/lib/auth/auth";
-import { headers as nextHeaders } from "next/headers";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function SignInPage() {
-  const headers = await nextHeaders();
-  const session = await auth.api.getSession({ headers });
+  const headersList = await headers();
+  const session = await auth.api.getSession({ headers: headersList });
   if (session) redirect("/");
 
   return (

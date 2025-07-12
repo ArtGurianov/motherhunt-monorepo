@@ -51,7 +51,10 @@ export const sessionUpdateBefore = async (
       applicationStatus = getAgencyApplicationStatus(organization).status;
       if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
         updateOrganizationName = organization.name;
-        updateOrganizationRole = await getMemberRole(userId, organization.id);
+        updateOrganizationRole = await getMemberRole({
+          userId,
+          organizationId: organization.id,
+        });
         if (!updateOrganizationRole)
           throw new APIError("FORBIDDEN", {
             message: "Membership not found",

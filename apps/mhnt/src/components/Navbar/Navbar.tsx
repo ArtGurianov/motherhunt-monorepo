@@ -19,6 +19,7 @@ import { NavbarMenu } from "./NavbarMenu";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
 import { useTranslations } from "next-intl";
+import { useActiveMember } from "@/lib/hooks/useActiveMember";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -31,8 +32,9 @@ export const Navbar = () => {
   const tRoles = useTranslations("ROLES");
 
   const { isPending: isActiveMemberPending, data: activeMember } =
-    authClient.useActiveMember();
-  if (pathname === "/signin") return null;
+    useActiveMember();
+
+  if (pathname === "/sign-in") return null;
 
   const activeRole = activeMember ? activeMember.role : session?.user.role;
 
@@ -103,7 +105,7 @@ export const Navbar = () => {
           variant="secondary"
           className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
         >
-          <Link href={"/signin"}>
+          <Link href={"/sign-in"}>
             <LogIn />
           </Link>
         </Button>

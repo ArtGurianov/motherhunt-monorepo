@@ -18,6 +18,6 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
         <LoaderCircle className="animate-spin h-12 w-12" />
       </div>
     );
-  if (!data) redirect("/signin");
+  if (!data) redirect("/sign-in");
   return children;
 };

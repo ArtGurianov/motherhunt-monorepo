@@ -22,6 +22,7 @@ import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useTranslations } from "next-intl";
+import { useActiveMember } from "@/lib/hooks/useActiveMember";
 
 export const AgenciesList = () => {
   const [isPending, startTransition] = useTransition();
@@ -37,7 +38,7 @@ export const AgenciesList = () => {
     isPending: isActiveMemberPending,
     data: activeMember,
     refetch: refetchActiveMember,
-  } = authClient.useActiveMember();
+  } = useActiveMember();
 
   const displayOrganizations = organizationsData?.reduce((temp, next) => {
     const { status } = getAgencyApplicationStatus(next as Organization);

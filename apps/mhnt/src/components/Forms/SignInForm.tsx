@@ -33,6 +33,7 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { useTranslations } from "next-intl";
+import { useAppParams } from "@/lib/hooks/useAppParams";
 
 const formSchema = z.object({
   email: z.email(),
@@ -40,12 +41,14 @@ const formSchema = z.object({
 });
 
 export const SignInForm = () => {
+  const { getParam, setParam, deleteParam, getUpdatedParamsString } =
+    useAppParams();
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const hCaptchaRef = useRef<HCaptcha>(null);
-  const t = useTranslations("SIGNIN");
+  const t = useTranslations("SIGN_IN");
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onSubmit",
@@ -69,9 +72,12 @@ export const SignInForm = () => {
         if (!hCaptchaToken) {
           throw new AppClientError("You must verify you're human");
         }
+        setParam("toast", "SIGNED_IN");
+        const returnTo = getParam("returnTo");
+        if (returnTo) deleteParam("returnTo");
         const result = await authClient.signIn.magicLink({
           email,
-          callbackURL: "/?toast=SIGNED_IN",
+          callbackURL: `${returnTo ?? "/"}${getUpdatedParamsString()}`,
           fetchOptions: {
             headers: {
               "x-captcha-response": hCaptchaToken,

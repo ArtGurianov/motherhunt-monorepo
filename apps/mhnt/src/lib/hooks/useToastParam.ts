@@ -1,26 +1,23 @@
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useAppParams } from "./useAppParams";
 
 export const useToastParam = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const params = useSearchParams();
-  const key = params.get("toast");
+  const { getParam, deleteParam, getUpdatedPathString } = useAppParams();
+  const key = getParam("toast");
   const t = useTranslations("TOASTS");
 
   useEffect(() => {
     if (!key) return;
-    const updatedParams = new URLSearchParams(params.toString());
-    updatedParams.delete("toast");
+    deleteParam("toast");
 
     const timerId = setTimeout(() => {
       toast(t(key) || "Message not provided");
 
-      router.replace(
-        `${pathname}${updatedParams.size ? "?" + updatedParams.toString() : ""}`
-      );
+      router.replace(getUpdatedPathString());
     });
 
     return () => {

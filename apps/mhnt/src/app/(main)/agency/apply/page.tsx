@@ -9,7 +9,7 @@ export default async function AgencyApplicationPage() {
     headers: headersList,
   });
   if (!session) {
-    redirect("/");
+    redirect("/sign-in");
   }
 
   return (
