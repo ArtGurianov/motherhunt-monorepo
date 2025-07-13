@@ -36,6 +36,7 @@ model Session {
   token                  String
   impersonatedBy         String?  @db.ObjectId
   activeOrganizationId   String?  @db.ObjectId
+  activeMemberId         String?  @db.ObjectId
   activeOrganizationName String?
   activeOrganizationRole String?
   createdAt              DateTime @default(now())

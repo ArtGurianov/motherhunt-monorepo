@@ -1,11 +1,13 @@
 "use client";
 
+import { deleteBookerRole } from "@/actions/deleteBooker";
+import { transferHeadBookerRole } from "@/actions/transferHeadBookerRole";
 import { DangerousActionDialog } from "@/components/DangerousActionDialog/DangerousActionDialog";
 import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import { authClient } from "@/lib/auth/authClient";
 import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
 import { Button } from "@shared/ui/components/button";
+import { toast } from "@shared/ui/components/sonner";
 import {
   Table,
   TableBody,
@@ -15,46 +17,38 @@ import {
   TableHeader,
   TableRow,
 } from "@shared/ui/components/table";
-import { Ban, Crown } from "lucide-react";
-import { redirect } from "next/navigation";
-import { useState } from "react";
+import { Ban, Crown, LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 
 interface ManageBookersProps {
-  organizationId: string;
-  bookersData: Array<{ role: string; email: string; userId: string }>;
+  bookersData: Array<{ role: string; email: string; memberId: string }>;
 }
 
-export const ManageBookers = ({
-  bookersData,
-  organizationId,
-}: ManageBookersProps) => {
+export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
   const [targetActionData, setTargetActionData] = useState<{
     targetId: string;
     action: "revoke" | "transfer";
   } | null>(null);
 
-  const revokeBooker = async () => {
-    if (targetActionData) {
-      await authClient.organization.removeMember({
-        memberIdOrEmail: targetActionData.targetId,
-        organizationId,
-      });
-    }
-  };
-
-  const transferHeadBooker = async () => {
-    console.log("transfer");
-    redirect("/");
-  };
-
-  const onActionConfirm = async () => {
+  const onActionConfirm = () => {
     if (!targetActionData) return;
-    if (targetActionData.action === "revoke") {
-      await revokeBooker();
-    }
-    if (targetActionData.action === "transfer") {
-      await transferHeadBooker();
-    }
+    startTransition(async () => {
+      try {
+        if (targetActionData.action === "revoke") {
+          await deleteBookerRole(targetActionData.targetId);
+        }
+        if (targetActionData.action === "transfer") {
+          await transferHeadBookerRole(targetActionData.targetId);
+        }
+        router.refresh();
+      } catch {
+        toast("ERROR");
+      }
+    });
   };
 
   return (
@@ -74,41 +68,53 @@ export const ManageBookers = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {bookersData.map(({ userId, email, role }) => (
-                <TableRow key={userId}>
+              {bookersData.map(({ memberId, email, role }) => (
+                <TableRow key={memberId}>
                   <TableCell className="text-center">{email}</TableCell>
                   <TableCell className="text-center">{role}</TableCell>
                   <TableCell>
                     <div className="w-full h-full flex justify-center items-center">
                       <Button
-                        disabled={role === AGENCY_ROLES.HEAD_BOOKER_ROLE}
+                        disabled={
+                          role === AGENCY_ROLES.HEAD_BOOKER_ROLE || isPending
+                        }
                         size="reset"
                         className="p-px [&_svg]:size-6"
                         onClick={() => {
                           setTargetActionData({
                             action: "revoke",
-                            targetId: userId,
+                            targetId: memberId,
                           });
                         }}
                       >
-                        <Ban />
+                        {isPending ? (
+                          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                        ) : (
+                          <Ban />
+                        )}
                       </Button>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="w-full h-full flex justify-center items-center">
                       <Button
-                        disabled={role === AGENCY_ROLES.HEAD_BOOKER_ROLE}
+                        disabled={
+                          role === AGENCY_ROLES.HEAD_BOOKER_ROLE || isPending
+                        }
                         size="reset"
                         className="p-px [&_svg]:size-6"
                         onClick={() => {
                           setTargetActionData({
                             action: "transfer",
-                            targetId: userId,
+                            targetId: memberId,
                           });
                         }}
                       >
-                        <Crown />
+                        {isPending ? (
+                          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                        ) : (
+                          <Crown />
+                        )}
                       </Button>
                     </div>
                   </TableCell>

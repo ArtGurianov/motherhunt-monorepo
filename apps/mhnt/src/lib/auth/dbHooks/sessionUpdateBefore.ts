@@ -37,6 +37,7 @@ export const sessionUpdateBefore = async (
   if (shouldUpdateActiveOrganization) {
     let updateOrganizationName: string | null = null;
     let updateOrganizationRole: string | null = null;
+    let updateMemberId: string | null = null;
     let applicationStatus: ApplicationStatus | null = null;
 
     if (updateActiveOrganizationId) {
@@ -51,10 +52,14 @@ export const sessionUpdateBefore = async (
       applicationStatus = getAgencyApplicationStatus(organization).status;
       if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
         updateOrganizationName = organization.name;
-        updateOrganizationRole = await getMemberRole({
+        const membership = await getMemberRole({
           userId,
           organizationId: organization.id,
         });
+        updateOrganizationRole = membership.role;
+        if (membership.memberId) {
+          updateMemberId = membership.memberId;
+        }
         if (!updateOrganizationRole)
           throw new APIError("FORBIDDEN", {
             message: "Membership not found",

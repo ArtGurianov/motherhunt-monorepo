@@ -2,6 +2,7 @@
 
 import { prismaClient } from "@/lib/db";
 import { APIError } from "@/lib/auth/apiError";
+import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
 
 export const getMemberRole = async ({
   userId,
@@ -11,12 +12,13 @@ export const getMemberRole = async ({
   userId: string;
   organizationId: string;
   email?: string;
-}) => {
+}): Promise<{ role: string | null; memberId: string | null }> => {
   const membership = await prismaClient.member.findFirst({
     where: { userId, organizationId },
   });
 
-  if (membership) return membership.role;
+  if (membership)
+    return { role: membership.role as AgencyRole, memberId: membership.id };
 
   if (!email)
     throw new APIError("FORBIDDEN", {
@@ -27,11 +29,9 @@ export const getMemberRole = async ({
     where: { email, organizationId },
   });
 
-  if (!invitation || invitation.status !== "pending") {
-    throw new APIError("FORBIDDEN", {
-      message: "Membership not found",
-    });
+  if (invitation?.status === "pending") {
+    return { role: invitation.role as AgencyRole, memberId: null };
   }
 
-  return invitation.role;
+  return { role: null, memberId: null };
 };

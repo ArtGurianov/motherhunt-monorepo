@@ -19,12 +19,12 @@ export type AgencyEntity = ValueOf<typeof AGENCY_ENTITIES>;
 const agencyActions = {
   [AGENCY_ENTITIES.ORGANIZATION]: ["update"],
   [AGENCY_ENTITIES.HEAD_BOOKER]: ["update"],
-  [AGENCY_ENTITIES.BOOKER]: ["update", "ban"],
+  [AGENCY_ENTITIES.BOOKER]: ["update", "ban", "delete"],
   [AGENCY_ENTITIES.BID]: ["create", "update"],
   [AGENCY_ENTITIES.SELECTION]: ["create", "update"],
-  [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view"],
-  [AGENCY_ROLES.BOOKER_ROLE]: ["view"],
-  invitation: ["create"],
+  [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view", "transferRole"],
+  [AGENCY_ROLES.BOOKER_ROLE]: ["view", "delete"],
+  invitation: ["create", "cancel"],
 } as const;
 
 export const agencyAccessControl = createAccessControl(agencyActions);
@@ -33,12 +33,12 @@ export const AGENCY_ROLES_CONFIG = {
   [AGENCY_ROLES.HEAD_BOOKER_ROLE]: agencyAccessControl.newRole({
     [AGENCY_ENTITIES.ORGANIZATION]: ["update"],
     [AGENCY_ENTITIES.HEAD_BOOKER]: ["update"],
-    [AGENCY_ENTITIES.BOOKER]: ["update", "ban"],
+    [AGENCY_ENTITIES.BOOKER]: ["update", "ban", "delete"],
     [AGENCY_ENTITIES.BID]: ["create", "update"],
     [AGENCY_ENTITIES.SELECTION]: ["create", "update"],
-    [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view"],
-    [AGENCY_ROLES.BOOKER_ROLE]: ["view"],
-    invitation: ["create"],
+    [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view", "transferRole"],
+    [AGENCY_ROLES.BOOKER_ROLE]: ["view", "delete"],
+    invitation: ["create", "cancel"],
   }),
   [AGENCY_ROLES.BOOKER_ROLE]: agencyAccessControl.newRole({
     [AGENCY_ENTITIES.SELECTION]: ["create", "update"],

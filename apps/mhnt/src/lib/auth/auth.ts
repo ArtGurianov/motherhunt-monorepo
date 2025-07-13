@@ -157,6 +157,11 @@ const options = {
         required: false,
         input: false,
       },
+      activeMemberId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
       activeOrganizationName: {
         type: "string",
         required: false,
@@ -224,12 +229,15 @@ const auth = betterAuth({
       } = user;
 
       let activeOrganizationRole: string | null = null;
+      let activeMemberId: string | null = null;
       if (activeOrganizationId) {
-        activeOrganizationRole = await getMemberRole({
+        const membership = await getMemberRole({
           userId: id,
           email,
           organizationId: activeOrganizationId,
         });
+        activeOrganizationRole = membership.role;
+        activeMemberId = membership.memberId;
       }
 
       return {
@@ -238,11 +246,13 @@ const auth = betterAuth({
           ...session,
           ...(activeOrganizationId &&
           activeOrganizationName &&
-          activeOrganizationRole
+          activeOrganizationRole &&
+          activeMemberId
             ? {
                 activeOrganizationId,
                 activeOrganizationName,
                 activeOrganizationRole,
+                activeMemberId,
               }
             : {}),
         },

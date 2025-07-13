@@ -9,7 +9,7 @@ import { User } from "@shared/db";
 const locale = getAppLocale();
 
 export default async function AgencyManagePage() {
-  const { canAccess, data: organizationId } = await canViewHeadBooker();
+  const { canAccess, organizationId } = await canViewHeadBooker();
   if (!canAccess || !organizationId) {
     const t = await getTranslations({ locale, namespace: "TOASTS" });
     return (
@@ -35,19 +35,16 @@ export default async function AgencyManagePage() {
   );
 
   const bookersData = bookersList.reduce(
-    (temp, { role, userId }) => [
+    (temp, { role, userId, id }) => [
       ...temp,
-      { role, email: usersMap[userId]?.email ?? "unknown email", userId },
+      { role, email: usersMap[userId]?.email ?? "unknown email", memberId: id },
     ],
-    [] as Array<{ role: string; email: string; userId: string }>
+    [] as Array<{ role: string; email: string; memberId: string }>
   );
 
   return (
     <>
-      <ManageBookers
-        organizationId={organizationId}
-        bookersData={bookersData}
-      />
+      <ManageBookers bookersData={bookersData} />
     </>
   );
 }

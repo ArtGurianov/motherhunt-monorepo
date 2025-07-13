@@ -2,14 +2,11 @@
 
 import { Button } from "@shared/ui/components/button";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
-import { toast } from "@shared/ui/components/sonner";
-import { LoaderCircle } from "lucide-react";
-import { useTransition } from "react";
 
 interface DangerousActionDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onActionConfirm: () => Promise<void>;
+  onActionConfirm: () => void;
   title?: string;
   desctiption?: string;
 }
@@ -21,18 +18,9 @@ export const DangerousActionDialog = ({
   title,
   desctiption,
 }: DangerousActionDialogProps) => {
-  const [isPending, startTransition] = useTransition();
-
   const handleClick = () => {
-    startTransition(async () => {
-      try {
-        await onActionConfirm();
-        toast("Success");
-        onClose();
-      } catch {
-        toast("An error occured.");
-      }
-    });
+    onActionConfirm();
+    onClose();
   };
 
   return (
@@ -46,13 +34,7 @@ export const DangerousActionDialog = ({
         <span className="text-lg text-center">
           {desctiption ?? "Do you want to continue?"}
         </span>
-        <Button onClick={handleClick}>
-          {isPending ? (
-            <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-          ) : (
-            "Confirm"
-          )}
-        </Button>
+        <Button onClick={handleClick}>{"Confirm"}</Button>
       </div>
     </DialogDrawer>
   );
