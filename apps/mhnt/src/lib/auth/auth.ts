@@ -223,38 +223,35 @@ const auth = betterAuth({
     customSession(async ({ user, session }) => {
       const {
         id,
-        email,
         recentOrganizationId: activeOrganizationId,
         recentOrganizationName: activeOrganizationName,
       } = user;
 
-      let activeOrganizationRole: string | null = null;
-      let activeMemberId: string | null = null;
+      let membership: { role: string; memberId: string } | null = null;
       if (activeOrganizationId) {
-        const membership = await getMemberRole({
+        membership = await getMemberRole({
           userId: id,
-          email,
           organizationId: activeOrganizationId,
         });
-        activeOrganizationRole = membership.role;
-        activeMemberId = membership.memberId;
       }
 
       return {
         user,
         session: {
           ...session,
-          ...(activeOrganizationId &&
-          activeOrganizationName &&
-          activeOrganizationRole &&
-          activeMemberId
+          ...(activeOrganizationId && activeOrganizationName && membership
             ? {
                 activeOrganizationId,
                 activeOrganizationName,
-                activeOrganizationRole,
-                activeMemberId,
+                activeOrganizationRole: membership.role,
+                activeMemberId: membership.memberId,
               }
-            : {}),
+            : {
+                activeOrganizationId: null,
+                activeOrganizationName: null,
+                activeOrganizationRole: null,
+                activeMemberId: null,
+              }),
         },
       };
     }, options),

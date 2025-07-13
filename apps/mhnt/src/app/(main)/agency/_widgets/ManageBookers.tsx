@@ -6,6 +6,7 @@ import { DangerousActionDialog } from "@/components/DangerousActionDialog/Danger
 import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
+import { useActiveMember } from "@/lib/hooks/useActiveMember";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import {
@@ -27,6 +28,7 @@ interface ManageBookersProps {
 
 export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
   const router = useRouter();
+  const { refetch } = useActiveMember();
   const [isPending, startTransition] = useTransition();
 
   const [targetActionData, setTargetActionData] = useState<{
@@ -40,11 +42,16 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
       try {
         if (targetActionData.action === "revoke") {
           await deleteBookerRole(targetActionData.targetId);
+          refetch();
+          toast("SUCCESS");
+          router.refresh();
         }
         if (targetActionData.action === "transfer") {
           await transferHeadBookerRole(targetActionData.targetId);
+          refetch();
+          toast("SUCCESS");
+          router.refresh();
         }
-        router.refresh();
       } catch {
         toast("ERROR");
       }

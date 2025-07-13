@@ -36,8 +36,7 @@ export const sessionUpdateBefore = async (
 
   if (shouldUpdateActiveOrganization) {
     let updateOrganizationName: string | null = null;
-    let updateOrganizationRole: string | null = null;
-    let updateMemberId: string | null = null;
+    let membership: { role: string; memberId: string } | null = null;
     let applicationStatus: ApplicationStatus | null = null;
 
     if (updateActiveOrganizationId) {
@@ -52,18 +51,10 @@ export const sessionUpdateBefore = async (
       applicationStatus = getAgencyApplicationStatus(organization).status;
       if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
         updateOrganizationName = organization.name;
-        const membership = await getMemberRole({
+        membership = await getMemberRole({
           userId,
           organizationId: organization.id,
         });
-        updateOrganizationRole = membership.role;
-        if (membership.memberId) {
-          updateMemberId = membership.memberId;
-        }
-        if (!updateOrganizationRole)
-          throw new APIError("FORBIDDEN", {
-            message: "Membership not found",
-          });
       }
     }
 
@@ -83,13 +74,21 @@ export const sessionUpdateBefore = async (
       data: {
         ...oldSession,
         ...updateSessionData,
-        activeOrganizationId:
-          updateActiveOrganizationId &&
-          applicationStatus === APPLICATION_STATUSES.APPROVED
-            ? updateActiveOrganizationId
-            : null,
-        activeOrganizationName: updateOrganizationName,
-        activeOrganizationRole: updateOrganizationRole,
+        ...(!updateActiveOrganizationId ||
+        !membership ||
+        applicationStatus !== APPLICATION_STATUSES.APPROVED
+          ? {
+              activeOrganizationId: null,
+              activeOrganizationRole: null,
+              activeOrganizationName: null,
+              activeMemberId: null,
+            }
+          : {
+              activeOrganizationId: updateActiveOrganizationId,
+              activeOrganizationName: updateOrganizationName,
+              activeMemberId: membership.memberId,
+              activeOrganizationRole: membership.role,
+            }),
       } as Session,
     };
   }
