@@ -1,12 +1,14 @@
 import "./variables.css";
 import "@shared/ui/globals.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Geist, Geist_Mono, Sono } from "next/font/google";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Footer } from "@/components/Footer/Footer";
 import { getAppLocale } from "@shared/ui/lib/utils";
 import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { NextIntlClientProvider } from "next-intl";
+import { SteamPunkBackgroundFilter } from "@/components/Filters/SteamPunkBackgroundFilter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +18,17 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const dynaPuff = Sono({
+  variable: "--font-dyna-puff",
+  subsets: ["latin"],
+  weight: "500",
+});
+
+const steampunkTitle = localFont({
+  src: "../fonts/SteampunkTitle.ttf",
+  variable: "--font-steampunk-title",
 });
 
 export const metadata: Metadata = {
@@ -35,13 +48,14 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       <body
-        className={`flex flex-col items-center ${geistSans.variable} ${geistMono.variable} overflow-x-clip antialiased`}
+        className={`flex flex-col items-center ${geistSans.variable} ${geistMono.variable} ${steampunkTitle.variable} ${dynaPuff.variable} overflow-x-clip antialiased`}
       >
         <NextIntlClientProvider>
           <Navbar />
           <main className="flex flex-col min-h-content w-full">{children}</main>
           <Footer />
         </NextIntlClientProvider>
+        <SteamPunkBackgroundFilter />
       </body>
     </html>
   );
