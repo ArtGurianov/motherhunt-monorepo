@@ -9,6 +9,9 @@ import { AppProviders } from "@/components/AppProviders/AppProviders";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { CameraBg } from "@/components/CameraBg/CameraBg";
 import { NextIntlClientProvider } from "next-intl";
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi";
+import getConfig from "next/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,13 +29,16 @@ export const metadata: Metadata = {
     "A web3 auction platfrom for fashion street scouters and boutique mother agencies.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const cookieHeader = headersList.get("cookie");
+  const initialState = cookieToInitialState(getConfig(), cookieHeader);
   const locale = getAppLocale();
   const lang = APP_LOCALE_TO_LANG_MAP[locale];
 
@@ -44,7 +50,7 @@ export default function RootLayout({
         <CameraBg />
         <main className="relative flex flex-col min-h-svh w-full pt-8">
           <NextIntlClientProvider>
-            <AppProviders>
+            <AppProviders initialState={initialState}>
               <div className="flex flex-col min-h-content w-full justify-start items-center">
                 {modal}
                 {children}

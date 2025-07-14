@@ -1,5 +1,6 @@
 "use server";
 
+import { getEnvConfigServer } from "@/lib/config/env";
 import { transporter } from "@/lib/nodemailer";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
@@ -24,7 +25,7 @@ export const sendEmail = async ({
   };
 }) => {
   const mailOptions = {
-    from: process.env.NODEMAILER_USER,
+    from: getEnvConfigServer().NODEMAILER_USER,
     to,
     subject: `MotherHunt - ${subject}`,
     html: `

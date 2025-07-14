@@ -28,7 +28,9 @@ import { getTranslations } from "next-intl/server";
 import { APIError } from "./apiError";
 import { revalidatePath } from "next/cache";
 import { inviteBooker } from "@/actions/inviteBooker";
+import { getEnvConfigServer } from "../config/env";
 
+const envConfig = getEnvConfigServer();
 const locale = getAppLocale();
 const appURL = getAppURL(locale);
 const t = await getTranslations({ locale, namespace: "EMAIL" });
@@ -43,7 +45,7 @@ const options = {
   plugins: [
     captchaPlugin({
       provider: "hcaptcha",
-      secretKey: process.env.HCAPTCHA_SECRET_KEY!,
+      secretKey: envConfig.HCAPTCHA_SECRET_KEY,
       endpoints: ["sign-in/magic-link"],
     }),
     magicLinkPlugin({
@@ -142,7 +144,7 @@ const options = {
     database: { generateId: false },
     crossSubDomainCookies: {
       enabled: true,
-      domain: `mhnt${process.env.NODE_ENV === "production" ? ".app" : ".local"}`,
+      domain: `mhnt${envConfig.NODE_ENV === "production" ? ".app" : ".local"}`,
     },
   },
   session: {

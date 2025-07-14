@@ -5,6 +5,7 @@ import {
 } from "@shared/ui/lib/utils";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { getEnvConfigServer } from "./lib/config/env";
 // import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
@@ -48,7 +49,7 @@ export async function middleware(request: NextRequest) {
       cookieStore.set("recent-locale", updatedLocale, {
         httpOnly: true,
         secure: true,
-        domain: `mhnt${process.env.NODE_ENV === "production" ? ".app" : ".local"}`,
+        domain: `mhnt${getEnvConfigServer().NODE_ENV === "production" ? ".app" : ".local"}`,
       });
     }
   }

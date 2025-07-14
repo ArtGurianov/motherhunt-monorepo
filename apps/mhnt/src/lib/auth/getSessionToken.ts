@@ -1,5 +1,6 @@
 import { createHMAC } from "@better-auth/utils/hmac";
 import { APIError } from "./apiError";
+import { getEnvConfigServer } from "../config/env";
 
 function parseCookies(cookieHeader: string) {
   const cookies = cookieHeader.split("; ");
@@ -59,7 +60,7 @@ export const getSessionToken = async (
     throw new APIError("UNAUTHORIZED", { message: "Session token not found" });
   const decodedToken = decodeURIComponent(token);
   const isValid = await createHMAC("SHA-256", "base64urlnopad").verify(
-    process.env.BETTER_AUTH_SECRET!,
+    getEnvConfigServer().BETTER_AUTH_SECRET,
     decodedToken.split(".")[0]!,
     decodedToken.split(".")[1]!
   );

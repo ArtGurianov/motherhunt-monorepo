@@ -1,5 +1,6 @@
 "use client";
 
+import { getEnvConfigClient } from "@/lib/config/env";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { FormControl, FormItem, FormMessage } from "@shared/ui/components/form";
 import { LoaderCircle } from "lucide-react";
@@ -22,7 +23,7 @@ export const HCaptchaFormItem = ({ ref, onSuccess }: HCaptchaFormItemProps) => {
           <LoaderCircle className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 animate-spin" />
           <div className="absolute flex justify-center items-center z-10 w-full h-full">
             <HCaptcha
-              sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+              sitekey={getEnvConfigClient().NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
               onLoad={onLoad}
               onVerify={onSuccess}
               ref={ref}

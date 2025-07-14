@@ -1,11 +1,17 @@
 import nodemailer from "nodemailer";
+import { getEnvConfigServer } from "./config/env";
 
-export const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.NODEMAILER_USER,
-    pass: process.env.NODEMAILER_APP_PASSWORD,
-  },
-});
+const getTransporter = () => {
+  const envConfig = getEnvConfigServer();
+  return nodemailer.createTransport({
+    host: "smtp.zoho.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: envConfig.NODEMAILER_USER,
+      pass: envConfig.NODEMAILER_APP_PASSWORD,
+    },
+  });
+};
+
+export const transporter = getTransporter();
