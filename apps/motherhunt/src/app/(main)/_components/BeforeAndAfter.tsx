@@ -7,8 +7,8 @@ export const BeforeAndAfter = () => {
       fullWidth
       className="relative w-full before:tearTop after:tearBottom bg-vignette"
     >
-      <div className="absolute -z-10 top-0 left-0 w-full h-full bg-yellow-800">
-        <div className="w-full h-full bg-yellow-700 steampunk vignette"></div>
+      <div className="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-br from-amber-900 to-yellow-900">
+        <div className="w-full h-full bg-gradient-to-tr from-amber-800 to-yellow-800 steampunk vignette"></div>
       </div>
       <div className="flex w-full justify-center items-center py-4">
         <div className="shrink-0">
