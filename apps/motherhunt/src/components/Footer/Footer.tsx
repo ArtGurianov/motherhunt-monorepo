@@ -8,7 +8,7 @@ export const Footer = () => {
   const now = new Date();
 
   return (
-    <footer className="flex w-full h-footer border-t-4 bg-accent-foreground/70 justify-center items-center text-sm">
+    <footer className="flex w-full h-footer border-t-4 bg-accent-foreground/70 justify-center items-center text-sm mt-8">
       <Link className="underline font-bold" href="https://www.mydaogs.xyz">
         {"MyDAOgs"}
       </Link>

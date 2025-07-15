@@ -48,13 +48,17 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       <body
-        className={`flex flex-col items-center ${geistSans.variable} ${geistMono.variable} ${steampunkTitle.variable} ${dynaPuff.variable} overflow-x-clip antialiased`}
+        className={`relative ${geistSans.variable} ${geistMono.variable} ${steampunkTitle.variable} ${dynaPuff.variable} overflow-x-clip antialiased`}
       >
-        <NextIntlClientProvider>
-          <Navbar />
-          <main className="flex flex-col min-h-content w-full">{children}</main>
-          <Footer />
-        </NextIntlClientProvider>
+        <main className="relative flex flex-col min-h-svh w-full">
+          <NextIntlClientProvider>
+            <Navbar />
+            <div className="flex flex-col min-h-content w-full justify-start items-center gap-12">
+              {children}
+            </div>
+            <Footer />
+          </NextIntlClientProvider>
+        </main>
         <SteamPunkBackgroundFilter />
       </body>
     </html>
