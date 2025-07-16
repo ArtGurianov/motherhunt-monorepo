@@ -12,6 +12,8 @@ interface HCaptchaFormItemProps {
 }
 
 export const HCaptchaFormItem = ({ ref, onSuccess }: HCaptchaFormItemProps) => {
+  const envConfig = getEnvConfigClient();
+
   const onLoad = () => {
     ref.current?.execute();
   };
@@ -23,7 +25,11 @@ export const HCaptchaFormItem = ({ ref, onSuccess }: HCaptchaFormItemProps) => {
           <LoaderCircle className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-10 animate-spin" />
           <div className="absolute flex justify-center items-center z-10 w-full h-full">
             <HCaptcha
-              sitekey={getEnvConfigClient().NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+              sitekey={
+                envConfig.NODE_ENV === "production"
+                  ? envConfig.NEXT_PUBLIC_HCAPTCHA_SITE_KEY
+                  : "10000000-ffff-ffff-ffff-000000000001"
+              }
               onLoad={onLoad}
               onVerify={onSuccess}
               ref={ref}

@@ -49,7 +49,10 @@ export async function middleware(request: NextRequest) {
       cookieStore.set("recent-locale", updatedLocale, {
         httpOnly: true,
         secure: true,
-        domain: `mhnt${getEnvConfigServer().NODE_ENV === "production" ? ".app" : ".local"}`,
+        domain:
+          getEnvConfigServer().NODE_ENV === "production"
+            ? "mhnt.app"
+            : "localhost",
       });
     }
   }

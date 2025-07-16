@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { getAppLocale } from "@shared/ui/lib/utils";
 import { prismaClient } from "@/lib/db";
 import { User } from "@shared/db";
+import { ManageWallet } from "./_widgets/ManageWallet";
 
 const locale = getAppLocale();
 
@@ -45,6 +46,7 @@ export default async function AgencyManagePage() {
   return (
     <>
       <ManageBookers bookersData={bookersData} />
+      <ManageWallet organizationId={organizationId} />
     </>
   );
 }

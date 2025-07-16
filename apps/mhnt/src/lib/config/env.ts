@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const CLIENT_ENV = {
+  NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
   NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK,
   NEXT_PUBLIC_APP_LOCALE: process.env.NEXT_PUBLIC_APP_LOCALE,
@@ -10,6 +11,9 @@ const CLIENT_ENV = {
 } as const;
 
 const clientEnvSchema = z.object({
+  NODE_ENV: z.enum(["development", "test", "production"], {
+    description: "This gets updated depending on your environment",
+  }),
   NEXT_PUBLIC_APP_ENV: z.enum(["development", "test", "production"], {
     description:
       "For more flexible deployments control. (To test a production build locally)",
@@ -30,9 +34,6 @@ const clientEnvSchema = z.object({
 });
 
 const serverEnvSchema = clientEnvSchema.extend({
-  NODE_ENV: z.enum(["development", "test", "production"], {
-    description: "This gets updated depending on your environment",
-  }),
   DATABASE_URL: z
     .string({
       description: "MongoDB Connection string",

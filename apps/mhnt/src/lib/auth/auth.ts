@@ -45,7 +45,10 @@ const options = {
   plugins: [
     captchaPlugin({
       provider: "hcaptcha",
-      secretKey: envConfig.HCAPTCHA_SECRET_KEY,
+      secretKey:
+        envConfig.NODE_ENV === "production"
+          ? envConfig.HCAPTCHA_SECRET_KEY
+          : "0x0000000000000000000000000000000000000000",
       endpoints: ["sign-in/magic-link"],
     }),
     magicLinkPlugin({
@@ -144,7 +147,7 @@ const options = {
     database: { generateId: false },
     crossSubDomainCookies: {
       enabled: true,
-      domain: `mhnt${envConfig.NODE_ENV === "production" ? ".app" : ".local"}`,
+      domain: envConfig.NODE_ENV === "production" ? "mhnt.app" : "localhost",
     },
   },
   session: {
