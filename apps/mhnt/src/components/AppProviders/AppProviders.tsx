@@ -4,6 +4,7 @@ import { getEnvConfigClient } from "@/lib/config/env";
 import { useToastParam } from "@/lib/hooks/useToastParam";
 import { chain, wagmiAdapter, wagmiConfig } from "@/lib/web3/wagmiConfig";
 import { createAppKit } from "@reown/appkit/react";
+import { getAppURL } from "@shared/ui/lib/utils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, Suspense, useState } from "react";
 import { State, WagmiProvider } from "wagmi";
@@ -11,7 +12,7 @@ import { State, WagmiProvider } from "wagmi";
 const metadata = {
   name: "motherhunt",
   description: "A web3 marketplace for fashion street scouting.",
-  url: "https://www.mhnt.app",
+  url: getAppURL(),
   icons: ["https://www.mhnt.app/mhnt-logo.png"],
 };
 

@@ -1,4 +1,12 @@
-export const mhntContractAbi = [] as const;
+export const systemContractAbi = [
+  {
+    type: "function",
+    name: "getActiveAdmins",
+    inputs: [],
+    outputs: [{ name: "", type: "address[]", internalType: "address[]" }],
+    stateMutability: "view",
+  },
+] as const;
 
 export const usdContractAbi = [
   {

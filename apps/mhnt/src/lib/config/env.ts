@@ -5,7 +5,12 @@ const CLIENT_ENV = {
   NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
   NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK,
   NEXT_PUBLIC_APP_LOCALE: process.env.NEXT_PUBLIC_APP_LOCALE,
-  NEXT_PUBLIC_CONTRACT_ADDRESS: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+  NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS:
+    process.env.NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS,
+  NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS:
+    process.env.NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS,
+  NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS:
+    process.env.NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS,
   NEXT_PUBLIC_HCAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY,
   NEXT_PUBLIC_REOWN_PROJECT_ID: process.env.NEXT_PUBLIC_REOWN_PROJECT_ID,
 } as const;
@@ -26,9 +31,19 @@ const clientEnvSchema = z.object({
   }),
   NEXT_PUBLIC_HCAPTCHA_SITE_KEY: z.string(),
   NEXT_PUBLIC_REOWN_PROJECT_ID: z.string(),
-  NEXT_PUBLIC_CONTRACT_ADDRESS: z
+  NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS: z
     .string({
-      description: "Contract address for BLEAD solidity smart contract.",
+      description: "Contract address for system smart contract.",
+    })
+    .startsWith("0x"),
+  NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS: z
+    .string({
+      description: "Contract address for auction smart contract.",
+    })
+    .startsWith("0x"),
+  NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS: z
+    .string({
+      description: "Contract address for karma smart contract.",
     })
     .startsWith("0x"),
 });
