@@ -4,6 +4,15 @@ import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@shared/ui/components/table";
 import { LoaderCircle } from "lucide-react";
 import { useReadContract } from "wagmi";
 
@@ -41,11 +50,23 @@ export const ManageAdmins = () => {
       {isPendingActiveAdmins ? (
         <LoaderCircle className="animate-spin h-12 w-12" />
       ) : (
-        <ul>
-          {activeAdmins.map((each) => (
-            <li key={each}>{each}</li>
-          ))}
-        </ul>
+        <Table>
+          <TableCaption className="text-foreground">
+            {"Admins of MHNT system"}
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-center">{"address"}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {activeAdmins.map((adminAddress) => (
+              <TableRow key={adminAddress}>
+                <TableCell className="text-center">{adminAddress}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       )}
     </InfoCard>
   );
