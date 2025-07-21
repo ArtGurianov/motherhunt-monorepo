@@ -24,7 +24,7 @@ export const canViewSuperAdmin = async (): Promise<CanAccessReturnType> => {
       body: {
         userId: session.user.id,
         permissions: {
-          [APP_ROLES.SUPER_ADMIN_ROLE]: ["view"],
+          [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
         },
       },
     });
@@ -47,7 +47,7 @@ export const canViewAdmin = async (): Promise<CanAccessReturnType> => {
       body: {
         userId: session.user.id,
         permissions: {
-          [APP_ROLES.ADMIN_ROLE]: ["view"],
+          [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
         },
       },
     });

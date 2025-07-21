@@ -15,12 +15,14 @@ import {
   AGENCY_ROLES_CONFIG,
   agencyAccessControl,
 } from "@/lib/auth/permissions/agency-permissions";
+import { adminWeb3Client } from "./plugins/adminWeb3Client";
 
 export const authClient = createAuthClient({
   plugins: [
     inferAdditionalFields<typeof auth>(),
     customSessionClient<typeof auth>(),
     magicLinkClient(),
+    adminWeb3Client(),
     adminClient({
       ac: appAccessControl,
       roles: APP_ROLES_CONFIG,

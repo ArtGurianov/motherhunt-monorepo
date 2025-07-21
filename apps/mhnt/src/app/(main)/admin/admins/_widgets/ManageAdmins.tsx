@@ -20,18 +20,16 @@ export const ManageAdmins = () => {
   const envConfig = getEnvConfigClient();
 
   const {
-    data: activeAdmins,
-    isPending: isPendingActiveAdmins,
-    isError: isErrorActiveAdmins,
-    error,
+    data: projectAdmins,
+    isPending: isPendingProjectAdmins,
+    isError: isErrorProjectAdmins,
   } = useReadContract({
     abi: systemContractAbi,
     address: envConfig.NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
-    functionName: "getActiveAdmins",
+    functionName: "getProjectAdmins",
   });
 
-  if (isErrorActiveAdmins) {
-    console.log(error.details);
+  if (isErrorProjectAdmins) {
     return (
       <StatusCard
         type={StatusCardTypes.ERROR}
@@ -47,7 +45,7 @@ export const ManageAdmins = () => {
       title={"admins"}
       className="w-auto flex justify-center items-center"
     >
-      {isPendingActiveAdmins ? (
+      {isPendingProjectAdmins ? (
         <LoaderCircle className="animate-spin h-12 w-12" />
       ) : (
         <Table>
@@ -60,7 +58,7 @@ export const ManageAdmins = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {activeAdmins.map((adminAddress) => (
+            {projectAdmins.map((adminAddress) => (
               <TableRow key={adminAddress}>
                 <TableCell className="text-center">{adminAddress}</TableCell>
               </TableRow>

@@ -3,7 +3,7 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "env": ["DATABASE_URL", "SUPER_ADMIN_EMAIL"]
+      "env": ["DATABASE_URL"]
     }
   }
 }

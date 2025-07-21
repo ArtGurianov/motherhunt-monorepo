@@ -8,21 +8,21 @@ datasource db {
 }
 
 model User {
-  id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                        String      @id @default(auto()) @map("_id") @db.ObjectId
   name                      String
   email                     String
   emailVerified             Boolean
-  isNewsletterEmailsEnabled Boolean   @default(true)
-  isSystemEmailsEnabled     Boolean   @default(true)
+  isNewsletterEmailsEnabled Boolean     @default(true)
+  isSystemEmailsEnabled     Boolean     @default(true)
   image                     String?
-  role                      String?
+  role                      AppRole?    @default(SCOUTER_ROLE)     
   banned                    Boolean?
   banReason                 String?
   banExpires                String?
-  recentOrganizationId      String?   @db.ObjectId
+  recentOrganizationId      String?     @db.ObjectId
   recentOrganizationName    String?
-  createdAt                 DateTime  @default(now())
-  updatedAt                 DateTime  @updatedAt
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
   sessions                  Session[]
   accounts                  Account[]
 
@@ -112,4 +112,11 @@ model Invitation {
   createdAt      DateTime @default(now())
 
   @@map("invitation")
+}
+
+enum AppRole {
+  MYDAOGS_ADMIN_ROLE
+  PROJECT_SUPERADMIN_ROLE
+  PROJECT_ADMIN_ROLE
+  SCOUTER_ROLE
 }

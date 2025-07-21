@@ -29,6 +29,7 @@ import { APIError } from "./apiError";
 import { revalidatePath } from "next/cache";
 import { inviteBooker } from "@/actions/inviteBooker";
 import { getEnvConfigServer } from "../config/env";
+import { adminWeb3Plugin } from "./plugins/adminWeb3";
 
 const envConfig = getEnvConfigServer();
 const locale = getAppLocale();
@@ -64,10 +65,15 @@ const options = {
       },
       expiresIn: 3600,
     }) as unknown as BetterAuthPlugin,
+    adminWeb3Plugin(),
     adminPlugin({
       ac: appAccessControl,
       defaultRole: APP_ROLES.SCOUTER_ROLE,
-      adminRoles: [APP_ROLES.SUPER_ADMIN_ROLE, APP_ROLES.ADMIN_ROLE],
+      adminRoles: [
+        APP_ROLES.MYDAOGS_ADMIN_ROLE,
+        APP_ROLES.PROJECT_SUPERADMIN_ROLE,
+        APP_ROLES.PROJECT_ADMIN_ROLE,
+      ],
       roles: APP_ROLES_CONFIG,
     }),
     organizationPlugin({

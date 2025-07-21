@@ -1,9 +1,31 @@
 export const systemContractAbi = [
   {
     type: "function",
-    name: "getActiveAdmins",
+    name: "getProjectSuperAdmins",
     inputs: [],
     outputs: [{ name: "", type: "address[]", internalType: "address[]" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getProjectAdmins",
+    inputs: [],
+    outputs: [{ name: "", type: "address[]", internalType: "address[]" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getRoleByAddress",
+    inputs: [
+      { name: "_targetAddress", type: "address", internalType: "address" },
+    ],
+    outputs: [
+      {
+        name: "",
+        type: "uint8",
+        internalType: "enum MyDaogsAbstractProject.AdminRole",
+      },
+    ],
     stateMutability: "view",
   },
 ] as const;

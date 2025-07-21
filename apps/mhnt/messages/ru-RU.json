@@ -8,8 +8,9 @@
     "SCOUTER_ROLE": "СКАУТ",
     "HEAD_BOOKER_ROLE": "ХЭДБУКЕР",
     "BOOKER_ROLE": "БУКЕР",
-    "ADMIN_ROLE": "АДМИН",
-    "SUPER_ADMIN_ROLE": "СУПЕРАДМИН"
+    "MYDAOGS_ADMIN_ROLE": "DAOG",
+    "PROJECT_SUPERADMIN_ROLE": "СУПЕРАДМИН",
+    "PROJECT_ADMIN_ROLE": "АДМИН"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "В ожидании",

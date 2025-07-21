@@ -4,12 +4,12 @@
   "globalDependencies": [".env*"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
+      "dependsOn": ["^build", "^db:generate", "^db:seed"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "dev": {
-      "dependsOn": ["^db:generate"],
+      "dependsOn": ["^db:generate", "^db:seed"],
       "inputs": ["$TURBO_DEFAULT$"],
       "env": ["DATABASE_URL"],
       "cache": false,

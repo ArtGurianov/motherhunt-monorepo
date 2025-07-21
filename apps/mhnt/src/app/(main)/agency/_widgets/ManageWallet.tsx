@@ -2,12 +2,7 @@
 
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 
-export const ManageWallet = ({
-  organizationId,
-}: {
-  organizationId: string;
-}) => {
-  console.log(organizationId);
+export const ManageWallet = ({}: { organizationId: string }) => {
   // const { address } = useAccount();
   // const {} = useReadContract();
 
