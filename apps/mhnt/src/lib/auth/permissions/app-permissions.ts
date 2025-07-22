@@ -22,6 +22,7 @@ const appActions = {
   [APP_ENTITIES.ADMIN]: ["update"],
   [APP_ENTITIES.SCOUTER]: ["update", "ban"],
   [APP_ENTITIES.LOT]: ["create", "update", "ban"],
+  [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
   [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
   [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
   [APP_ROLES.SCOUTER_ROLE]: ["view"],
@@ -31,25 +32,29 @@ export const appAccessControl = createAccessControl(appActions);
 
 export const APP_ROLES_CONFIG = {
   [APP_ROLES.MYDAOGS_ADMIN_ROLE]: appAccessControl.newRole({
-    [APP_ENTITIES.SUPERADMIN]: ["update"],
-  }),
-  [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: appAccessControl.newRole({
-    [APP_ENTITIES.ADMIN]: ["update"],
-    [APP_ENTITIES.SCOUTER]: ["update", "ban"],
-    [APP_ENTITIES.LOT]: ["update", "ban"],
+    [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
     [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
     [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
     [APP_ROLES.SCOUTER_ROLE]: ["view"],
+    [APP_ENTITIES.SUPERADMIN]: ["update"],
   }),
-  [APP_ROLES.PROJECT_ADMIN_ROLE]: appAccessControl.newRole({
-    [APP_ENTITIES.SCOUTER]: ["update", "ban"],
-    [APP_ENTITIES.LOT]: ["update", "ban"],
+  [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: appAccessControl.newRole({
+    [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
     [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
     [APP_ROLES.SCOUTER_ROLE]: ["view"],
+    [APP_ENTITIES.ADMIN]: ["update"],
+    [APP_ENTITIES.SCOUTER]: ["update", "ban"],
+    [APP_ENTITIES.LOT]: ["update", "ban"],
+  }),
+  [APP_ROLES.PROJECT_ADMIN_ROLE]: appAccessControl.newRole({
+    [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
+    [APP_ROLES.SCOUTER_ROLE]: ["view"],
+    [APP_ENTITIES.SCOUTER]: ["update", "ban"],
+    [APP_ENTITIES.LOT]: ["update", "ban"],
   }),
   [APP_ROLES.SCOUTER_ROLE]: appAccessControl.newRole({
+    [APP_ROLES.SCOUTER_ROLE]: ["view"],
     [APP_ENTITIES.SCOUTER]: ["update"],
     [APP_ENTITIES.LOT]: ["create", "update"],
-    [APP_ROLES.SCOUTER_ROLE]: ["view"],
   }),
 };

@@ -12,6 +12,29 @@ export type CanAccessReturnType = {
   memberId?: string;
 };
 
+export const canViewDaog = async (): Promise<CanAccessReturnType> => {
+  try {
+    const headersList = await headers();
+    const session = await auth.api.getSession({
+      headers: headersList,
+    });
+    if (!session) return { canAccess: false };
+
+    const result = await auth.api.userHasPermission({
+      body: {
+        userId: session.user.id,
+        permissions: {
+          [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
+        },
+      },
+    });
+
+    return { canAccess: result.success };
+  } catch {
+    return { canAccess: false };
+  }
+};
+
 export const canViewSuperAdmin = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();

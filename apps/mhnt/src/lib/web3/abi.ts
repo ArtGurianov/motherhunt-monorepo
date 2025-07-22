@@ -1,6 +1,24 @@
 export const systemContractAbi = [
   {
     type: "function",
+    name: "addProjectSuperAdmin",
+    inputs: [
+      { name: "_superAdminAddress", type: "address", internalType: "address" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "revokeProjectSuperAdmin",
+    inputs: [
+      { name: "_superAdminAddress", type: "address", internalType: "address" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
     name: "getProjectSuperAdmins",
     inputs: [],
     outputs: [{ name: "", type: "address[]", internalType: "address[]" }],
