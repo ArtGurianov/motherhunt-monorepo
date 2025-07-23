@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod/v4";
-
+import { z } from "zod";
 import { Button } from "@shared/ui/components/button";
 import {
   Form,
@@ -36,7 +35,7 @@ import { useTranslations } from "next-intl";
 import { useAppParams } from "@/lib/hooks/useAppParams";
 
 const formSchema = z.object({
-  email: z.email(),
+  email: z.string().email(),
   hCaptchaToken: z.string().min(1, { message: "You must verify you're human" }),
 });
 

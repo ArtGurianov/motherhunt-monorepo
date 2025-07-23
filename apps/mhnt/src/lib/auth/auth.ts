@@ -29,12 +29,27 @@ import { APIError } from "./apiError";
 import { revalidatePath } from "next/cache";
 import { inviteBooker } from "@/actions/inviteBooker";
 import { getEnvConfigServer } from "../config/env";
-import { adminWeb3Plugin } from "./plugins/adminWeb3";
+import { trustedUserPlugin } from "./plugins/trustedUserPlugin";
+import { getWeb3AdminUser } from "../web3/getWeb3AdminUser";
+import { z } from "zod";
 
 const envConfig = getEnvConfigServer();
 const locale = getAppLocale();
 const appURL = getAppURL(locale);
 const t = await getTranslations({ locale, namespace: "EMAIL" });
+
+export const web3AdminRequestBodySchema = z.object({
+  signature: z
+    .string({
+      description: "Login request signed with private key",
+    })
+    .startsWith("0x"),
+  address: z
+    .string({
+      description: "Address of signer wallet",
+    })
+    .startsWith("0x"),
+});
 
 const options = {
   appName: "motherHunt",
@@ -65,7 +80,10 @@ const options = {
       },
       expiresIn: 3600,
     }) as unknown as BetterAuthPlugin,
-    adminWeb3Plugin(),
+    trustedUserPlugin({
+      getTrustedUser: getWeb3AdminUser,
+      bodySchema: web3AdminRequestBodySchema,
+    }),
     adminPlugin({
       ac: appAccessControl,
       defaultRole: APP_ROLES.SCOUTER_ROLE,

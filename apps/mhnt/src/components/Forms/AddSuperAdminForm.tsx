@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { Button } from "@shared/ui/components/button";
 import {
@@ -24,8 +24,8 @@ import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 const formSchema = z.object({
   address: z
     .string()
-    .startsWith("0x", { error: "Address must begin with 0x" })
-    .length(42, { error: "Address length must be of 42 symbols" }),
+    .startsWith("0x", "Address must begin with 0x")
+    .length(42, "Address length must be of 42 symbols"),
 });
 
 interface AddSuperAdminFormProps {

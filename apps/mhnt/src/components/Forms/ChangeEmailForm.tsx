@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/ui/components/button";
@@ -29,7 +29,7 @@ interface ChangeEmailFormProps {
 }
 
 const formSchema = z.object({
-  email: z.email(),
+  email: z.string().email(),
 });
 
 export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {

@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { Button } from "@shared/ui/components/button";
 import { Form, FormField } from "@shared/ui/components/form";
@@ -67,7 +67,7 @@ export const AdminSignInForm = () => {
           setParam("toast", "SIGNED_IN");
           const returnTo = getParam("returnTo");
           if (returnTo) deleteParam("returnTo");
-          const result = await authClient.signIn.adminWeb3({
+          const result = await authClient.signIn.trustedUser({
             address,
             signature,
             fetchOptions: {

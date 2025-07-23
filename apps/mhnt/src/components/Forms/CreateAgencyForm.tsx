@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/ui/components/button";
