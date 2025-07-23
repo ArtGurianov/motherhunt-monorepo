@@ -1,6 +1,8 @@
 import { ValueOf } from "@shared/ui/lib/types";
 
 export const APP_ROUTES = {
+  ADMINISTRATED: "ADMINISTRATED",
+  SUPERADMINS: "SUPERADMINS",
   ADMINS: "ADMINS",
   CASES: "CASES",
   AGENCIES_APPLICATIONS: "AGENCIES_APPLICATIONS",
@@ -27,17 +29,25 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
     key: APP_ROUTES.AUCTION,
     href: "/",
   },
+  [APP_ROUTES.ADMINISTRATED]: {
+    key: APP_ROUTES.ADMINISTRATED,
+    href: "/administrated",
+  },
+  [APP_ROUTES.SUPERADMINS]: {
+    key: APP_ROUTES.SUPERADMINS,
+    href: "/administrated/superadmins",
+  },
   [APP_ROUTES.ADMINS]: {
     key: APP_ROUTES.ADMINS,
-    href: "/admin/admins",
+    href: "/administrated/admins",
   },
   [APP_ROUTES.CASES]: {
     key: APP_ROUTES.CASES,
-    href: "/admin/cases",
+    href: "/administrated/cases",
   },
   [APP_ROUTES.AGENCIES_APPLICATIONS]: {
     key: APP_ROUTES.AGENCIES_APPLICATIONS,
-    href: "/admin/cases/agencies",
+    href: "/administrated/cases/agencies",
   },
   [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, href: "/deals" },
   [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, href: "/hunt" },

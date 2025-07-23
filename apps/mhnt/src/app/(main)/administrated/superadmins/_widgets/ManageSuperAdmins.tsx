@@ -4,9 +4,9 @@ import { DangerousActionDialog } from "@/components/DangerousActionDialog/Danger
 import { AddSuperAdminForm } from "@/components/Forms/AddSuperAdminForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { getEnvConfigClient } from "@/lib/config/env";
+import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { Button } from "@shared/ui/components/button";
-import { toast } from "@shared/ui/components/sonner";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import {
   Table,
@@ -19,12 +19,8 @@ import {
 } from "@shared/ui/components/table";
 import { Ban, Eye, LoaderCircle } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import {
-  useReadContract,
-  useTransactionReceipt,
-  useWriteContract,
-} from "wagmi";
+import { useState } from "react";
+import { useReadContract } from "wagmi";
 
 export const ManageSuperAdmins = () => {
   const envConfig = getEnvConfigClient();
@@ -43,41 +39,12 @@ export const ManageSuperAdmins = () => {
     functionName: "getProjectSuperAdmins",
   });
 
-  const {
-    writeContract,
-    data: hash,
-    isError: isTxError,
-    isPending,
-  } = useWriteContract();
-
-  useEffect(() => {
-    if (hash) {
-      toast("Transaction is sent!");
-    }
-  }, [hash]);
-
-  const {
-    isSuccess,
-    isError: isReceiptError,
-    isFetching: isFetchingReceipt,
-  } = useTransactionReceipt({
-    hash,
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
+  const { writeContract, isProcessing } = useAppWriteContract({
+    onSuccess: () => {
       refetchProjectSuperAdmins();
       setRevokeSuperAdminAddress(null);
-      toast("Revoked super admin!");
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (isTxError || isReceiptError) {
-      setRevokeSuperAdminAddress(null);
-      toast("An error occured while sending a transaction!");
-    }
-  }, [isTxError, isReceiptError]);
+    },
+  });
 
   if (isErrorProjectSuperAdmins) {
     return (
@@ -96,7 +63,9 @@ export const ManageSuperAdmins = () => {
       className="w-auto flex flex-col justify-center items-center gap-4"
     >
       {isPendingProjectSuperAdmins ? (
-        <LoaderCircle className="animate-spin h-12 w-12" />
+        <div className="w-full flex justify-center items-center">
+          <LoaderCircle className="animate-spin h-12 w-12" />
+        </div>
       ) : (
         <Table>
           <TableCaption className="text-foreground">
@@ -131,14 +100,14 @@ export const ManageSuperAdmins = () => {
                 <TableCell>
                   <div className="w-full flex justify-center items-center">
                     <Button
-                      disabled={isFetchingReceipt || isPending}
+                      disabled={isProcessing}
                       size="reset"
                       className="p-px [&_svg]:size-6"
                       onClick={() => {
                         setRevokeSuperAdminAddress(adminAddress);
                       }}
                     >
-                      {isFetchingReceipt || isPending ? (
+                      {isProcessing ? (
                         <LoaderCircle className="py-1 animate-spin h-8 w-8" />
                       ) : (
                         <Ban />
