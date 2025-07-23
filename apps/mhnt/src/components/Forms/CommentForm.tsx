@@ -28,7 +28,7 @@ const formSchema = z.object({
 
 interface CommentFormProps {
   defaultValue?: string;
-  onSubmit: (_: string) => Promise<void>;
+  onSubmit: (_: string) => void;
 }
 
 export const CommentForm = ({
@@ -56,7 +56,7 @@ export const CommentForm = ({
         if (!value || value.length < 20) {
           throw new AppClientError("Comment must be at least 20 characters");
         }
-        await onSubmit(value);
+        onSubmit(value);
         setFormStatus("SUCCESS");
       } catch (error) {
         if (error instanceof AppClientError) {

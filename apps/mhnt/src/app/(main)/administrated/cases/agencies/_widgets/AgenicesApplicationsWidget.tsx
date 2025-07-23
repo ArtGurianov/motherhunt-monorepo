@@ -19,8 +19,9 @@ import {
 } from "@shared/ui/components/table";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useAccount, useSignMessage } from "wagmi";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -30,11 +31,59 @@ export const AgenciesApplicationsWidget = ({
   data,
 }: AgenciesApplicationsWidgetProps) => {
   const router = useRouter();
-  const [targetDataIndex, setTargetDataIndex] = useState<number | null>(null);
+  const [isRejectionDialogOpen, setIsRejectionDialogOpen] = useState(false);
+  const [actionTarget, setActionTarget] = useState<{
+    targetIndex: number;
+    rejectionReason?: string;
+  } | null>(null);
   const t = useTranslations("ADMIN_AGENCY_APPLICATIONS");
   const tToasts = useTranslations("TOASTS");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tCommon = useTranslations("COMMON");
+
+  const { address } = useAccount();
+
+  const {
+    data: signature,
+    signMessage,
+    // error: signatureError,
+    // isPending: isSignaturePending,
+    // isIdle,
+  } = useSignMessage();
+
+  useEffect(() => {
+    if (signature && address && actionTarget) {
+      const targetData = data[actionTarget.targetIndex]!;
+      const metadata = JSON.parse(
+        targetData.metadata!
+      ) as OrganizationBeforeReviewMetadata;
+
+      processAgencyApplication({
+        address,
+        signature,
+        organizationId: targetData.id,
+        headBookerEmail: metadata.creatorEmail,
+        rejectionReason: actionTarget.rejectionReason,
+      })
+        .then(() => {
+          toast(
+            tToasts(
+              actionTarget.rejectionReason
+                ? "rejected-message"
+                : "approved-message"
+            )
+          );
+          router.refresh();
+        })
+        .catch((error) => {
+          if (error instanceof Error) {
+            toast(error.message);
+          } else {
+            toast(tCommon("unexpected-error"));
+          }
+        });
+    }
+  }, [signature, address, actionTarget]);
 
   return (
     <div className="flex flex-col gap-12 grow justify-center items-center">
@@ -68,24 +117,11 @@ export const AgenciesApplicationsWidget = ({
                     <Button
                       size="reset"
                       className="p-px [&_svg]:size-6"
-                      onClick={async () => {
-                        const metadata = JSON.parse(
-                          each.metadata!
-                        ) as OrganizationBeforeReviewMetadata;
-                        try {
-                          await processAgencyApplication({
-                            organizationId: each.id,
-                            headBookerEmail: metadata.creatorEmail,
-                          });
-                          toast(tToasts("approved-message"));
-                          router.refresh();
-                        } catch (error) {
-                          if (error instanceof Error) {
-                            toast(error.message);
-                          } else {
-                            toast(tCommon("unexpected-error"));
-                          }
-                        }
+                      onClick={() => {
+                        setActionTarget({
+                          targetIndex: index,
+                        });
+                        signMessage({ message: "Process agency application" });
                       }}
                     >
                       <ThumbsUp />
@@ -94,7 +130,11 @@ export const AgenciesApplicationsWidget = ({
                     <Button
                       size="reset"
                       className="p-px [&_svg]:size-6"
-                      onClick={() => setTargetDataIndex(index)}
+                      onClick={() =>
+                        setActionTarget({
+                          targetIndex: index,
+                        })
+                      }
                     >
                       <ThumbsDown />
                     </Button>
@@ -109,34 +149,20 @@ export const AgenciesApplicationsWidget = ({
       </InfoCard>
       <DialogDrawer
         title={t("reject-title")}
-        isOpen={typeof targetDataIndex === "number"}
+        isOpen={isRejectionDialogOpen}
         onClose={() => {
-          setTargetDataIndex(null);
+          setIsRejectionDialogOpen(false);
+          setActionTarget(null);
         }}
       >
         <CommentForm
-          onSubmit={async (value) => {
-            if (typeof targetDataIndex === "number") {
-              const metadata = JSON.parse(
-                data[targetDataIndex]!.metadata!
-              ) as OrganizationBeforeReviewMetadata;
-              try {
-                await processAgencyApplication({
-                  organizationId: data[targetDataIndex]!.id,
-                  headBookerEmail: metadata.creatorEmail,
-                  rejectionReason: value,
-                });
-                setTargetDataIndex(null);
-                toast(tToasts("rejected-message"));
-                router.refresh();
-              } catch (error) {
-                if (error instanceof Error) {
-                  toast(error.message);
-                } else {
-                  toast(tCommon("unexpected-error"));
-                }
-              }
-            }
+          onSubmit={(value) => {
+            setActionTarget((prev) => ({
+              targetIndex: prev!.targetIndex!,
+              rejectionReason: value,
+            }));
+
+            signMessage({ message: "Process agency application" });
           }}
         />
       </DialogDrawer>
