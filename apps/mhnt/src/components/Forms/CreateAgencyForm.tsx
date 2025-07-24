@@ -27,10 +27,10 @@ import { Suspense, useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
-import { authClient } from "@/lib/auth/authClient";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
+import { createOrganization } from "@/actions/createOrganization";
 
 const transformStringToSlug = (value: string) =>
   value
@@ -69,15 +69,7 @@ export const CreateAgencyForm = () => {
         if (!name || !slug) {
           throw new AppClientError("Name and slug are required");
         }
-        const result = await authClient.organization.create({
-          name,
-          slug,
-        });
-        if (result?.error) {
-          setErrorMessage(result.error.message || "Failed to create agency");
-          setFormStatus("ERROR");
-          return;
-        }
+        await createOrganization({ name, slug });
         setFormStatus("SUCCESS");
         form.reset();
       } catch (error) {

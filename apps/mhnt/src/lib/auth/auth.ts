@@ -22,11 +22,8 @@ import {
 } from "@/lib/auth/permissions/agency-permissions";
 import { getAppURL, getSiteURL, getAppLocale } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
-import { OrganizationBeforeReviewMetadata } from "../utils/types";
 import { sessionUpdateBefore } from "./dbHooks/sessionUpdateBefore";
 import { getTranslations } from "next-intl/server";
-import { APIError } from "./apiError";
-import { revalidatePath } from "next/cache";
 import { inviteBooker } from "@/actions/inviteBooker";
 import { getEnvConfigServer } from "../config/env";
 import { trustedUserPlugin } from "./plugins/trustedUserPlugin";
@@ -98,47 +95,6 @@ const options = {
       ac: agencyAccessControl,
       roles: AGENCY_ROLES_CONFIG,
       creatorRole: AGENCY_ROLES.HEAD_BOOKER_ROLE,
-      organizationCreation: {
-        beforeCreate: async ({ organization, user }) => {
-          const userOrganizations = await prismaClient.member.findMany({
-            where: { userId: user.id },
-          });
-          for (const each of userOrganizations) {
-            const organizationData = await prismaClient.organization.findFirst({
-              where: { id: each.organizationId },
-            });
-            if (
-              !!organizationData?.metadata &&
-              !JSON.parse(organizationData.metadata).reviewerAddress
-            ) {
-              throw new APIError("FORBIDDEN", {
-                message: "Your previous request is still pending.",
-              });
-            }
-          }
-
-          return {
-            data: {
-              ...organization,
-              metadata: {
-                creatorId: user.id,
-                creatorEmail: user.email,
-              } as OrganizationBeforeReviewMetadata,
-            },
-          };
-        },
-        afterCreate: async ({ organization: { metadata } }) => {
-          revalidatePath("/admin/cases/agencies");
-          await sendEmail({
-            to: metadata.creatorEmail,
-            subject: t("org-setup-subject"),
-            meta: {
-              description: t("org-setup-description"),
-              link: `${appURL}/sign-in`,
-            },
-          });
-        },
-      },
       sendInvitationEmail: inviteBooker,
     }) as unknown as BetterAuthPlugin,
     nextCookies() as unknown as BetterAuthPlugin,
@@ -287,8 +243,20 @@ const auth = betterAuth({
   ],
 });
 
-type AuthWithHasPermission = typeof auth & {
+type ExtendedAuth = typeof auth & {
   api: (typeof auth)["api"] & {
+    createOrganization: ({
+      body,
+    }: {
+      body: {
+        name: string;
+        slug: string;
+        logo: string;
+        metadata: Record<string, string>;
+        userId: string;
+        keepCurrentOrganization: boolean;
+      };
+    }) => Promise<void>;
     hasPermission(props: {
       headers: Headers;
       body: {
@@ -300,4 +268,4 @@ type AuthWithHasPermission = typeof auth & {
   };
 };
 
-export default auth as AuthWithHasPermission;
+export default auth as ExtendedAuth;

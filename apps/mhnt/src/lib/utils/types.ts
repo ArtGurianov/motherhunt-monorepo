@@ -1,9 +1,8 @@
 export interface OrganizationBeforeReviewMetadata {
-  creatorId: string;
-  creatorEmail: string;
+  applicantEmail: string;
 }
 
 export interface OrganizationAfterReviewMetadata {
-  rejectionReason?: string;
   reviewerAddress: string;
+  rejectionReason?: string;
 }

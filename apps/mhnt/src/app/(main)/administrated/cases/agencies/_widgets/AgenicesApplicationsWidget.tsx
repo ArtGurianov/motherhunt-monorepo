@@ -3,7 +3,6 @@
 import { rejectAgencyApplication } from "@/actions/rejectAgencyApplication";
 import { CommentForm } from "@/components/Forms/CommentForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
 import { Organization } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
@@ -27,6 +26,7 @@ import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
 import { stringToBytes32 } from "@/lib/utils/stringToBytes32";
+import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -73,7 +73,7 @@ export const AgenciesApplicationsWidget = ({
             address,
             signature,
             organizationId: targetData.id,
-            headBookerEmail: metadata.creatorEmail,
+            headBookerEmail: metadata.applicantEmail,
             rejectionReason: rejectionTarget.rejectionReason!,
           });
           toast(tToasts("rejected-message"));
