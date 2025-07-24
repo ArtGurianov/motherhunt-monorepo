@@ -1,11 +1,11 @@
 import { toast } from "@shared/ui/components/sonner";
 import { useEffect } from "react";
+import { TransactionReceipt } from "viem";
 import { useTransactionReceipt, useWriteContract } from "wagmi";
 
-export const useAppWriteContract = ({
-  onSuccess,
-}: {
-  onSuccess: () => void;
+export const useAppWriteContract = (props?: {
+  onSuccess?: (_: TransactionReceipt) => void;
+  onRevert?: (_: TransactionReceipt) => void;
 }) => {
   const {
     writeContract,
@@ -23,7 +23,7 @@ export const useAppWriteContract = ({
   const {
     isError: isReceiptError,
     isFetching: isReceiptFetching,
-    data: receiptData,
+    data: receipt,
   } = useTransactionReceipt({
     hash,
   });
@@ -43,14 +43,20 @@ export const useAppWriteContract = ({
   }, [isTxError, isReceiptError]);
 
   useEffect(() => {
-    if (receiptData?.status === "success") {
-      onSuccess();
+    if (receipt?.status === "success") {
+      props?.onSuccess?.(receipt);
       toast("Transaction success!");
     }
-    if (receiptData?.status === "reverted") {
+    if (receipt?.status === "reverted") {
       toast("Transaction reverted!");
+      props?.onRevert?.(receipt);
     }
-  }, [receiptData]);
+  }, [receipt]);
 
-  return { writeContract, isProcessing: isTxPending || isReceiptFetching };
+  return {
+    writeContract,
+    isProcessing: isTxPending || isReceiptFetching,
+    hash,
+    receipt,
+  };
 };

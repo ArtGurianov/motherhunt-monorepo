@@ -46,6 +46,31 @@ export const systemContractAbi = [
     ],
     stateMutability: "view",
   },
+  {
+    type: "function",
+    name: "whitelistAgency",
+    inputs: [{ name: "_agencyId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "WhitelistedAgency",
+    inputs: [
+      {
+        name: "_agencyId",
+        type: "bytes32",
+        indexed: false,
+        internalType: "bytes32",
+      },
+      {
+        name: "_whitelistedBy",
+        type: "address",
+        indexed: false,
+        internalType: "address",
+      },
+    ],
+  },
 ] as const;
 
 export const usdContractAbi = [

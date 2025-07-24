@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import auth from "../auth";
 import { AGENCY_ROLES } from "./agency-permissions";
-import { APP_ROLES } from "./app-permissions";
+import { APP_ENTITIES, APP_ROLES } from "./app-permissions";
 
 export type CanAccessReturnType = {
   canAccess: boolean;
@@ -187,3 +187,26 @@ export const canDeleteBooker = async (): Promise<CanAccessReturnType> => {
     return { canAccess: false };
   }
 };
+
+export const canProcessAgencyApplication =
+  async (): Promise<CanAccessReturnType> => {
+    try {
+      const headersList = await headers();
+      const session = await auth.api.getSession({
+        headers: headersList,
+      });
+      if (!session) return { canAccess: false };
+
+      const result = await auth.api.userHasPermission({
+        body: {
+          userId: session.user.id,
+          permissions: {
+            [APP_ENTITIES.ORGANIZATION]: ["process"],
+          },
+        },
+      });
+      return { canAccess: result.success };
+    } catch {
+      return { canAccess: false };
+    }
+  };

@@ -1,6 +1,6 @@
 "use client";
 
-import { processAgencyApplication } from "@/actions/processAgencyApplication";
+import { rejectAgencyApplication } from "@/actions/rejectAgencyApplication";
 import { CommentForm } from "@/components/Forms/CommentForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
@@ -22,6 +22,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useAccount, useSignMessage } from "wagmi";
+import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
+import { systemContractAbi } from "@/lib/web3/abi";
+import { getEnvConfigClient } from "@/lib/config/env";
+import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
+import { stringToBytes32 } from "@/lib/utils/stringToBytes32";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -32,8 +37,7 @@ export const AgenciesApplicationsWidget = ({
 }: AgenciesApplicationsWidgetProps) => {
   const router = useRouter();
   const [isTransitionPending, startTransition] = useTransition();
-  const [isRejectionDialogOpen, setIsRejectionDialogOpen] = useState(false);
-  const [actionTarget, setActionTarget] = useState<{
+  const [rejectionTarget, setRejectionTarget] = useState<{
     targetIndex: number;
     rejectionReason?: string;
   } | null>(null);
@@ -57,28 +61,23 @@ export const AgenciesApplicationsWidget = ({
   }, [signatureError]);
 
   useEffect(() => {
-    if (signature && address && actionTarget) {
-      const targetData = data[actionTarget.targetIndex]!;
+    if (signature && address && rejectionTarget?.rejectionReason) {
+      const targetData = data[rejectionTarget.targetIndex]!;
       const metadata = JSON.parse(
         targetData.metadata!
       ) as OrganizationBeforeReviewMetadata;
 
       startTransition(async () => {
         try {
-          await processAgencyApplication({
+          await rejectAgencyApplication({
             address,
             signature,
             organizationId: targetData.id,
             headBookerEmail: metadata.creatorEmail,
-            rejectionReason: actionTarget.rejectionReason,
+            rejectionReason: rejectionTarget.rejectionReason!,
           });
-          toast(
-            tToasts(
-              actionTarget.rejectionReason
-                ? "rejected-message"
-                : "approved-message"
-            )
-          );
+          toast(tToasts("rejected-message"));
+          setRejectionTarget(null);
           router.refresh();
         } catch (error) {
           if (error instanceof Error) {
@@ -89,7 +88,25 @@ export const AgenciesApplicationsWidget = ({
         }
       });
     }
-  }, [signature, address, actionTarget]);
+  }, [signature, address, rejectionTarget]);
+
+  const { writeContract, isProcessing } = useAppWriteContract({
+    onSuccess: (receipt) => {
+      startTransition(async () => {
+        try {
+          await acceptAgencyApplication(receipt.transactionHash);
+          toast(tToasts("approved-message"));
+          router.refresh();
+        } catch (error) {
+          if (error instanceof Error) {
+            toast(error.message);
+          } else {
+            toast(tCommon("unexpected-error"));
+          }
+        }
+      });
+    },
+  });
 
   return (
     <div className="flex flex-col gap-12 grow justify-center items-center">
@@ -128,13 +145,17 @@ export const AgenciesApplicationsWidget = ({
                       size="reset"
                       className="p-px [&_svg]:size-6"
                       onClick={() => {
-                        setActionTarget({
-                          targetIndex: index,
+                        writeContract({
+                          abi: systemContractAbi,
+                          address: getEnvConfigClient()
+                            .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
+                          functionName: "whitelistAgency",
+                          args: [stringToBytes32(each.id)],
                         });
-                        signMessage({ message: "Process agency application" });
                       }}
                     >
-                      {isTransitionPending ||
+                      {isProcessing ||
+                      isTransitionPending ||
                       (isSignaturePending && !isSignatureIdle) ? (
                         <LoaderCircle className="py-1 animate-spin h-8 w-8" />
                       ) : (
@@ -144,19 +165,20 @@ export const AgenciesApplicationsWidget = ({
                     <span>{"/"}</span>
                     <Button
                       disabled={
+                        isProcessing ||
                         isTransitionPending ||
                         (isSignaturePending && !isSignatureIdle)
                       }
                       size="reset"
                       className="p-px [&_svg]:size-6"
                       onClick={() => {
-                        setActionTarget({
+                        setRejectionTarget({
                           targetIndex: index,
                         });
-                        setIsRejectionDialogOpen(true);
                       }}
                     >
-                      {isTransitionPending ||
+                      {isProcessing ||
+                      isTransitionPending ||
                       (isSignaturePending && !isSignatureIdle) ? (
                         <LoaderCircle className="py-1 animate-spin h-8 w-8" />
                       ) : (
@@ -174,20 +196,18 @@ export const AgenciesApplicationsWidget = ({
       </InfoCard>
       <DialogDrawer
         title={t("reject-title")}
-        isOpen={isRejectionDialogOpen}
+        isOpen={typeof rejectionTarget?.targetIndex === "number"}
         onClose={() => {
-          setIsRejectionDialogOpen(false);
-          setActionTarget(null);
+          setRejectionTarget(null);
         }}
       >
         <CommentForm
           onSubmit={(value) => {
-            setActionTarget((prev) => ({
-              targetIndex: prev!.targetIndex!,
+            setRejectionTarget((prev) => ({
+              targetIndex: prev!.targetIndex,
               rejectionReason: value,
             }));
-            setIsRejectionDialogOpen(false);
-            signMessage({ message: "Process agency application" });
+            signMessage({ message: "Reject agency application" });
           }}
         />
       </DialogDrawer>
