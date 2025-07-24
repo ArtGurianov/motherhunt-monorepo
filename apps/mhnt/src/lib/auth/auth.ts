@@ -109,7 +109,7 @@ const options = {
             });
             if (
               !!organizationData?.metadata &&
-              !JSON.parse(organizationData.metadata).reviewerId
+              !JSON.parse(organizationData.metadata).reviewerAddress
             ) {
               throw new APIError("FORBIDDEN", {
                 message: "Your previous request is still pending.",

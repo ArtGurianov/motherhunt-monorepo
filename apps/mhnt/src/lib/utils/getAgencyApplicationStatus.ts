@@ -25,7 +25,7 @@ export const getAgencyApplicationStatus = (
       rejectionReason: metadata.rejectionReason,
     };
   }
-  if (metadata.reviewerId) {
+  if (metadata.reviewerAddress) {
     return { status: APPLICATION_STATUSES.APPROVED };
   }
   return { status: APPLICATION_STATUSES.PENDING };

@@ -10,7 +10,7 @@ export default async function AgenciesApplicationsPage() {
       where: {
         NOT: {
           metadata: {
-            contains: "reviewerId",
+            contains: "reviewerAddress",
           },
         },
       },

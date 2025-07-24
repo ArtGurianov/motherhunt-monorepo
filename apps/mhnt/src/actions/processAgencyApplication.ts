@@ -45,11 +45,11 @@ export const processAgencyApplication = async ({
 
   const updateMetadata: OrganizationAfterReviewMetadata = rejectionReason
     ? {
-        reviewerId: session.user.id,
+        reviewerAddress: address,
         rejectionReason,
       }
     : {
-        reviewerId: session.user.id,
+        reviewerAddress: address,
       };
 
   await prismaClient.organization.update({

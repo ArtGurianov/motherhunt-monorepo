@@ -5,5 +5,5 @@ export interface OrganizationBeforeReviewMetadata {
 
 export interface OrganizationAfterReviewMetadata {
   rejectionReason?: string;
-  reviewerId: string;
+  reviewerAddress: string;
 }
