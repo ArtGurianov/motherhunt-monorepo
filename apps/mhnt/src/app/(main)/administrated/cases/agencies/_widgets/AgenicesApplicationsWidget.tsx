@@ -17,9 +17,9 @@ import {
   TableHeader,
   TableRow,
 } from "@shared/ui/components/table";
-import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { LoaderCircle, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useAccount, useSignMessage } from "wagmi";
 
@@ -31,6 +31,7 @@ export const AgenciesApplicationsWidget = ({
   data,
 }: AgenciesApplicationsWidgetProps) => {
   const router = useRouter();
+  const [isTransitionPending, startTransition] = useTransition();
   const [isRejectionDialogOpen, setIsRejectionDialogOpen] = useState(false);
   const [actionTarget, setActionTarget] = useState<{
     targetIndex: number;
@@ -46,10 +47,14 @@ export const AgenciesApplicationsWidget = ({
   const {
     data: signature,
     signMessage,
-    // error: signatureError,
-    // isPending: isSignaturePending,
-    // isIdle,
+    error: signatureError,
+    isPending: isSignaturePending,
+    isIdle: isSignatureIdle,
   } = useSignMessage();
+
+  useEffect(() => {
+    if (signatureError) toast("Signature error.");
+  }, [signatureError]);
 
   useEffect(() => {
     if (signature && address && actionTarget) {
@@ -58,14 +63,15 @@ export const AgenciesApplicationsWidget = ({
         targetData.metadata!
       ) as OrganizationBeforeReviewMetadata;
 
-      processAgencyApplication({
-        address,
-        signature,
-        organizationId: targetData.id,
-        headBookerEmail: metadata.creatorEmail,
-        rejectionReason: actionTarget.rejectionReason,
-      })
-        .then(() => {
+      startTransition(async () => {
+        try {
+          await processAgencyApplication({
+            address,
+            signature,
+            organizationId: targetData.id,
+            headBookerEmail: metadata.creatorEmail,
+            rejectionReason: actionTarget.rejectionReason,
+          });
           toast(
             tToasts(
               actionTarget.rejectionReason
@@ -74,14 +80,14 @@ export const AgenciesApplicationsWidget = ({
             )
           );
           router.refresh();
-        })
-        .catch((error) => {
+        } catch (error) {
           if (error instanceof Error) {
             toast(error.message);
           } else {
             toast(tCommon("unexpected-error"));
           }
-        });
+        }
+      });
     }
   }, [signature, address, actionTarget]);
 
@@ -115,6 +121,10 @@ export const AgenciesApplicationsWidget = ({
                   </TableCell>
                   <TableCell className="flex gap-1 justify-center items-center">
                     <Button
+                      disabled={
+                        isTransitionPending ||
+                        (isSignaturePending && !isSignatureIdle)
+                      }
                       size="reset"
                       className="p-px [&_svg]:size-6"
                       onClick={() => {
@@ -124,19 +134,34 @@ export const AgenciesApplicationsWidget = ({
                         signMessage({ message: "Process agency application" });
                       }}
                     >
-                      <ThumbsUp />
+                      {isTransitionPending ||
+                      (isSignaturePending && !isSignatureIdle) ? (
+                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                      ) : (
+                        <ThumbsUp />
+                      )}
                     </Button>
                     <span>{"/"}</span>
                     <Button
+                      disabled={
+                        isTransitionPending ||
+                        (isSignaturePending && !isSignatureIdle)
+                      }
                       size="reset"
                       className="p-px [&_svg]:size-6"
-                      onClick={() =>
+                      onClick={() => {
                         setActionTarget({
                           targetIndex: index,
-                        })
-                      }
+                        });
+                        setIsRejectionDialogOpen(true);
+                      }}
                     >
-                      <ThumbsDown />
+                      {isTransitionPending ||
+                      (isSignaturePending && !isSignatureIdle) ? (
+                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                      ) : (
+                        <ThumbsDown />
+                      )}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -161,7 +186,7 @@ export const AgenciesApplicationsWidget = ({
               targetIndex: prev!.targetIndex!,
               rejectionReason: value,
             }));
-
+            setIsRejectionDialogOpen(false);
             signMessage({ message: "Process agency application" });
           }}
         />
