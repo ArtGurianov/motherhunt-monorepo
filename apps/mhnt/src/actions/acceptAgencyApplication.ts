@@ -6,6 +6,7 @@ import { prismaClient } from "@/lib/db";
 import { OrganizationAfterReviewMetadata } from "@/lib/utils/types";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { viemClient } from "@/lib/web3/viemClient";
+import { revalidatePath } from "next/cache";
 import { hexToString, parseEventLogs } from "viem";
 import { getTransactionReceipt } from "viem/actions";
 
@@ -36,4 +37,10 @@ export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
       metadata: JSON.stringify(updateMetadata),
     },
   });
+
+  revalidatePath("/admin/cases/agencies");
+  revalidatePath("/@modal/(.)settings/agency");
+  revalidatePath("/@modal/settings/agency");
+  revalidatePath("/@modal/(.)settings/agency/requests");
+  revalidatePath("/@modal/settings/agency/requests");
 };

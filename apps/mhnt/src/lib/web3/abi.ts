@@ -48,6 +48,13 @@ export const systemContractAbi = [
   },
   {
     type: "function",
+    name: "isWhitelistedAgency",
+    inputs: [{ name: "_agencyId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
     name: "whitelistAgency",
     inputs: [{ name: "_agencyId", type: "bytes32", internalType: "bytes32" }],
     outputs: [],
@@ -70,6 +77,23 @@ export const systemContractAbi = [
         internalType: "address",
       },
     ],
+  },
+  {
+    type: "function",
+    name: "getAgencyAddress",
+    inputs: [{ name: "_agencyId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [{ name: "", type: "address", internalType: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "setAgencyAddress",
+    inputs: [
+      { name: "_agencyId", type: "bytes32", internalType: "bytes32" },
+      { name: "_newAddress", type: "address", internalType: "address" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
   },
 ] as const;
 

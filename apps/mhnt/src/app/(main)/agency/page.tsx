@@ -5,7 +5,8 @@ import { getTranslations } from "next-intl/server";
 import { getAppLocale } from "@shared/ui/lib/utils";
 import { prismaClient } from "@/lib/db";
 import { User } from "@shared/db";
-import { ManageWallet } from "./_widgets/ManageWallet";
+import { InfoCard } from "@/components/InfoCard/InfoCard";
+import { AgencyWalletAddressForm } from "@/components/Forms/AgencyWalletAddressForm";
 
 const locale = getAppLocale();
 
@@ -44,9 +45,11 @@ export default async function AgencyManagePage() {
   );
 
   return (
-    <>
+    <div className="flex flex-col gap-8">
       <ManageBookers bookersData={bookersData} />
-      <ManageWallet organizationId={organizationId} />
-    </>
+      <InfoCard title={"wallet"} className="w-auto">
+        <AgencyWalletAddressForm organizationId={organizationId} />
+      </InfoCard>
+    </div>
   );
 }

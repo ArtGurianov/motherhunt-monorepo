@@ -7,6 +7,7 @@ import { APIError } from "@/lib/auth/apiError";
 import { getTranslations } from "next-intl/server";
 import { viemClient } from "@/lib/web3/viemClient";
 import { canProcessAgencyApplication } from "@/lib/auth/permissions/checkers";
+import { revalidatePath } from "next/cache";
 
 const locale = getAppLocale();
 
@@ -56,4 +57,8 @@ export const rejectAgencyApplication = async ({
       link: `${getAppURL(locale)}/sign-in`,
     },
   });
+
+  revalidatePath("/admin/cases/agencies");
+  revalidatePath("/@modal/(.)settings/agency/requests");
+  revalidatePath("/@modal/settings/agency/requests");
 };

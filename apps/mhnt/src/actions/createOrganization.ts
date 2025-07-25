@@ -65,4 +65,6 @@ export const createOrganization = async ({
   });
 
   revalidatePath("/admin/cases/agencies");
+  revalidatePath("/@modal/(.)settings/agency/requests");
+  revalidatePath("/@modal/settings/agency/requests");
 };
