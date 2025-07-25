@@ -25,18 +25,15 @@ export const EmailInfo = () => {
         label={t("system-notifications")}
         currentValue={data.user.isSystemEmailsEnabled}
         onToggle={async () => {
-          try {
-            await changeUserToggleState(
-              "isSystemEmailsEnabled",
-              !data.user.isSystemEmailsEnabled
-            );
+          const result = await changeUserToggleState(
+            "isSystemEmailsEnabled",
+            !data.user.isSystemEmailsEnabled
+          );
+          if (result.errorMessage) {
+            toast(result.errorMessage);
+          } else {
+            toast("Success");
             refetch();
-          } catch (error) {
-            if (error instanceof Error) {
-              toast(error.message);
-            } else {
-              toast(tCommon("unexpected-error"));
-            }
           }
         }}
       />
@@ -44,18 +41,15 @@ export const EmailInfo = () => {
         label={t("newsletter")}
         currentValue={data.user.isNewsletterEmailsEnabled}
         onToggle={async () => {
-          try {
-            await changeUserToggleState(
-              "isNewsletterEmailsEnabled",
-              !data.user.isNewsletterEmailsEnabled
-            );
+          const result = await changeUserToggleState(
+            "isNewsletterEmailsEnabled",
+            !data.user.isNewsletterEmailsEnabled
+          );
+          if (result.errorMessage) {
+            toast(result.errorMessage);
+          } else {
+            toast("Success");
             refetch();
-          } catch (error) {
-            if (error instanceof Error) {
-              toast(error.message);
-            } else {
-              toast(tCommon("unexpected-error"));
-            }
           }
         }}
       />

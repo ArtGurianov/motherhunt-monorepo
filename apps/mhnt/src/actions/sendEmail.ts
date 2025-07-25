@@ -2,7 +2,7 @@
 
 import { getEnvConfigServer } from "@/lib/config/env";
 import { transporter } from "@/lib/nodemailer";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 const styles = {
   container:
@@ -24,27 +24,22 @@ export const sendEmail = async ({
     link: string;
   };
 }) => {
-  const mailOptions = {
-    from: getEnvConfigServer().NODEMAILER_USER,
-    to,
-    subject: `MotherHunt - ${subject}`,
-    html: `
+  try {
+    const mailOptions = {
+      from: getEnvConfigServer().NODEMAILER_USER,
+      to,
+      subject: `MotherHunt - ${subject}`,
+      html: `
       <div style="${styles.container}">
         <h1 style="${styles.heading}">${subject}</h1>
         <p style="${styles.paragraph}">${meta.description}</p>
         <a href="${meta.link}" style="${styles.link}">Click here</a>
       </div>
     `,
-  };
+    };
 
-  try {
     await transporter.sendMail(mailOptions);
-    return { success: true };
-  } catch (e) {
-    if (e instanceof AppClientError) {
-      return { success: false, error: e.message };
-    }
-    console.error("sendEmailAction: ", e);
-    return { success: false, error: "Server error" };
+  } catch (error) {
+    console.error(formatErrorMessage(error));
   }
 };

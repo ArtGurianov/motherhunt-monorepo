@@ -24,13 +24,12 @@ import {
   CardTitle,
 } from "@shared/ui/components/card";
 import { Suspense, useState, useTransition } from "react";
-import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { createOrganization } from "@/actions/createOrganization";
+import { toast } from "@shared/ui/components/sonner";
 
 const transformStringToSlug = (value: string) =>
   value
@@ -47,7 +46,7 @@ const formSchema = z.object({
 });
 
 export const CreateAgencyForm = () => {
-  const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -65,20 +64,12 @@ export const CreateAgencyForm = () => {
   const onSubmit = async ({ name, slug }: z.infer<typeof formSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
-      try {
-        if (!name || !slug) {
-          throw new AppClientError("Name and slug are required");
-        }
-        await createOrganization({ name, slug });
-        setFormStatus("SUCCESS");
+      const result = await createOrganization({ name, slug });
+      if (result.errorMessage) {
+        toast(result.errorMessage);
+      } else {
+        setIsSubmitted(true);
         form.reset();
-      } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
-        setFormStatus("ERROR");
       }
     });
   };
@@ -101,7 +92,7 @@ export const CreateAgencyForm = () => {
                     <Input
                       id="agency-name"
                       aria-invalid={!!form.formState.errors.name}
-                      disabled={isPending || formStatus === "SUCCESS"}
+                      disabled={isPending || isSubmitted}
                       placeholder={t("name-placeholder")}
                       {...field}
                       onChange={(e) => {
@@ -151,7 +142,7 @@ export const CreateAgencyForm = () => {
                   !form.formState.isDirty ||
                   isPending ||
                   !!Object.keys(form.formState.errors).length ||
-                  formStatus === "SUCCESS"
+                  isSubmitted
                 }
               >
                 {isPending ? (
@@ -162,9 +153,7 @@ export const CreateAgencyForm = () => {
               </Button>
             </div>
             <SuccessBlock
-              message={
-                formStatus === "SUCCESS" ? t("success-message") : undefined
-              }
+              message={isSubmitted ? t("success-message") : undefined}
             />
           </form>
         </Form>

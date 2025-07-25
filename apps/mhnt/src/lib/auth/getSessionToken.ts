@@ -1,5 +1,5 @@
 import { createHMAC } from "@better-auth/utils/hmac";
-import { APIError } from "./apiError";
+import { APIError } from "better-auth/api";
 import { getEnvConfigServer } from "../config/env";
 
 function parseCookies(cookieHeader: string) {

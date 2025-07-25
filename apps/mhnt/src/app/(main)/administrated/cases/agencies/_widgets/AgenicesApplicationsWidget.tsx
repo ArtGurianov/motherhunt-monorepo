@@ -44,7 +44,6 @@ export const AgenciesApplicationsWidget = ({
   const t = useTranslations("ADMIN_AGENCY_APPLICATIONS");
   const tToasts = useTranslations("TOASTS");
   const tTitles = useTranslations("INFO_CARD_TITLES");
-  const tCommon = useTranslations("COMMON");
 
   const { address } = useAccount();
 
@@ -68,23 +67,19 @@ export const AgenciesApplicationsWidget = ({
       ) as OrganizationBeforeReviewMetadata;
 
       startTransition(async () => {
-        try {
-          await rejectAgencyApplication({
-            address,
-            signature,
-            organizationId: targetData.id,
-            headBookerEmail: metadata.applicantEmail,
-            rejectionReason: rejectionTarget.rejectionReason!,
-          });
+        const result = await rejectAgencyApplication({
+          address,
+          signature,
+          organizationId: targetData.id,
+          headBookerEmail: metadata.applicantEmail,
+          rejectionReason: rejectionTarget.rejectionReason!,
+        });
+        if (result.errorMessage) {
+          toast(result.errorMessage);
+        } else {
           toast(tToasts("rejected-message"));
           setRejectionTarget(null);
           router.refresh();
-        } catch (error) {
-          if (error instanceof Error) {
-            toast(error.message);
-          } else {
-            toast(tCommon("unexpected-error"));
-          }
         }
       });
     }
@@ -93,16 +88,12 @@ export const AgenciesApplicationsWidget = ({
   const { writeContract, isProcessing } = useAppWriteContract({
     onSuccess: (receipt) => {
       startTransition(async () => {
-        try {
-          await acceptAgencyApplication(receipt.transactionHash);
+        const result = await acceptAgencyApplication(receipt.transactionHash);
+        if (result.errorMessage) {
+          toast(result.errorMessage);
+        } else {
           toast(tToasts("approved-message"));
           router.refresh();
-        } catch (error) {
-          if (error instanceof Error) {
-            toast(error.message);
-          } else {
-            toast(tCommon("unexpected-error"));
-          }
         }
       });
     },

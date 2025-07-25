@@ -6,7 +6,7 @@ import {
   type BetterAuthPlugin,
 } from "better-auth";
 import { createAuthEndpoint } from "better-auth/plugins";
-import { APIError } from "../apiError";
+import { APIError } from "better-auth/api";
 import { base64Url } from "@better-auth/utils/base64";
 import { createHMAC } from "@better-auth/utils/hmac";
 import { z } from "zod";

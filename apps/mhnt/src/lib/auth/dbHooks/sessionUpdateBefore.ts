@@ -1,7 +1,7 @@
 "use server";
 
 import { Session } from "better-auth";
-import { APIError } from "../apiError";
+import { APIError } from "better-auth/api";
 import { prismaClient } from "@/lib/db";
 import { getMemberRole } from "@/actions/getMemberRole";
 import { getSessionFromDB } from "@/actions/getSessionFromDB";
@@ -22,7 +22,14 @@ export const sessionUpdateBefore = async (
     }
 > => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const { userId, id, ...oldSession } = await getSessionFromDB();
+  const result = await getSessionFromDB();
+
+  if (result.errorMessage) {
+    throw new APIError("INTERNAL_SERVER_ERROR", {
+      message: result.errorMessage,
+    });
+  }
+  const { userId, id, ...oldSession } = result.data!;
 
   const updateActiveOrganizationId = (
     updateSessionData as unknown as {
@@ -51,10 +58,11 @@ export const sessionUpdateBefore = async (
       applicationStatus = getAgencyApplicationStatus(organization).status;
       if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
         updateOrganizationName = organization.name;
-        membership = await getMemberRole({
+        const result = await getMemberRole({
           userId,
           organizationId: organization.id,
         });
+        membership = result.data;
       }
     }
 

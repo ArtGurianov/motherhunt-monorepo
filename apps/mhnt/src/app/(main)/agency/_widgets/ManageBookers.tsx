@@ -39,21 +39,25 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
   const onActionConfirm = () => {
     if (!targetActionData) return;
     startTransition(async () => {
-      try {
-        if (targetActionData.action === "revoke") {
-          await deleteBookerRole(targetActionData.targetId);
-          refetch();
+      if (targetActionData.action === "revoke") {
+        const result = await deleteBookerRole(targetActionData.targetId);
+        if (result.errorMessage) {
+          toast(result.errorMessage);
+        } else {
           toast("SUCCESS");
+          refetch();
           router.refresh();
         }
-        if (targetActionData.action === "transfer") {
-          await transferHeadBookerRole(targetActionData.targetId);
-          refetch();
+      }
+      if (targetActionData.action === "transfer") {
+        const result = await transferHeadBookerRole(targetActionData.targetId);
+        if (result.errorMessage) {
+          toast(result.errorMessage);
+        } else {
           toast("SUCCESS");
+          refetch();
           router.refresh();
         }
-      } catch {
-        toast("ERROR");
       }
     });
   };

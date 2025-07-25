@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getEnvConfigServer } from "../config/env";
 import { AppRole } from "@shared/db";
 import { web3AdminRequestBodySchema } from "../auth/auth";
-import { APIError } from "../auth/apiError";
+import { APIError } from "better-auth/api";
 
 const MapWeb3AdminRoles: Record<number, AppRole> = {
   0: APP_ROLES.SCOUTER_ROLE,

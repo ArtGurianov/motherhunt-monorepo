@@ -214,10 +214,11 @@ const auth = betterAuth({
 
       let membership: { role: string; memberId: string } | null = null;
       if (activeOrganizationId) {
-        membership = await getMemberRole({
+        const result = await getMemberRole({
           userId: id,
           organizationId: activeOrganizationId,
         });
+        membership = result.data;
       }
 
       return {
