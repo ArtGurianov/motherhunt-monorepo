@@ -4,6 +4,9 @@
   "tasks": {
     "build": {
       "env": ["DATABASE_URL"]
+    },
+    "seed": {
+      "env": ["DATABASE_URL"]
     }
   }
 }
