@@ -1,5 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@shared/db";
+import { config as dotenvConfig } from "dotenv";
 
+dotenvConfig();
 const prismaClient = new PrismaClient();
 
 async function main() {
