@@ -11,8 +11,9 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "tsx": "^4.19.3",
-    "@prisma/client": "^5.22.0"
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^17.2.1",
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "prisma": "^5.22.0"
