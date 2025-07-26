@@ -130,6 +130,7 @@ export const AgenciesApplicationsWidget = ({
                   <TableCell className="flex gap-1 justify-center items-center">
                     <Button
                       disabled={
+                        isProcessing ||
                         isTransitionPending ||
                         (isSignaturePending && !isSignatureIdle)
                       }
