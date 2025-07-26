@@ -2,10 +2,8 @@
 
 import { Quote } from "@shared/ui/components/Quote";
 import { Checkbox } from "@shared/ui/components/checkbox";
-import { toast } from "@shared/ui/components/sonner";
 import { Ban, LoaderCircle } from "lucide-react";
 import { useState, useTransition } from "react";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 interface ToggleStateFieldProps {
   label: string;
@@ -38,7 +36,7 @@ export const ToggleStateField = ({
               try {
                 await onToggle();
                 setValue((prev) => !prev);
-              } catch (error) {
+              } catch {
                 setIsError(true);
               }
             });
