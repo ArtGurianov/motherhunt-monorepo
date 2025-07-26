@@ -4,7 +4,6 @@
   "tasks": {
     "dev": {
       "env": [
-        "NEXT_PUBLIC_APP_ENV",
         "NEXT_PUBLIC_NETWORK",
         "NEXT_PUBLIC_APP_LOCALE",
         "DATABASE_URL",
@@ -21,7 +20,6 @@
     },
     "build": {
       "env": [
-        "NEXT_PUBLIC_APP_ENV",
         "NEXT_PUBLIC_NETWORK",
         "NEXT_PUBLIC_APP_LOCALE",
         "DATABASE_URL",

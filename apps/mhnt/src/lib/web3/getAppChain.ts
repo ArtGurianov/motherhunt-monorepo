@@ -3,7 +3,7 @@ import { NETWORK_NAMES_MAP } from "../web3/networkConfig";
 
 export function getAppChain() {
   const clientConfig = getEnvConfigClient();
-  switch (clientConfig.NEXT_PUBLIC_APP_ENV) {
+  switch (clientConfig.NODE_ENV) {
     case "development":
       return NETWORK_NAMES_MAP.FOUNDRY;
     case "test":

@@ -1,6 +1,6 @@
 import { cookieStorage, createStorage } from "wagmi";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { getAppChain } from "../utils/getAppChain";
+import { getAppChain } from "./getAppChain";
 import { getEnvConfigClient } from "../config/env";
 
 export const chain = getAppChain();

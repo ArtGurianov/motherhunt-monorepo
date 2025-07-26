@@ -20,7 +20,7 @@ import { useAccount, useReadContract } from "wagmi";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
-import { stringToBytes32 } from "@/lib/utils/stringToBytes32";
+import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { toast } from "@shared/ui/components/sonner";
 import { ZERO_ADDRESS } from "@/lib/web3/constants";
 

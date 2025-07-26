@@ -25,7 +25,7 @@ import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
-import { stringToBytes32 } from "@/lib/utils/stringToBytes32";
+import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
 
 interface AgenciesApplicationsWidgetProps {
