@@ -22,7 +22,8 @@ import {
 } from "@/lib/auth/permissions/agency-permissions";
 import { getAppURL, getSiteURL, getAppLocale } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
-import { sessionUpdateBefore } from "./dbHooks/sessionUpdateBefore";
+import { sessionBeforeUpdate } from "./dbHooks/sessionBeforeUpdate";
+import { sessionBeforeCreate } from "./dbHooks/sessionBeforeCreate";
 import { getTranslations } from "next-intl/server";
 import { inviteBooker } from "@/actions/inviteBooker";
 import { getEnvConfigServer } from "../config/env";
@@ -102,23 +103,9 @@ const options = {
   databaseHooks: {
     session: {
       create: {
-        before: async (session) => ({
-          data: {
-            ...session,
-            activeOrganizationId: (
-              session as unknown as {
-                recentOrganizationId: string | null | undefined;
-              }
-            ).recentOrganizationId,
-            activeOrganizationName: (
-              session as unknown as {
-                recentOrganizationName: string | null | undefined;
-              }
-            ).recentOrganizationName,
-          },
-        }),
+        before: sessionBeforeCreate,
       },
-      update: { before: sessionUpdateBefore },
+      update: { before: sessionBeforeUpdate },
     },
   },
   // secondaryStorage: {},

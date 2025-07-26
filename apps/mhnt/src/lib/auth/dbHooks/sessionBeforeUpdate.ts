@@ -11,7 +11,7 @@ import {
   getAgencyApplicationStatus,
 } from "@/lib/utils/getAgencyApplicationStatus";
 
-export const sessionUpdateBefore = async (
+export const sessionBeforeUpdate = async (
   updateSessionData: Partial<Session>
 ): Promise<
   | boolean
