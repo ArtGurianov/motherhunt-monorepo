@@ -14,6 +14,7 @@ export const EmailInfo = () => {
   const t = useTranslations("TOGGLE_LABELS");
   const tCommon = useTranslations("COMMON");
   const tTitles = useTranslations("INFO_CARD_TITLES");
+  const tToasts = useTranslations("TOASTS");
 
   if (isPending) return tCommon("loading");
   if (!data) redirect("/sign-in");
@@ -32,7 +33,7 @@ export const EmailInfo = () => {
           if (result.errorMessage) {
             toast(result.errorMessage);
           } else {
-            toast("Success");
+            toast(tToasts("UPDATED"));
             refetch();
           }
         }}
@@ -48,7 +49,7 @@ export const EmailInfo = () => {
           if (result.errorMessage) {
             toast(result.errorMessage);
           } else {
-            toast("Success");
+            toast(tToasts("UPDATED"));
             refetch();
           }
         }}

@@ -142,7 +142,11 @@ export const SignInForm = () => {
                 return (
                   <HCaptchaFormItem
                     ref={hCaptchaRef}
-                    onSuccess={(token) => form.setValue("hCaptchaToken", token)}
+                    onSuccess={(token) => {
+                      form.setValue("hCaptchaToken", token, {
+                        shouldValidate: true,
+                      });
+                    }}
                   />
                 );
               }}
