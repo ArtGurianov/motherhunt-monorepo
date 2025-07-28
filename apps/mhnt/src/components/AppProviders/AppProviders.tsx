@@ -25,6 +25,7 @@ createAppKit({
   features: {
     analytics: true,
   },
+  enableNetworkSwitch: true,
 });
 
 const ToastFromParams = () => {
