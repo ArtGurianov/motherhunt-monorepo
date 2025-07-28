@@ -1,8 +1,7 @@
-import { createPublicClient, http } from "viem";
-import { AppChain } from "./networkConfig";
+import { Chain, createPublicClient, http } from "viem";
 import { getAppChain } from "./getAppChain";
 
-export const createViemClient = (chain: AppChain) =>
+export const createViemClient = (chain: Chain) =>
   createPublicClient({
     chain,
     transport: http(),
