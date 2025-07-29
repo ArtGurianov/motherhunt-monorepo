@@ -95,6 +95,23 @@ export const systemContractAbi = [
     outputs: [],
     stateMutability: "nonpayable",
   },
+  {
+    type: "function",
+    name: "getScouterAddress",
+    inputs: [{ name: "_scouterId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [{ name: "", type: "address", internalType: "address" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "setScouterAddress",
+    inputs: [
+      { name: "_scouterId", type: "bytes32", internalType: "bytes32" },
+      { name: "_newAddress", type: "address", internalType: "address" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
 ] as const;
 
 export const usdContractAbi = [

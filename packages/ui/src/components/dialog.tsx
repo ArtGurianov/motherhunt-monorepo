@@ -73,7 +73,7 @@ function DialogContent({
       >
         {children}
         <Button asChild size="reset" className="p-1">
-          <DialogPrimitive.Close className="absolute right-4 top-4 opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+          <DialogPrimitive.Close className="absolute right-4 top-4 opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_not([class*='size-'])]:size-4">
             <X />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
