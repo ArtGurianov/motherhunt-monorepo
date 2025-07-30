@@ -7,6 +7,8 @@ import KarmaSvgUrl from "./karma.svg?url";
 import LookSvgUrl from "./look.svg?url";
 import AdminSvgUrl from "./admin.svg?url";
 import CaseSvgUrl from "./case.svg?url";
+import CrownSvgUrl from "./crown.svg?url";
+import CrownStrikeSvgUrl from "./crown-strike.svg?url";
 
 export {
   CameraCornerSvgUrl,
@@ -18,4 +20,6 @@ export {
   LookSvgUrl,
   AdminSvgUrl,
   CaseSvgUrl,
+  CrownSvgUrl,
+  CrownStrikeSvgUrl,
 };

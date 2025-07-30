@@ -9,7 +9,6 @@ import {
   TooltipTrigger,
 } from "../tooltip";
 import { ReactNode } from "react";
-import { cn } from "@shared/ui/lib/utils";
 
 interface TooltipPopoverProps {
   className?: string;
@@ -40,14 +39,7 @@ const PopoverWrapper = ({
   return (
     <Popover>
       <PopoverTrigger>{children}</PopoverTrigger>
-      <PopoverContent
-        className={cn(
-          className,
-          "bg-foreground text-background p-1 rounded-xl text-sm"
-        )}
-      >
-        {content}
-      </PopoverContent>
+      <PopoverContent className={className}>{content}</PopoverContent>
     </Popover>
   );
 };

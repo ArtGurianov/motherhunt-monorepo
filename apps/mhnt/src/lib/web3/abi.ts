@@ -131,6 +131,16 @@ export const karmaContractAbi = [
   },
 ] as const;
 
+export const auctionContractAbi = [
+  {
+    type: "function",
+    name: "MIN_VOTABLE_AMOUNT_KARMA",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8", internalType: "uint8" }],
+    stateMutability: "view",
+  },
+] as const;
+
 export const usdContractAbi = [
   {
     type: "function",
