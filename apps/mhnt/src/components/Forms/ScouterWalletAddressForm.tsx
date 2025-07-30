@@ -112,50 +112,48 @@ export const ScouterWalletAddressForm = () => {
           name="newAddress"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{"Set agency wallet address"}</FormLabel>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    disabled={
-                      isSessionPending ||
-                      isPendingCurrentSavedAddress ||
-                      isProcessing
-                    }
-                    placeholder="new address"
-                    aria-invalid={!!form.formState.errors.newAddress}
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <div className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center p-2 font-mono text-sm border-border">
-                  <Button
-                    className="h-full [&_svg]:size-6"
-                    type="submit"
-                    variant="flat"
-                    size="sm"
-                    disabled={
-                      isSessionPending ||
-                      !form.formState.isValid ||
-                      !!Object.keys(form.formState.errors).length ||
-                      isPendingCurrentSavedAddress ||
-                      isProcessing ||
-                      (currentSavedAddress !== ZERO_ADDRESS &&
-                        currentSavedAddress !== connectedWalletAddress) ||
-                      currentSavedAddress === form.getValues("newAddress")
-                    }
-                  >
-                    {isSessionPending ||
+              <FormLabel>{"Scouter wallet address"}</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={
+                    isSessionPending ||
                     isPendingCurrentSavedAddress ||
-                    isProcessing ? (
-                      <LoaderCircle className="animate-spin" />
-                    ) : (
-                      "Set"
-                    )}
-                  </Button>
-                </div>
-              </div>
+                    isProcessing
+                  }
+                  placeholder="new address"
+                  aria-invalid={!!form.formState.errors.newAddress}
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                  }}
+                  sideContent={
+                    <Button
+                      className="h-full [&_svg]:size-6"
+                      type="submit"
+                      variant="flat"
+                      size="sm"
+                      disabled={
+                        isSessionPending ||
+                        !form.formState.isValid ||
+                        !!Object.keys(form.formState.errors).length ||
+                        isPendingCurrentSavedAddress ||
+                        isProcessing ||
+                        (currentSavedAddress !== ZERO_ADDRESS &&
+                          currentSavedAddress !== connectedWalletAddress) ||
+                        currentSavedAddress === form.getValues("newAddress")
+                      }
+                    >
+                      {isSessionPending ||
+                      isPendingCurrentSavedAddress ||
+                      isProcessing ? (
+                        <LoaderCircle className="animate-spin" />
+                      ) : (
+                        "Set"
+                      )}
+                    </Button>
+                  }
+                />
+              </FormControl>
               <FormMessage />
               <SuccessBlock
                 message={isSubmitted ? "Address changed!" : undefined}

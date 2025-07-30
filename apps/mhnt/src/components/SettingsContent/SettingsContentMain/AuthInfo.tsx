@@ -42,15 +42,18 @@ export const AuthInfo = () => {
     <InfoCard title={tTitles("account")}>
       <InlineData>
         <InlineDataLabel>{t("logged-in-as")}</InlineDataLabel>
-        <InlineDataContent className="relative">
+        <InlineDataContent
+          sideContent={
+            <span className="font-bold text-sm text-green-500">
+              {t("active")}
+            </span>
+          }
+        >
           {isActiveMemberPending ? (
             <LoaderCircle className="animate-spin h-6 w-6" />
           ) : (
             tRoles(activeMember ? activeMember.role : session.user.role)
           )}
-          <span className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center px-4 font-mono text-sm text-green-500 border-border">
-            {t("active")}
-          </span>
         </InlineDataContent>
       </InlineData>
       {session.user.role !== APP_ROLES.MYDAOGS_ADMIN_ROLE &&

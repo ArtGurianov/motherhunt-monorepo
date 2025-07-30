@@ -77,43 +77,39 @@ export const BookerInvitationForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{"Invite new booker"}</FormLabel>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    disabled={isPending || formStatus === "SUCCESS"}
-                    placeholder={"user email"}
-                    aria-invalid={
-                      !!form.formState.errors.email || !!errorMessage
-                    }
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setFormStatus("PENDING");
-                      setErrorMessage(null);
-                    }}
-                  />
-                </FormControl>
-                <div className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center p-2 font-mono text-sm border-border">
-                  <Button
-                    className="h-full"
-                    type="submit"
-                    variant="flat"
-                    size="sm"
-                    disabled={
-                      !form.formState.isValid ||
-                      !!Object.keys(form.formState.errors).length ||
-                      isPending ||
-                      formStatus === "SUCCESS"
-                    }
-                  >
-                    {isPending ? (
-                      <LoaderCircle className="animate-spin h-6 w-6" />
-                    ) : (
-                      "Invite"
-                    )}
-                  </Button>
-                </div>
-              </div>
+              <FormControl>
+                <Input
+                  disabled={isPending || formStatus === "SUCCESS"}
+                  placeholder={"user email"}
+                  aria-invalid={!!form.formState.errors.email || !!errorMessage}
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    setFormStatus("PENDING");
+                    setErrorMessage(null);
+                  }}
+                  sideContent={
+                    <Button
+                      className="h-full"
+                      type="submit"
+                      variant="flat"
+                      size="sm"
+                      disabled={
+                        !form.formState.isValid ||
+                        !!Object.keys(form.formState.errors).length ||
+                        isPending ||
+                        formStatus === "SUCCESS"
+                      }
+                    >
+                      {isPending ? (
+                        <LoaderCircle className="animate-spin h-6 w-6" />
+                      ) : (
+                        "Invite"
+                      )}
+                    </Button>
+                  }
+                />
+              </FormControl>
               <FormMessage />
               <ErrorBlock message={errorMessage} />
               <SuccessBlock

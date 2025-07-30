@@ -114,6 +114,23 @@ export const systemContractAbi = [
   },
 ] as const;
 
+export const karmaContractAbi = [
+  {
+    type: "function",
+    name: "balanceOf",
+    inputs: [{ name: "_scouterId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "purchase",
+    inputs: [{ name: "_scouterId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+] as const;
+
 export const usdContractAbi = [
   {
     type: "function",

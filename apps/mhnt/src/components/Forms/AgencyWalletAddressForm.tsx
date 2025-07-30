@@ -129,56 +129,54 @@ export const AgencyWalletAddressForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>{"Set agency wallet address"}</FormLabel>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    disabled={
-                      isPendingWhitelisted ||
-                      isPendingCurrentSavedAddress ||
-                      isProcessing ||
-                      !isWhitelisted ||
-                      currentSavedAddress !== connectedWalletAddress ||
-                      currentSavedAddress === form.getValues("newAddress")
-                    }
-                    placeholder={
-                      typeof isWhitelisted === "boolean" && !isWhitelisted
-                        ? "Not whitelisted. Contact support!"
-                        : "new address"
-                    }
-                    aria-invalid={!!form.formState.errors.newAddress}
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <div className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center p-2 font-mono text-sm border-border">
-                  <Button
-                    className="h-full"
-                    type="submit"
-                    variant="flat"
-                    size="sm"
-                    disabled={
-                      !form.formState.isValid ||
-                      !!Object.keys(form.formState.errors).length ||
-                      isPendingWhitelisted ||
-                      isPendingCurrentSavedAddress ||
-                      isProcessing ||
-                      !isWhitelisted ||
-                      connectedWalletAddress !== currentSavedAddress ||
-                      currentSavedAddress === form.getValues("newAddress")
-                    }
-                  >
-                    {isPendingWhitelisted ||
+              <FormControl>
+                <Input
+                  disabled={
+                    isPendingWhitelisted ||
                     isPendingCurrentSavedAddress ||
-                    isProcessing ? (
-                      <LoaderCircle className="animate-spin h-6 w-6" />
-                    ) : (
-                      "Set"
-                    )}
-                  </Button>
-                </div>
-              </div>
+                    isProcessing ||
+                    !isWhitelisted ||
+                    currentSavedAddress !== connectedWalletAddress ||
+                    currentSavedAddress === form.getValues("newAddress")
+                  }
+                  placeholder={
+                    typeof isWhitelisted === "boolean" && !isWhitelisted
+                      ? "Not whitelisted. Contact support!"
+                      : "new address"
+                  }
+                  aria-invalid={!!form.formState.errors.newAddress}
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                  }}
+                  sideContent={
+                    <Button
+                      className="h-full"
+                      type="submit"
+                      variant="flat"
+                      size="sm"
+                      disabled={
+                        !form.formState.isValid ||
+                        !!Object.keys(form.formState.errors).length ||
+                        isPendingWhitelisted ||
+                        isPendingCurrentSavedAddress ||
+                        isProcessing ||
+                        !isWhitelisted ||
+                        connectedWalletAddress !== currentSavedAddress ||
+                        currentSavedAddress === form.getValues("newAddress")
+                      }
+                    >
+                      {isPendingWhitelisted ||
+                      isPendingCurrentSavedAddress ||
+                      isProcessing ? (
+                        <LoaderCircle className="animate-spin h-6 w-6" />
+                      ) : (
+                        "Set"
+                      )}
+                    </Button>
+                  }
+                />
+              </FormControl>
               <FormMessage />
               <SuccessBlock
                 message={isSubmitted ? "Address changed!" : undefined}

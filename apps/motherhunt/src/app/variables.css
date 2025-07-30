@@ -8,7 +8,7 @@
 
   --main: oklch(91% 0 0);
   --border: oklch(30% 0.105 329);
-  --ring: oklch(30% 0.105 329);
+  --ring: white;
   --overlay: var(--main);
 
   --height-nav: calc(var(--spacing) * 24);

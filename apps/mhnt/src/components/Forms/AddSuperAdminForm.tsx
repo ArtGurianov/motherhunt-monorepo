@@ -73,38 +73,36 @@ export const AddSuperAdminForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>{"New super admin address"}</FormLabel>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    disabled={isProcessing}
-                    placeholder={"type address starts with 0x"}
-                    aria-invalid={!!form.formState.errors.address}
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setIsSubmitted(false);
-                    }}
-                  />
-                </FormControl>
-                <div className="font-bold absolute right-0 top-0 bg-main/30 border-l h-full flex justify-center items-center p-2 font-mono text-sm border-border">
-                  <Button
-                    className="h-full"
-                    type="submit"
-                    variant="flat"
-                    size="sm"
-                    disabled={
-                      !!Object.keys(form.formState.errors).length ||
-                      isProcessing
-                    }
-                  >
-                    {isProcessing ? (
-                      <LoaderCircle className="animate-spin h-6 w-6" />
-                    ) : (
-                      "Add"
-                    )}
-                  </Button>
-                </div>
-              </div>
+              <FormControl>
+                <Input
+                  disabled={isProcessing}
+                  placeholder={"type address starts with 0x"}
+                  aria-invalid={!!form.formState.errors.address}
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    setIsSubmitted(false);
+                  }}
+                  sideContent={
+                    <Button
+                      className="h-full"
+                      type="submit"
+                      variant="flat"
+                      size="sm"
+                      disabled={
+                        !!Object.keys(form.formState.errors).length ||
+                        isProcessing
+                      }
+                    >
+                      {isProcessing ? (
+                        <LoaderCircle className="animate-spin h-6 w-6" />
+                      ) : (
+                        "Add"
+                      )}
+                    </Button>
+                  }
+                />
+              </FormControl>
               <FormMessage />
               <SuccessBlock message={isSubmitted ? "success" : undefined} />
             </FormItem>

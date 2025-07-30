@@ -7,7 +7,7 @@
   --accent-foreground: oklch(58.16% 0.0782 120.75);
   --main: oklch(22.213% 0.00003 271.152);
   --border: var(--primary);
-  --ring: var(--primary);
+  --ring: white;
   --overlay: var(--primary);
 
   --height-nav: calc(var(--spacing) * 18);

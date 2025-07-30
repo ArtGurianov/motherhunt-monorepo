@@ -22,7 +22,7 @@ const buttonVariants = cva(
           "bg-secondary text-foreground border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none",
         reverse:
           "text-main-foreground bg-main border-2 border-border hover:translate-x-reverseBoxShadowX hover:translate-y-reverseBoxShadowY hover:shadow-shadow",
-        flat: "shadow-transparent bg-main hover:bg-secondary border",
+        flat: "shadow-transparent bg-main hover:bg-secondary border font-mono",
         link: "underline hover:text-accent-foreground",
       },
       size: {
