@@ -16,7 +16,6 @@ interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   priceUsd?: number;
   spenderContractAddress: `0x${string}`;
   onSuccess: () => void;
-  onError: () => void;
 }
 
 export const TopUpKarmaBtn = ({
@@ -27,7 +26,6 @@ export const TopUpKarmaBtn = ({
   priceUsd,
   spenderContractAddress,
   onSuccess,
-  onError,
   children,
 }: TopUpKarmaBtnProps) => {
   const { isPending: isSessionPending, data: sessionData } =
@@ -39,8 +37,6 @@ export const TopUpKarmaBtn = ({
     isError: isPurchaseError,
   } = useAppWriteContract({
     onSuccess,
-    onError,
-    onRevert: onError,
   });
 
   const sendTransaction = () => {

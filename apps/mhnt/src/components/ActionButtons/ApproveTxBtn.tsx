@@ -17,7 +17,6 @@ interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
   spenderContractAddress: `0x${string}`;
   decimals?: number;
   onSuccess: () => void;
-  onError: () => void;
 }
 
 export const ApproveTxBtn = ({
@@ -30,7 +29,6 @@ export const ApproveTxBtn = ({
   spenderContractAddress,
   decimals,
   onSuccess,
-  onError,
   children,
 }: ApproveTxBtnProps) => {
   const {
@@ -39,8 +37,6 @@ export const ApproveTxBtn = ({
     isError: isApproveError,
   } = useAppWriteContract({
     onSuccess,
-    onError,
-    onRevert: onError,
   });
 
   const sendTransaction = () => {

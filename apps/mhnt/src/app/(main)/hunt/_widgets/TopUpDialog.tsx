@@ -12,7 +12,6 @@ import {
 import { Button } from "@shared/ui/components/button";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
 import { Quote } from "@shared/ui/components/Quote";
-import { toast } from "@shared/ui/components/sonner";
 import { getSiteURL } from "@shared/ui/lib/utils";
 import Link from "next/link";
 import { formatUnits } from "viem";
@@ -170,9 +169,6 @@ export const TopUpDialog = ({
             onSuccess={() => {
               refetchAllowance();
             }}
-            onError={() => {
-              toast("An error happening while sending an approval transation.");
-            }}
           >
             {"Approve"}
           </ApproveTxBtn>
@@ -203,9 +199,6 @@ export const TopUpDialog = ({
               refetchAllowance();
               refetchBalance();
               onSuccess();
-            }}
-            onError={() => {
-              toast("An error happening while sending a purchase transation.");
             }}
           >
             {"Purchase"}
