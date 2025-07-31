@@ -14,7 +14,7 @@ interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   currentAllowanceUsd?: number;
   currentBalanceUsd?: number;
   priceUsd?: number;
-  spenderContractAddress: `0x${string}`;
+  callContractAddress: `0x${string}`;
   onSuccess: () => void;
 }
 
@@ -24,7 +24,7 @@ export const TopUpKarmaBtn = ({
   currentAllowanceUsd,
   currentBalanceUsd,
   priceUsd,
-  spenderContractAddress,
+  callContractAddress,
   onSuccess,
   children,
 }: TopUpKarmaBtnProps) => {
@@ -43,7 +43,7 @@ export const TopUpKarmaBtn = ({
     if (sessionData) {
       writeContract({
         abi: karmaContractAbi,
-        address: spenderContractAddress,
+        address: callContractAddress,
         functionName: "purchase",
         args: [stringToBytes32(sessionData.session.userId)],
       });

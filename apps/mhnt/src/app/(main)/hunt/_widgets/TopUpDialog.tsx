@@ -80,7 +80,7 @@ export const TopUpDialog = ({
     functionName: "allowance",
     args: [
       address!,
-      envConfigClient.NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS as `0x${string}`,
+      envConfigClient.NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
     ],
     query: { enabled: validationResult.success && !!address },
   });
@@ -159,7 +159,7 @@ export const TopUpDialog = ({
                 : undefined
             }
             spenderContractAddress={
-              envConfigClient.NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS as `0x${string}`
+              envConfigClient.NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`
             }
             decimals={
               validationResult.success
@@ -192,7 +192,7 @@ export const TopUpDialog = ({
                 ? Number(karmaPriceUsd)
                 : undefined
             }
-            spenderContractAddress={
+            callContractAddress={
               envConfigClient.NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS as `0x${string}`
             }
             onSuccess={() => {
