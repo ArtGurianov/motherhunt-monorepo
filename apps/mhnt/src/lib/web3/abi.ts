@@ -1,6 +1,30 @@
 export const systemContractAbi = [
   {
     type: "function",
+    name: "getFeesTokenDetails",
+    inputs: [],
+    outputs: [
+      {
+        name: "_feesTokenDetails",
+        type: "tuple",
+        internalType: "struct IMyDaogsDividends.FeesTokenDetails",
+        components: [
+          { name: "tokenAddress", type: "address", internalType: "address" },
+          { name: "decimals", type: "uint8", internalType: "uint8" },
+          { name: "symbol", type: "string", internalType: "string" },
+          { name: "name", type: "string", internalType: "string" },
+          {
+            name: "minClaimableUnitsAmount",
+            type: "uint256",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
     name: "addProjectSuperAdmin",
     inputs: [
       { name: "_superAdminAddress", type: "address", internalType: "address" },
@@ -128,6 +152,13 @@ export const karmaContractAbi = [
     inputs: [{ name: "_scouterId", type: "bytes32", internalType: "bytes32" }],
     outputs: [],
     stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "KARMA_PRICE_USD",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
   },
 ] as const;
 

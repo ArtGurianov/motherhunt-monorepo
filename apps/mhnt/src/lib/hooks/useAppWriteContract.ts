@@ -5,12 +5,13 @@ import { useTransactionReceipt, useWriteContract } from "wagmi";
 
 export const useAppWriteContract = (props?: {
   onSuccess?: (_: TransactionReceipt) => void;
+  onError?: (e: unknown) => void;
   onRevert?: (_: TransactionReceipt) => void;
 }) => {
   const {
     writeContract,
     data: hash,
-    isError: isTxError,
+    error: txError,
     isPending: isTxPending,
   } = useWriteContract();
 
@@ -21,7 +22,7 @@ export const useAppWriteContract = (props?: {
   }, [hash]);
 
   const {
-    isError: isReceiptError,
+    error: receiptError,
     isFetching: isReceiptFetching,
     data: receipt,
   } = useTransactionReceipt({
@@ -29,18 +30,20 @@ export const useAppWriteContract = (props?: {
   });
 
   useEffect(() => {
-    if (isTxError) {
+    if (txError) {
+      props?.onError?.(txError);
       toast("An error occured while sending a transaction to the blockchain!");
     }
-  }, [isTxError]);
+  }, [txError]);
 
   useEffect(() => {
-    if (isReceiptError) {
+    if (receiptError) {
+      props?.onError?.(receiptError);
       toast(
         "An error occured while executing a transaction on the blockchain!"
       );
     }
-  }, [isTxError, isReceiptError]);
+  }, [receiptError]);
 
   useEffect(() => {
     if (receipt?.status === "success") {
@@ -58,5 +61,6 @@ export const useAppWriteContract = (props?: {
     isProcessing: isTxPending || isReceiptFetching,
     hash,
     receipt,
+    isError: !!receiptError || !!txError,
   };
 };
