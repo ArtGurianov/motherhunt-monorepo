@@ -4,9 +4,12 @@ import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { usdContractAbi } from "@/lib/web3/abi";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
+import { LoaderCircle } from "lucide-react";
 import { parseUnits } from "viem";
 
 interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
+  isLoading: boolean;
+  isError: boolean;
   currentAllowanceUsd?: number;
   currentBalanceUsd?: number;
   priceUsd?: number;
@@ -18,6 +21,8 @@ interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
 }
 
 export const ApproveTxBtn = ({
+  isLoading,
+  isError,
   currentAllowanceUsd,
   currentBalanceUsd,
   priceUsd,
@@ -28,12 +33,15 @@ export const ApproveTxBtn = ({
   onError,
   children,
 }: ApproveTxBtnProps) => {
-  const { writeContract, isProcessing, hash, receipt, isError } =
-    useAppWriteContract({
-      onSuccess,
-      onError,
-      onRevert: onError,
-    });
+  const {
+    writeContract,
+    isProcessing: isApproveProcessing,
+    isError: isApproveError,
+  } = useAppWriteContract({
+    onSuccess,
+    onError,
+    onRevert: onError,
+  });
 
   const sendTransaction = () => {
     if (!!usdContractAddress && !!priceUsd && !!decimals) {
@@ -51,9 +59,12 @@ export const ApproveTxBtn = ({
 
   return (
     <Button
+      className="[&_svg]:size-6"
       disabled={
+        isLoading ||
         isError ||
-        isProcessing ||
+        isApproveError ||
+        isApproveProcessing ||
         !usdContractAddress ||
         !decimals ||
         typeof priceUsd !== "number" ||
@@ -64,7 +75,11 @@ export const ApproveTxBtn = ({
       }
       onClick={sendTransaction}
     >
-      {!isProcessing ? children : "loading..."}
+      {!isApproveProcessing && !isLoading ? (
+        children
+      ) : (
+        <LoaderCircle className="animate-spin" />
+      )}
     </Button>
   );
 };

@@ -12,6 +12,7 @@ import {
 import { Button } from "@shared/ui/components/button";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
 import { Quote } from "@shared/ui/components/Quote";
+import { toast } from "@shared/ui/components/sonner";
 import { getSiteURL } from "@shared/ui/lib/utils";
 import Link from "next/link";
 import { formatUnits } from "viem";
@@ -33,8 +34,8 @@ export const TopUpDialog = ({
 
   const {
     data: feesContractDetails,
-    isPending: isPendingFeesContractDetails,
-    isError: isErrorFeesContractDetails,
+    isPending: isFeesContractDetailsLoading,
+    isError: isFeesContractDetailsError,
   } = useReadContract({
     abi: systemContractAbi,
     address:
@@ -47,8 +48,8 @@ export const TopUpDialog = ({
 
   const {
     data: balanceUsd,
-    isLoading: isLoadingBalance,
-    isError: isErrorBalance,
+    isLoading: isBalanceLoading,
+    isError: isBalanceError,
     refetch: refetchBalance,
   } = useReadContract({
     abi: usdContractAbi,
@@ -60,7 +61,7 @@ export const TopUpDialog = ({
 
   const {
     data: karmaPriceUsd,
-    isPending: isKarmaPriceUsdPending,
+    isPending: isKarmaPriceUsdLoading,
     isError: isKarmaPriceUsdError,
   } = useReadContract({
     abi: karmaContractAbi,
@@ -71,8 +72,8 @@ export const TopUpDialog = ({
 
   const {
     data: allowance,
-    isLoading: isLoadingAllowance,
-    isError: isErrorAllowance,
+    isLoading: isAllowanceLoading,
+    isError: isAllowanceError,
     refetch: refetchAllowance,
   } = useReadContract({
     abi: usdContractAbi,
@@ -86,8 +87,8 @@ export const TopUpDialog = ({
   });
 
   const isLoadingDisplayBalance =
-    isPendingFeesContractDetails || isLoadingBalance;
-  const isErrorDisplayBalance = isErrorFeesContractDetails || isErrorBalance;
+    isFeesContractDetailsLoading || isBalanceLoading;
+  const isErrorDisplayBalance = isFeesContractDetailsError || isBalanceError;
   let displayBalance = "loading...";
   if (validationResult.success && typeof balanceUsd === "bigint") {
     displayBalance = `${formatUnits(
@@ -134,6 +135,8 @@ export const TopUpDialog = ({
         </span>
         <div className="flex gap-4">
           <ApproveTxBtn
+            isLoading={isAllowanceLoading || isKarmaPriceUsdLoading}
+            isError={isAllowanceError || isKarmaPriceUsdError || isBalanceError}
             currentAllowanceUsd={
               typeof allowance === "bigint" && validationResult.success
                 ? Number(formatUnits(allowance, validationResult.data.decimals))
@@ -167,11 +170,15 @@ export const TopUpDialog = ({
             onSuccess={() => {
               refetchAllowance();
             }}
-            onError={() => {}}
+            onError={() => {
+              toast("An error happening while sending an approval transation.");
+            }}
           >
             {"Approve"}
           </ApproveTxBtn>
           <TopUpKarmaBtn
+            isLoading={isAllowanceLoading || isKarmaPriceUsdLoading}
+            isError={isAllowanceError || isKarmaPriceUsdError || isBalanceError}
             currentAllowanceUsd={
               typeof allowance === "bigint" && validationResult.success
                 ? Number(formatUnits(allowance, validationResult.data.decimals))
@@ -197,7 +204,9 @@ export const TopUpDialog = ({
               refetchBalance();
               onSuccess();
             }}
-            onError={() => {}}
+            onError={() => {
+              toast("An error happening while sending a purchase transation.");
+            }}
           >
             {"Purchase"}
           </TopUpKarmaBtn>

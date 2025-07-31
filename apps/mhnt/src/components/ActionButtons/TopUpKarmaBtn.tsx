@@ -6,8 +6,11 @@ import { karmaContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
+import { LoaderCircle } from "lucide-react";
 
 interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
+  isLoading: boolean;
+  isError: boolean;
   currentAllowanceUsd?: number;
   currentBalanceUsd?: number;
   priceUsd?: number;
@@ -17,6 +20,8 @@ interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
 }
 
 export const TopUpKarmaBtn = ({
+  isLoading,
+  isError,
   currentAllowanceUsd,
   currentBalanceUsd,
   priceUsd,
@@ -28,12 +33,15 @@ export const TopUpKarmaBtn = ({
   const { isPending: isSessionPending, data: sessionData } =
     authClient.useSession();
 
-  const { writeContract, isProcessing, hash, receipt, isError } =
-    useAppWriteContract({
-      onSuccess,
-      onError,
-      onRevert: onError,
-    });
+  const {
+    writeContract,
+    isProcessing: isPurchaseProcessing,
+    isError: isPurchaseError,
+  } = useAppWriteContract({
+    onSuccess,
+    onError,
+    onRevert: onError,
+  });
 
   const sendTransaction = () => {
     if (sessionData) {
@@ -48,10 +56,12 @@ export const TopUpKarmaBtn = ({
 
   return (
     <Button
+      className="[&_svg]:size-6"
       disabled={
         isSessionPending ||
         isError ||
-        isProcessing ||
+        isPurchaseError ||
+        isPurchaseProcessing ||
         !priceUsd ||
         typeof currentAllowanceUsd !== "number" ||
         currentAllowanceUsd < priceUsd ||
@@ -62,7 +72,11 @@ export const TopUpKarmaBtn = ({
         sendTransaction();
       }}
     >
-      {!isProcessing && !isSessionPending ? children : "waiting..."}
+      {!isPurchaseProcessing && !isSessionPending && !isLoading ? (
+        children
+      ) : (
+        <LoaderCircle className="animate-spin" />
+      )}
     </Button>
   );
 };

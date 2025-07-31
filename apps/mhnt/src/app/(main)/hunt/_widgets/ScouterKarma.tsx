@@ -26,11 +26,7 @@ export const ScouterKarma = () => {
   const { isPending: isSessionPending, data: sessionData } =
     authClient.useSession();
 
-  const {
-    data: minVotableKarma,
-    isPending: isMinVotableKarmaPending,
-    isError: isMinVotableKarmaError,
-  } = useReadContract({
+  const { data: minVotableKarma } = useReadContract({
     abi: auctionContractAbi,
     address: getEnvConfigClient()
       .NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
@@ -40,7 +36,6 @@ export const ScouterKarma = () => {
   const {
     data: karmaBalance,
     isPending: isKarmaBalancePending,
-    isError: isKarmaBalanceError,
     refetch: refetchKarmaBalance,
   } = useReadContract({
     abi: karmaContractAbi,
@@ -74,13 +69,13 @@ export const ScouterKarma = () => {
           }
         >
           {isSessionPending || isKarmaBalancePending ? (
-            <LoaderCircle className="animate-spin size-6" />
+            <LoaderCircle className="animate-spin" />
           ) : (
             <span className="flex gap-2 items-center justify-between">
               <span className="flex gap-2 items-center">
                 {`${karmaBalance} krm`}
                 <TooltipPopover
-                  content={`After earning ${minVotableKarma} karmas you become eligible to vote and rate models, as well as spend your karma on commission discounts.`}
+                  content={`After earning ${typeof minVotableKarma === "number" ? minVotableKarma : "a certain amount of"} karma, you become eligible to vote and rate models, as well as spend your karma on commission discounts.`}
                 >
                   <Image
                     src={
