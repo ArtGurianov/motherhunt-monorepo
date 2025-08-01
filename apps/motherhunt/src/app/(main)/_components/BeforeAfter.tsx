@@ -45,7 +45,7 @@ export const BeforeAfter = () => {
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ["start center", "end center"],
+    offset: ["end center", "end start"],
   });
 
   const height = useTransform(
