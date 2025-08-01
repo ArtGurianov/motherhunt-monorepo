@@ -9,6 +9,7 @@ export default function Home() {
       <Hero />
       <Mission />
       <BeforeAfter />
+      <div className="w-full h-96" />
       <Agencies />
     </>
   );

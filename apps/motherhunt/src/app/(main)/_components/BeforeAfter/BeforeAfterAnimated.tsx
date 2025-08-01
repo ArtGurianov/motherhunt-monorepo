@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { BeforeAfterContent } from "./BeforeAfterContent";
 
@@ -23,8 +23,18 @@ export const BeforeAfterAnimated = ({
 
   const height = useTransform(scrollYProgress, [0, 1], [heightFrom, heightTo]);
 
+  const scrollMotionSpring = useSpring(height, {
+    stiffness: 100,
+    bounce: 0,
+    mass: 0.1,
+    duration: 0.25,
+  });
+
   return (
-    <motion.div className="overflow-clip vignette" style={{ height }}>
+    <motion.div
+      className="overflow-clip vignette"
+      style={{ height: scrollMotionSpring }}
+    >
       <BeforeAfterContent containerRef={containerRef} targetRef={targetRef} />
     </motion.div>
   );
