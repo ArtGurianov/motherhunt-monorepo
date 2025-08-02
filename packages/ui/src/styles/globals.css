@@ -197,15 +197,34 @@ body::-webkit-scrollbar-thumb,
 }
 
 @utility tearBottom {
-  content: "";
-  transform: rotate(180deg);
-  position: absolute;
-  background: #cefef0;
+  position: relative;
+  background: black;
   height: 4px;
   width: 100%;
-  left: 0;
-  bottom: 0;
   z-index: 1;
+  clip-path: polygon(
+    1% 0%,
+    4% 100%,
+    9% 0%,
+    13% 100%,
+    19% 1%,
+    21% 100%,
+    26% 5%,
+    30% 100%,
+    36% 2%,
+    43% 100%,
+    50% 1%,
+    52% 100%,
+    61% 0%,
+    69% 94%,
+    70% 0%,
+    76% 100%,
+    81% 0%,
+    84% 100%,
+    91% 0%,
+    97% 100%,
+    99% 3%
+  );
   -webkit-clip-path: polygon(
     1% 0%,
     4% 100%,

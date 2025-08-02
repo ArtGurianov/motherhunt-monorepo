@@ -1,1 +1,1 @@
-export { BeforeAfter } from "./BeforeAfter";
+export { BeforeAfterWrapper } from "./BeforeAfterWrapper";

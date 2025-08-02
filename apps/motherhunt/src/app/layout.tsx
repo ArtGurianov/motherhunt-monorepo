@@ -53,7 +53,7 @@ export default function RootLayout({
         <main className="relative flex flex-col min-h-svh w-full">
           <NextIntlClientProvider>
             <Navbar />
-            <div className="flex flex-col min-h-content w-full justify-start items-center gap-12">
+            <div className="flex flex-col min-h-content w-full justify-start items-center">
               {children}
             </div>
             <Footer />

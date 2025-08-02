@@ -39,23 +39,15 @@ const gemstonesContent = [
 ] as const;
 
 interface BeforeAfterContentProps {
-  containerRef: RefObject<HTMLDivElement | null>;
-  targetRef: RefObject<HTMLDivElement | null>;
+  afterContainerRef: RefObject<HTMLDivElement | null>;
 }
 
 export const BeforeAfterContent = ({
-  containerRef,
-  targetRef,
+  afterContainerRef,
 }: BeforeAfterContentProps) => {
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col w-full justify-center items-center"
-    >
-      <div
-        ref={targetRef}
-        className="relative flex w-full justify-center items-center"
-      >
+    <div className="flex flex-col w-full justify-center items-center vignette">
+      <div className="relative flex w-full justify-center items-center">
         <div className="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-b from-amber-900 to-yellow-900">
           <div className="w-full h-full bg-gradient-to-t from-amber-700 to-yellow-800 steampunk" />
         </div>
@@ -83,7 +75,7 @@ export const BeforeAfterContent = ({
           </div>
         </div>
       </div>
-      <div className="relative flex flex-col w-full">
+      <div ref={afterContainerRef} className="relative flex flex-col w-full">
         <div className="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-b from-yellow-900 to-amber-900">
           <div className="w-full h-full bg-gradient-to-t from-yellow-800 to-amber-700 steampunk" />
         </div>

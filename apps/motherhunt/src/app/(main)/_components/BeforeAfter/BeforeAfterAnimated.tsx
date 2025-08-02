@@ -1,48 +1,52 @@
 "use client";
 
-import {
-  motion,
-  useAnimate,
-  useMotionValueEvent,
-  useScroll,
-} from "framer-motion";
-import { useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { BeforeAfterContent } from "./BeforeAfterContent";
+import { useScrollPosition } from "@/lib/hooks";
 
 interface BeforeAfterProps {
-  heightFrom: number;
-  heightTo: number;
+  childrenContainerRef: RefObject<HTMLDivElement | null>;
 }
 
 export const BeforeAfterAnimated = ({
-  heightFrom,
-  heightTo,
+  childrenContainerRef,
 }: BeforeAfterProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const targetRef = useRef<HTMLDivElement>(null);
+  const afterContainerRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["end center", "end start"],
-  });
+  const { scrollPosition, windowHeight } = useScrollPosition();
+  const midScreenScrollPosition = scrollPosition + windowHeight / 2;
 
-  const [scope, animate] = useAnimate();
+  useEffect(() => {
+    if (afterContainerRef.current && childrenContainerRef.current) {
+      if (
+        midScreenScrollPosition <
+        midScreenScrollPosition +
+          afterContainerRef.current.getBoundingClientRect().top -
+          afterContainerRef.current.offsetHeight
+      ) {
+        childrenContainerRef.current.style.position = "absolute";
+        childrenContainerRef.current.style.top = `${
+          scrollPosition + afterContainerRef.current.getBoundingClientRect().top
+        }px`;
+      } else if (
+        midScreenScrollPosition <
+          midScreenScrollPosition +
+            afterContainerRef.current.offsetHeight +
+            afterContainerRef.current.getBoundingClientRect().top &&
+        midScreenScrollPosition >
+          midScreenScrollPosition +
+            afterContainerRef.current.offsetHeight -
+            afterContainerRef.current.getBoundingClientRect().bottom
+      ) {
+        childrenContainerRef.current.style.position = "fixed";
+        childrenContainerRef.current.style.top = `${
+          afterContainerRef.current.offsetHeight
+        }px`;
+      } else {
+        childrenContainerRef.current.style.position = "static";
+      }
+    }
+  }, [scrollPosition, midScreenScrollPosition]);
 
-  useMotionValueEvent(scrollYProgress, "change", (latestValue) => {
-    animate(
-      scope.current,
-      { height: heightFrom + (heightTo - heightFrom) * latestValue },
-      { duration: 0.1 }
-    );
-  });
-
-  return (
-    <motion.div
-      ref={scope}
-      className="overflow-clip vignette"
-      style={{ height: heightFrom }}
-    >
-      <BeforeAfterContent containerRef={containerRef} targetRef={targetRef} />
-    </motion.div>
-  );
+  return <BeforeAfterContent afterContainerRef={afterContainerRef} />;
 };
