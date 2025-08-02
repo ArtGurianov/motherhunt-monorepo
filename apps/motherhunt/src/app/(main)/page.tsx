@@ -9,7 +9,6 @@ export default function Home() {
       <Hero />
       <Mission />
       <BeforeAfterWrapper>
-        <div className="w-full h-2 tearBottom"></div>
         <Agencies />
         {/* TODO: DELETE TEMPORARY FOR EXTRA HEIGHT */}
         <div className="w-full h-96"></div>

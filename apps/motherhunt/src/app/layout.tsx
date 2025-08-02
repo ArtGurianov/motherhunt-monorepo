@@ -9,6 +9,10 @@ import { getAppLocale } from "@shared/ui/lib/utils";
 import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { NextIntlClientProvider } from "next-intl";
 import { SteamPunkBackgroundFilter } from "@/components/Filters/SteamPunkBackgroundFilter";
+import {
+  TornFilterTop,
+  TornFilterBottom,
+} from "@/components/Filters/TornFilter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,6 +64,8 @@ export default function RootLayout({
           </NextIntlClientProvider>
         </main>
         <SteamPunkBackgroundFilter />
+        <TornFilterTop />
+        <TornFilterBottom />
       </body>
     </html>
   );

@@ -46,12 +46,12 @@ export const BeforeAfterContent = ({
   afterContainerRef,
 }: BeforeAfterContentProps) => {
   return (
-    <div className="flex flex-col w-full justify-center items-center vignette">
-      <div className="relative flex w-full justify-center items-center">
+    <div className="flex flex-col w-full justify-center items-center">
+      <div className="relative flex w-full justify-center items-center py-8">
         <div className="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-b from-amber-900 to-yellow-900">
           <div className="w-full h-full bg-gradient-to-t from-amber-700 to-yellow-800 steampunk" />
         </div>
-        <div className="shrink-0 py-4">
+        <div className="shrink-0">
           <Image
             src="/SteamPunk.png"
             alt="steampunk"

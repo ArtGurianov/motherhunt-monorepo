@@ -19,7 +19,7 @@ export const BeforeAfterAnimated = ({
   useEffect(() => {
     if (afterContainerRef.current && childrenContainerRef.current) {
       if (
-        midScreenScrollPosition <
+        midScreenScrollPosition <=
         midScreenScrollPosition +
           afterContainerRef.current.getBoundingClientRect().top -
           afterContainerRef.current.offsetHeight
@@ -29,11 +29,11 @@ export const BeforeAfterAnimated = ({
           scrollPosition + afterContainerRef.current.getBoundingClientRect().top
         }px`;
       } else if (
-        midScreenScrollPosition <
+        midScreenScrollPosition <=
           midScreenScrollPosition +
             afterContainerRef.current.offsetHeight +
             afterContainerRef.current.getBoundingClientRect().top &&
-        midScreenScrollPosition >
+        midScreenScrollPosition >=
           midScreenScrollPosition +
             afterContainerRef.current.offsetHeight -
             afterContainerRef.current.getBoundingClientRect().bottom
