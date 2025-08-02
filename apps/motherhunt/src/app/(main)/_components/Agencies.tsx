@@ -45,7 +45,7 @@ export const Agencies = async () => {
         {t("title")}
       </h2>
       <div className="relative overflow-clip">
-        <span className="absolute -rotate-1 -translate-y-1/2 left-0 z-50 text-4xl md:text-6xl font-bold font-mono px-4 text-accent-foreground">
+        <span className="absolute -rotate-1 -translate-y-1/2 left-0 z-10 text-4xl md:text-6xl font-bold font-mono px-4 text-accent-foreground">
           {t("title")}
         </span>
         <Marquee>

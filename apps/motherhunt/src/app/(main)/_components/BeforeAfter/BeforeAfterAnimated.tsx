@@ -14,33 +14,28 @@ export const BeforeAfterAnimated = ({
   const afterContainerRef = useRef<HTMLDivElement>(null);
 
   const { scrollPosition, windowHeight } = useScrollPosition();
-  const midScreenScrollPosition = scrollPosition + windowHeight / 2;
 
   useEffect(() => {
     if (afterContainerRef.current && childrenContainerRef.current) {
       if (
-        afterContainerRef.current.getBoundingClientRect().top -
-          afterContainerRef.current.offsetHeight >=
-        0
+        (windowHeight * 2) / 3 <=
+        afterContainerRef.current.getBoundingClientRect().top
       ) {
         childrenContainerRef.current.style.position = "absolute";
         childrenContainerRef.current.style.top = `${
           scrollPosition + afterContainerRef.current.getBoundingClientRect().top
         }px`;
       } else if (
-        afterContainerRef.current.offsetHeight -
-          afterContainerRef.current.getBoundingClientRect().bottom <=
-        0
+        (windowHeight * 2) / 3 <=
+        afterContainerRef.current.getBoundingClientRect().bottom
       ) {
-        childrenContainerRef.current.style.position = "fixed";
-        childrenContainerRef.current.style.top = `${
-          afterContainerRef.current.offsetHeight
-        }px`;
+        childrenContainerRef.current.style.position = "absolute";
+        childrenContainerRef.current.style.top = `${scrollPosition + (windowHeight * 2) / 3}px`;
       } else {
         childrenContainerRef.current.style.position = "static";
       }
     }
-  }, [scrollPosition]);
+  }, [scrollPosition, windowHeight]);
 
   return <BeforeAfterContent afterContainerRef={afterContainerRef} />;
 };

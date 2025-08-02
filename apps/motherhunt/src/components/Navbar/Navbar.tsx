@@ -46,6 +46,7 @@ export const Navbar = () => {
       setScrollY(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    setScrollY(window.scrollY);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -84,7 +85,7 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="w-full h-nav flex justify-start items-center sticky z-10 top-0 border-b-2 shadow-secondary shadow-xl overflow-clip">
+    <nav className="w-full z-40 h-nav flex justify-start items-center sticky z-10 top-0 border-b-2 shadow-secondary shadow-xl overflow-clip">
       <div
         style={{ opacity: navbarOpacity }}
         className="absolute bg-background/90 h-nav w-full -z-10 top-0 left-0"
