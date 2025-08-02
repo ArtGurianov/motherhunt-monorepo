@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useAnimate,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 import { useRef } from "react";
 import { BeforeAfterContent } from "./BeforeAfterContent";
 
@@ -21,10 +26,22 @@ export const BeforeAfterAnimated = ({
     offset: ["end center", "end start"],
   });
 
-  const height = useTransform(scrollYProgress, [0, 1], [heightFrom, heightTo]);
+  const [scope, animate] = useAnimate();
+
+  useMotionValueEvent(scrollYProgress, "change", (latestValue) => {
+    animate(
+      scope.current,
+      { height: heightFrom + (heightTo - heightFrom) * latestValue },
+      { duration: 0.1 }
+    );
+  });
 
   return (
-    <motion.div className="overflow-clip vignette" style={{ height }}>
+    <motion.div
+      ref={scope}
+      className="overflow-clip vignette"
+      style={{ height: heightFrom }}
+    >
       <BeforeAfterContent containerRef={containerRef} targetRef={targetRef} />
     </motion.div>
   );
