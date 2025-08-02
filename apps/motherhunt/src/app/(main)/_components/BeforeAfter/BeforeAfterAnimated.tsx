@@ -19,24 +19,18 @@ export const BeforeAfterAnimated = ({
   useEffect(() => {
     if (afterContainerRef.current && childrenContainerRef.current) {
       if (
-        midScreenScrollPosition <=
-        midScreenScrollPosition +
-          afterContainerRef.current.getBoundingClientRect().top -
-          afterContainerRef.current.offsetHeight
+        afterContainerRef.current.getBoundingClientRect().top -
+          afterContainerRef.current.offsetHeight >=
+        0
       ) {
         childrenContainerRef.current.style.position = "absolute";
         childrenContainerRef.current.style.top = `${
           scrollPosition + afterContainerRef.current.getBoundingClientRect().top
         }px`;
       } else if (
-        midScreenScrollPosition <=
-          midScreenScrollPosition +
-            afterContainerRef.current.offsetHeight +
-            afterContainerRef.current.getBoundingClientRect().top &&
-        midScreenScrollPosition >=
-          midScreenScrollPosition +
-            afterContainerRef.current.offsetHeight -
-            afterContainerRef.current.getBoundingClientRect().bottom
+        afterContainerRef.current.offsetHeight -
+          afterContainerRef.current.getBoundingClientRect().bottom <=
+        0
       ) {
         childrenContainerRef.current.style.position = "fixed";
         childrenContainerRef.current.style.top = `${
@@ -46,7 +40,7 @@ export const BeforeAfterAnimated = ({
         childrenContainerRef.current.style.position = "static";
       }
     }
-  }, [scrollPosition, midScreenScrollPosition]);
+  }, [scrollPosition]);
 
   return <BeforeAfterContent afterContainerRef={afterContainerRef} />;
 };
