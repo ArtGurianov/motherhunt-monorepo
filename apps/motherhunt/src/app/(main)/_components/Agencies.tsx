@@ -40,7 +40,7 @@ export const Agencies = async () => {
   }
 
   return (
-    <PageSection className="relative py-8" fullWidth>
+    <PageSection className="py-8" fullWidth>
       <h2 className="absolute -rotate-1 -translate-y-1/2 left-0 text-4xl md:text-6xl font-bold font-mono px-4 text-foreground/90">
         {t("title")}
       </h2>
@@ -50,7 +50,7 @@ export const Agencies = async () => {
         </span>
         <Marquee>
           <div className="bg-primary bg-[linear-gradient(to_right,var(--accent-foreground),transparent_1px),linear-gradient(to_bottom,var(--accent-foreground),transparent_1px)] bg-[size:70px_70px] py-2">
-            <div className="flex flex-col justify-start items-center border-background border-y-12 border-dashed py-2">
+            <div className="border-background border-y-12 border-dashed">
               <div className="flex gap-12 pl-12">
                 {agencies.map((agency) => (
                   <Button

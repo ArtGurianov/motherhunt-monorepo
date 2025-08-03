@@ -19,15 +19,15 @@ export const Marquee = ({ children, className }: IMarqueeProps) => {
 
   useEffect(() => {
     setMeasurements({
-      containerWidth: containerRef.current?.scrollWidth || 0,
-      contentWidth: contentRef.current?.scrollWidth || 0,
+      containerWidth: containerRef.current?.offsetWidth ?? 0,
+      contentWidth: contentRef.current?.scrollWidth ?? 0,
     });
   }, []);
 
   let displayMarquee: ReactElement = (
     <div className="h-full flex justify-center">{children}</div>
   );
-  if (containerWidth && containerWidth && containerWidth <= contentWidth) {
+  if (containerWidth < contentWidth) {
     displayMarquee = (
       <motion.div
         className="h-full flex"
