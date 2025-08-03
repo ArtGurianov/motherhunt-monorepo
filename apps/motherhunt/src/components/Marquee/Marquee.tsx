@@ -32,7 +32,7 @@ export const Marquee = ({ children, className }: IMarqueeProps) => {
       <motion.div
         className="h-full flex"
         animate={{
-          x: ["0%", contentWidth * -1],
+          transform: `translateX(${contentWidth * -1}px)`,
           transition: {
             ease: "linear",
             duration: Math.ceil(contentWidth / 100),
