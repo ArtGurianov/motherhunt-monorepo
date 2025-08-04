@@ -12,6 +12,7 @@ export const APP_ROUTES = {
   AGENCY_ACCEPT_INVITATION: "AGENCY_ACCEPT_INVITATION",
   DEALS: "DEALS",
   HUNT: "HUNT",
+  DRAFTS: "DRAFTS",
   AGENCY_APPLY: "AGENCY_APPLY",
   MODAL_SETTINGS: "MODAL_SETTINGS",
   MODAL_MY_AGENCIES: "MODAL_MY_AGENCIES",
@@ -51,6 +52,7 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
   },
   [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, href: "/deals" },
   [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, href: "/hunt" },
+  [APP_ROUTES.DRAFTS]: { key: APP_ROUTES.DRAFTS, href: "/hunt/drafts" },
   [APP_ROUTES.AGENCY_MANAGE]: {
     key: APP_ROUTES.AGENCY_MANAGE,
     href: "/agency",

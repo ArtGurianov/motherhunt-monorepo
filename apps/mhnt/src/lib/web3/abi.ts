@@ -170,6 +170,13 @@ export const auctionContractAbi = [
     outputs: [{ name: "", type: "uint8", internalType: "uint8" }],
     stateMutability: "view",
   },
+  {
+    type: "function",
+    name: "getScouterLotsNumber",
+    inputs: [{ name: "_scouterId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
 ] as const;
 
 export const usdContractAbi = [

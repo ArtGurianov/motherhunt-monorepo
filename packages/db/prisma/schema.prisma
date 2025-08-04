@@ -25,6 +25,7 @@ model User {
   updatedAt                 DateTime    @updatedAt
   sessions                  Session[]
   accounts                  Account[]
+  lots                      Lot[]
 
   @@unique([email])
   @@map("user")
@@ -112,6 +113,24 @@ model Invitation {
   createdAt      DateTime @default(now())
 
   @@map("invitation")
+}
+
+
+model Lot {
+  id                        String      @id @default(auto()) @map("_id") @db.ObjectId
+  scouterId                 String      @db.ObjectId
+  scouter                   User        @relation(fields: [scouterId], references: [id], onDelete: NoAction)
+  name                      String?
+  email                     String?
+  isAgreementSigned         Boolean     @default(false)
+  profilePictureUrl         String?    
+  banned                    Boolean?
+  banReason                 String?
+  banExpires                String?
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+
+  @@map("lot")
 }
 
 enum AppRole {
