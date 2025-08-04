@@ -24,11 +24,11 @@ export const MyAgencyRequestsWidget = () => {
   const tStatuses = useTranslations("APPLICATION_STATUSES");
 
   return (
-    <div className="flex flex-col gap-12 grow justify-center items-center h-full">
+    <InfoCard title={tTitles("requests")}>
       {isPending ? (
         <LoaderCircle className="animate-spin h-12 w-12" />
       ) : (
-        <InfoCard title={tTitles("requests")}>
+        <>
           {organizations?.length ? (
             <Table>
               <TableCaption className="text-foreground">
@@ -82,8 +82,8 @@ export const MyAgencyRequestsWidget = () => {
           ) : (
             <span className="w-full text-center">{t("no-requests")}</span>
           )}
-        </InfoCard>
+        </>
       )}
-    </div>
+    </InfoCard>
   );
 };

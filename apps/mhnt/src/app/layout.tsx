@@ -48,10 +48,10 @@ export default async function RootLayout({
         className={`relative ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CameraBg />
-        <main className="relative flex flex-col min-h-svh w-full pt-8">
+        <main className="relative min-h-svh pt-8">
           <NextIntlClientProvider>
             <AppProviders initialState={initialState}>
-              <div className="flex flex-col min-h-content w-full justify-start items-center">
+              <div className="flex flex-col min-h-content justify-start items-center gap-6 px-4">
                 {modal}
                 {children}
               </div>

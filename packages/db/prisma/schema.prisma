@@ -123,6 +123,7 @@ model Lot {
   name                      String?
   email                     String?
   isAgreementSigned         Boolean     @default(false)
+  isOnChain                 Boolean     @default(false)
   profilePictureUrl         String?    
   banned                    Boolean?
   banReason                 String?

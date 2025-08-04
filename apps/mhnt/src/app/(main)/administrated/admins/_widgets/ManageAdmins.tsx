@@ -41,10 +41,7 @@ export const ManageAdmins = () => {
   }
 
   return (
-    <InfoCard
-      title={"admins"}
-      className="w-auto flex justify-center items-center"
-    >
+    <InfoCard title={"admins"}>
       {isPendingProjectAdmins ? (
         <LoaderCircle className="animate-spin h-12 w-12" />
       ) : (

@@ -25,7 +25,7 @@ export const createDraft = async () => {
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
 
     const offChainNumber = await prismaClient.lot.count({
-      where: { scouterId: session.session.userId },
+      where: { scouterId: session.session.userId, isOnChain: false },
     });
 
     const onChainNumberResult = await viemClient.readContract({

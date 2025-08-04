@@ -45,11 +45,11 @@ export default async function AgencyManagePage() {
   );
 
   return (
-    <div className="flex flex-col gap-8">
+    <>
       <ManageBookers bookersData={bookersData} />
-      <InfoCard title={"wallet"} className="w-auto">
+      <InfoCard title={"wallet"}>
         <AgencyWalletAddressForm organizationId={organizationId} />
       </InfoCard>
-    </div>
+    </>
   );
 }

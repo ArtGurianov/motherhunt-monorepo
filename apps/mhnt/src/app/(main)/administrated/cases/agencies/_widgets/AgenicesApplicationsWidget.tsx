@@ -100,7 +100,7 @@ export const AgenciesApplicationsWidget = ({
   });
 
   return (
-    <div className="flex flex-col gap-12 grow justify-center items-center">
+    <>
       <InfoCard title={tTitles("applications")}>
         {data.length ? (
           <Table>
@@ -203,6 +203,6 @@ export const AgenciesApplicationsWidget = ({
           }}
         />
       </DialogDrawer>
-    </div>
+    </>
   );
 };

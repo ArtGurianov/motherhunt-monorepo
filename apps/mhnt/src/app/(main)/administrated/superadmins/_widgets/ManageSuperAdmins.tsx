@@ -58,10 +58,7 @@ export const ManageSuperAdmins = () => {
   }
 
   return (
-    <InfoCard
-      title={"superadmins"}
-      className="w-auto flex flex-col justify-center items-center gap-4"
-    >
+    <InfoCard title={"superadmins"}>
       {isPendingProjectSuperAdmins ? (
         <div className="w-full flex justify-center items-center">
           <LoaderCircle className="animate-spin h-12 w-12" />

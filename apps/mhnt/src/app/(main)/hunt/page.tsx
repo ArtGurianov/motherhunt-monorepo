@@ -4,11 +4,9 @@ import { ScouterKarma } from "./_widgets/ScouterKarma";
 
 export default function HuntPage() {
   return (
-    <div className="flex flex-col gap-8">
-      <InfoCard title={"hunter details"} className="w-auto">
-        <ScouterWalletAddressForm />
-        <ScouterKarma />
-      </InfoCard>
-    </div>
+    <InfoCard title={"hunter details"}>
+      <ScouterWalletAddressForm />
+      <ScouterKarma />
+    </InfoCard>
   );
 }

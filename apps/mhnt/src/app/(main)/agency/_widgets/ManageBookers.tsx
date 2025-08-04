@@ -64,7 +64,7 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
 
   return (
     <>
-      <InfoCard title={"bookers"} className="w-auto">
+      <InfoCard title={"bookers"}>
         {bookersData.length ? (
           <Table>
             <TableCaption className="text-foreground">
