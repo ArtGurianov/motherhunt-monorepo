@@ -2,6 +2,7 @@ import { Hero } from "./_components/Hero";
 import { Mission } from "./_components/Mission";
 import { Agencies } from "./_components/Agencies";
 import { BeforeAfterWrapper } from "./_components/BeforeAfter";
+import { Testimonials } from "./_components/Testimonials";
 
 export default function Home() {
   return (
@@ -10,10 +11,8 @@ export default function Home() {
       <Mission />
       <BeforeAfterWrapper>
         <Agencies />
-        {/* TODO: DELETE TEMPORARY FOR EXTRA HEIGHT */}
-        <div className="w-full h-96"></div>
+        <Testimonials />
       </BeforeAfterWrapper>
-      <div className="w-full h-96"></div>
     </>
   );
 }
