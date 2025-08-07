@@ -3,7 +3,7 @@
 import { cn } from "@shared/ui/lib/utils";
 import { QuoteIcon } from "lucide-react";
 import Image from "next/image";
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface TestimonialsData {
   name: string;
