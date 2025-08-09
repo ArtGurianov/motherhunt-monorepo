@@ -29,10 +29,18 @@ const getSessionCookie = (
     }
   }
   const headers = "headers" in request ? request.headers : request;
-  const cookies = headers.get("cookie");
+
+  let cookies: string | null = null;
+  if (typeof headers.get === "function") {
+    cookies = headers.get("cookie");
+  } else if (typeof (headers as any).cookie === "string") {
+    cookies = (headers as any).cookie as string;
+  }
+
   if (!cookies) {
     return null;
   }
+
   const { cookieName = "session_token", cookiePrefix = "better-auth." } =
     config || {};
   const name = `${cookiePrefix}${cookieName}`;

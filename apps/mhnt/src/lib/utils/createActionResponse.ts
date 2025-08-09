@@ -38,11 +38,9 @@ export const formatErrorMessage = (error?: any) => {
   const isClientError = error instanceof AppClientError;
   const isAuthError = error instanceof APIError;
   if (!isClientError && !isAuthError) {
-    try {
-      console.error(error.message);
-    } catch {
-      console.error("A server error of unexpected format has occured.");
-    }
+    console.error(
+      error.message ?? "A server error of unexpected format has occured."
+    );
   }
   return isClientError || isAuthError
     ? error.message

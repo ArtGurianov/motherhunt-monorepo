@@ -22,6 +22,19 @@ export const sessionBeforeUpdate = async (
     }
 > => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
+
+  if (
+    Object.keys(updateSessionData).length === 2 &&
+    "expiresAt" in updateSessionData &&
+    "updatedAt" in updateSessionData
+  ) {
+    return true;
+  }
+
+  if (!("activeOrganizationId" in updateSessionData)) {
+    return true;
+  }
+
   const result = await getSessionFromDB();
 
   if (result.errorMessage) {
@@ -41,64 +54,65 @@ export const sessionBeforeUpdate = async (
     (!!oldSession.activeOrganizationId || !!updateActiveOrganizationId) &&
     oldSession.activeOrganizationId !== updateActiveOrganizationId;
 
-  if (shouldUpdateActiveOrganization) {
-    let updateOrganizationName: string | null = null;
-    let membership: { role: string; memberId: string } | null = null;
-    let applicationStatus: ApplicationStatus | null = null;
-
-    if (updateActiveOrganizationId) {
-      const organization = await prismaClient.organization.findFirst({
-        where: { id: updateActiveOrganizationId },
-      });
-      if (!organization)
-        throw new APIError("NOT_FOUND", {
-          message: "Organization Not Found",
-        });
-
-      applicationStatus = getAgencyApplicationStatus(organization).status;
-      if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
-        updateOrganizationName = organization.name;
-        const result = await getMemberRole({
-          userId,
-          organizationId: organization.id,
-        });
-        membership = result.data;
-      }
-    }
-
-    await prismaClient.user.update({
-      where: { id: userId },
-      data: {
-        recentOrganizationId:
-          updateActiveOrganizationId &&
-          applicationStatus === APPLICATION_STATUSES.APPROVED
-            ? updateActiveOrganizationId
-            : null,
-        recentOrganizationName: updateOrganizationName,
-      },
-    });
-
-    return {
-      data: {
-        ...oldSession,
-        ...updateSessionData,
-        ...(!updateActiveOrganizationId ||
-        !membership ||
-        applicationStatus !== APPLICATION_STATUSES.APPROVED
-          ? {
-              activeOrganizationId: null,
-              activeOrganizationRole: null,
-              activeOrganizationName: null,
-              activeMemberId: null,
-            }
-          : {
-              activeOrganizationId: updateActiveOrganizationId,
-              activeOrganizationName: updateOrganizationName,
-              activeMemberId: membership.memberId,
-              activeOrganizationRole: membership.role,
-            }),
-      } as Session,
-    };
+  if (!shouldUpdateActiveOrganization) {
+    return true;
   }
-  return true;
+
+  let updateOrganizationName: string | null = null;
+  let membership: { role: string; memberId: string } | null = null;
+  let applicationStatus: ApplicationStatus | null = null;
+
+  if (updateActiveOrganizationId) {
+    const organization = await prismaClient.organization.findFirst({
+      where: { id: updateActiveOrganizationId },
+    });
+    if (!organization)
+      throw new APIError("NOT_FOUND", {
+        message: "Organization Not Found",
+      });
+
+    applicationStatus = getAgencyApplicationStatus(organization).status;
+    if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
+      updateOrganizationName = organization.name;
+      const result = await getMemberRole({
+        userId,
+        organizationId: organization.id,
+      });
+      membership = result.data;
+    }
+  }
+
+  await prismaClient.user.update({
+    where: { id: userId },
+    data: {
+      recentOrganizationId:
+        updateActiveOrganizationId &&
+        applicationStatus === APPLICATION_STATUSES.APPROVED
+          ? updateActiveOrganizationId
+          : null,
+      recentOrganizationName: updateOrganizationName,
+    },
+  });
+
+  return {
+    data: {
+      ...oldSession,
+      ...updateSessionData,
+      ...(!updateActiveOrganizationId ||
+      !membership ||
+      applicationStatus !== APPLICATION_STATUSES.APPROVED
+        ? {
+            activeOrganizationId: null,
+            activeOrganizationRole: null,
+            activeOrganizationName: null,
+            activeMemberId: null,
+          }
+        : {
+            activeOrganizationId: updateActiveOrganizationId,
+            activeOrganizationName: updateOrganizationName,
+            activeMemberId: membership.memberId,
+            activeOrganizationRole: membership.role,
+          }),
+    } as Session,
+  };
 };
