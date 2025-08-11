@@ -23,13 +23,7 @@ import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { toast } from "@shared/ui/components/sonner";
 import { ZERO_ADDRESS } from "@/lib/web3/constants";
-
-const formSchema = z.object({
-  newAddress: z
-    .string()
-    .startsWith("0x", "Address must begin with 0x")
-    .length(42, "Address length must be of 42 symbols"),
-});
+import { addressSchema } from "@/lib/schemas/addressSchema";
 
 export const AgencyWalletAddressForm = ({
   organizationId,
@@ -39,11 +33,11 @@ export const AgencyWalletAddressForm = ({
   const { address: connectedWalletAddress } = useAccount();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof addressSchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(addressSchema),
     defaultValues: {
-      newAddress: "",
+      address: "",
     },
   });
 
@@ -75,9 +69,9 @@ export const AgencyWalletAddressForm = ({
     if (
       currentSavedAddress &&
       currentSavedAddress !== ZERO_ADDRESS &&
-      currentSavedAddress !== form.getValues("newAddress")
+      currentSavedAddress !== form.getValues("address")
     ) {
-      form.setValue("newAddress", currentSavedAddress as `0x${string}`);
+      form.setValue("address", currentSavedAddress as `0x${string}`);
     }
   }, [currentSavedAddress]);
 
@@ -109,14 +103,14 @@ export const AgencyWalletAddressForm = ({
     }
   }, [isWhitelisted]);
 
-  const onSubmit = async ({ newAddress }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({ address }: z.infer<typeof addressSchema>) => {
     form.clearErrors();
     writeContract({
       abi: systemContractAbi,
       address: getEnvConfigClient()
         .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
       functionName: "setAgencyAddress",
-      args: [stringToBytes32(organizationId), newAddress as `0x${string}`],
+      args: [stringToBytes32(organizationId), address as `0x${string}`],
     });
   };
 
@@ -125,7 +119,7 @@ export const AgencyWalletAddressForm = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="newAddress"
+          name="address"
           render={({ field }) => (
             <FormItem>
               <FormLabel>{"Set agency wallet address"}</FormLabel>
@@ -137,14 +131,14 @@ export const AgencyWalletAddressForm = ({
                     isProcessing ||
                     !isWhitelisted ||
                     currentSavedAddress !== connectedWalletAddress ||
-                    currentSavedAddress === form.getValues("newAddress")
+                    currentSavedAddress === form.getValues("address")
                   }
                   placeholder={
                     typeof isWhitelisted === "boolean" && !isWhitelisted
                       ? "Not whitelisted. Contact support!"
                       : "new address"
                   }
-                  aria-invalid={!!form.formState.errors.newAddress}
+                  aria-invalid={!!form.formState.errors.address}
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
@@ -163,7 +157,7 @@ export const AgencyWalletAddressForm = ({
                         isProcessing ||
                         !isWhitelisted ||
                         connectedWalletAddress !== currentSavedAddress ||
-                        currentSavedAddress === form.getValues("newAddress")
+                        currentSavedAddress === form.getValues("address")
                       }
                     >
                       {isPendingWhitelisted ||

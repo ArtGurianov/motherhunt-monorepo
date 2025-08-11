@@ -33,11 +33,7 @@ import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { useTranslations } from "next-intl";
 import { useAppParams } from "@/lib/hooks/useAppParams";
-
-const formSchema = z.object({
-  email: z.string().email(),
-  hCaptchaToken: z.string().min(1, { message: "You must verify you're human" }),
-});
+import { magicLinkFormSchema } from "@/lib/schemas/magicLinkFormSchema";
 
 export const SignInForm = () => {
   const { getParam, setParam, deleteParam, getUpdatedParamsString } =
@@ -49,9 +45,9 @@ export const SignInForm = () => {
   const hCaptchaRef = useRef<HCaptcha>(null);
   const t = useTranslations("SIGN_IN");
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof magicLinkFormSchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(magicLinkFormSchema),
     defaultValues: {
       email: "",
       hCaptchaToken: "",
@@ -61,7 +57,7 @@ export const SignInForm = () => {
   const onSubmit = async ({
     email,
     hCaptchaToken,
-  }: z.infer<typeof formSchema>) => {
+  }: z.infer<typeof magicLinkFormSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
       try {

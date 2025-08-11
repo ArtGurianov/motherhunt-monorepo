@@ -51,7 +51,7 @@ export default async function RootLayout({
         <main className="relative min-h-svh pt-8">
           <NextIntlClientProvider>
             <AppProviders initialState={initialState}>
-              <div className="flex flex-col min-h-content justify-start items-center gap-6 px-4">
+              <div className="flex flex-col min-h-content justify-start items-center gap-6 px-4 mb-12">
                 {modal}
                 {children}
               </div>

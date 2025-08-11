@@ -29,25 +29,12 @@ import { inviteBooker } from "@/actions/inviteBooker";
 import { getEnvConfigServer } from "../config/env";
 import { trustedUserPlugin } from "./plugins/trustedUserPlugin";
 import { getWeb3AdminUser } from "../web3/getWeb3AdminUser";
-import { z } from "zod";
+import { web3AdminRequestBodySchema } from "../schemas/web3AdminRequestBodySchema";
 
 const envConfig = getEnvConfigServer();
 const locale = getAppLocale();
 const appURL = getAppURL(locale);
 const t = await getTranslations({ locale, namespace: "EMAIL" });
-
-export const web3AdminRequestBodySchema = z.object({
-  signature: z
-    .string({
-      description: "Login request signed with private key",
-    })
-    .startsWith("0x"),
-  address: z
-    .string({
-      description: "Address of signer wallet",
-    })
-    .startsWith("0x"),
-});
 
 const options = {
   appName: "motherHunt",

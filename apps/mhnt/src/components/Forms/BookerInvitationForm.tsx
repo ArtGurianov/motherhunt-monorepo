@@ -22,25 +22,22 @@ import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
 import { LoaderCircle } from "lucide-react";
-
-const formSchema = z.object({
-  email: z.string().email(),
-});
+import { emailSchema } from "@/lib/schemas/emailSchema";
 
 export const BookerInvitationForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof emailSchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(emailSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({ email }: z.infer<typeof emailSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
       try {

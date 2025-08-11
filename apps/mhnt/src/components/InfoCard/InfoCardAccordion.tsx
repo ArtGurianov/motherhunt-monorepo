@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@shared/ui/components/button";
 import {
   Card,
   CardContent,
@@ -36,32 +35,29 @@ export const InfoCardAccordion = ({
       <CardHeader className="w-full px-0">
         <CardTitle
           className={cn(
-            "flex justify-between items-center bg-linear-to-l from-accent-foreground/90 to-accent-foreground/50 border-foreground px-4 py-px",
+            "flex justify-between items-center bg-linear-to-l from-accent-foreground/90 to-accent-foreground/50 border-foreground px-4 py-px cursor-pointer",
             {
               "border-b-2": isOpen,
               "border-b-0": !isOpen,
             }
           )}
+          onClick={onToggle}
         >
-          <Button
-            className="[&_svg]:size-6"
-            size="reset"
-            variant="ghost"
-            onClick={onToggle}
-          >
-            <ChevronDown className={cn("", { "rotate-180": isOpen })} />
-          </Button>
+          <ChevronDown className={cn("size-6", { "rotate-180": isOpen })} />
           <span className="text-lg font-light font-mono text-main/90">{`.${title}`}</span>
         </CardTitle>
       </CardHeader>
       <CardContent
-        className={cn("grid transition-all duration-300 ease-in-out", {
-          "grid-rows-[0fr]": !isOpen,
-          "grid-rows-[1fr]": isOpen,
-        })}
+        className={cn(
+          "grid transition-all duration-300 ease-in-out px-2 lg:px-5",
+          {
+            "grid-rows-[0fr]": !isOpen,
+            "grid-rows-[1fr]": isOpen,
+          }
+        )}
       >
         <div className="overflow-hidden">
-          <div className="flex flex-col gap-3">{children}</div>
+          <div className="flex flex-col gap-3 p-1">{children}</div>
         </div>
       </CardContent>
     </Card>

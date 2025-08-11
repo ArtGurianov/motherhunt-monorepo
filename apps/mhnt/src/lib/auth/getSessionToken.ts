@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createHMAC } from "@better-auth/utils/hmac";
 import { APIError } from "better-auth/api";
 import { getEnvConfigServer } from "../config/env";

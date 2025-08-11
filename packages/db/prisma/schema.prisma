@@ -122,7 +122,8 @@ model Lot {
   scouter                   User        @relation(fields: [scouterId], references: [id], onDelete: NoAction)
   name                      String?
   email                     String?
-  isAgreementSigned         Boolean     @default(false)
+  isConfirmationEmailSent   Boolean     @default(false)
+  isConfirmationSigned      Boolean     @default(false)
   isOnChain                 Boolean     @default(false)
   profilePictureUrl         String?    
   banned                    Boolean?

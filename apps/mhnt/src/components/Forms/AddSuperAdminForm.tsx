@@ -20,13 +20,7 @@ import { LoaderCircle } from "lucide-react";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
-
-const formSchema = z.object({
-  address: z
-    .string()
-    .startsWith("0x", "Address must begin with 0x")
-    .length(42, "Address length must be of 42 symbols"),
-});
+import { addressSchema } from "@/lib/schemas/addressSchema";
 
 interface AddSuperAdminFormProps {
   onRefetchSuperAdmins: () => void;
@@ -37,9 +31,9 @@ export const AddSuperAdminForm = ({
 }: AddSuperAdminFormProps) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof addressSchema>>({
     mode: "onChange",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(addressSchema),
     defaultValues: {
       address: "",
     },
@@ -53,7 +47,7 @@ export const AddSuperAdminForm = ({
     },
   });
 
-  const onSubmit = async ({ address }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({ address }: z.infer<typeof addressSchema>) => {
     form.clearErrors();
     writeContract({
       abi: systemContractAbi,

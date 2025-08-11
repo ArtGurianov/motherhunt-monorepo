@@ -23,14 +23,11 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { useAppParams } from "@/lib/hooks/useAppParams";
+import { emailSchema } from "@/lib/schemas/emailSchema";
 
 interface ChangeEmailFormProps {
   currentEmail: string;
 }
-
-const formSchema = z.object({
-  email: z.string().email(),
-});
 
 export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
   const { setParam, getUpdatedPathString } = useAppParams();
@@ -38,9 +35,9 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof emailSchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(emailSchema),
     defaultValues: {
       email: currentEmail,
     },
@@ -48,7 +45,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
 
   const t = useTranslations("CHANGE_EMAIL");
 
-  const onSubmit = async ({ email }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({ email }: z.infer<typeof emailSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
       try {

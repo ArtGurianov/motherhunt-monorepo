@@ -177,6 +177,61 @@ export const auctionContractAbi = [
     outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
     stateMutability: "view",
   },
+  {
+    type: "function",
+    name: "getLotData",
+    inputs: [{ name: "_lotId", type: "bytes32", internalType: "bytes32" }],
+    outputs: [
+      {
+        name: "",
+        type: "tuple",
+        internalType: "struct MotherhuntAuction.Lot",
+        components: [
+          { name: "scouterId", type: "bytes32", internalType: "bytes32" },
+          {
+            name: "votingDetails",
+            type: "tuple",
+            internalType: "struct MotherhuntAuction.VotingDetails",
+            components: [
+              {
+                name: "communityVotesPositive",
+                type: "bytes32[10]",
+                internalType: "bytes32[10]",
+              },
+              {
+                name: "communityVotesNegative",
+                type: "bytes32[10]",
+                internalType: "bytes32[10]",
+              },
+              {
+                name: "adminDecisionPositive",
+                type: "address",
+                internalType: "address",
+              },
+              {
+                name: "adminDecisionNegative",
+                type: "address",
+                internalType: "address",
+              },
+            ],
+          },
+          {
+            name: "status",
+            type: "uint8",
+            internalType: "enum MotherhuntAuction.LotStatus",
+          },
+          { name: "minimumPriceUSD", type: "uint256", internalType: "uint256" },
+          {
+            name: "immediatePriceUSD",
+            type: "uint256",
+            internalType: "uint256",
+          },
+          { name: "appealableTill", type: "uint256", internalType: "uint256" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
 ] as const;
 
 export const usdContractAbi = [

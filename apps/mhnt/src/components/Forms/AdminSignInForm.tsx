@@ -25,10 +25,7 @@ import { useAppParams } from "@/lib/hooks/useAppParams";
 import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";
-
-const formSchema = z.object({
-  hCaptchaToken: z.string().min(1, { message: "You must verify you're human" }),
-});
+import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 
 export const AdminSignInForm = () => {
   const router = useRouter();
@@ -52,9 +49,9 @@ export const AdminSignInForm = () => {
     signMessage({ message: "sign-in" });
   };
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof hCaptchaSchema>>({
     mode: "all",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(hCaptchaSchema),
     defaultValues: {
       hCaptchaToken: "",
     },

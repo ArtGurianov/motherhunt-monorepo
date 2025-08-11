@@ -21,10 +21,7 @@ import { LoaderCircle } from "lucide-react";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
-
-const formSchema = z.object({
-  value: z.string().min(20),
-});
+import { commentSchema } from "@/lib/schemas/commentSchema";
 
 interface CommentFormProps {
   defaultValue?: string;
@@ -41,15 +38,15 @@ export const CommentForm = ({
 
   const t = useTranslations("COMMENT");
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof commentSchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(commentSchema),
     defaultValues: {
       value: defaultValue,
     },
   });
 
-  const handleSubmit = async ({ value }: z.infer<typeof formSchema>) => {
+  const handleSubmit = async ({ value }: z.infer<typeof commentSchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
       try {

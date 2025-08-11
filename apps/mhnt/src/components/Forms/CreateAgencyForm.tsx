@@ -30,6 +30,7 @@ import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { createOrganization } from "@/actions/createOrganization";
 import { toast } from "@shared/ui/components/sonner";
+import { createAgencySchema } from "@/lib/schemas/createAgencySchema";
 
 const transformStringToSlug = (value: string) =>
   value
@@ -40,19 +41,14 @@ const transformStringToSlug = (value: string) =>
     .replace(/ +/g, "-")
     .replace(/^-+|-+$/g, "");
 
-const formSchema = z.object({
-  name: z.string().min(3),
-  slug: z.string().min(3),
-});
-
 export const CreateAgencyForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof createAgencySchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(createAgencySchema),
     defaultValues: {
       name: "",
       slug: "",
@@ -61,7 +57,10 @@ export const CreateAgencyForm = () => {
 
   const t = useTranslations("CREATE_AGENCY");
 
-  const onSubmit = async ({ name, slug }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({
+    name,
+    slug,
+  }: z.infer<typeof createAgencySchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
       const result = await createOrganization({ name, slug });
