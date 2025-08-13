@@ -4,7 +4,7 @@ import {
   getAppLocale,
 } from "./getAppLocale";
 
-const APP_PORT = process.env.NODE_ENV === "production" ? 443 : 3001;
+const APP_PORT = 443;
 const APP_HOST =
   process.env.NODE_ENV === "production" ? "mhnt.app" : "localhost";
 

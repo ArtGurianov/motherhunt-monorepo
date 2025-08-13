@@ -12,6 +12,7 @@ const CLIENT_ENV = {
     process.env.NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS,
   NEXT_PUBLIC_HCAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY,
   NEXT_PUBLIC_REOWN_PROJECT_ID: process.env.NEXT_PUBLIC_REOWN_PROJECT_ID,
+  NEXT_PUBLIC_VK_CLIENT_ID: process.env.NEXT_PUBLIC_VK_CLIENT_ID,
 } as const;
 
 const clientEnvSchema = z.object({
@@ -41,6 +42,7 @@ const clientEnvSchema = z.object({
       description: "Contract address for karma smart contract.",
     })
     .startsWith("0x"),
+  NEXT_PUBLIC_VK_CLIENT_ID: z.string(),
 });
 
 const serverEnvSchema = clientEnvSchema.extend({
@@ -57,6 +59,7 @@ const serverEnvSchema = clientEnvSchema.extend({
     .email(),
   NODEMAILER_APP_PASSWORD: z.string(),
   HCAPTCHA_SECRET_KEY: z.string(),
+  VK_CLIENT_SECRET: z.string(),
 });
 
 export const getEnvConfigClient = () => {

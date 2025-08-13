@@ -10,7 +10,8 @@
     "BOOKER_ROLE": "БУКЕР",
     "MYDAOGS_ADMIN_ROLE": "DAOG",
     "PROJECT_SUPERADMIN_ROLE": "СУПЕРАДМИН",
-    "PROJECT_ADMIN_ROLE": "АДМИН"
+    "PROJECT_ADMIN_ROLE": "АДМИН",
+    "MODEL_ROLE": "МОДЕЛЬ"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "В ожидании",

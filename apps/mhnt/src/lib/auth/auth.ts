@@ -6,7 +6,7 @@ import {
   organization as organizationPlugin,
   captcha as captchaPlugin,
   magicLink as magicLinkPlugin,
-  customSession,
+  customSession as customSessionPlugin,
 } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "@/actions/sendEmail";
@@ -30,6 +30,7 @@ import { getEnvConfigServer } from "../config/env";
 import { trustedUserPlugin } from "./plugins/trustedUserPlugin";
 import { getWeb3AdminUser } from "../web3/getWeb3AdminUser";
 import { web3AdminRequestBodySchema } from "../schemas/web3AdminRequestBodySchema";
+import { vkAuthPlugin } from "./plugins/vk/vkAuthPlugin";
 
 const envConfig = getEnvConfigServer();
 const locale = getAppLocale();
@@ -85,6 +86,7 @@ const options = {
       creatorRole: AGENCY_ROLES.HEAD_BOOKER_ROLE,
       sendInvitationEmail: inviteBooker,
     }) as unknown as BetterAuthPlugin,
+    vkAuthPlugin(),
     nextCookies() as unknown as BetterAuthPlugin,
   ],
   databaseHooks: {
@@ -171,6 +173,11 @@ const options = {
         required: false,
         input: false,
       },
+      modelVkId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
     },
   },
 } satisfies BetterAuthOptions;
@@ -179,7 +186,7 @@ const auth = betterAuth({
   ...options,
   plugins: [
     ...(options.plugins ?? []),
-    customSession(async ({ user, session }) => {
+    customSessionPlugin(async ({ user, session }) => {
       const {
         id,
         recentOrganizationId: activeOrganizationId,

@@ -21,6 +21,8 @@ model User {
   banExpires                String?
   recentOrganizationId      String?     @db.ObjectId
   recentOrganizationName    String?
+  modelVkId                 String?
+  modelFacebookId           String?
   createdAt                 DateTime    @default(now())
   updatedAt                 DateTime    @updatedAt
   sessions                  Session[]
@@ -140,4 +142,5 @@ enum AppRole {
   PROJECT_SUPERADMIN_ROLE
   PROJECT_ADMIN_ROLE
   SCOUTER_ROLE
+  MODEL_ROLE
 }
