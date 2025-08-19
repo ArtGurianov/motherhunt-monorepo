@@ -16,8 +16,10 @@ export const APP_ROUTES = {
   DRAFTS: "DRAFTS",
   AGENCY_APPLY: "AGENCY_APPLY",
   MODAL_SETTINGS: "MODAL_SETTINGS",
-  MODAL_MY_AGENCIES: "MODAL_MY_AGENCIES",
-  MODAL_MY_REQUESTS: "MODAL_MY_REQUESTS",
+  MODAL_SWITCH: "MODAL_SWITCH",
+  MODAL_SWITCH_AGENCY: "MODAL_SWITCH_AGENCY",
+  MODAL_SWITCH_MODEL: "MODAL_SWITCH_MODEL",
+  MODAL_SWITCH_AGENCY_REQUESTS: "MODAL_SWITCH_AGENCY_REQUESTS",
 } as const;
 
 export type AppRoute = ValueOf<typeof APP_ROUTES>;
@@ -78,12 +80,20 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
     key: APP_ROUTES.MODAL_SETTINGS,
     href: "/settings",
   },
-  [APP_ROUTES.MODAL_MY_AGENCIES]: {
-    key: APP_ROUTES.MODAL_MY_AGENCIES,
-    href: "/settings/agency",
+  [APP_ROUTES.MODAL_SWITCH]: {
+    key: APP_ROUTES.MODAL_SWITCH,
+    href: "/settings/switch-account",
   },
-  [APP_ROUTES.MODAL_MY_REQUESTS]: {
-    key: APP_ROUTES.MODAL_MY_REQUESTS,
-    href: "/settings/agency/requests",
+  [APP_ROUTES.MODAL_SWITCH_AGENCY]: {
+    key: APP_ROUTES.MODAL_SWITCH_AGENCY,
+    href: "/settings/switch-account/agency",
+  },
+  [APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS]: {
+    key: APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS,
+    href: "/settings/switch-account/agency/requests",
+  },
+  [APP_ROUTES.MODAL_SWITCH_MODEL]: {
+    key: APP_ROUTES.MODAL_SWITCH_MODEL,
+    href: "/settings/switch-account/model",
   },
 };

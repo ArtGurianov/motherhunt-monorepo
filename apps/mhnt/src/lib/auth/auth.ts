@@ -209,6 +209,7 @@ const auth = betterAuth({
         id,
         recentOrganizationId: activeOrganizationId,
         recentOrganizationName: activeOrganizationName,
+        recentOrganizationType: activeOrganizationType,
       } = user;
 
       let membership: { role: string; memberId: string } | null = null;
@@ -228,6 +229,7 @@ const auth = betterAuth({
             ? {
                 activeOrganizationId,
                 activeOrganizationName,
+                activeOrganizationType,
                 activeOrganizationRole: membership.role,
                 activeMemberId: membership.memberId,
               }

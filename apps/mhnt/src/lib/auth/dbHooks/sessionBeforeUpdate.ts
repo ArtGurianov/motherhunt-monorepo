@@ -75,17 +75,14 @@ export const sessionBeforeUpdate = async (
 
     const metadata = JSON.parse(organization.metadata) as OrgMetadata;
     updateOrganizationType = metadata.orgType;
-    if (metadata.orgType === ORG_TYPES.AGENCY) {
-      applicationStatus = getAgencyApplicationStatus(organization).status;
-      if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
-        updateOrganizationName = organization.name;
-        const result = await getMemberRole({
-          userId,
-          organizationId: organization.id,
-        });
-        membership = result.data;
-      }
-    }
+
+    applicationStatus = getAgencyApplicationStatus(organization).status;
+    updateOrganizationName = organization.name;
+    const result = await getMemberRole({
+      userId,
+      organizationId: organization.id,
+    });
+    membership = result.data;
   }
 
   await prismaClient.user.update({
@@ -114,11 +111,13 @@ export const sessionBeforeUpdate = async (
             activeOrganizationId: null,
             activeOrganizationRole: null,
             activeOrganizationName: null,
+            activeOrganizationType: null,
             activeMemberId: null,
           }
         : {
             activeOrganizationId: updateActiveOrganizationId,
             activeOrganizationName: updateOrganizationName,
+            activeOrganizationType: updateOrganizationType,
             activeMemberId: membership.memberId,
             activeOrganizationRole: membership.role,
           }),

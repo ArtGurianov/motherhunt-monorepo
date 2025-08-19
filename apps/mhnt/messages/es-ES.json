@@ -5,13 +5,14 @@
     "signed-out-status": "DESCONECTADO"
   },
   "ROLES": {
+    "USER_ROLE": "NEW USER",
     "SCOUTER_ROLE": "SCOUTER",
+    "MODEL_ROLE": "MODEL",
     "HEADBOOKER_ROLE": "RESERVADOR PRINCIPAL",
     "BOOKER_ROLE": "RESERVADOR",
     "MYDAOGS_ADMIN_ROLE": "DAOG",
     "PROJECT_SUPERADMIN_ROLE": "SUPER ADMIN",
-    "PROJECT_ADMIN_ROLE": "ADMIN",
-    "MODEL_ROLE": "MODEL"
+    "PROJECT_ADMIN_ROLE": "ADMIN"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "Pendiente",
@@ -84,9 +85,11 @@
     "agency": "AGENCIA"
   },
   "ROUTES_TITLES": {
-    "MODAL_SETTINGS": "Configuración de usuario",
-    "MODAL_MY_AGENCIES": "Mis agencias",
-    "MODAL_MY_REQUESTS": "Mis solicitudes",
+    "MODAL_SETTINGS": "User Settings",
+    "MODAL_SWITCH": "Switch account",
+    "MODAL_SWITCH_AGENCY": "My Agencies",
+    "MODAL_SWITCH_AGENCY_REQUESTS": "My requests",
+    "MODAL_SWITCH_MODEL": "Switch to model",
     "AUCTION": "Subasta",
     "LOT": "Lot",
     "CASES": "Casos",

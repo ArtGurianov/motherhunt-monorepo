@@ -43,6 +43,7 @@ model Session {
   activeOrganizationId   String?  @db.ObjectId
   activeMemberId         String?  @db.ObjectId
   activeOrganizationName String?
+  activeOrganizationType OrganizationType?
   activeOrganizationRole String?
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt

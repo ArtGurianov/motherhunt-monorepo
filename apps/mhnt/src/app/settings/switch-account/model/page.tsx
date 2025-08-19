@@ -1,3 +1,3 @@
 export default function SwitchAccountModelPage() {
-  return <div></div>;
+  return null;
 }

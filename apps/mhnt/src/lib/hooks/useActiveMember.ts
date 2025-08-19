@@ -7,6 +7,7 @@ import { OrgRole } from "../auth/permissions/org-permissions";
 export interface ActiveMemberSessionData {
   organizationId: string;
   organizationName: string;
+  organizationType: OrgType;
   role: string;
 }
 
@@ -23,17 +24,18 @@ export const useActiveMember = () => {
     const {
       activeOrganizationId,
       activeOrganizationName,
-      activeOrganizationRole,
       activeOrganizationType,
+      activeOrganizationRole,
     } = sessionData;
     setData(
       activeOrganizationId &&
         activeOrganizationName &&
-        activeOrganizationRole &&
-        activeOrganizationType
+        activeOrganizationType &&
+        activeOrganizationRole
         ? {
             organizationId: activeOrganizationId,
             organizationName: activeOrganizationName,
+            organizationType: activeOrganizationType as OrgType,
             role: getDisplayUserRole(
               activeOrganizationType as OrgType,
               activeOrganizationRole as OrgRole
