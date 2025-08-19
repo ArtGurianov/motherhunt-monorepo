@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import auth from "../auth";
-import { AGENCY_ROLES } from "./agency-permissions";
+import { ORG_ROLES } from "./org-permissions";
 import { APP_ENTITIES, APP_ROLES } from "./app-permissions";
 
 export type CanAccessReturnType = {
@@ -80,7 +80,7 @@ export const canViewAdmin = async (): Promise<CanAccessReturnType> => {
   }
 };
 
-export const canViewScouter = async (): Promise<CanAccessReturnType> => {
+export const canViewUser = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
@@ -92,7 +92,7 @@ export const canViewScouter = async (): Promise<CanAccessReturnType> => {
       body: {
         userId: session.user.id,
         permissions: {
-          [APP_ROLES.SCOUTER_ROLE]: ["view"],
+          [APP_ROLES.USER_ROLE]: ["view"],
         },
       },
     });
@@ -102,33 +102,37 @@ export const canViewScouter = async (): Promise<CanAccessReturnType> => {
   }
 };
 
-export const canViewHeadBooker = async (): Promise<CanAccessReturnType> => {
+export const canViewOrgOwner = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
       headers: headersList,
     });
-    if (!session?.session.activeOrganizationId) return { canAccess: false };
+    if (
+      !session?.session.activeOrganizationId ||
+      !session?.session.activeMemberId
+    )
+      return { canAccess: false };
 
     const result = await auth.api.hasPermission({
       headers: headersList,
       body: {
         organizationId: session.session.activeOrganizationId,
         permissions: {
-          [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["view"],
+          [ORG_ROLES.OWNER_ROLE]: ["view"],
         },
       },
     });
     return {
       canAccess: result.success,
-      organizationId: session.session.activeOrganizationId,
+      memberId: session.session.activeMemberId,
     };
   } catch {
     return { canAccess: false };
   }
 };
 
-export const canTransferHeadBookerRole =
+export const canTransferAgencyOwnerRole =
   async (): Promise<CanAccessReturnType> => {
     try {
       const headersList = await headers();
@@ -146,7 +150,7 @@ export const canTransferHeadBookerRole =
         body: {
           organizationId: session.session.activeOrganizationId,
           permissions: {
-            [AGENCY_ROLES.HEAD_BOOKER_ROLE]: ["transferRole"],
+            [ORG_ROLES.OWNER_ROLE]: ["transferRole"],
           },
         },
       });
@@ -159,7 +163,7 @@ export const canTransferHeadBookerRole =
     }
   };
 
-export const canDeleteBooker = async (): Promise<CanAccessReturnType> => {
+export const canDeleteOrgMember = async (): Promise<CanAccessReturnType> => {
   try {
     const headersList = await headers();
     const session = await auth.api.getSession({
@@ -176,7 +180,7 @@ export const canDeleteBooker = async (): Promise<CanAccessReturnType> => {
       body: {
         organizationId: session.session.activeOrganizationId,
         permissions: {
-          [AGENCY_ROLES.BOOKER_ROLE]: ["delete"],
+          [ORG_ROLES.MEMBER_ROLE]: ["delete"],
         },
       },
     });

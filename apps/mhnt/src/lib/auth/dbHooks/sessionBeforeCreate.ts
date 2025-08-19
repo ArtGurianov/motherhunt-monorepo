@@ -23,6 +23,11 @@ export const sessionBeforeCreate = async (
           recentOrganizationName: string | null;
         }
       ).recentOrganizationName,
+      activeOrganizationType: (
+        user as unknown as {
+          recentOrganizationType: string | null;
+        }
+      ).recentOrganizationType,
     },
   };
 };

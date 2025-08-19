@@ -15,12 +15,14 @@ model User {
   isNewsletterEmailsEnabled Boolean     @default(true)
   isSystemEmailsEnabled     Boolean     @default(true)
   image                     String?
-  role                      AppRole?    @default(SCOUTER_ROLE)     
+  role                      AppRole?    @default(USER_ROLE)     
   banned                    Boolean?
   banReason                 String?
   banExpires                String?
+  scoutingOrganizationId    String?
   recentOrganizationId      String?     @db.ObjectId
   recentOrganizationName    String?
+  recentOrganizationType    OrganizationType?
   modelVkId                 String?
   modelFacebookId           String?
   createdAt                 DateTime    @default(now())
@@ -95,11 +97,11 @@ model Organization {
 }
 
 model Member {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId         String   @db.ObjectId
-  organizationId String   @db.ObjectId
-  role           String
-  createdAt      DateTime @default(now())
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String           @db.ObjectId
+  organizationId String           @db.ObjectId
+  role           OrganizationRole
+  createdAt      DateTime         @default(now())
 
   @@map("member")
 }
@@ -141,6 +143,15 @@ enum AppRole {
   MYDAOGS_ADMIN_ROLE
   PROJECT_SUPERADMIN_ROLE
   PROJECT_ADMIN_ROLE
-  SCOUTER_ROLE
-  MODEL_ROLE
+  USER_ROLE
+}
+
+enum OrganizationRole {
+  OWNER_ROLE
+  MEMBER_ROLE
+}
+
+enum OrganizationType {
+  SCOUTING
+  AGENCY
 }

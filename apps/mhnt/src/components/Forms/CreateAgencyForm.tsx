@@ -28,7 +28,7 @@ import { LoaderCircle } from "lucide-react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
-import { createOrganization } from "@/actions/createOrganization";
+import { createNewAgencyOrg } from "@/actions/createNewAgencyOrg";
 import { toast } from "@shared/ui/components/sonner";
 import { createAgencySchema } from "@/lib/schemas/createAgencySchema";
 
@@ -63,7 +63,7 @@ export const CreateAgencyForm = () => {
   }: z.infer<typeof createAgencySchema>) => {
     setErrorMessage(null);
     startTransition(async () => {
-      const result = await createOrganization({ name, slug });
+      const result = await createNewAgencyOrg({ name, slug });
       if (result.errorMessage) {
         toast(result.errorMessage);
       } else {

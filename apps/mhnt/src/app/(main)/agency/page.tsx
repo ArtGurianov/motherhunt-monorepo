@@ -1,4 +1,4 @@
-import { canViewHeadBooker } from "@/lib/auth/permissions/checkers";
+import { canViewOrgOwner } from "@/lib/auth/permissions/checkers";
 import { ManageBookers } from "./_widgets/ManageBookers";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { getTranslations } from "next-intl/server";
@@ -11,7 +11,7 @@ import { AgencyWalletAddressForm } from "@/components/Forms/AgencyWalletAddressF
 const locale = getAppLocale();
 
 export default async function AgencyManagePage() {
-  const { canAccess, organizationId } = await canViewHeadBooker();
+  const { canAccess, organizationId } = await canViewOrgOwner();
   if (!canAccess || !organizationId) {
     const t = await getTranslations({ locale, namespace: "TOASTS" });
     return (

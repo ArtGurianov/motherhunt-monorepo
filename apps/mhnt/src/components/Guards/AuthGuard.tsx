@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth/authClient";
+import { APP_ROLES } from "@/lib/auth/permissions/app-permissions";
 import { LoaderCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -19,5 +20,10 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
       </div>
     );
   if (!data) redirect("/sign-in");
+  if (
+    data.user.role === APP_ROLES.USER_ROLE &&
+    !data.session.activeOrganizationId
+  )
+    redirect("/settings/switch-account");
   return children;
 };

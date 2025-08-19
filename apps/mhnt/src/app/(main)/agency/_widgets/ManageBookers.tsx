@@ -5,7 +5,7 @@ import { transferHeadBookerRole } from "@/actions/transferHeadBookerRole";
 import { DangerousActionDialog } from "@/components/DangerousActionDialog/DangerousActionDialog";
 import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
+import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { useActiveMember } from "@/lib/hooks/useActiveMember";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
@@ -86,9 +86,7 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
                   <TableCell>
                     <div className="w-full h-full flex justify-center items-center">
                       <Button
-                        disabled={
-                          role === AGENCY_ROLES.HEAD_BOOKER_ROLE || isPending
-                        }
+                        disabled={role === ORG_ROLES.OWNER_ROLE || isPending}
                         size="reset"
                         className="p-px [&_svg]:size-6"
                         onClick={() => {
@@ -109,9 +107,7 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
                   <TableCell>
                     <div className="w-full h-full flex justify-center items-center">
                       <Button
-                        disabled={
-                          role === AGENCY_ROLES.HEAD_BOOKER_ROLE || isPending
-                        }
+                        disabled={role === ORG_ROLES.OWNER_ROLE || isPending}
                         size="reset"
                         className="p-px [&_svg]:size-6"
                         onClick={() => {

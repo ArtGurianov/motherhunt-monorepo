@@ -4,13 +4,18 @@ import { APIError } from "better-auth/api";
 import { canProcessAgencyApplication } from "@/lib/auth/permissions/checkers";
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
-import { OrganizationAfterReviewMetadata } from "@/lib/utils/types";
+import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { viemClient } from "@/lib/web3/viemClient";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { revalidatePath } from "next/cache";
 import { hexToString, parseEventLogs } from "viem";
 import { getTransactionReceipt } from "viem/actions";
+import { getTranslations } from "next-intl/server";
+import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
+import { sendEmail } from "./sendEmail";
+
+const locale = getAppLocale();
 
 export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
   try {
@@ -30,14 +35,50 @@ export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
 
     if (!eventLogs.length) throw new AppClientError("Logs not present");
 
-    const updateMetadata: OrganizationAfterReviewMetadata = {
+    const orgData = await prismaClient.organization.findUnique({
+      where: { id: hexToString(eventLogs[0]!.args._agencyId) },
+    });
+
+    if (!orgData?.metadata)
+      throw new AppClientError("Organization data not present");
+
+    const metadata = JSON.parse(orgData.metadata) as OrgMetadata;
+
+    if (metadata.orgType !== ORG_TYPES.AGENCY)
+      throw new AppClientError("Not an agency organization");
+
+    const creator = await prismaClient.user.findUnique({
+      where: { id: metadata.creatorUserId },
+    });
+
+    if (!creator) {
+      throw new AppClientError("Creator not found");
+    }
+
+    if (creator.banned) {
+      throw new AppClientError("Banned");
+    }
+
+    const updateMetadata = {
+      ...metadata,
       reviewerAddress: eventLogs[0]!.args._whitelistedBy,
     };
 
     await prismaClient.organization.update({
-      where: { id: hexToString(eventLogs[0]!.args._agencyId, { size: 32 }) },
+      where: { id: orgData.id },
       data: {
         metadata: JSON.stringify(updateMetadata),
+      },
+    });
+
+    const t = await getTranslations({ locale, namespace: "EMAIL" });
+
+    await sendEmail({
+      to: creator.email,
+      subject: t("agency-accepted-subject"),
+      meta: {
+        description: t("agency-accepted-description"),
+        link: `${getAppURL(locale)}/sign-in`,
       },
     });
 

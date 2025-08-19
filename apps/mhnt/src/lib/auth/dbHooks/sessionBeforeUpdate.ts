@@ -10,6 +10,7 @@ import {
   ApplicationStatus,
   getAgencyApplicationStatus,
 } from "@/lib/utils/getAgencyApplicationStatus";
+import { ORG_TYPES, OrgMetadata, OrgType } from "@/lib/utils/types";
 
 export const sessionBeforeUpdate = async (
   updateSessionData: Partial<Session>
@@ -59,6 +60,7 @@ export const sessionBeforeUpdate = async (
   }
 
   let updateOrganizationName: string | null = null;
+  let updateOrganizationType: OrgType | null = null;
   let membership: { role: string; memberId: string } | null = null;
   let applicationStatus: ApplicationStatus | null = null;
 
@@ -66,19 +68,23 @@ export const sessionBeforeUpdate = async (
     const organization = await prismaClient.organization.findFirst({
       where: { id: updateActiveOrganizationId },
     });
-    if (!organization)
+    if (!organization?.metadata)
       throw new APIError("NOT_FOUND", {
-        message: "Organization Not Found",
+        message: "Organization data Not Found",
       });
 
-    applicationStatus = getAgencyApplicationStatus(organization).status;
-    if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
-      updateOrganizationName = organization.name;
-      const result = await getMemberRole({
-        userId,
-        organizationId: organization.id,
-      });
-      membership = result.data;
+    const metadata = JSON.parse(organization.metadata) as OrgMetadata;
+    updateOrganizationType = metadata.orgType;
+    if (metadata.orgType === ORG_TYPES.AGENCY) {
+      applicationStatus = getAgencyApplicationStatus(organization).status;
+      if (applicationStatus === APPLICATION_STATUSES.APPROVED) {
+        updateOrganizationName = organization.name;
+        const result = await getMemberRole({
+          userId,
+          organizationId: organization.id,
+        });
+        membership = result.data;
+      }
     }
   }
 
@@ -87,10 +93,12 @@ export const sessionBeforeUpdate = async (
     data: {
       recentOrganizationId:
         updateActiveOrganizationId &&
-        applicationStatus === APPLICATION_STATUSES.APPROVED
+        (updateOrganizationType === ORG_TYPES.SCOUTING ||
+          applicationStatus === APPLICATION_STATUSES.APPROVED)
           ? updateActiveOrganizationId
           : null,
       recentOrganizationName: updateOrganizationName,
+      recentOrganizationType: updateOrganizationType,
     },
   });
 
@@ -100,7 +108,8 @@ export const sessionBeforeUpdate = async (
       ...updateSessionData,
       ...(!updateActiveOrganizationId ||
       !membership ||
-      applicationStatus !== APPLICATION_STATUSES.APPROVED
+      (updateOrganizationType === ORG_TYPES.AGENCY &&
+        applicationStatus !== APPLICATION_STATUSES.APPROVED)
         ? {
             activeOrganizationId: null,
             activeOrganizationRole: null,

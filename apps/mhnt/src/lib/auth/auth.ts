@@ -16,10 +16,10 @@ import {
   appAccessControl,
 } from "@/lib/auth/permissions/app-permissions";
 import {
-  AGENCY_ROLES,
-  AGENCY_ROLES_CONFIG,
-  agencyAccessControl,
-} from "@/lib/auth/permissions/agency-permissions";
+  ORG_ROLES,
+  ORG_ROLES_CONFIG,
+  orgAccessControl,
+} from "@/lib/auth/permissions/org-permissions";
 import { getAppURL, getSiteURL, getAppLocale } from "@shared/ui/lib/utils";
 import { getMemberRole } from "@/actions/getMemberRole";
 import { sessionBeforeUpdate } from "./dbHooks/sessionBeforeUpdate";
@@ -31,6 +31,7 @@ import { trustedUserPlugin } from "./plugins/trustedUserPlugin";
 import { getWeb3AdminUser } from "../web3/getWeb3AdminUser";
 import { web3AdminRequestBodySchema } from "../schemas/web3AdminRequestBodySchema";
 import { vkAuthPlugin } from "./plugins/vk/vkAuthPlugin";
+import { userAfterCreate } from "./dbHooks/userAfterCreate";
 
 const envConfig = getEnvConfigServer();
 const locale = getAppLocale();
@@ -72,7 +73,7 @@ const options = {
     }),
     adminPlugin({
       ac: appAccessControl,
-      defaultRole: APP_ROLES.SCOUTER_ROLE,
+      defaultRole: APP_ROLES.USER_ROLE,
       adminRoles: [
         APP_ROLES.MYDAOGS_ADMIN_ROLE,
         APP_ROLES.PROJECT_SUPERADMIN_ROLE,
@@ -81,9 +82,9 @@ const options = {
       roles: APP_ROLES_CONFIG,
     }),
     organizationPlugin({
-      ac: agencyAccessControl,
-      roles: AGENCY_ROLES_CONFIG,
-      creatorRole: AGENCY_ROLES.HEAD_BOOKER_ROLE,
+      ac: orgAccessControl,
+      roles: ORG_ROLES_CONFIG,
+      creatorRole: ORG_ROLES.OWNER_ROLE,
       sendInvitationEmail: inviteBooker,
     }) as unknown as BetterAuthPlugin,
     vkAuthPlugin(),
@@ -95,6 +96,9 @@ const options = {
         before: sessionBeforeCreate,
       },
       update: { before: sessionBeforeUpdate },
+    },
+    user: {
+      create: { after: userAfterCreate },
     },
   },
   // secondaryStorage: {},
@@ -124,6 +128,11 @@ const options = {
         input: false,
       },
       activeOrganizationName: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      activeOrganizationType: {
         type: "string",
         required: false,
         input: false,
@@ -163,12 +172,21 @@ const options = {
         type: "boolean",
         input: false,
       },
+      scoutingOrganizationId: {
+        type: "string",
+        input: false,
+      },
       recentOrganizationId: {
         type: "string",
         required: false,
         input: false,
       },
       recentOrganizationName: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      recentOrganizationType: {
         type: "string",
         required: false,
         input: false,

@@ -12,9 +12,9 @@ import {
   appAccessControl,
 } from "@/lib/auth/permissions/app-permissions";
 import {
-  AGENCY_ROLES_CONFIG,
-  agencyAccessControl,
-} from "@/lib/auth/permissions/agency-permissions";
+  ORG_ROLES_CONFIG,
+  orgAccessControl,
+} from "@/lib/auth/permissions/org-permissions";
 import { trustedUserPluginClient } from "./plugins/trustedUserPluginClient";
 
 export const authClient = createAuthClient({
@@ -28,8 +28,8 @@ export const authClient = createAuthClient({
       roles: APP_ROLES_CONFIG,
     }),
     organizationClient({
-      ac: agencyAccessControl,
-      roles: AGENCY_ROLES_CONFIG,
+      ac: orgAccessControl,
+      roles: ORG_ROLES_CONFIG,
     }),
   ],
   /** The base URL of the server (optional if you're using the same domain) */

@@ -6,7 +6,7 @@
   },
   "ROLES": {
     "SCOUTER_ROLE": "星探",
-    "HEAD_BOOKER_ROLE": "首席预订员",
+    "HEADBOOKER_ROLE": "首席预订员",
     "BOOKER_ROLE": "预订员",
     "MYDAOGS_ADMIN_ROLE": "管理员",
     "PROJECT_SUPERADMIN_ROLE": "管理员",

@@ -1,8 +1,14 @@
-export interface OrganizationBeforeReviewMetadata {
-  applicantEmail: string;
-}
+import { ValueOf } from "@shared/ui/lib/types";
 
-export interface OrganizationAfterReviewMetadata {
-  reviewerAddress: string;
+export const ORG_TYPES = {
+  SCOUTING: "SCOUTING",
+  AGENCY: "AGENCY",
+} as const;
+
+export type OrgType = ValueOf<typeof ORG_TYPES>;
+export interface OrgMetadata {
+  orgType: OrgType;
+  creatorUserId: string;
+  reviewerAddress?: string;
   rejectionReason?: string;
 }

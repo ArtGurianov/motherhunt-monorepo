@@ -10,8 +10,9 @@ import { getTranslations } from "next-intl/server";
 import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
+import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 
-export const createOrganization = async ({
+export const createNewAgencyOrg = async ({
   name,
   slug,
 }: {
@@ -26,16 +27,26 @@ export const createOrganization = async ({
     if (!session)
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
 
-    const userOrganizations = await prismaClient.member.findMany({
+    const ownedAgencies = await prismaClient.member.findMany({
       where: { userId: session.user.id },
     });
-    for (const each of userOrganizations) {
+    for (const each of ownedAgencies) {
       const organizationData = await prismaClient.organization.findFirst({
-        where: { id: each.organizationId },
+        where: {
+          AND: {
+            id: each.organizationId,
+            metadata: {
+              contains: JSON.stringify({ orgType: ORG_TYPES.AGENCY }),
+            },
+          },
+        },
       });
+      if (!organizationData?.metadata)
+        throw new AppClientError(
+          "Could not get data for one of your organizations"
+        );
       if (
-        !!organizationData?.metadata &&
-        !JSON.parse(organizationData.metadata).reviewerAddress
+        !(JSON.parse(organizationData.metadata) as OrgMetadata).reviewerAddress
       ) {
         throw new AppClientError("Your previous request is still pending.");
       }
@@ -47,7 +58,8 @@ export const createOrganization = async ({
         slug,
         logo: "",
         metadata: {
-          applicantEmail: session.user.email,
+          creatorUserId: session.user.id,
+          orgType: ORG_TYPES.AGENCY,
         },
         userId: session.user.id,
         keepCurrentOrganization: true,

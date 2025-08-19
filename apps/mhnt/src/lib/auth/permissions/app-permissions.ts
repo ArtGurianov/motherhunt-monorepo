@@ -5,8 +5,7 @@ export const APP_ROLES = {
   MYDAOGS_ADMIN_ROLE: "MYDAOGS_ADMIN_ROLE",
   PROJECT_SUPERADMIN_ROLE: "PROJECT_SUPERADMIN_ROLE",
   PROJECT_ADMIN_ROLE: "PROJECT_ADMIN_ROLE",
-  SCOUTER_ROLE: "SCOUTER_ROLE",
-  MODEL_ROLE: "MODEL_ROLE",
+  USER_ROLE: "USER_ROLE",
 } as const;
 export type AppRole = ValueOf<typeof APP_ROLES>;
 
@@ -30,8 +29,7 @@ const appActions = {
   [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
   [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
   [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-  [APP_ROLES.SCOUTER_ROLE]: ["view"],
-  [APP_ROLES.MODEL_ROLE]: ["view"],
+  [APP_ROLES.USER_ROLE]: ["view", "update"],
 } as const;
 
 export const appAccessControl = createAccessControl(appActions);
@@ -41,15 +39,13 @@ export const APP_ROLES_CONFIG = {
     [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
     [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
     [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.SCOUTER_ROLE]: ["view"],
-    [APP_ROLES.MODEL_ROLE]: ["view"],
+    [APP_ROLES.USER_ROLE]: ["view"],
     [APP_ENTITIES.SUPERADMIN]: ["update"],
   }),
   [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: appAccessControl.newRole({
     [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
     [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.SCOUTER_ROLE]: ["view"],
-    [APP_ROLES.MODEL_ROLE]: ["view"],
+    [APP_ROLES.USER_ROLE]: ["view"],
     [APP_ENTITIES.ADMIN]: ["update"],
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.MODEL]: ["update", "ban"],
@@ -58,21 +54,13 @@ export const APP_ROLES_CONFIG = {
   }),
   [APP_ROLES.PROJECT_ADMIN_ROLE]: appAccessControl.newRole({
     [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.SCOUTER_ROLE]: ["view"],
-    [APP_ROLES.MODEL_ROLE]: ["view"],
+    [APP_ROLES.USER_ROLE]: ["view"],
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.MODEL]: ["update", "ban"],
     [APP_ENTITIES.ORGANIZATION]: ["process"],
     [APP_ENTITIES.LOT]: ["update", "ban"],
   }),
-  [APP_ROLES.SCOUTER_ROLE]: appAccessControl.newRole({
-    [APP_ROLES.SCOUTER_ROLE]: ["view"],
-    [APP_ROLES.MODEL_ROLE]: ["view"],
-    [APP_ENTITIES.SCOUTER]: ["update"],
-    [APP_ENTITIES.LOT]: ["create", "update"],
-  }),
-  [APP_ROLES.MODEL_ROLE]: appAccessControl.newRole({
-    [APP_ROLES.MODEL_ROLE]: ["view"],
-    [APP_ENTITIES.MODEL]: ["update"],
+  [APP_ROLES.USER_ROLE]: appAccessControl.newRole({
+    [APP_ROLES.USER_ROLE]: ["view", "update"],
   }),
 };

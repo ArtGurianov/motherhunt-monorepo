@@ -6,7 +6,7 @@
   },
   "ROLES": {
     "SCOUTER_ROLE": "СКАУТ",
-    "HEAD_BOOKER_ROLE": "ХЭДБУКЕР",
+    "HEADBOOKER_ROLE": "ХЭДБУКЕР",
     "BOOKER_ROLE": "БУКЕР",
     "MYDAOGS_ADMIN_ROLE": "DAOG",
     "PROJECT_SUPERADMIN_ROLE": "СУПЕРАДМИН",
