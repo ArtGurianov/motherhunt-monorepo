@@ -83,10 +83,10 @@ export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
     });
 
     revalidatePath("/admin/cases/agencies");
-    revalidatePath("/@modal/(.)settings/agency");
-    revalidatePath("/@modal/settings/agency");
-    revalidatePath("/@modal/(.)settings/agency/requests");
-    revalidatePath("/@modal/settings/agency/requests");
+    revalidatePath("/@modal/(.)settings/switch-account/agency");
+    revalidatePath("/@modal/settings/switch-account/agency");
+    revalidatePath("/@modal/(.)settings/switch-account/agency/requests");
+    revalidatePath("/@modal/settings/switch-account/agency/requests");
 
     return createActionResponse();
   } catch (error) {

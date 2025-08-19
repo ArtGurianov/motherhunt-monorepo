@@ -3,6 +3,7 @@
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { authClient } from "@/lib/auth/authClient";
 import { getAgencyApplicationStatus } from "@/lib/utils/getAgencyApplicationStatus";
+import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { Organization } from "@shared/db";
 import {
   Table,
@@ -49,6 +50,9 @@ export const MyAgencyRequestsWidget = () => {
               </TableHeader>
               <TableBody>
                 {organizations.map((each) => {
+                  const metadata = JSON.parse(each.metadata) as OrgMetadata;
+                  if (metadata.orgType !== ORG_TYPES.AGENCY) return null;
+
                   const { status, rejectionReason } =
                     getAgencyApplicationStatus(each as Organization);
                   return (

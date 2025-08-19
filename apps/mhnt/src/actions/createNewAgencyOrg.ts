@@ -11,6 +11,7 @@ import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
+import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 
 export const createNewAgencyOrg = async ({
   name,
@@ -27,27 +28,23 @@ export const createNewAgencyOrg = async ({
     if (!session)
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
 
-    const ownedAgencies = await prismaClient.member.findMany({
-      where: { userId: session.user.id },
+    const ownedOrgs = await prismaClient.member.findMany({
+      where: { userId: session.user.id, role: ORG_ROLES.OWNER_ROLE },
     });
-    for (const each of ownedAgencies) {
-      const organizationData = await prismaClient.organization.findFirst({
+    for (const each of ownedOrgs) {
+      const organizationData = await prismaClient.organization.findUnique({
         where: {
-          AND: {
-            id: each.organizationId,
-            metadata: {
-              contains: JSON.stringify({ orgType: ORG_TYPES.AGENCY }),
-            },
-          },
+          id: each.organizationId,
         },
       });
       if (!organizationData?.metadata)
         throw new AppClientError(
           "Could not get data for one of your organizations"
         );
-      if (
-        !(JSON.parse(organizationData.metadata) as OrgMetadata).reviewerAddress
-      ) {
+      const metadata: OrgMetadata = JSON.parse(
+        organizationData.metadata
+      ) as OrgMetadata;
+      if (metadata.orgType === "AGENCY" && !metadata.reviewerAddress) {
         throw new AppClientError("Your previous request is still pending.");
       }
     }
@@ -79,8 +76,8 @@ export const createNewAgencyOrg = async ({
     });
 
     revalidatePath("/admin/cases/agencies");
-    revalidatePath("/@modal/(.)settings/agency/requests");
-    revalidatePath("/@modal/settings/agency/requests");
+    revalidatePath("/@modal/(.)settings/switch-account/agency/requests");
+    revalidatePath("/@modal/settings/switch-account/agency/requests");
 
     return createActionResponse();
   } catch (error) {

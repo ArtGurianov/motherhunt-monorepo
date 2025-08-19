@@ -17,7 +17,9 @@ export default function SwitchAccountAgencyPage() {
           </Link>
         </Button>
         <Button asChild variant="link" className="font-mono">
-          <Link href="/settings/agency/requests">{t("view-requests")}</Link>
+          <Link href="/settings/switch-account/agency/requests">
+            {t("view-requests")}
+          </Link>
         </Button>
       </div>
     </div>

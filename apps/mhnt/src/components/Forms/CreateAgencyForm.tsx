@@ -160,7 +160,7 @@ export const CreateAgencyForm = () => {
       <CardFooter className="border-t pt-2 pb-3 bg-accent-foreground/20">
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
-            <InterceptedLink href="/settings/agency/requests">
+            <InterceptedLink href="/settings/switch-account/agency/requests">
               {t("view-requests")}
             </InterceptedLink>
           </Button>

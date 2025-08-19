@@ -89,8 +89,8 @@ export const rejectAgencyApplication = async ({
     });
 
     revalidatePath("/admin/cases/agencies");
-    revalidatePath("/@modal/(.)settings/agency/requests");
-    revalidatePath("/@modal/settings/agency/requests");
+    revalidatePath("/@modal/(.)settings/switch-account/agency/requests");
+    revalidatePath("/@modal/settings/switch-account/agency/requests");
 
     return createActionResponse();
   } catch (error) {
