@@ -49,7 +49,7 @@ export const InterceptedDialogDrawer = ({
             asChild
             variant="secondary"
             size="reset"
-            className="absolute top-0 left-4 p-px"
+            className="absolute top-0 left-4 p-1 [&_svg]:size-8"
           >
             <Link
               href={`${particles.slice(0, particles.length - 1).join("/")}${params.size ? "?" + params.toString() : ""}`}

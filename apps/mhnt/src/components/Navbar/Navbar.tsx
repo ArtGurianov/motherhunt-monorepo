@@ -17,9 +17,9 @@ import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense, useState } from "react";
 import { NavbarMenu } from "./NavbarMenu";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
-import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
 import { useTranslations } from "next-intl";
 import { useActiveMember } from "@/lib/hooks/useActiveMember";
+import { DisplayUserRole } from "@/lib/auth/displayRoles";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -80,7 +80,7 @@ export const Navbar = () => {
       </div>
       <NavbarMenu
         isOpened={isMenuOpened}
-        role={activeRole! as AppRole | AgencyRole}
+        role={activeRole! as AppRole | DisplayUserRole}
       />
     </div>
   ) : (

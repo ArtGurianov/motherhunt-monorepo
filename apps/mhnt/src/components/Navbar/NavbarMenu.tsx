@@ -6,18 +6,18 @@ import {
   NAV_ROUTES_SVG_PATHS,
 } from "@/lib/routes/navRoutes";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
-import { AgencyRole } from "@/lib/auth/permissions/agency-permissions";
 import { NavbarMenuItem } from "./NavbarMenuItem";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { DisplayUserRole } from "@/lib/auth/displayRoles";
 
-interface NavbarMenuProps<R extends AppRole | AgencyRole> {
+interface NavbarMenuProps<R extends AppRole | DisplayUserRole> {
   isOpened: boolean;
   role: R;
 }
 
-export const NavbarMenu = <R extends AppRole | AgencyRole>({
+export const NavbarMenu = <R extends AppRole | DisplayUserRole>({
   isOpened,
   role,
 }: NavbarMenuProps<R>) => {
