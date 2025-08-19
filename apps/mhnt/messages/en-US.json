@@ -70,7 +70,7 @@
     "no-membership": "You have no membership records."
   },
   "MY_AGENCY_REQUESTS": {
-    "table-caption": "A list of your requests",
+    "table-caption": "List of your requests",
     "name": "Name",
     "slug": "Slug",
     "status": "Status",

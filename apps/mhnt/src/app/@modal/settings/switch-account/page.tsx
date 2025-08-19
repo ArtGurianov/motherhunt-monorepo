@@ -1,5 +1,5 @@
-import { SwitchAccountWidget } from "../../_widgets/SwitchAccountWidget";
+import { SwitchAccountPageContent } from "../../_widgets/SwitchAccountPageContent";
 
 export default function SwitchAccountPage() {
-  return <SwitchAccountWidget />;
+  return <SwitchAccountPageContent />;
 }

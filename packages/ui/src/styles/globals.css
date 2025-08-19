@@ -20,6 +20,9 @@
 }
 
 @theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
   --color-main: var(--main);
   --color-background: var(--background);
   --color-primary: var(--primary);
@@ -56,7 +59,7 @@
 
 @layer base {
   body {
-    @apply text-foreground font-base bg-background bg-[linear-gradient(to_right,var(--secondary)_1px,transparent_1px),linear-gradient(to_bottom,var(--secondary),transparent_1px)] bg-[size:70px_70px] overflow-x-clip;
+    @apply text-foreground font-sans font-base bg-background bg-[linear-gradient(to_right,var(--secondary)_1px,transparent_1px),linear-gradient(to_bottom,var(--secondary),transparent_1px)] bg-[size:70px_70px] overflow-x-clip;
 
     height: 100svh;
     height: -webkit-fill-available;

@@ -39,7 +39,7 @@ const DialogWrapper = ({
     <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
       <DialogContent className={cn("py-0", className)}>
         <DialogHeader className="relative">
-          <DialogTitle className="text-center font-medium font-serif text-3xl text-muted-foreground">
+          <DialogTitle className="text-center font-medium font-sans text-3xl text-muted-foreground">
             {title}
           </DialogTitle>
           <DialogDescription className="sr-only">
@@ -65,7 +65,7 @@ const DrawerWrapper = ({
     <Drawer open={isOpen} onClose={onClose} autoFocus={isOpen}>
       <DrawerContent className={cn("py-2", className)}>
         <DrawerHeader className="relative">
-          <DrawerTitle className="text-center font-medium font-serif text-3xl text-muted-foreground">
+          <DrawerTitle className="text-center font-medium font-sans text-3xl text-muted-foreground">
             {title}
           </DrawerTitle>
           <DrawerDescription className="sr-only">

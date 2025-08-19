@@ -1,5 +1,5 @@
-import { MyAgencyRequestsWidget } from "../../../../_widgets/MyAgencyRequestsWidget";
+import { SwitchAccountAgencyRequestsPageContent } from "../../../../_widgets/SwitchAccountAgencyRequestsPageContent";
 
 export default function SwitchAccountAgencyRequestsPage() {
-  return <MyAgencyRequestsWidget />;
+  return <SwitchAccountAgencyRequestsPageContent />;
 }

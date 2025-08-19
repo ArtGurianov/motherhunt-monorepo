@@ -18,7 +18,7 @@ import { TooltipPopover } from "@shared/ui/components/TooltipPopover";
 import { AlertCircleIcon, LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-export const MyAgencyRequestsWidget = () => {
+export const SwitchAccountAgencyRequestsPageContent = () => {
   const { data: organizations, isPending } = authClient.useListOrganizations();
   const t = useTranslations("MY_AGENCY_REQUESTS");
   const tTitles = useTranslations("INFO_CARD_TITLES");
