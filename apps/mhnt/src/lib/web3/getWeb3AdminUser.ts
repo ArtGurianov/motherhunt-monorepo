@@ -9,7 +9,7 @@ import { APIError } from "better-auth/api";
 import { web3AdminRequestBodySchema } from "../schemas/web3AdminRequestBodySchema";
 
 const MapWeb3AdminRoles: Record<number, AppRole> = {
-  0: APP_ROLES.SCOUTER_ROLE,
+  0: APP_ROLES.USER_ROLE,
   1: APP_ROLES.MYDAOGS_ADMIN_ROLE,
   2: APP_ROLES.PROJECT_SUPERADMIN_ROLE,
   3: APP_ROLES.PROJECT_ADMIN_ROLE,
@@ -49,7 +49,7 @@ export const getWeb3AdminUser = async ({
       message: "Role parsing error",
     });
 
-  if (roleVerificationResult.data === APP_ROLES.SCOUTER_ROLE)
+  if (roleVerificationResult.data === APP_ROLES.USER_ROLE)
     throw new APIError("FORBIDDEN", {
       message: "Not an admin",
     });

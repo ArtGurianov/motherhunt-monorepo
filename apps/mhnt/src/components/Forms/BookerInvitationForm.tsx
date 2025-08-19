@@ -20,7 +20,7 @@ import { FormStatus } from "./types";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
-import { AGENCY_ROLES } from "@/lib/auth/permissions/agency-permissions";
+import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { LoaderCircle } from "lucide-react";
 import { emailSchema } from "@/lib/schemas/emailSchema";
 
@@ -46,7 +46,7 @@ export const BookerInvitationForm = () => {
         }
         const result = await authClient.organization.inviteMember({
           email,
-          role: AGENCY_ROLES.BOOKER_ROLE,
+          role: ORG_ROLES.MEMBER_ROLE,
         });
         if (result?.error) {
           setErrorMessage(result.error.message || "Failed to send invitation");

@@ -4,7 +4,6 @@ import z from "zod";
 import { APIError } from "better-auth/api";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { getAppURL } from "@shared/ui/lib/utils";
-import { APP_ROLES } from "../../permissions/app-permissions";
 import { setSessionCookie } from "../utils";
 
 const vkCodeResponseSchema = z.object({
@@ -172,7 +171,6 @@ export const vkAuthPlugin = () => {
                 name: `${vkUser.user.first_name} ${vkUser.user.last_name}`,
                 email: appModelEmail,
                 emailVerified: true,
-                role: APP_ROLES.MODEL_ROLE,
                 modelVkId: vkUser.user.user_id,
               });
             } else {

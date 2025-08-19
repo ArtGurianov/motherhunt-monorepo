@@ -7,6 +7,7 @@ import { ORG_ROLES } from "../permissions/org-permissions";
 
 export const userAfterCreate = async (
   user: User,
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   _?: GenericEndpointContext
 ) => {
   const orgMetadata: OrgMetadata = {

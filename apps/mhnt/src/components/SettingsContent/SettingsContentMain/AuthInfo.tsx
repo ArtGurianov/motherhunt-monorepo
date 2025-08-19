@@ -10,7 +10,6 @@ import {
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
 import { LoaderCircle } from "lucide-react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useActiveMember } from "@/lib/hooks/useActiveMember";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";

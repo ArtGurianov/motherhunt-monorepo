@@ -1,6 +1,6 @@
 import { Organization } from "@shared/db";
-import { OrganizationAfterReviewMetadata } from "./types";
 import { ValueOf } from "@shared/ui/lib/types";
+import { OrgMetadata } from "./types";
 
 export const APPLICATION_STATUSES = {
   PENDING: "PENDING",
@@ -12,9 +12,7 @@ export type ApplicationStatus = ValueOf<typeof APPLICATION_STATUSES>;
 export const getAgencyApplicationStatus = (
   agencyData: Organization
 ): { status: ApplicationStatus; rejectionReason?: string } => {
-  const metadata = JSON.parse(
-    agencyData.metadata!
-  ) as unknown as OrganizationAfterReviewMetadata;
+  const metadata = JSON.parse(agencyData.metadata!) as unknown as OrgMetadata;
   if (metadata.rejectionReason) {
     return {
       status: APPLICATION_STATUSES.REJECTED,

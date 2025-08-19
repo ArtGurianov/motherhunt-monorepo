@@ -22,8 +22,6 @@ export const sessionBeforeUpdate = async (
       data: Session & Record<string, any>;
     }
 > => {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-
   if (
     Object.keys(updateSessionData).length === 2 &&
     "expiresAt" in updateSessionData &&
@@ -43,6 +41,7 @@ export const sessionBeforeUpdate = async (
       message: result.errorMessage,
     });
   }
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const { userId, id, ...oldSession } = result.data!;
 
   const updateActiveOrganizationId = (

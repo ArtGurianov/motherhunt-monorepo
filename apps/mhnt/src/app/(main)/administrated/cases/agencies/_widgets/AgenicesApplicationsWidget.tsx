@@ -26,7 +26,7 @@ import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
-import { OrganizationBeforeReviewMetadata } from "@/lib/utils/types";
+import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -62,16 +62,12 @@ export const AgenciesApplicationsWidget = ({
   useEffect(() => {
     if (signature && address && rejectionTarget?.rejectionReason) {
       const targetData = data[rejectionTarget.targetIndex]!;
-      const metadata = JSON.parse(
-        targetData.metadata!
-      ) as OrganizationBeforeReviewMetadata;
 
       startTransition(async () => {
         const result = await rejectAgencyApplication({
           address,
           signature,
           organizationId: targetData.id,
-          headBookerEmail: metadata.applicantEmail,
           rejectionReason: rejectionTarget.rejectionReason!,
         });
         if (result.errorMessage) {
@@ -116,70 +112,74 @@ export const AgenciesApplicationsWidget = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((each, index) => (
-                <TableRow key={each.id}>
-                  <TableCell className="text-center">{each.name}</TableCell>
-                  <TableCell className="text-center">{each.slug}</TableCell>
-                  <TableCell className="text-center">
-                    {each.createdAt.toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </TableCell>
-                  <TableCell className="flex gap-1 justify-center items-center">
-                    <Button
-                      disabled={
-                        isProcessing ||
+              {data.map((each, index) => {
+                const metadata = JSON.parse(each.metadata!) as OrgMetadata;
+                if (metadata.orgType === ORG_TYPES.SCOUTING) return null;
+                return (
+                  <TableRow key={each.id}>
+                    <TableCell className="text-center">{each.name}</TableCell>
+                    <TableCell className="text-center">{each.slug}</TableCell>
+                    <TableCell className="text-center">
+                      {each.createdAt.toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </TableCell>
+                    <TableCell className="flex gap-1 justify-center items-center">
+                      <Button
+                        disabled={
+                          isProcessing ||
+                          isTransitionPending ||
+                          (isSignaturePending && !isSignatureIdle)
+                        }
+                        size="reset"
+                        className="p-px [&_svg]:size-6"
+                        onClick={() => {
+                          writeContract({
+                            abi: systemContractAbi,
+                            address: getEnvConfigClient()
+                              .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
+                            functionName: "whitelistAgency",
+                            args: [stringToBytes32(each.id)],
+                          });
+                        }}
+                      >
+                        {isProcessing ||
                         isTransitionPending ||
-                        (isSignaturePending && !isSignatureIdle)
-                      }
-                      size="reset"
-                      className="p-px [&_svg]:size-6"
-                      onClick={() => {
-                        writeContract({
-                          abi: systemContractAbi,
-                          address: getEnvConfigClient()
-                            .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
-                          functionName: "whitelistAgency",
-                          args: [stringToBytes32(each.id)],
-                        });
-                      }}
-                    >
-                      {isProcessing ||
-                      isTransitionPending ||
-                      (isSignaturePending && !isSignatureIdle) ? (
-                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                      ) : (
-                        <ThumbsUp />
-                      )}
-                    </Button>
-                    <span>{"/"}</span>
-                    <Button
-                      disabled={
-                        isProcessing ||
+                        (isSignaturePending && !isSignatureIdle) ? (
+                          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                        ) : (
+                          <ThumbsUp />
+                        )}
+                      </Button>
+                      <span>{"/"}</span>
+                      <Button
+                        disabled={
+                          isProcessing ||
+                          isTransitionPending ||
+                          (isSignaturePending && !isSignatureIdle)
+                        }
+                        size="reset"
+                        className="p-px [&_svg]:size-6"
+                        onClick={() => {
+                          setRejectionTarget({
+                            targetIndex: index,
+                          });
+                        }}
+                      >
+                        {isProcessing ||
                         isTransitionPending ||
-                        (isSignaturePending && !isSignatureIdle)
-                      }
-                      size="reset"
-                      className="p-px [&_svg]:size-6"
-                      onClick={() => {
-                        setRejectionTarget({
-                          targetIndex: index,
-                        });
-                      }}
-                    >
-                      {isProcessing ||
-                      isTransitionPending ||
-                      (isSignaturePending && !isSignatureIdle) ? (
-                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                      ) : (
-                        <ThumbsDown />
-                      )}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                        (isSignaturePending && !isSignatureIdle) ? (
+                          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                        ) : (
+                          <ThumbsDown />
+                        )}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         ) : (
