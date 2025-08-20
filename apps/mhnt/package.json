@@ -23,6 +23,7 @@
     "@shared/ui": "workspace:*",
     "@tailwindcss/postcss": "^4.0.8",
     "@tanstack/react-query": "^5.80.7",
+    "@wagmi/core": "^2.19.0",
     "better-auth": "^1.2.9",
     "dotenv": "^17.2.1",
     "lucide-react": "^0.475.0",

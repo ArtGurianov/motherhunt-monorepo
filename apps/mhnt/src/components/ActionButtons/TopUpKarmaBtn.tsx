@@ -7,7 +7,7 @@ import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
-import { WithWeb3ConnectBtn } from "./WithWeb3ConnectBtn";
+import { Web3ConnectBtn } from "./Web3ConnectBtn";
 
 interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   isLoading: boolean;
@@ -52,7 +52,7 @@ export const TopUpKarmaBtn = ({
   };
 
   return (
-    <WithWeb3ConnectBtn
+    <Web3ConnectBtn
       className="[&_svg]:size-6"
       disabled={
         isSessionPending ||
@@ -74,6 +74,6 @@ export const TopUpKarmaBtn = ({
       ) : (
         <LoaderCircle className="animate-spin" />
       )}
-    </WithWeb3ConnectBtn>
+    </Web3ConnectBtn>
   );
 };

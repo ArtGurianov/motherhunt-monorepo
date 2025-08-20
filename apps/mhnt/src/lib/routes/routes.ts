@@ -14,6 +14,7 @@ export const APP_ROUTES = {
   DEALS: "DEALS",
   HUNT: "HUNT",
   DRAFTS: "DRAFTS",
+  MODEL_CONFIRMATION: "MODEL_CONFIRMATION",
   AGENCY_APPLY: "AGENCY_APPLY",
   MODAL_SETTINGS: "MODAL_SETTINGS",
   MODAL_SWITCH: "MODAL_SWITCH",
@@ -60,6 +61,10 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
   [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, href: "/deals" },
   [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, href: "/hunt" },
   [APP_ROUTES.DRAFTS]: { key: APP_ROUTES.DRAFTS, href: "/hunt/drafts" },
+  [APP_ROUTES.MODEL_CONFIRMATION]: {
+    key: APP_ROUTES.MODEL_CONFIRMATION,
+    href: "/confirmation/[id]",
+  },
   [APP_ROUTES.AGENCY_MANAGE]: {
     key: APP_ROUTES.AGENCY_MANAGE,
     href: "/agency",
@@ -70,7 +75,7 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
   },
   [APP_ROUTES.AGENCY_ACCEPT_INVITATION]: {
     key: APP_ROUTES.AGENCY_ACCEPT_INVITATION,
-    href: "/agency/accept-invitation/[id]",
+    href: "/agency/accept-invitation/[lotId]",
   },
   [APP_ROUTES.AGENCY_APPLY]: {
     key: APP_ROUTES.AGENCY_APPLY,

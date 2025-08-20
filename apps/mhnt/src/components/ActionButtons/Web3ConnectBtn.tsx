@@ -6,7 +6,7 @@ import { GetComponentProps } from "@shared/ui/lib/types";
 import { useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 
-export const WithWeb3ConnectBtn = (props: GetComponentProps<typeof Button>) => {
+export const Web3ConnectBtn = (props: GetComponentProps<typeof Button>) => {
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const [isAwaitingConnection, setIsAwaitingConnection] = useState(false);
   const { isConnected } = useAccount();

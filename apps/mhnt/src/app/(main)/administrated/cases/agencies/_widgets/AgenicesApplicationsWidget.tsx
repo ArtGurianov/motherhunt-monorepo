@@ -27,6 +27,7 @@ import { getEnvConfigClient } from "@/lib/config/env";
 import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
+import { Web3ConnectBtn } from "@/components/ActionButtons/Web3ConnectBtn";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -127,7 +128,7 @@ export const AgenciesApplicationsWidget = ({
                       })}
                     </TableCell>
                     <TableCell className="flex gap-1 justify-center items-center">
-                      <Button
+                      <Web3ConnectBtn
                         disabled={
                           isProcessing ||
                           isTransitionPending ||
@@ -152,7 +153,7 @@ export const AgenciesApplicationsWidget = ({
                         ) : (
                           <ThumbsUp />
                         )}
-                      </Button>
+                      </Web3ConnectBtn>
                       <span>{"/"}</span>
                       <Button
                         disabled={

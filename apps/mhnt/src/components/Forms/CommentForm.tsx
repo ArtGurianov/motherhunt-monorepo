@@ -4,8 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-
-import { Button } from "@shared/ui/components/button";
 import {
   Form,
   FormControl,
@@ -22,6 +20,7 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { commentSchema } from "@/lib/schemas/commentSchema";
+import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 
 interface CommentFormProps {
   defaultValue?: string;
@@ -98,7 +97,7 @@ export const CommentForm = ({
           )}
         />
         <div className="w-full flex justify-end items-center">
-          <Button
+          <Web3ConnectBtn
             type="submit"
             variant="secondary"
             disabled={
@@ -113,7 +112,7 @@ export const CommentForm = ({
             ) : (
               t("submit")
             )}
-          </Button>
+          </Web3ConnectBtn>
         </div>
         <SuccessBlock
           message={formStatus === "SUCCESS" ? t("success-message") : undefined}

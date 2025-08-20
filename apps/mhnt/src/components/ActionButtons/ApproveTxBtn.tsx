@@ -6,7 +6,7 @@ import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
 import { parseUnits } from "viem";
-import { WithWeb3ConnectBtn } from "./WithWeb3ConnectBtn";
+import { Web3ConnectBtn } from "./Web3ConnectBtn";
 
 interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
   isLoading: boolean;
@@ -55,7 +55,7 @@ export const ApproveTxBtn = ({
   };
 
   return (
-    <WithWeb3ConnectBtn
+    <Web3ConnectBtn
       className="[&_svg]:size-6"
       disabled={
         isLoading ||
@@ -77,6 +77,6 @@ export const ApproveTxBtn = ({
       ) : (
         <LoaderCircle className="animate-spin" />
       )}
-    </WithWeb3ConnectBtn>
+    </Web3ConnectBtn>
   );
 };
