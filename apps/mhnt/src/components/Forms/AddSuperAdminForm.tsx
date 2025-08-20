@@ -3,8 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { Button } from "@shared/ui/components/button";
 import {
   Form,
   FormControl,
@@ -21,6 +19,7 @@ import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { addressSchema } from "@/lib/schemas/addressSchema";
+import { AddSuperAdminBtn } from "@/components/ActionButtons/AddSuperAdminBtn";
 
 interface AddSuperAdminFormProps {
   onRefetchSuperAdmins: () => void;
@@ -78,11 +77,7 @@ export const AddSuperAdminForm = ({
                     setIsSubmitted(false);
                   }}
                   sideContent={
-                    <Button
-                      className="h-full"
-                      type="submit"
-                      variant="flat"
-                      size="sm"
+                    <AddSuperAdminBtn
                       disabled={
                         !!Object.keys(form.formState.errors).length ||
                         isProcessing
@@ -93,7 +88,7 @@ export const AddSuperAdminForm = ({
                       ) : (
                         "Add"
                       )}
-                    </Button>
+                    </AddSuperAdminBtn>
                   }
                 />
               </FormControl>

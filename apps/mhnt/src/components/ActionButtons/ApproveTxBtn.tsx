@@ -2,6 +2,7 @@
 
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { usdContractAbi } from "@/lib/web3/abi";
+import { withWeb3ConnectBtn } from "@/lib/web3/withWeb3ConnectBtn";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
@@ -19,7 +20,7 @@ interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
   onSuccess: () => void;
 }
 
-export const ApproveTxBtn = ({
+const ApproveTxBtnCore = ({
   isLoading,
   isError,
   currentAllowanceUsd,
@@ -79,3 +80,5 @@ export const ApproveTxBtn = ({
     </Button>
   );
 };
+
+export const ApproveTxBtn = withWeb3ConnectBtn(ApproveTxBtnCore);

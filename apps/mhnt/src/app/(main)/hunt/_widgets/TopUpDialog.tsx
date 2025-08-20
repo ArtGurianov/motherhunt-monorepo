@@ -2,6 +2,7 @@
 
 import { ApproveTxBtn } from "@/components/ActionButtons/ApproveTxBtn";
 import { TopUpKarmaBtn } from "@/components/ActionButtons/TopUpKarmaBtn";
+import ConnectButton from "@/components/ConnectBtn/ConnectBtn";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { feesTokenDetailsSchema } from "@/lib/schemas/feesTokenDetailsSchema";
 import {
@@ -127,7 +128,12 @@ export const TopUpDialog = ({
           </Link>
         </Button>
       </Quote>
-      <span className="flex text-2xl justify-center items-center mt-4">{`Wallet balance: ${displayBalance}`}</span>
+      <span className="flex gap-4 text-2xl justify-center items-center mt-4">
+        {typeof balanceUsd === "bigint"
+          ? `Wallet balance: ${displayBalance}`
+          : "Wallet not connected"}
+        <ConnectButton />
+      </span>
       <div className="flex flex-col gap-4 px-6 py-4 justify-center items-center">
         <span className="text-lg text-center">
           {`1 KRM price: ${karmaPriceUsd} USD`}

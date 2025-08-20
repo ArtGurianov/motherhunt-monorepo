@@ -3,8 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { Button } from "@shared/ui/components/button";
 import { Form, FormField } from "@shared/ui/components/form";
 import {
   Card,
@@ -26,6 +24,7 @@ import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";
 import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
+import { AdminSignInBtn } from "../ActionButtons/AdminSignInBtn";
 
 export const AdminSignInForm = () => {
   const router = useRouter();
@@ -120,10 +119,7 @@ export const AdminSignInForm = () => {
               <div className="absolute z-10 left-0 top-0">
                 <LangSwitcher />
               </div>
-              <Button
-                type="submit"
-                variant="secondary"
-                size="lg"
+              <AdminSignInBtn
                 disabled={
                   isPending ||
                   (isSignaturePending && !isIdle) ||
@@ -136,7 +132,7 @@ export const AdminSignInForm = () => {
                 ) : (
                   "Sign in"
                 )}
-              </Button>
+              </AdminSignInBtn>
             </div>
           </form>
         </Form>
