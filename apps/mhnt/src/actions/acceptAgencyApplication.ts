@@ -36,7 +36,7 @@ export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
     if (!eventLogs.length) throw new AppClientError("Logs not present");
 
     const orgData = await prismaClient.organization.findUnique({
-      where: { id: hexToString(eventLogs[0]!.args._agencyId) },
+      where: { id: hexToString(eventLogs[0]!.args._agencyId, { size: 32 }) },
     });
 
     if (!orgData?.metadata)
