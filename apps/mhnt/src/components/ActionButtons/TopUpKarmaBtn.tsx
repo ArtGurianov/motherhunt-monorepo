@@ -19,7 +19,7 @@ interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   onSuccess: () => void;
 }
 
-const TopUpKarmaBtn = ({
+export const TopUpKarmaBtn = ({
   isLoading,
   isError,
   currentAllowanceUsd,
