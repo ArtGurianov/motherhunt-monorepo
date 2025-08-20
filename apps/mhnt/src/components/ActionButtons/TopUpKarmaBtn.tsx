@@ -4,10 +4,10 @@ import { authClient } from "@/lib/auth/authClient";
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { karmaContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
-import { withWeb3ConnectBtn } from "@/lib/web3/withWeb3ConnectBtn";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
+import { WithWeb3ConnectBtn } from "./WithWeb3ConnectBtn";
 
 interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   isLoading: boolean;
@@ -19,7 +19,7 @@ interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   onSuccess: () => void;
 }
 
-const TopUpKarmaBtnCore = ({
+const TopUpKarmaBtn = ({
   isLoading,
   isError,
   currentAllowanceUsd,
@@ -52,7 +52,7 @@ const TopUpKarmaBtnCore = ({
   };
 
   return (
-    <Button
+    <WithWeb3ConnectBtn
       className="[&_svg]:size-6"
       disabled={
         isSessionPending ||
@@ -74,8 +74,6 @@ const TopUpKarmaBtnCore = ({
       ) : (
         <LoaderCircle className="animate-spin" />
       )}
-    </Button>
+    </WithWeb3ConnectBtn>
   );
 };
-
-export const TopUpKarmaBtn = withWeb3ConnectBtn(TopUpKarmaBtnCore);

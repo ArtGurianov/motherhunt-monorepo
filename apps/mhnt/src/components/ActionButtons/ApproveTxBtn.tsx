@@ -2,11 +2,11 @@
 
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { usdContractAbi } from "@/lib/web3/abi";
-import { withWeb3ConnectBtn } from "@/lib/web3/withWeb3ConnectBtn";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
 import { parseUnits } from "viem";
+import { WithWeb3ConnectBtn } from "./WithWeb3ConnectBtn";
 
 interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
   isLoading: boolean;
@@ -20,7 +20,7 @@ interface ApproveTxBtnProps extends GetComponentProps<typeof Button> {
   onSuccess: () => void;
 }
 
-const ApproveTxBtnCore = ({
+export const ApproveTxBtn = ({
   isLoading,
   isError,
   currentAllowanceUsd,
@@ -55,7 +55,7 @@ const ApproveTxBtnCore = ({
   };
 
   return (
-    <Button
+    <WithWeb3ConnectBtn
       className="[&_svg]:size-6"
       disabled={
         isLoading ||
@@ -77,8 +77,6 @@ const ApproveTxBtnCore = ({
       ) : (
         <LoaderCircle className="animate-spin" />
       )}
-    </Button>
+    </WithWeb3ConnectBtn>
   );
 };
-
-export const ApproveTxBtn = withWeb3ConnectBtn(ApproveTxBtnCore);

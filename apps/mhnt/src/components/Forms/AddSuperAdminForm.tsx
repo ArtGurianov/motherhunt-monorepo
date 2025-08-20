@@ -19,7 +19,7 @@ import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
 import { addressSchema } from "@/lib/schemas/addressSchema";
-import { AddSuperAdminBtn } from "@/components/ActionButtons/AddSuperAdminBtn";
+import { WithWeb3ConnectBtn } from "../ActionButtons/WithWeb3ConnectBtn";
 
 interface AddSuperAdminFormProps {
   onRefetchSuperAdmins: () => void;
@@ -77,7 +77,11 @@ export const AddSuperAdminForm = ({
                     setIsSubmitted(false);
                   }}
                   sideContent={
-                    <AddSuperAdminBtn
+                    <WithWeb3ConnectBtn
+                      className="h-full"
+                      type="submit"
+                      variant="flat"
+                      size="sm"
                       disabled={
                         !!Object.keys(form.formState.errors).length ||
                         isProcessing
@@ -88,7 +92,7 @@ export const AddSuperAdminForm = ({
                       ) : (
                         "Add"
                       )}
-                    </AddSuperAdminBtn>
+                    </WithWeb3ConnectBtn>
                   }
                 />
               </FormControl>

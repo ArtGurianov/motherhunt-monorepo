@@ -24,7 +24,7 @@ import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";
 import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
-import { AdminSignInBtn } from "../ActionButtons/AdminSignInBtn";
+import { WithWeb3ConnectBtn } from "../ActionButtons/WithWeb3ConnectBtn";
 
 export const AdminSignInForm = () => {
   const router = useRouter();
@@ -119,7 +119,10 @@ export const AdminSignInForm = () => {
               <div className="absolute z-10 left-0 top-0">
                 <LangSwitcher />
               </div>
-              <AdminSignInBtn
+              <WithWeb3ConnectBtn
+                type="submit"
+                variant="secondary"
+                size="lg"
                 disabled={
                   isPending ||
                   (isSignaturePending && !isIdle) ||
@@ -132,7 +135,7 @@ export const AdminSignInForm = () => {
                 ) : (
                   "Sign in"
                 )}
-              </AdminSignInBtn>
+              </WithWeb3ConnectBtn>
             </div>
           </form>
         </Form>
