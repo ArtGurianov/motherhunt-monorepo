@@ -1,4 +1,4 @@
-import { cookieStorage, createStorage } from "wagmi";
+import { cookieStorage, createStorage } from "@wagmi/core";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
 import { getAppChain } from "./getAppChain";
 import { getEnvConfigClient } from "../config/env";

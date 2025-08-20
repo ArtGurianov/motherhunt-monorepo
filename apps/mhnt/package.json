@@ -15,8 +15,8 @@
     "@hcaptcha/react-hcaptcha": "^1.12.0",
     "@hookform/resolvers": "^5.1.1",
     "@prisma/nextjs-monorepo-workaround-plugin": "^6.10.1",
-    "@reown/appkit": "1.7.15",
-    "@reown/appkit-adapter-wagmi": "1.7.15",
+    "@reown/appkit": "^1.7.15",
+    "@reown/appkit-adapter-wagmi": "^1.7.15",
     "@shared/db": "workspace:*",
     "@shared/eslint-config": "workspace:*",
     "@shared/typescript-config": "workspace:*",
@@ -34,8 +34,8 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.57.0",
     "tsx": "^4.20.3",
-    "viem": "2.31.7",
-    "wagmi": "2.15.6",
+    "viem": "^2.31.7",
+    "wagmi": "^2.15.6",
     "zod": "^3.25.64"
   },
   "devDependencies": {
