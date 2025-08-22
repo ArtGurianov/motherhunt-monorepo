@@ -11,17 +11,19 @@ export const ORG_ENTITIES = {
   OWNER: "OWNER",
   MEMBER: "MEMBER",
   ORGANIZATION: "ORGANIZATION",
+  LOT: "LOT",
   BID: "BID",
   SELECTION: "SELECTION",
 } as const;
 export type OrgEntity = ValueOf<typeof ORG_ENTITIES>;
 
 export const ORG_ACTIONS = {
-  [ORG_ENTITIES.OWNER]: ["view", "update", "transferRole"],
-  [ORG_ENTITIES.MEMBER]: ["view", "update", "delete"],
-  [ORG_ENTITIES.ORGANIZATION]: ["view", "update"],
-  [ORG_ENTITIES.BID]: ["view", "create", "update"],
-  [ORG_ENTITIES.SELECTION]: ["view", "create", "update"],
+  [ORG_ENTITIES.OWNER]: ["update", "transferRole"],
+  [ORG_ENTITIES.MEMBER]: ["update", "delete"],
+  [ORG_ENTITIES.ORGANIZATION]: ["update"],
+  [ORG_ENTITIES.LOT]: ["create", "update", "cancel"],
+  [ORG_ENTITIES.BID]: ["create", "update"],
+  [ORG_ENTITIES.SELECTION]: ["create", "update"],
   invitation: ["view", "create", "cancel"],
 } as const;
 export type OrgAction<TKey extends OrgEntity> =
@@ -31,17 +33,16 @@ export const orgAccessControl = createAccessControl(ORG_ACTIONS);
 
 export const ORG_ROLES_CONFIG = {
   [ORG_ROLES.OWNER_ROLE]: orgAccessControl.newRole({
-    [ORG_ENTITIES.OWNER]: ["view", "update", "transferRole"],
-    [ORG_ENTITIES.MEMBER]: ["view", "update", "delete"],
-    [ORG_ENTITIES.ORGANIZATION]: ["view", "update"],
-    [ORG_ENTITIES.BID]: ["view", "create", "update"],
-    [ORG_ENTITIES.SELECTION]: ["view", "create", "update"],
+    [ORG_ENTITIES.OWNER]: ["update", "transferRole"],
+    [ORG_ENTITIES.MEMBER]: ["update", "delete"],
+    [ORG_ENTITIES.ORGANIZATION]: ["update"],
+    [ORG_ENTITIES.LOT]: ["create", "update", "cancel"],
+    [ORG_ENTITIES.BID]: ["create", "update"],
+    [ORG_ENTITIES.SELECTION]: ["create", "update"],
     invitation: ["view", "create", "cancel"],
   }),
   [ORG_ROLES.MEMBER_ROLE]: orgAccessControl.newRole({
-    [ORG_ENTITIES.MEMBER]: ["view", "delete"],
-    [ORG_ENTITIES.ORGANIZATION]: ["view"],
-    [ORG_ENTITIES.BID]: ["view"],
-    [ORG_ENTITIES.SELECTION]: ["view", "create", "update"],
+    [ORG_ENTITIES.MEMBER]: ["delete"],
+    [ORG_ENTITIES.SELECTION]: ["create", "update"],
   }),
 };

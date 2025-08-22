@@ -1,6 +1,8 @@
 "use server";
 
-import auth from "@/lib/auth/auth";
+import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
+import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
+import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
@@ -10,22 +12,28 @@ import { viemClient } from "@/lib/web3/viemClient";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 import z from "zod";
+
+const ALLOWED_CUSTOM_ROLES: CustomMemberRole[] = [
+  CUSTOM_MEMBER_ROLES.SCOUTER_ROLE,
+] as const;
 
 const MAX_DRAFTS_NUMBER = 3;
 
 export const createDraft = async () => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
-    if (!session)
-      throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
+    const result = await canAccessCustomRole(
+      ORG_ENTITIES.LOT,
+      "create",
+      ALLOWED_CUSTOM_ROLES
+    );
+    if (!result.canAccess)
+      throw new APIError("FORBIDDEN", { message: "Access Denied" });
+
+    const { userId } = result;
 
     const offChainNumber = await prismaClient.lot.count({
-      where: { scouterId: session.session.userId, isOnChain: false },
+      where: { scouterId: userId, isOnChain: false },
     });
 
     const onChainNumberResult = await viemClient.readContract({
@@ -33,7 +41,7 @@ export const createDraft = async () => {
       address: getEnvConfigServer()
         .NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
       functionName: "getScouterLotsNumber",
-      args: [stringToBytes32(session.session.userId)],
+      args: [stringToBytes32(userId)],
     });
 
     const verificationResult = z.bigint().safeParse(onChainNumberResult);
@@ -49,7 +57,7 @@ export const createDraft = async () => {
 
     // TODO: GENERATE AND SAVE NAME ALIAS
     const newDraft = await prismaClient.lot.create({
-      data: { scouterId: session.session.userId },
+      data: { scouterId: userId },
     });
 
     revalidatePath("/hunt/drafts");

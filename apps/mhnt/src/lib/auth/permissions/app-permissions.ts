@@ -15,7 +15,6 @@ export const APP_ENTITIES = {
   SCOUTER: "SCOUTER",
   MODEL: "MODEL",
   ORGANIZATION: "ORGANIZATION",
-  LOT: "LOT",
 } as const;
 export type AppEntity = ValueOf<typeof APP_ENTITIES>;
 
@@ -25,7 +24,6 @@ export const APP_ACTIONS = {
   [APP_ENTITIES.SCOUTER]: ["update", "ban"],
   [APP_ENTITIES.MODEL]: ["update", "ban"],
   [APP_ENTITIES.ORGANIZATION]: ["create", "process"],
-  [APP_ENTITIES.LOT]: ["create", "update", "ban"],
 } as const;
 export type AppAction<TKey extends AppEntity> =
   (typeof APP_ACTIONS)[TKey][number];
@@ -41,13 +39,11 @@ export const APP_ROLES_CONFIG = {
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.MODEL]: ["update", "ban"],
     [APP_ENTITIES.ORGANIZATION]: ["process"],
-    [APP_ENTITIES.LOT]: ["update", "ban"],
   }),
   [APP_ROLES.PROJECT_ADMIN_ROLE]: appAccessControl.newRole({
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.MODEL]: ["update", "ban"],
     [APP_ENTITIES.ORGANIZATION]: ["process"],
-    [APP_ENTITIES.LOT]: ["update", "ban"],
   }),
   [APP_ROLES.USER_ROLE]: appAccessControl.newRole({
     [APP_ENTITIES.ORGANIZATION]: ["create"],

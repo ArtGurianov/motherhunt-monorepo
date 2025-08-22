@@ -1,19 +1,23 @@
 "use server";
 
-import auth from "@/lib/auth/auth";
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 import { viemClient } from "@/lib/web3/viemClient";
 import { auctionContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { lotChainSchema } from "@/lib/schemas/lotChainSchema";
 import { ZERO_BYTES } from "@/lib/web3/constants";
+import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
+import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
+import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
 
+const ALLOWED_CUSTOM_ROLES: CustomMemberRole[] = [
+  CUSTOM_MEMBER_ROLES.SCOUTER_ROLE,
+] as const;
 interface CancelLotConfirmationProps {
   lotId: string;
 }
@@ -22,16 +26,19 @@ export const calcelLotConfirmation = async ({
   lotId,
 }: CancelLotConfirmationProps) => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
-    if (!session)
-      throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
+    const result = await canAccessCustomRole(
+      ORG_ENTITIES.LOT,
+      "cancel",
+      ALLOWED_CUSTOM_ROLES
+    );
+    if (!result.canAccess)
+      throw new APIError("FORBIDDEN", { message: "Access Denied" });
+
+    const { userId } = result;
 
     const lotData = await prismaClient.lot.findUnique({ where: { id: lotId } });
 
-    if (lotData?.scouterId !== session.session.userId)
+    if (lotData?.scouterId !== userId)
       throw new APIError("FORBIDDEN", {
         message: "Not a lot creator",
       });
@@ -44,7 +51,7 @@ export const calcelLotConfirmation = async ({
       address: getEnvConfigServer()
         .NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
       functionName: "getLotData",
-      args: [stringToBytes32(session.session.userId)],
+      args: [stringToBytes32(userId)],
     });
 
     const validationResult = lotChainSchema.safeParse(chainLotData);

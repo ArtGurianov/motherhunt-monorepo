@@ -11,6 +11,7 @@ export type CanAccessAppRoleReturnType =
   | {
       canAccess: true;
       userId: string;
+      userEmail: string;
     }
   | { canAccess: false };
 
@@ -18,6 +19,7 @@ export type CanAccessCustomRoleReturnType =
   | {
       canAccess: true;
       userId: string;
+      userEmail: string;
       organizationId: string;
       memberId: string;
     }
@@ -37,12 +39,13 @@ export const canAccessCustomRole = async <TEntity extends OrgEntity>(
     if (!session) return { canAccess: false };
 
     const {
-      userId,
       activeOrganizationId,
       activeMemberId,
       activeOrganizationType,
       activeOrganizationRole,
     } = session.session;
+
+    const { id: userId, email: userEmail } = session.user;
 
     if (
       !activeOrganizationId ||
@@ -71,7 +74,8 @@ export const canAccessCustomRole = async <TEntity extends OrgEntity>(
     return result.success
       ? {
           canAccess: true,
-          userId: userId,
+          userId,
+          userEmail,
           organizationId: activeOrganizationId,
           memberId: activeMemberId,
         }
@@ -105,6 +109,7 @@ export const canAccessAppRole = async <TEntity extends AppEntity>(
       ? {
           canAccess: true,
           userId: session.user.id,
+          userEmail: session.user.email,
         }
       : {
           canAccess: false,
