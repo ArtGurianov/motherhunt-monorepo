@@ -19,33 +19,24 @@ export const APP_ENTITIES = {
 } as const;
 export type AppEntity = ValueOf<typeof APP_ENTITIES>;
 
-const appActions = {
-  [APP_ENTITIES.SUPERADMIN]: ["update"],
+export const APP_ACTIONS = {
+  [APP_ENTITIES.SUPERADMIN]: ["create", "update", "revoke"],
   [APP_ENTITIES.ADMIN]: ["update"],
   [APP_ENTITIES.SCOUTER]: ["update", "ban"],
   [APP_ENTITIES.MODEL]: ["update", "ban"],
-  [APP_ENTITIES.ORGANIZATION]: ["process"],
+  [APP_ENTITIES.ORGANIZATION]: ["create", "process"],
   [APP_ENTITIES.LOT]: ["create", "update", "ban"],
-  [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
-  [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
-  [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-  [APP_ROLES.USER_ROLE]: ["view", "update"],
 } as const;
+export type AppAction<TKey extends AppEntity> =
+  (typeof APP_ACTIONS)[TKey][number];
 
-export const appAccessControl = createAccessControl(appActions);
+export const appAccessControl = createAccessControl(APP_ACTIONS);
 
 export const APP_ROLES_CONFIG = {
   [APP_ROLES.MYDAOGS_ADMIN_ROLE]: appAccessControl.newRole({
-    [APP_ROLES.MYDAOGS_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
-    [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.USER_ROLE]: ["view"],
-    [APP_ENTITIES.SUPERADMIN]: ["update"],
+    [APP_ENTITIES.SUPERADMIN]: ["create", "update", "revoke"],
   }),
   [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: appAccessControl.newRole({
-    [APP_ROLES.PROJECT_SUPERADMIN_ROLE]: ["view"],
-    [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.USER_ROLE]: ["view"],
     [APP_ENTITIES.ADMIN]: ["update"],
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.MODEL]: ["update", "ban"],
@@ -53,14 +44,12 @@ export const APP_ROLES_CONFIG = {
     [APP_ENTITIES.LOT]: ["update", "ban"],
   }),
   [APP_ROLES.PROJECT_ADMIN_ROLE]: appAccessControl.newRole({
-    [APP_ROLES.PROJECT_ADMIN_ROLE]: ["view"],
-    [APP_ROLES.USER_ROLE]: ["view"],
     [APP_ENTITIES.SCOUTER]: ["update", "ban"],
     [APP_ENTITIES.MODEL]: ["update", "ban"],
     [APP_ENTITIES.ORGANIZATION]: ["process"],
     [APP_ENTITIES.LOT]: ["update", "ban"],
   }),
   [APP_ROLES.USER_ROLE]: appAccessControl.newRole({
-    [APP_ROLES.USER_ROLE]: ["view", "update"],
+    [APP_ENTITIES.ORGANIZATION]: ["create"],
   }),
 };

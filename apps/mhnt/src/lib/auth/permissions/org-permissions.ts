@@ -16,7 +16,7 @@ export const ORG_ENTITIES = {
 } as const;
 export type OrgEntity = ValueOf<typeof ORG_ENTITIES>;
 
-const orgActions = {
+export const ORG_ACTIONS = {
   [ORG_ENTITIES.OWNER]: ["view", "update", "transferRole"],
   [ORG_ENTITIES.MEMBER]: ["view", "update", "delete"],
   [ORG_ENTITIES.ORGANIZATION]: ["view", "update"],
@@ -24,8 +24,10 @@ const orgActions = {
   [ORG_ENTITIES.SELECTION]: ["view", "create", "update"],
   invitation: ["view", "create", "cancel"],
 } as const;
+export type OrgAction<TKey extends OrgEntity> =
+  (typeof ORG_ACTIONS)[TKey][number];
 
-export const orgAccessControl = createAccessControl(orgActions);
+export const orgAccessControl = createAccessControl(ORG_ACTIONS);
 
 export const ORG_ROLES_CONFIG = {
   [ORG_ROLES.OWNER_ROLE]: orgAccessControl.newRole({

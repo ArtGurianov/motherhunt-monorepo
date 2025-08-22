@@ -24,12 +24,11 @@ import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { toast } from "@shared/ui/components/sonner";
 import { ZERO_ADDRESS } from "@/lib/web3/constants";
 import { addressSchema } from "@/lib/schemas/addressSchema";
+import { authClient } from "@/lib/auth/authClient";
 
-export const AgencyWalletAddressForm = ({
-  organizationId,
-}: {
-  organizationId: string;
-}) => {
+export const AgencyWalletAddressForm = () => {
+  const { data: session } = authClient.useSession();
+
   const { address: connectedWalletAddress } = useAccount();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -50,7 +49,10 @@ export const AgencyWalletAddressForm = ({
     address: getEnvConfigClient()
       .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
     functionName: "isWhitelistedAgency",
-    args: [stringToBytes32(organizationId)],
+    args: session?.session.activeOrganizationId
+      ? [stringToBytes32(session.session.activeOrganizationId)]
+      : undefined,
+    query: { enabled: !!session?.session.activeOrganizationId },
   });
 
   const {
@@ -62,7 +64,10 @@ export const AgencyWalletAddressForm = ({
     address: getEnvConfigClient()
       .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
     functionName: "getAgencyAddress",
-    args: [stringToBytes32(organizationId)],
+    args: session?.session.activeOrganizationId
+      ? [stringToBytes32(session.session.activeOrganizationId)]
+      : undefined,
+    query: { enabled: !!session?.session.activeOrganizationId },
   });
 
   useEffect(() => {
@@ -104,14 +109,19 @@ export const AgencyWalletAddressForm = ({
   }, [isWhitelisted]);
 
   const onSubmit = async ({ address }: z.infer<typeof addressSchema>) => {
-    form.clearErrors();
-    writeContract({
-      abi: systemContractAbi,
-      address: getEnvConfigClient()
-        .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
-      functionName: "setAgencyAddress",
-      args: [stringToBytes32(organizationId), address as `0x${string}`],
-    });
+    if (session?.session.activeOrganizationId) {
+      form.clearErrors();
+      writeContract({
+        abi: systemContractAbi,
+        address: getEnvConfigClient()
+          .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
+        functionName: "setAgencyAddress",
+        args: [
+          stringToBytes32(session.session.activeOrganizationId),
+          address as `0x${string}`,
+        ],
+      });
+    }
   };
 
   return (
@@ -150,6 +160,7 @@ export const AgencyWalletAddressForm = ({
                       variant="flat"
                       size="sm"
                       disabled={
+                        !session ||
                         !form.formState.isValid ||
                         !!Object.keys(form.formState.errors).length ||
                         isPendingWhitelisted ||

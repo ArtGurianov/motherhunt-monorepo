@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { authClient } from "../auth/authClient";
-import { getDisplayUserRole } from "../auth/displayRoles";
-import { OrgType } from "../utils/types";
+import { getCustomMemberRole } from "../auth/customRoles";
 import { OrgRole } from "../auth/permissions/org-permissions";
+import { OrgType } from "../utils/types";
 
 export interface ActiveMemberSessionData {
   organizationId: string;
@@ -13,41 +12,38 @@ export interface ActiveMemberSessionData {
 
 export const useActiveMember = () => {
   const { isPending, data: session, error, refetch } = authClient.useSession();
-  const [data, setData] = useState<ActiveMemberSessionData | null>(null);
 
-  useEffect(() => {
-    const sessionData = session?.session;
-    if (!sessionData) {
-      setData(null);
-      return;
-    }
+  let data: ActiveMemberSessionData | null = null;
+  if (!session) {
+    data = null;
+  } else {
     const {
       activeOrganizationId,
       activeOrganizationName,
       activeOrganizationType,
       activeOrganizationRole,
-    } = sessionData;
-    setData(
+    } = session.session;
+    data = Boolean(
       activeOrganizationId &&
         activeOrganizationName &&
         activeOrganizationType &&
         activeOrganizationRole
-        ? {
-            organizationId: activeOrganizationId,
-            organizationName: activeOrganizationName,
-            organizationType: activeOrganizationType as OrgType,
-            role: getDisplayUserRole(
-              activeOrganizationType as OrgType,
-              activeOrganizationRole as OrgRole
-            ),
-          }
-        : null
-    );
-  }, [session]);
+    )
+      ? {
+          organizationId: activeOrganizationId!,
+          organizationName: activeOrganizationName!,
+          organizationType: activeOrganizationType! as OrgType,
+          role: getCustomMemberRole(
+            activeOrganizationType! as OrgType,
+            activeOrganizationRole! as OrgRole
+          ),
+        }
+      : null;
+  }
 
   return {
     data,
-    isPending: isPending,
+    isPending,
     errorMessage: error?.message,
     refetch,
   };

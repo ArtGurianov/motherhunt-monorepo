@@ -7,6 +7,7 @@ import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { useActiveMember } from "@/lib/hooks/useActiveMember";
+import { useBookersList } from "@/lib/hooks/useBookersList";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import {
@@ -20,21 +21,22 @@ import {
 } from "@shared/ui/components/table";
 import { Ban, Crown, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { ReactNode, useState, useTransition } from "react";
 
-interface ManageBookersProps {
-  bookersData: Array<{ role: string; email: string; memberId: string }>;
-}
-
-export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
+export const ManageBookers = () => {
   const router = useRouter();
-  const { refetch } = useActiveMember();
   const [isPending, startTransition] = useTransition();
-
   const [targetActionData, setTargetActionData] = useState<{
     targetId: string;
     action: "revoke" | "transfer";
   } | null>(null);
+
+  const { refetch } = useActiveMember();
+  const {
+    data: bookersList,
+    isPending: isBookersListPending,
+    errorMessage: bookersListErrorMessage,
+  } = useBookersList();
 
   const onActionConfirm = () => {
     if (!targetActionData) return;
@@ -45,7 +47,6 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
           toast(result.errorMessage);
         } else {
           toast("SUCCESS");
-          refetch();
           router.refresh();
         }
       }
@@ -62,76 +63,93 @@ export const ManageBookers = ({ bookersData }: ManageBookersProps) => {
     });
   };
 
+  let displayData: ReactNode = (
+    <span className="w-full text-center">{"No bookers found"}</span>
+  );
+  if (bookersList) {
+    if (!bookersList.length) {
+      displayData = (
+        <span className="w-full text-center">{"No bookers found"}</span>
+      );
+    } else {
+      displayData = (
+        <Table>
+          <TableCaption className="text-foreground">
+            {"Bookers of your agency"}
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-center">{"email"}</TableHead>
+              <TableHead className="text-center">{"role"}</TableHead>
+              <TableHead className="text-center">{"revoke"}</TableHead>
+              <TableHead className="text-center">{"upgrade"}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {bookersList.map(({ memberId, email, role }) => (
+              <TableRow key={memberId}>
+                <TableCell className="text-center">{email}</TableCell>
+                <TableCell className="text-center">{role}</TableCell>
+                <TableCell>
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Button
+                      disabled={role === ORG_ROLES.OWNER_ROLE || isPending}
+                      size="reset"
+                      className="p-px [&_svg]:size-6"
+                      onClick={() => {
+                        setTargetActionData({
+                          action: "revoke",
+                          targetId: memberId,
+                        });
+                      }}
+                    >
+                      {isPending ? (
+                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                      ) : (
+                        <Ban />
+                      )}
+                    </Button>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Button
+                      disabled={role === ORG_ROLES.OWNER_ROLE || isPending}
+                      size="reset"
+                      className="p-px [&_svg]:size-6"
+                      onClick={() => {
+                        setTargetActionData({
+                          action: "transfer",
+                          targetId: memberId,
+                        });
+                      }}
+                    >
+                      {isPending ? (
+                        <LoaderCircle className="py-1 animate-spin h-8 w-8" />
+                      ) : (
+                        <Crown />
+                      )}
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      );
+    }
+  }
+  if (bookersListErrorMessage)
+    displayData = (
+      <span className="w-full text-center">{bookersListErrorMessage}</span>
+    );
+  if (isBookersListPending)
+    displayData = <span className="w-full text-center">{"loading..."}</span>;
+
   return (
     <>
       <InfoCard title={"bookers"}>
-        {bookersData.length ? (
-          <Table>
-            <TableCaption className="text-foreground">
-              {"Bookers of your agency"}
-            </TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-center">{"email"}</TableHead>
-                <TableHead className="text-center">{"role"}</TableHead>
-                <TableHead className="text-center">{"revoke"}</TableHead>
-                <TableHead className="text-center">{"upgrade"}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {bookersData.map(({ memberId, email, role }) => (
-                <TableRow key={memberId}>
-                  <TableCell className="text-center">{email}</TableCell>
-                  <TableCell className="text-center">{role}</TableCell>
-                  <TableCell>
-                    <div className="w-full h-full flex justify-center items-center">
-                      <Button
-                        disabled={role === ORG_ROLES.OWNER_ROLE || isPending}
-                        size="reset"
-                        className="p-px [&_svg]:size-6"
-                        onClick={() => {
-                          setTargetActionData({
-                            action: "revoke",
-                            targetId: memberId,
-                          });
-                        }}
-                      >
-                        {isPending ? (
-                          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                        ) : (
-                          <Ban />
-                        )}
-                      </Button>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="w-full h-full flex justify-center items-center">
-                      <Button
-                        disabled={role === ORG_ROLES.OWNER_ROLE || isPending}
-                        size="reset"
-                        className="p-px [&_svg]:size-6"
-                        onClick={() => {
-                          setTargetActionData({
-                            action: "transfer",
-                            targetId: memberId,
-                          });
-                        }}
-                      >
-                        {isPending ? (
-                          <LoaderCircle className="py-1 animate-spin h-8 w-8" />
-                        ) : (
-                          <Crown />
-                        )}
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        ) : (
-          <span className="w-full text-center">{"No bookers found"}</span>
-        )}
+        {displayData}
         <BookerInvitationForm />
       </InfoCard>
       <DangerousActionDialog

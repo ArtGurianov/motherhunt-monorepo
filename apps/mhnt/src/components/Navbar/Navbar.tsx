@@ -19,7 +19,7 @@ import { NavbarMenu } from "./NavbarMenu";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { useTranslations } from "next-intl";
 import { useActiveMember } from "@/lib/hooks/useActiveMember";
-import { DisplayUserRole } from "@/lib/auth/displayRoles";
+import { CustomMemberRole } from "@/lib/auth/customRoles";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -80,7 +80,7 @@ export const Navbar = () => {
       </div>
       <NavbarMenu
         isOpened={isMenuOpened}
-        role={activeRole! as AppRole | DisplayUserRole}
+        role={activeRole! as AppRole | CustomMemberRole}
       />
     </div>
   ) : (

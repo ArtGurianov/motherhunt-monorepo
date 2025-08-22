@@ -1,7 +1,6 @@
 "use server";
 
 import { APIError } from "better-auth/api";
-import { canProcessAgencyApplication } from "@/lib/auth/permissions/checkers";
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
@@ -14,12 +13,17 @@ import { getTransactionReceipt } from "viem/actions";
 import { getTranslations } from "next-intl/server";
 import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 import { sendEmail } from "./sendEmail";
+import { canAccessAppRole } from "@/lib/auth/permissions/checkers";
+import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
 
 const locale = getAppLocale();
 
 export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
   try {
-    const canAccess = await canProcessAgencyApplication();
+    const canAccess = await canAccessAppRole(
+      APP_ENTITIES.ORGANIZATION,
+      "process"
+    );
     if (!canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
 

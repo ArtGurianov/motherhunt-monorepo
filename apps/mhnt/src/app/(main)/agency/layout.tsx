@@ -1,13 +1,13 @@
 import { RoleGuardClient } from "@/components/Guards/RoleGuardClient";
-import { APP_ROLES, AppRole } from "@/lib/auth/permissions/app-permissions";
+import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
 import { ReactNode } from "react";
 
-const ALLOWED_ROLES: AppRole[] = [
-  APP_ROLES.PROJECT_SUPERADMIN_ROLE,
-  APP_ROLES.PROJECT_ADMIN_ROLE,
+const ALLOWED_ROLES: CustomMemberRole[] = [
+  CUSTOM_MEMBER_ROLES.HEADBOOKER_ROLE,
+  CUSTOM_MEMBER_ROLES.BOOKER_ROLE,
 ];
 
-export default async function AdminLayout({
+export default async function AgencyLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (

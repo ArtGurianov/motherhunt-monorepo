@@ -6,11 +6,12 @@ import { sendEmail } from "./sendEmail";
 import { APIError } from "better-auth/api";
 import { getTranslations } from "next-intl/server";
 import { viemClient } from "@/lib/web3/viemClient";
-import { canProcessAgencyApplication } from "@/lib/auth/permissions/checkers";
 import { revalidatePath } from "next/cache";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
+import { canAccessAppRole } from "@/lib/auth/permissions/checkers";
+import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
 
 const locale = getAppLocale();
 
@@ -26,7 +27,10 @@ export const rejectAgencyApplication = async ({
   rejectionReason: string;
 }) => {
   try {
-    const canAccess = await canProcessAgencyApplication();
+    const canAccess = await canAccessAppRole(
+      APP_ENTITIES.ORGANIZATION,
+      "process"
+    );
     if (!canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
 

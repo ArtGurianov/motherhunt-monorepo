@@ -10,14 +10,14 @@ import { NavbarMenuItem } from "./NavbarMenuItem";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { DisplayUserRole } from "@/lib/auth/displayRoles";
+import { CustomMemberRole } from "@/lib/auth/customRoles";
 
-interface NavbarMenuProps<R extends AppRole | DisplayUserRole> {
+interface NavbarMenuProps<R extends AppRole | CustomMemberRole> {
   isOpened: boolean;
   role: R;
 }
 
-export const NavbarMenu = <R extends AppRole | DisplayUserRole>({
+export const NavbarMenu = <R extends AppRole | CustomMemberRole>({
   isOpened,
   role,
 }: NavbarMenuProps<R>) => {
