@@ -1,10 +1,10 @@
+import { CreateLotBtn } from "@/components/ActionButtons/CreateLotBtn";
 import { LotCard } from "@/components/LotCard/LotCard";
 import auth from "@/lib/auth/auth";
 import { prismaClient } from "@/lib/db";
 import { PageSection } from "@shared/ui/components/PageSection";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { CreateLotBtn } from "./_widgets/CreateLotBtn";
 
 export default async function DraftsPage() {
   const headersList = await headers();
