@@ -1,7 +1,7 @@
 "use client";
 
 import { rejectAgencyApplication } from "@/actions/rejectAgencyApplication";
-import { CommentForm } from "@/components/Forms/CommentForm";
+import { CommentForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { Organization } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useAccount, useSignMessage } from "wagmi";
-import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
+import { useAppWriteContract } from "@/lib/hooks";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";

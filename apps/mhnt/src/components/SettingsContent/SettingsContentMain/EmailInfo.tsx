@@ -1,7 +1,7 @@
 "use client";
 
 import { changeUserToggleState } from "@/actions/changeUserToggleState";
-import { ChangeEmailForm } from "@/components/Forms/ChangeEmailForm";
+import { ChangeEmailForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ToggleStateField } from "@/components/ToggleStateField/ToggleStateField";
 import { authClient } from "@/lib/auth/authClient";

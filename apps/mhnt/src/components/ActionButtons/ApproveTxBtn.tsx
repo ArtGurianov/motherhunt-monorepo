@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
+import { useAppWriteContract } from "@/lib/hooks";
 import { usdContractAbi } from "@/lib/web3/abi";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";

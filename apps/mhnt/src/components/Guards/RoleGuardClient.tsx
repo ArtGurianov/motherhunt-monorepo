@@ -2,7 +2,7 @@
 
 import { authClient } from "@/lib/auth/authClient";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
-import { useActiveMember } from "@/lib/hooks/useActiveMember";
+import { useActiveMember } from "@/lib/hooks";
 import { AppRole } from "@shared/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { LoaderCircle } from "lucide-react";

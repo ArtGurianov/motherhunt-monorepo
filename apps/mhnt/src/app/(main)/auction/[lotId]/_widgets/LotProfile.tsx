@@ -1,6 +1,6 @@
 "use client";
 
-import { LotForm } from "@/components/Forms/LotForm";
+import { LotForm } from "@/components/Forms";
 import { InfoCardAccordion } from "@/components/InfoCard/InfoCardAccordion";
 import { Lot } from "@shared/db";
 

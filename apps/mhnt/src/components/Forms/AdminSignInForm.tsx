@@ -19,7 +19,7 @@ import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
-import { useAppParams } from "@/lib/hooks/useAppParams";
+import { useAppParams } from "@/lib/hooks";
 import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";

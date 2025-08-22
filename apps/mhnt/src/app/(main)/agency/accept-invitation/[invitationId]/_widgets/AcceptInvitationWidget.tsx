@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorBlock } from "@/components/Forms/ErrorBlock";
+import { ErrorBlock } from "@/components/Forms";
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import {

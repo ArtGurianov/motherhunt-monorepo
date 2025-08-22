@@ -1,7 +1,7 @@
 "use client";
 
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useToastParam } from "@/lib/hooks/useToastParam";
+import { useToastParam } from "@/lib/hooks";
 import { chain, wagmiAdapter, wagmiConfig } from "@/lib/web3/wagmiConfig";
 import { createAppKit } from "@reown/appkit/react";
 import { getAppURL } from "@shared/ui/lib/utils";

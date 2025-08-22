@@ -3,7 +3,7 @@
 import { calcelLotConfirmation } from "@/actions/cancelLotConfirmation";
 import { sendLotConfirmation } from "@/actions/sendLotConfirmation";
 import { DangerousActionDialog } from "@/components/DangerousActionDialog/DangerousActionDialog";
-import { ErrorBlock } from "@/components/Forms/ErrorBlock";
+import { ErrorBlock } from "@/components/Forms";
 import { InfoCardAccordion } from "@/components/InfoCard/InfoCardAccordion";
 import { validLotDraftSchema } from "@/lib/schemas/validLotDraftSchema";
 import { Lot } from "@shared/db";

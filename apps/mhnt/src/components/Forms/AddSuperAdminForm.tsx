@@ -17,7 +17,7 @@ import { SuccessBlock } from "./SuccessBlock";
 import { LoaderCircle } from "lucide-react";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
+import { useAppWriteContract } from "@/lib/hooks";
 import { addressSchema } from "@/lib/schemas/addressSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 

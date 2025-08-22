@@ -1,4 +1,4 @@
-import { AdminSignInForm } from "@/components/Forms/AdminSignInForm";
+import { AdminSignInForm } from "@/components/Forms";
 import auth from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

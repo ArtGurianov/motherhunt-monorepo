@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppParams } from "@/lib/hooks/useAppParams";
+import { useAppParams } from "@/lib/hooks";
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import { HTMLAttributes } from "react";

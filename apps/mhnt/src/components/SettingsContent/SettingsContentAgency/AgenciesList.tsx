@@ -22,7 +22,7 @@ import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useTranslations } from "next-intl";
-import { useActiveMember } from "@/lib/hooks/useActiveMember";
+import { useActiveMember } from "@/lib/hooks";
 
 export const AgenciesList = () => {
   const [isPending, startTransition] = useTransition();

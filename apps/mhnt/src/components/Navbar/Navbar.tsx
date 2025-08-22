@@ -18,7 +18,7 @@ import { Suspense, useState } from "react";
 import { NavbarMenu } from "./NavbarMenu";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { useTranslations } from "next-intl";
-import { useActiveMember } from "@/lib/hooks/useActiveMember";
+import { useActiveMember } from "@/lib/hooks";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
 
 export const Navbar = () => {

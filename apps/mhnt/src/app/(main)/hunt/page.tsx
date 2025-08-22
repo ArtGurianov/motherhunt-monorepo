@@ -1,4 +1,4 @@
-import { ScouterWalletAddressForm } from "@/components/Forms/ScouterWalletAddressForm";
+import { ScouterWalletAddressForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ScouterKarma } from "./_widgets/ScouterKarma";
 import { headers } from "next/headers";

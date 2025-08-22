@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth/authClient";
-import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
+import { useAppWriteContract } from "@/lib/hooks";
 import { karmaContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { Button } from "@shared/ui/components/button";

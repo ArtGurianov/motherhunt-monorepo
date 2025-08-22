@@ -11,7 +11,7 @@ import {
 } from "@shared/ui/components/InlineData";
 import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useActiveMember } from "@/lib/hooks/useActiveMember";
+import { useActiveMember } from "@/lib/hooks";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense } from "react";
 

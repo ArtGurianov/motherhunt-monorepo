@@ -3,11 +3,10 @@
 import { deleteBookerRole } from "@/actions/deleteBooker";
 import { transferHeadBookerRole } from "@/actions/transferHeadBookerRole";
 import { DangerousActionDialog } from "@/components/DangerousActionDialog/DangerousActionDialog";
-import { BookerInvitationForm } from "@/components/Forms/BookerInvitationForm";
+import { BookerInvitationForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
-import { useActiveMember } from "@/lib/hooks/useActiveMember";
-import { useBookersList } from "@/lib/hooks/useBookersList";
+import { useActiveMember, useBookersList } from "@/lib/hooks";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import {

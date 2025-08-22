@@ -1,10 +1,10 @@
 "use client";
 
 import { DangerousActionDialog } from "@/components/DangerousActionDialog/DangerousActionDialog";
-import { AddSuperAdminForm } from "@/components/Forms/AddSuperAdminForm";
+import { AddSuperAdminForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useAppWriteContract } from "@/lib/hooks/useAppWriteContract";
+import { useAppWriteContract } from "@/lib/hooks";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { Button } from "@shared/ui/components/button";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";

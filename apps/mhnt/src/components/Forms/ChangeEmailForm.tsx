@@ -22,7 +22,7 @@ import { LoaderCircle } from "lucide-react";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
-import { useAppParams } from "@/lib/hooks/useAppParams";
+import { useAppParams } from "@/lib/hooks";
 import { emailSchema } from "@/lib/schemas/emailSchema";
 
 interface ChangeEmailFormProps {
