@@ -72,16 +72,7 @@ export const trustedUserPlugin = <T extends z.Schema>({
           });
           return ctx.json({
             token: session.token,
-            user: {
-              id: trustedUser.id,
-              email: trustedUser.email,
-              emailVerified: trustedUser.emailVerified,
-              name: trustedUser.name,
-              image: trustedUser.image,
-              createdAt: trustedUser.createdAt,
-              updatedAt: trustedUser.updatedAt,
-              role: trustedUser.role,
-            },
+            user: trustedUser,
           });
         }
       ),

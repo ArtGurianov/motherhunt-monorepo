@@ -1,0 +1,118 @@
+"use server";
+
+import auth from "@/lib/auth/auth";
+import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
+import { getEnvConfigServer } from "@/lib/config/env";
+import { prismaClient } from "@/lib/db";
+import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
+import { vkUserResponseSchema } from "@/lib/schemas/vkUserResponseSchema";
+import { createActionResponse } from "@/lib/utils/createActionResponse";
+import { ORG_TYPES } from "@/lib/utils/types";
+import { getAppURL } from "@shared/ui/lib/utils";
+import { APIError } from "better-auth/api";
+import { headers } from "next/headers";
+import z from "zod";
+
+const vkTokensResponseSchema = z.object({
+  access_token: z.string(),
+  refresh_token: z.string(),
+  id_token: z.string(),
+  expires_in: z.number(),
+  user_id: z.number(),
+  state: z.string(),
+  scope: z.string(),
+});
+
+const envConfig = getEnvConfigServer();
+
+export const initializeModelVk = async (
+  data: z.infer<typeof vkCodeResponseSchema>
+) => {
+  try {
+    const headersList = await headers();
+    const session = await auth.api.getSession({
+      headers: headersList,
+    });
+    if (!session)
+      throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
+
+    const bodyValidationResult = vkCodeResponseSchema.safeParse(data);
+    if (!bodyValidationResult.success)
+      throw new APIError("BAD_REQUEST", { message: "Invalid args" });
+
+    const tokensResponse = await fetch("https://id.vk.com/oauth2/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        client_id: envConfig.NEXT_PUBLIC_VK_CLIENT_ID,
+        grant_type: "authorization_code",
+        code_verifier: bodyValidationResult.data.state,
+        device_id: bodyValidationResult.data.device_id,
+        code: bodyValidationResult.data.code,
+        redirect_uri: `${getAppURL()}/sign-in/vk`,
+      }),
+    });
+
+    const tokensData = await tokensResponse.json();
+    const tokensValidationResult = vkTokensResponseSchema.safeParse(tokensData);
+
+    if (!tokensValidationResult.success)
+      throw new APIError("INTERNAL_SERVER_ERROR", {
+        message: "Received unexpected data shape from VK ID",
+      });
+
+    const userResponse = await fetch("https://id.vk.com/oauth2/user_info", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        client_id: envConfig.NEXT_PUBLIC_VK_CLIENT_ID,
+        access_token: tokensValidationResult.data.access_token,
+      }),
+    });
+
+    const userData = await userResponse.json();
+    const userValidationResult = vkUserResponseSchema.safeParse(userData);
+
+    if (!userValidationResult.success)
+      throw new APIError("INTERNAL_SERVER_ERROR", {
+        message: "Received unexpected data shape from VK ID",
+      });
+
+    await prismaClient.$transaction([
+      prismaClient.user.update({
+        where: { id: session.user.id },
+        data: {
+          recentOrganizationId: envConfig.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
+          recentOrganizationName: "DEFAULT",
+          recentOrganizationType: ORG_TYPES.SCOUTING,
+          modelOrganizationId: envConfig.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
+          modelSocialId: `vk:${userValidationResult.data.user.user_id}`,
+        },
+      }),
+      prismaClient.session.update({
+        where: { id: session.session.id },
+        data: {
+          activeOrganizationId: envConfig.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
+          activeOrganizationName: "DEFAULT",
+          activeOrganizationType: ORG_TYPES.SCOUTING,
+          activeOrganizationRole: ORG_ROLES.MEMBER_ROLE,
+        },
+      }),
+      prismaClient.member.create({
+        data: {
+          organizationId: envConfig.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
+          userId: session.user.id,
+          role: ORG_ROLES.MEMBER_ROLE,
+        },
+      }),
+    ]);
+
+    return createActionResponse();
+  } catch (error) {
+    return createActionResponse({ error });
+  }
+};

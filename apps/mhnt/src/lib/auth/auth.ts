@@ -30,7 +30,6 @@ import { getEnvConfigServer } from "../config/env";
 import { trustedUserPlugin } from "./plugins/trustedUserPlugin";
 import { getWeb3AdminUser } from "../web3/getWeb3AdminUser";
 import { web3AdminRequestBodySchema } from "../schemas/web3AdminRequestBodySchema";
-import { vkAuthPlugin } from "./plugins/vk/vkAuthPlugin";
 import { userAfterCreate } from "./dbHooks/userAfterCreate";
 
 const envConfig = getEnvConfigServer();
@@ -87,7 +86,6 @@ const options = {
       creatorRole: ORG_ROLES.OWNER_ROLE,
       sendInvitationEmail: inviteBooker,
     }) as unknown as BetterAuthPlugin,
-    vkAuthPlugin(),
     nextCookies() as unknown as BetterAuthPlugin,
   ],
   databaseHooks: {
@@ -191,7 +189,12 @@ const options = {
         required: false,
         input: false,
       },
-      modelVkId: {
+      modelSocialId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      modelOrganizationId: {
         type: "string",
         required: false,
         input: false,

@@ -13,6 +13,8 @@ const CLIENT_ENV = {
   NEXT_PUBLIC_HCAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY,
   NEXT_PUBLIC_REOWN_PROJECT_ID: process.env.NEXT_PUBLIC_REOWN_PROJECT_ID,
   NEXT_PUBLIC_VK_CLIENT_ID: process.env.NEXT_PUBLIC_VK_CLIENT_ID,
+  NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID:
+    process.env.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
 } as const;
 
 const clientEnvSchema = z.object({
@@ -43,6 +45,7 @@ const clientEnvSchema = z.object({
     })
     .startsWith("0x"),
   NEXT_PUBLIC_VK_CLIENT_ID: z.string(),
+  NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID: z.string(),
 });
 
 const serverEnvSchema = clientEnvSchema.extend({

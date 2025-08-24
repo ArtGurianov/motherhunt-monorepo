@@ -34,6 +34,7 @@ import { SuccessBlock } from "./SuccessBlock";
 import { useTranslations } from "next-intl";
 import { useAppParams } from "@/lib/hooks/useAppParams";
 import { magicLinkFormSchema } from "@/lib/schemas/magicLinkFormSchema";
+import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 
 export const SignInForm = () => {
   const { getParam, setParam, deleteParam, getUpdatedParamsString } =
@@ -67,7 +68,7 @@ export const SignInForm = () => {
         if (!hCaptchaToken) {
           throw new AppClientError("You must verify you're human");
         }
-        setParam("toast", "SIGNED_IN");
+        setParam(TOAST_PARAM_URL_TOKEN, "SIGNED_IN");
         const returnTo = getParam("returnTo");
         if (returnTo) deleteParam("returnTo");
         const result = await authClient.signIn.magicLink({

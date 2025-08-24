@@ -19,12 +19,12 @@ model User {
   banned                    Boolean?
   banReason                 String?
   banExpires                String?
-  scoutingOrganizationId    String?
   recentOrganizationId      String?     @db.ObjectId
   recentOrganizationName    String?
   recentOrganizationType    OrganizationType?
-  modelVkId                 String?
-  modelFacebookId           String?
+  scoutingOrganizationId    String?
+  modelOrganizationId       String?
+  modelSocialId             String?
   createdAt                 DateTime    @default(now())
   updatedAt                 DateTime    @updatedAt
   sessions                  Session[]

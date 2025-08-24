@@ -9,6 +9,7 @@ import { useActiveMember } from "@/lib/hooks/useActiveMember";
 import { Suspense, useTransition } from "react";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { useTranslations } from "next-intl";
+import { ModelSignInBtn } from "@/components/ActionButtons/ModelSignInBtn";
 
 export const SwitchAccountPageContent = () => {
   const [isPending, startTransition] = useTransition();
@@ -71,13 +72,7 @@ export const SwitchAccountPageContent = () => {
           </InterceptedLink>
         </Button>
       </Suspense>
-      <Suspense>
-        <Button asChild disabled={!session || isActiveMemberPending}>
-          <InterceptedLink href="/settings/switch-account/model">
-            {"MODEL"}
-          </InterceptedLink>
-        </Button>
-      </Suspense>
+      <ModelSignInBtn />
     </div>
   );
 };

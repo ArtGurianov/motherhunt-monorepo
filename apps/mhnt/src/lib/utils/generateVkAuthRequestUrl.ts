@@ -2,7 +2,7 @@ import { getEnvConfigClient } from "@/lib/config/env";
 import { generateCodeChallenge, generateRandomString } from "@/lib/utils/pkce";
 import { getAppURL } from "@shared/ui/lib/utils";
 
-export const generateAuthRequestUrl = async () => {
+export const generateVkAuthRequestUrl = async () => {
   const envConfig = getEnvConfigClient();
   const codeVerifier = generateRandomString(128);
   const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -11,7 +11,7 @@ export const generateAuthRequestUrl = async () => {
     response_type: "code",
     client_id: envConfig.NEXT_PUBLIC_VK_CLIENT_ID,
     scope: "email",
-    redirect_uri: `${getAppURL()}/api/auth/sign-in/vk`,
+    redirect_uri: `${getAppURL()}/sign-in/vk`,
     state: codeVerifier,
     code_challenge: codeChallenge,
     code_challenge_method: "S256",

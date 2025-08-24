@@ -6,7 +6,7 @@ import { chain, wagmiAdapter, wagmiConfig } from "@/lib/web3/wagmiConfig";
 import { createAppKit } from "@reown/appkit/react";
 import { getAppURL } from "@shared/ui/lib/utils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode, Suspense, useState } from "react";
+import { ReactNode, useState } from "react";
 import { State, WagmiProvider } from "wagmi";
 
 const metadata = {
@@ -28,11 +28,6 @@ createAppKit({
   enableNetworkSwitch: true,
 });
 
-const ToastFromParams = () => {
-  useToastParam();
-  return null;
-};
-
 export const AppProviders = ({
   children,
   initialState,
@@ -43,16 +38,11 @@ export const AppProviders = ({
   const [config] = useState(() => wagmiConfig);
   const [queryClient] = useState(() => new QueryClient());
 
+  useToastParam();
+
   return (
-    <>
-      <WagmiProvider config={config} initialState={initialState}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-        <Suspense>
-          <ToastFromParams />
-        </Suspense>
-      </WagmiProvider>
-    </>
+    <WagmiProvider config={config} initialState={initialState}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </WagmiProvider>
   );
 };

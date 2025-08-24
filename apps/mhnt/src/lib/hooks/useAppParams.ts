@@ -14,6 +14,7 @@ export const useAppParams = () => {
   const getUpdatedPathString = () => `${pathname}${getUpdatedParamsString()}`;
 
   return {
+    entries: params.entries(),
     getParam,
     setParam,
     deleteParam,

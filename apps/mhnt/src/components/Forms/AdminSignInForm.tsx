@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";
 import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
+import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 
 export const AdminSignInForm = () => {
   const router = useRouter();
@@ -60,7 +61,7 @@ export const AdminSignInForm = () => {
     if (signature && address) {
       startTransition(async () => {
         try {
-          setParam("toast", "SIGNED_IN");
+          setParam(TOAST_PARAM_URL_TOKEN, "SIGNED_IN");
           const returnTo = getParam("returnTo");
           if (returnTo) deleteParam("returnTo");
           const result = await authClient.signIn.trustedUser({

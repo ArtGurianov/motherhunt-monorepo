@@ -24,6 +24,7 @@ import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { useAppParams } from "@/lib/hooks";
 import { emailSchema } from "@/lib/schemas/emailSchema";
+import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 
 interface ChangeEmailFormProps {
   currentEmail: string;
@@ -52,7 +53,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
         if (!email) {
           throw new AppClientError("Email is required");
         }
-        setParam("toast", "UPDATED");
+        setParam(TOAST_PARAM_URL_TOKEN, "UPDATED");
         const result = await authClient.changeEmail({
           newEmail: email,
           callbackURL: getUpdatedPathString(),
