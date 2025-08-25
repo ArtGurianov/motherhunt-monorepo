@@ -57,7 +57,7 @@ export const createDraft = async () => {
 
     // TODO: GENERATE AND SAVE NAME ALIAS
     const newDraft = await prismaClient.lot.create({
-      data: { scouterId: userId },
+      data: { scouterId: userId, signedByUserId: null },
     });
 
     revalidatePath("/hunt/drafts");

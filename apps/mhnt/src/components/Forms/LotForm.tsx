@@ -48,15 +48,12 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
         lotId: lotData.id,
         updateData: {
           ...updateData,
-          isConfirmationEmailSent: false,
-          isConfirmationSigned: false,
         },
       });
       if (result.errorMessage) {
         toast(result.errorMessage);
       } else {
         toast("Success");
-        form.reset();
       }
     });
   };

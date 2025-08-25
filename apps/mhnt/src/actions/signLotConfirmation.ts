@@ -2,13 +2,14 @@
 
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
+import { sendEmail } from "./sendEmail";
+import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
+import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { viemClient } from "@/lib/web3/viemClient";
 import { auctionContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigServer } from "@/lib/config/env";
-import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { lotChainSchema } from "@/lib/schemas/lotChainSchema";
 import { ZERO_BYTES } from "@/lib/web3/constants";
 import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
@@ -16,35 +17,56 @@ import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
 
 const ALLOWED_CUSTOM_ROLES: CustomMemberRole[] = [
-  CUSTOM_MEMBER_ROLES.SCOUTER_ROLE,
+  CUSTOM_MEMBER_ROLES.MODEL_ROLE,
 ] as const;
-interface CancelLotConfirmationProps {
+
+const locale = getAppLocale();
+
+interface SignLotConfirmationProps {
   lotId: string;
 }
 
-export const calcelLotConfirmation = async ({
+export const signLotConfirmation = async ({
   lotId,
-}: CancelLotConfirmationProps) => {
+}: SignLotConfirmationProps) => {
   try {
     const result = await canAccessCustomRole(
       ORG_ENTITIES.LOT,
-      "cancel",
+      "update",
       ALLOWED_CUSTOM_ROLES
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
 
-    const { userId } = result;
+    const { userId, userEmail } = result;
 
     const lotData = await prismaClient.lot.findUnique({ where: { id: lotId } });
 
-    if (lotData?.scouterId !== userId)
-      throw new APIError("FORBIDDEN", {
-        message: "Not a lot creator",
+    if (!lotData) {
+      throw new APIError("NOT_FOUND", {
+        message: "Lot data not found",
+      });
+    }
+
+    if (lotData.signedByUserId)
+      throw new APIError("CONFLICT", {
+        message: "Already signed",
       });
 
-    if (!lotData.isConfirmationEmailSent)
-      throw new AppClientError("Confirmation email not sent");
+    if (lotData.email !== userEmail)
+      throw new APIError("FORBIDDEN", {
+        message: "Must sign in with same email used in invitation",
+      });
+
+    const scouterData = await prismaClient.user.findUnique({
+      where: { id: lotData.scouterId },
+    });
+
+    if (!scouterData) {
+      throw new APIError("NOT_FOUND", {
+        message: "Scouter data not found",
+      });
+    }
 
     const chainLotData = await viemClient.readContract({
       abi: auctionContractAbi,
@@ -68,10 +90,20 @@ export const calcelLotConfirmation = async ({
 
     await prismaClient.lot.update({
       where: { id: lotId },
-      data: { signedByUserId: null, isConfirmationEmailSent: false },
+      data: { signedByUserId: userId },
     });
 
-    revalidatePath(`/hunt/drafts/${lotId}`);
+    await sendEmail({
+      to: scouterData.email,
+      subject: "Model Profile confirmed.",
+      meta: {
+        description: "Model Profile confirmed.",
+        link: `${getAppURL(locale)}/auction/${lotId}`,
+      },
+    });
+
+    revalidatePath(`/auction/${lotId}`);
+    revalidatePath(`/confirmation/${lotId}`);
 
     return createActionResponse();
   } catch (error) {

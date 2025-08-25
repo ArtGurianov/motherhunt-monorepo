@@ -45,7 +45,9 @@ export const SignInVkPageContent = () => {
           .then((result) => {
             if (result.error) {
               setErrorMessage(result.error.message || result.error.statusText);
+              return;
             }
+            sessionStorage.removeItem("OAUTH_RETURN_PATH");
             toast("Success");
             refetchActiveMember();
             router.push(returnTo);

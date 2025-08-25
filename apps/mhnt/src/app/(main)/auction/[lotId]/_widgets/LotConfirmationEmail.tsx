@@ -86,10 +86,10 @@ export const LotConfirmationEmail = ({
       isOpen={isOpen}
       onToggle={onToggle}
     >
-      {lotData.isConfirmationEmailSent && !lotData.isConfirmationSigned ? (
+      {lotData.isConfirmationEmailSent && !lotData.signedByUserId ? (
         <Quote>{"Email is sent. Waiting for confirmation."}</Quote>
       ) : null}
-      {lotData.isConfirmationEmailSent && lotData.isConfirmationSigned ? (
+      {lotData.isConfirmationEmailSent && !!lotData.signedByUserId ? (
         <Quote>{"Lot data is confirmed by model."}</Quote>
       ) : null}
       <InlineData>
@@ -97,7 +97,7 @@ export const LotConfirmationEmail = ({
         <InlineDataContent
           disabled={
             lotData.isConfirmationEmailSent ||
-            lotData.isConfirmationSigned ||
+            !!lotData.signedByUserId ||
             isOnChain
           }
         >
@@ -110,7 +110,7 @@ export const LotConfirmationEmail = ({
           onClick={onConfirmationEmailSend}
           disabled={
             lotData.isConfirmationEmailSent ||
-            lotData.isConfirmationSigned ||
+            !!lotData.signedByUserId ||
             !draftValidationResult.success ||
             isPending ||
             isOnChain

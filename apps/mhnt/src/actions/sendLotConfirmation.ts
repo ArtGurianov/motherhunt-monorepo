@@ -53,8 +53,7 @@ export const sendLotConfirmation = async ({
         "Need to cancel previous confirmation email first."
       );
 
-    if (lotData.isConfirmationSigned)
-      throw new AppClientError("Already confirmed");
+    if (lotData.signedByUserId) throw new AppClientError("Already confirmed");
 
     const chainLotData = await viemClient.readContract({
       abi: auctionContractAbi,
@@ -78,7 +77,7 @@ export const sendLotConfirmation = async ({
 
     await prismaClient.lot.update({
       where: { id: lotId },
-      data: { isConfirmationSigned: false, isConfirmationEmailSent: true },
+      data: { signedByUserId: null, isConfirmationEmailSent: true },
     });
 
     await sendEmail({

@@ -44,5 +44,6 @@ export const ORG_ROLES_CONFIG = {
   [ORG_ROLES.MEMBER_ROLE]: orgAccessControl.newRole({
     [ORG_ENTITIES.MEMBER]: ["delete"],
     [ORG_ENTITIES.SELECTION]: ["create", "update"],
+    [ORG_ENTITIES.LOT]: ["update"],
   }),
 };

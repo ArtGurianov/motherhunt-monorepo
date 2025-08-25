@@ -75,7 +75,7 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
   },
   [APP_ROUTES.AGENCY_ACCEPT_INVITATION]: {
     key: APP_ROUTES.AGENCY_ACCEPT_INVITATION,
-    href: "/agency/accept-invitation/[lotId]",
+    href: "/agency/accept-invitation/[agencyId]",
   },
   [APP_ROUTES.AGENCY_APPLY]: {
     key: APP_ROUTES.AGENCY_APPLY,

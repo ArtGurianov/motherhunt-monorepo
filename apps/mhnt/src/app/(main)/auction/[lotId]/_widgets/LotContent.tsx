@@ -31,7 +31,7 @@ export const LotContent = ({ lotData }: LotContentProps) => {
       .NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
     functionName: "getLotData",
     query: {
-      enabled: lotData.isConfirmationSigned,
+      enabled: !!lotData.signedByUserId,
     },
   });
 
