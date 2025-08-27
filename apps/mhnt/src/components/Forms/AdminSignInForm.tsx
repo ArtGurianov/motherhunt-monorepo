@@ -22,10 +22,18 @@ import { ErrorBlock } from "./ErrorBlock";
 import { useAppParams } from "@/lib/hooks";
 import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
-import { toast } from "@shared/ui/components/sonner";
 import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
+import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
+import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+
+const REDIRECT_PATH_SIGNED_IN = generateUpdatedPathString(
+  APP_ROUTES_CONFIG.AUCTION.href,
+  new URLSearchParams({
+    toast: "SIGNED_IN",
+  })
+);
 
 export const AdminSignInForm = () => {
   const router = useRouter();
@@ -76,8 +84,7 @@ export const AdminSignInForm = () => {
           if (result.error) {
             setErrorMessage(result.error.message || result.error.statusText);
           } else {
-            toast("Success");
-            router.push("/");
+            router.push(REDIRECT_PATH_SIGNED_IN);
           }
         } catch (error) {
           if (error instanceof AppClientError) {

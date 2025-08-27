@@ -1,6 +1,5 @@
 "use client";
 
-import { authClient } from "@/lib/auth/authClient";
 import { useAppWriteContract } from "@/lib/hooks";
 import { karmaContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
@@ -8,6 +7,7 @@ import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
 import { Web3ConnectBtn } from "./Web3ConnectBtn";
+import { useAuth } from "../AppProviders/AuthProvider";
 
 interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   isLoading: boolean;
@@ -29,8 +29,7 @@ export const TopUpKarmaBtn = ({
   onSuccess,
   children,
 }: TopUpKarmaBtnProps) => {
-  const { isPending: isSessionPending, data: sessionData } =
-    authClient.useSession();
+  const { session } = useAuth();
 
   const {
     writeContract,
@@ -41,21 +40,18 @@ export const TopUpKarmaBtn = ({
   });
 
   const sendTransaction = () => {
-    if (sessionData) {
-      writeContract({
-        abi: karmaContractAbi,
-        address: callContractAddress,
-        functionName: "purchase",
-        args: [stringToBytes32(sessionData.session.userId)],
-      });
-    }
+    writeContract({
+      abi: karmaContractAbi,
+      address: callContractAddress,
+      functionName: "purchase",
+      args: [stringToBytes32(session.userId)],
+    });
   };
 
   return (
     <Web3ConnectBtn
       className="[&_svg]:size-6"
       disabled={
-        isSessionPending ||
         isError ||
         isPurchaseError ||
         isPurchaseProcessing ||
@@ -69,7 +65,7 @@ export const TopUpKarmaBtn = ({
         sendTransaction();
       }}
     >
-      {!isPurchaseProcessing && !isSessionPending && !isLoading ? (
+      {!isPurchaseProcessing && !isLoading ? (
         children
       ) : (
         <LoaderCircle className="animate-spin" />

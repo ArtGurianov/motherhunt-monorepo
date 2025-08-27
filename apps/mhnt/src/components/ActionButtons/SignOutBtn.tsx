@@ -2,10 +2,21 @@
 
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
+import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+
+const REDIRECT_PATH_SIGNED_OUT = generateUpdatedPathString(
+  APP_ROUTES_CONFIG.SIGN_IN.href,
+  new URLSearchParams({
+    toast: "SIGNED_OUT",
+  })
+);
 
 export const SignOutBtn = () => {
+  const router = useRouter();
+
   const t = useTranslations("ACTION_BUTTONS");
 
   return (
@@ -14,7 +25,7 @@ export const SignOutBtn = () => {
         authClient.signOut({
           fetchOptions: {
             onSuccess: () => {
-              redirect("/sign-in?toast=SIGNED_OUT"); // redirect to sign-in page
+              router.push(REDIRECT_PATH_SIGNED_OUT);
             },
           },
         })

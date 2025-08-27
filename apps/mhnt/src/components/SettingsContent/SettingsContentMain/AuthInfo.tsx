@@ -2,28 +2,25 @@
 
 import { CaptureBtn } from "@/components/CaptureBtn";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import { authClient } from "@/lib/auth/authClient";
 import { APP_ROLES } from "@/lib/auth/permissions/app-permissions";
 import {
   InlineData,
   InlineDataContent,
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
-import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useActiveMember } from "@/lib/hooks";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense } from "react";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 
 export const AuthInfo = () => {
+  const { user } = useAuth();
+  const { data: activeMember } = useActiveMember();
+
   const t = useTranslations("AUTH_INFO");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tRoles = useTranslations("ROLES");
-
-  const { isPending: isActiveMemberPending, data: activeMember } =
-    useActiveMember();
-
-  const { data: session } = authClient.useSession();
 
   return (
     <InfoCard title={tTitles("account")}>
@@ -36,14 +33,10 @@ export const AuthInfo = () => {
             </span>
           }
         >
-          {isActiveMemberPending ? (
-            <LoaderCircle className="animate-spin h-6 w-6" />
-          ) : (
-            tRoles(activeMember ? activeMember.role : session!.user.role)
-          )}
+          {tRoles(activeMember ? activeMember.role : user.role)}
         </InlineDataContent>
       </InlineData>
-      {session!.user.role === APP_ROLES.USER_ROLE ? (
+      {user.role === APP_ROLES.USER_ROLE ? (
         <div className="relative w-full h-10">
           <div className="absolute z-0 top-0 left-1/2 -translate-x-1/2 h-full flex items-center px-1">
             <Suspense>

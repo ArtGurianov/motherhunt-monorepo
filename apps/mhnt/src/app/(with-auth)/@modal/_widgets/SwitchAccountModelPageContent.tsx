@@ -1,0 +1,45 @@
+"use client";
+
+import { OAuthFacebookBtn } from "@/components/ActionButtons/OAuthFacebookBtn";
+import { OAuthVkBtn } from "@/components/ActionButtons/OAuthVkBtn";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
+import { useActiveMember } from "@/lib/hooks";
+import { Button } from "@shared/ui/components/button";
+import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import Link from "next/link";
+
+export const SwitchAccountModelPageContent = () => {
+  const { user } = useAuth();
+  const { data: activeMember } = useActiveMember();
+
+  if (activeMember?.role === CUSTOM_MEMBER_ROLES.MODEL_ROLE) {
+    return (
+      <StatusCard
+        type={StatusCardTypes.ERROR}
+        title="Already signed in as model."
+        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
+      />
+    );
+  }
+
+  if (user.modelSocialId || user.modelOrganizationId) {
+    return (
+      <div className="flex flex-col gap-4">
+        <h2>{"Social account already linked."}</h2>
+        <Button asChild>
+          <Link href="/settings/switch-account">
+            {"To account switching =>"}
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex gap-4 justify-center items-center">
+      <OAuthVkBtn />
+      <OAuthFacebookBtn />
+    </div>
+  );
+};

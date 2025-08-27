@@ -23,12 +23,11 @@ import { useAppWriteContract } from "@/lib/hooks";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { toast } from "@shared/ui/components/sonner";
 import { ZERO_ADDRESS } from "@/lib/web3/constants";
-import { authClient } from "@/lib/auth/authClient";
 import { addressSchema } from "@/lib/schemas/addressSchema";
+import { useAuth } from "../AppProviders/AuthProvider";
 
 export const ScouterWalletAddressForm = () => {
-  const { isPending: isSessionPending, data: sessionData } =
-    authClient.useSession();
+  const { session } = useAuth();
 
   const { address: connectedWalletAddress } = useAccount();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -51,9 +50,9 @@ export const ScouterWalletAddressForm = () => {
     address: getEnvConfigClient()
       .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
     functionName: "getScouterAddress",
-    args: [stringToBytes32(sessionData?.session.userId ?? "")],
+    args: [stringToBytes32(session.userId ?? "")],
     query: {
-      enabled: !!sessionData?.session.userId && !isSessionPending,
+      enabled: !!session.userId,
     },
   });
 
@@ -83,19 +82,14 @@ export const ScouterWalletAddressForm = () => {
   }, [isErrorCurrentSavedAddress]);
 
   const onSubmit = async ({ address }: z.infer<typeof addressSchema>) => {
-    if (sessionData) {
-      form.clearErrors();
-      writeContract({
-        abi: systemContractAbi,
-        address: getEnvConfigClient()
-          .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
-        functionName: "setScouterAddress",
-        args: [
-          stringToBytes32(sessionData.session.userId),
-          address as `0x${string}`,
-        ],
-      });
-    }
+    form.clearErrors();
+    writeContract({
+      abi: systemContractAbi,
+      address: getEnvConfigClient()
+        .NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS as `0x${string}`,
+      functionName: "setScouterAddress",
+      args: [stringToBytes32(session.userId), address as `0x${string}`],
+    });
   };
 
   return (
@@ -109,11 +103,7 @@ export const ScouterWalletAddressForm = () => {
               <FormLabel>{"Scouter wallet address"}</FormLabel>
               <FormControl>
                 <Input
-                  disabled={
-                    isSessionPending ||
-                    isPendingCurrentSavedAddress ||
-                    isProcessing
-                  }
+                  disabled={isPendingCurrentSavedAddress || isProcessing}
                   placeholder="new address"
                   aria-invalid={!!form.formState.errors.address}
                   {...field}
@@ -127,7 +117,6 @@ export const ScouterWalletAddressForm = () => {
                       variant="flat"
                       size="sm"
                       disabled={
-                        isSessionPending ||
                         !form.formState.isValid ||
                         !!Object.keys(form.formState.errors).length ||
                         isPendingCurrentSavedAddress ||
@@ -137,9 +126,7 @@ export const ScouterWalletAddressForm = () => {
                         currentSavedAddress === form.getValues("address")
                       }
                     >
-                      {isSessionPending ||
-                      isPendingCurrentSavedAddress ||
-                      isProcessing ? (
+                      {isPendingCurrentSavedAddress || isProcessing ? (
                         <LoaderCircle className="animate-spin" />
                       ) : (
                         "Set"

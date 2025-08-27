@@ -1,14 +1,14 @@
 "use client";
 
-import { authClient } from "@/lib/auth/authClient";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
 import { useActiveMember } from "@/lib/hooks";
 import { AppRole } from "@shared/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
-import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
+import { useAuth } from "../AppProviders/AuthProvider";
+import { Button } from "@shared/ui/components/button";
+import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 
 interface RoleGuardProps {
   children: ReactNode;
@@ -16,34 +16,38 @@ interface RoleGuardProps {
 }
 
 export const RoleGuardClient = ({ children, allowedRoles }: RoleGuardProps) => {
-  const t = useTranslations("TOASTS");
+  const { user } = useAuth();
 
-  const { isPending: isSessionPending, data: session } =
-    authClient.useSession();
-  const { data: membership, isPending: isMembershipPending } =
-    useActiveMember();
+  const tToasts = useTranslations("TOASTS");
+  const tRoles = useTranslations("ROLES");
 
-  if (isSessionPending || isMembershipPending) {
-    return (
-      <div className="flex w-full h-full justify-center items-center">
-        <LoaderCircle className="animate-spin h-12 w-12" />
-      </div>
-    );
-  }
+  const { data: activeMember } = useActiveMember();
 
-  if (!session) redirect("/sign-in");
-
-  const role: AppRole | CustomMemberRole = membership
-    ? (membership.role as CustomMemberRole)
-    : (session.user.role as AppRole);
+  const role: AppRole | CustomMemberRole = activeMember
+    ? (activeMember.role as CustomMemberRole)
+    : (user.role as AppRole);
 
   if (!allowedRoles.includes(role)) {
+    const stringifiedRoles = allowedRoles.reduce(
+      (temp, next, index) =>
+        index === 0 ? tRoles(next) : temp + ", " + tRoles(next),
+      ""
+    );
     return (
       <StatusCard
         type={StatusCardTypes.ERROR}
-        title={t("ACCESS_DENIED")}
+        title={tToasts("ACCESS_DENIED")}
+        description={`You can access this page as ${stringifiedRoles}. Switch account to continue.`}
         className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-      />
+      >
+        <Suspense>
+          <Button asChild size="lg" type="submit" className="w-full">
+            <InterceptedLink href="/settings/switch-account">
+              {"Switch account"}
+            </InterceptedLink>
+          </Button>
+        </Suspense>
+      </StatusCard>
     );
   }
 

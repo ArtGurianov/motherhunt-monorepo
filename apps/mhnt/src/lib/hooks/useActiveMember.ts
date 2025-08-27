@@ -1,4 +1,4 @@
-import { authClient } from "../auth/authClient";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { getCustomMemberRole } from "../auth/customRoles";
 import { OrgRole } from "../auth/permissions/org-permissions";
 import { OrgType } from "../utils/types";
@@ -11,19 +11,18 @@ export interface ActiveMemberSessionData {
 }
 
 export const useActiveMember = () => {
-  const { isPending, data: session, error, refetch } = authClient.useSession();
+  const { session, refetch } = useAuth();
 
-  let data: ActiveMemberSessionData | null = null;
-  if (!session) {
-    data = null;
-  } else {
-    const {
-      activeOrganizationId,
-      activeOrganizationName,
-      activeOrganizationType,
-      activeOrganizationRole,
-    } = session.session;
-    data = Boolean(
+  const {
+    activeOrganizationId,
+    activeOrganizationName,
+    activeOrganizationType,
+    activeOrganizationRole,
+  } = session;
+
+  return {
+    refetch,
+    data: Boolean(
       activeOrganizationId &&
         activeOrganizationName &&
         activeOrganizationType &&
@@ -38,13 +37,6 @@ export const useActiveMember = () => {
             activeOrganizationRole! as OrgRole
           ),
         }
-      : null;
-  }
-
-  return {
-    data,
-    isPending,
-    errorMessage: error?.message,
-    refetch,
+      : null,
   };
 };

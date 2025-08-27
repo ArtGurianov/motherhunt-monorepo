@@ -22,17 +22,17 @@ import { useActiveMember } from "@/lib/hooks";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
 
 export const Navbar = () => {
-  const pathname = usePathname();
   const { data: session, isPending: isSessionPending } =
     authClient.useSession();
+
+  const pathname = usePathname();
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const t = useTranslations("NAVBAR");
   const tCommon = useTranslations("COMMON");
   const tRoles = useTranslations("ROLES");
 
-  const { isPending: isActiveMemberPending, data: activeMember } =
-    useActiveMember();
+  const { data: activeMember } = useActiveMember();
 
   if (pathname === "/sign-in") return null;
 
@@ -133,7 +133,7 @@ export const Navbar = () => {
           )}
         >
           <div className="relative flex h-full justify-center items-center bg-main/95">
-            {isSessionPending || isActiveMemberPending ? (
+            {isSessionPending ? (
               <span className="flex gap-2 justify-center items-center p-6">
                 <LoaderCircle className="animate-spin h-8 w-8" />
                 {tCommon("loading")}

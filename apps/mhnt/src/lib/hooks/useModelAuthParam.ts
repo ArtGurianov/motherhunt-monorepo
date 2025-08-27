@@ -3,20 +3,22 @@ import { useUrlParamAction } from "./useUrlParamAction";
 import { authClient } from "../auth/authClient";
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 
 export const MODEL_AUTH_URL_TOKEN = "modelAuth" as const;
 
 export const useModelAuthParam = () => {
+  const { user } = useAuth();
+
   const t = useTranslations("TOASTS");
-  const { data: session } = authClient.useSession();
 
   const handleModelAuth = useMemo(() => {
     /* eslint-disable @typescript-eslint/no-unused-vars */
     return (_: string) => {
-      if (session?.user.modelOrganizationId) {
+      if (user.modelOrganizationId) {
         authClient.organization
           .setActive({
-            organizationId: session.user.modelOrganizationId,
+            organizationId: user.modelOrganizationId,
           })
           .then(() => {
             toast(t("SIGNED_IN"));
@@ -28,7 +30,7 @@ export const useModelAuthParam = () => {
         toast(t("unexpected-error"));
       }
     };
-  }, [session]);
+  }, [user]);
 
   useUrlParamAction(MODEL_AUTH_URL_TOKEN, handleModelAuth);
 };

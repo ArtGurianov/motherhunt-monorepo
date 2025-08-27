@@ -31,10 +31,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   const headersList = await headers();
   const cookieHeader = headersList.get("cookie");
@@ -52,7 +50,6 @@ export default async function RootLayout({
           <NextIntlClientProvider>
             <AppProviders initialState={initialState}>
               <div className="flex flex-col min-h-content justify-start items-center gap-6 px-4 mb-12">
-                {modal}
                 {children}
               </div>
               <Navbar />

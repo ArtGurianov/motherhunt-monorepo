@@ -1,4 +1,6 @@
 import { usePathname, useSearchParams } from "next/navigation";
+import { generateUpdatedParamsString } from "../utils/generateUpdatedParamsString";
+import { generateUpdatedPathString } from "../utils/generateUpdatedPathString";
 
 export const useAppParams = () => {
   const pathname = usePathname();
@@ -10,8 +12,9 @@ export const useAppParams = () => {
   const getParam = (key: string) => params.get(key);
   const deleteParam = (key: string) => updatedParams.delete(key);
   const getUpdatedParamsString = () =>
-    updatedParams.size ? `?${updatedParams.toString()}` : "";
-  const getUpdatedPathString = () => `${pathname}${getUpdatedParamsString()}`;
+    generateUpdatedParamsString(updatedParams);
+  const getUpdatedPathString = () =>
+    generateUpdatedPathString(pathname, updatedParams);
 
   return {
     entries: params.entries(),

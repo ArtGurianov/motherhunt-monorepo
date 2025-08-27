@@ -15,7 +15,7 @@ model User {
   isNewsletterEmailsEnabled Boolean     @default(true)
   isSystemEmailsEnabled     Boolean     @default(true)
   image                     String?
-  role                      AppRole?    @default(USER_ROLE)     
+  role                      AppRole     @default(USER_ROLE)     
   banned                    Boolean?
   banReason                 String?
   banExpires                String?

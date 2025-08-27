@@ -34,11 +34,8 @@ export const AgenciesList = () => {
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
 
-  const {
-    isPending: isActiveMemberPending,
-    data: activeMember,
-    refetch: refetchActiveMember,
-  } = useActiveMember();
+  const { data: activeMember, refetch: refetchActiveMember } =
+    useActiveMember();
 
   const displayOrganizations = organizationsData?.reduce((temp, next) => {
     const { status } = getAgencyApplicationStatus(next as Organization);
@@ -97,7 +94,7 @@ export const AgenciesList = () => {
                         });
                       }}
                     >
-                      {isPending || isActiveMemberPending ? (
+                      {isPending ? (
                         <LoaderCircle className="animate-spin" />
                       ) : activeMember?.organizationId === each.id ? (
                         <Check />

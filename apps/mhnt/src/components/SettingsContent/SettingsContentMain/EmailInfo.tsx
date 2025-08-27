@@ -4,53 +4,47 @@ import { changeUserToggleState } from "@/actions/changeUserToggleState";
 import { ChangeEmailForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ToggleStateField } from "@/components/ToggleStateField/ToggleStateField";
-import { authClient } from "@/lib/auth/authClient";
-import { redirect } from "next/navigation";
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 
 export const EmailInfo = () => {
-  const { isPending, data, refetch } = authClient.useSession();
+  const { user } = useAuth();
+
   const t = useTranslations("TOGGLE_LABELS");
-  const tCommon = useTranslations("COMMON");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tToasts = useTranslations("TOASTS");
 
-  if (isPending) return tCommon("loading");
-  if (!data) redirect("/sign-in");
-
   return (
     <InfoCard title={tTitles("email")}>
-      <ChangeEmailForm currentEmail={data.user.email} />
+      <ChangeEmailForm currentEmail={user.email} />
       <ToggleStateField
         label={t("system-notifications")}
-        currentValue={data.user.isSystemEmailsEnabled}
+        currentValue={user.isSystemEmailsEnabled}
         onToggle={async () => {
           const result = await changeUserToggleState(
             "isSystemEmailsEnabled",
-            !data.user.isSystemEmailsEnabled
+            !user.isSystemEmailsEnabled
           );
           if (result.errorMessage) {
             toast(result.errorMessage);
           } else {
             toast(tToasts("UPDATED"));
-            refetch();
           }
         }}
       />
       <ToggleStateField
         label={t("newsletter")}
-        currentValue={data.user.isNewsletterEmailsEnabled}
+        currentValue={user.isNewsletterEmailsEnabled}
         onToggle={async () => {
           const result = await changeUserToggleState(
             "isNewsletterEmailsEnabled",
-            !data.user.isNewsletterEmailsEnabled
+            !user.isNewsletterEmailsEnabled
           );
           if (result.errorMessage) {
             toast(result.errorMessage);
           } else {
             toast(tToasts("UPDATED"));
-            refetch();
           }
         }}
       />

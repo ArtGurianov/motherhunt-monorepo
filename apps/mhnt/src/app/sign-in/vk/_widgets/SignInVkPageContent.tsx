@@ -4,8 +4,9 @@ import { initializeModelVk } from "@/actions/initializeModelVk";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useActiveMember, useAppParams } from "@/lib/hooks";
+import { APP_ROUTES_CONFIG, AppRoute } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
-import { toast } from "@shared/ui/components/sonner";
+import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useRouter } from "next/navigation";
@@ -21,7 +22,9 @@ export const SignInVkPageContent = () => {
   const { refetch: refetchActiveMember } = useActiveMember();
 
   useEffect(() => {
-    const returnTo = sessionStorage.getItem("OAUTH_RETURN_PATH") || "/";
+    const returnToKey =
+      sessionStorage.getItem("OAUTH_RETURN_TO") ||
+      APP_ROUTES_CONFIG.AUCTION.href;
 
     const paramsObject = Object.fromEntries(entries);
     const codeValidationResult = vkCodeResponseSchema.safeParse(paramsObject);
@@ -47,10 +50,16 @@ export const SignInVkPageContent = () => {
               setErrorMessage(result.error.message || result.error.statusText);
               return;
             }
-            sessionStorage.removeItem("OAUTH_RETURN_PATH");
-            toast("Success");
+            sessionStorage.removeItem("OAUTH_RETURN_TO");
             refetchActiveMember();
-            router.push(returnTo);
+            router.push(
+              generateUpdatedPathString(
+                APP_ROUTES_CONFIG[returnToKey as AppRoute].href,
+                new URLSearchParams({
+                  toast: "SUCCESS",
+                })
+              )
+            );
           });
       })
       .catch((error) => {

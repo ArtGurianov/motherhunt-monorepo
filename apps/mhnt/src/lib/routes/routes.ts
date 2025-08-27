@@ -1,6 +1,9 @@
 import { ValueOf } from "@shared/ui/lib/types";
 
 export const APP_ROUTES = {
+  SIGN_IN: "SIGN_IN",
+  SIGN_IN_ADMIN: "SIGN_IN_ADMIN",
+  REDIRECT_FROM_VK: "REDIRECT_FROM_VK",
   ADMINISTRATED: "ADMINISTRATED",
   SUPERADMINS: "SUPERADMINS",
   ADMINS: "ADMINS",
@@ -30,6 +33,18 @@ export interface AppRouteConfig<T extends AppRoute> {
 }
 
 export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
+  [APP_ROUTES.SIGN_IN]: {
+    key: APP_ROUTES.SIGN_IN,
+    href: "/sign-in",
+  },
+  [APP_ROUTES.SIGN_IN_ADMIN]: {
+    key: APP_ROUTES.SIGN_IN_ADMIN,
+    href: "/sign-in/admin",
+  },
+  [APP_ROUTES.REDIRECT_FROM_VK]: {
+    key: APP_ROUTES.REDIRECT_FROM_VK,
+    href: "/sign-in/vk",
+  },
   [APP_ROUTES.AUCTION]: {
     key: APP_ROUTES.AUCTION,
     href: "/",
