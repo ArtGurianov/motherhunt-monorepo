@@ -2,7 +2,7 @@
 
 import { ErrorBlock } from "@/components/Forms";
 import { authClient } from "@/lib/auth/authClient";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 const REDIRECT_PATH_SUCCESS = generateUpdatedPathString(
-  APP_ROUTES_CONFIG.AUCTION.href,
+  APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
   new URLSearchParams({
     toast: "SUCCESS",
   })

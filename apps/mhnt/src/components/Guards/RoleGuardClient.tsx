@@ -9,6 +9,7 @@ import { ReactNode, Suspense } from "react";
 import { useAuth } from "../AppProviders/AuthProvider";
 import { Button } from "@shared/ui/components/button";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 interface RoleGuardProps {
   children: ReactNode;
@@ -42,7 +43,7 @@ export const RoleGuardClient = ({ children, allowedRoles }: RoleGuardProps) => {
       >
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
-            <InterceptedLink href="/settings/switch-account">
+            <InterceptedLink href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH]}>
               {"Switch account"}
             </InterceptedLink>
           </Button>

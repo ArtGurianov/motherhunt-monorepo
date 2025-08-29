@@ -1,5 +1,5 @@
 import { Organization } from "@shared/db";
-import { AgenciesApplicationsWidget } from "./_widgets/AgenicesApplicationsWidget";
+import { AgenciesApplicationsWidget } from "./_widgets/AgenciesApplicationsWidget";
 import { prismaClient } from "@/lib/db";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ORG_TYPES } from "@/lib/utils/types";

@@ -6,7 +6,6 @@ import {
   ORG_ROLES,
 } from "@/lib/auth/permissions/org-permissions";
 import { prismaClient } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
 import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
@@ -38,7 +37,7 @@ export const transferHeadBookerRole = async (targetId: string) => {
       }),
     ]);
 
-    revalidatePath("/agency");
+    // TODO: revalidate /agency/id ???
 
     return createActionResponse();
   } catch (error) {

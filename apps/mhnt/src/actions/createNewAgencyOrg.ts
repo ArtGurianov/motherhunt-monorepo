@@ -12,6 +12,7 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const createNewAgencyOrg = async ({
   name,
@@ -75,9 +76,10 @@ export const createNewAgencyOrg = async ({
       },
     });
 
-    revalidatePath("/admin/cases/agencies");
-    revalidatePath("/@modal/(.)settings/switch-account/agency/requests");
-    revalidatePath("/@modal/settings/switch-account/agency/requests");
+    revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.AGENCIES_APPLICATIONS].href);
+    revalidatePath(
+      APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href
+    );
 
     return createActionResponse();
   } catch (error) {

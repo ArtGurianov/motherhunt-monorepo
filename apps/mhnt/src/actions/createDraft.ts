@@ -5,6 +5,7 @@ import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
 import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { auctionContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
@@ -60,7 +61,7 @@ export const createDraft = async () => {
       data: { scouterId: userId, signedByUserId: null },
     });
 
-    revalidatePath("/hunt/drafts");
+    revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.DRAFTS].href);
 
     return createActionResponse({ data: newDraft.id });
   } catch (error) {

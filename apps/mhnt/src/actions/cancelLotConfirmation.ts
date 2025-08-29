@@ -14,6 +14,8 @@ import { ZERO_BYTES } from "@/lib/web3/constants";
 import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
 import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
+import { buildDynamicRoutePath } from "@/lib/utils/buildDynamicRoutePath";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const ALLOWED_CUSTOM_ROLES: CustomMemberRole[] = [
   CUSTOM_MEMBER_ROLES.SCOUTER_ROLE,
@@ -71,7 +73,11 @@ export const calcelLotConfirmation = async ({
       data: { signedByUserId: null, isConfirmationEmailSent: false },
     });
 
-    revalidatePath(`/hunt/drafts/${lotId}`);
+    revalidatePath(
+      buildDynamicRoutePath(APP_ROUTES_CONFIG[APP_ROUTES.LOT].href, {
+        lotId,
+      })
+    );
 
     return createActionResponse();
   } catch (error) {

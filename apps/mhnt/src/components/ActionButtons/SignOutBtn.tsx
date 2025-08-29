@@ -5,10 +5,10 @@ import { Button } from "@shared/ui/components/button";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const REDIRECT_PATH_SIGNED_OUT = generateUpdatedPathString(
-  APP_ROUTES_CONFIG.SIGN_IN.href,
+  APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href,
   new URLSearchParams({
     toast: "SIGNED_OUT",
   })

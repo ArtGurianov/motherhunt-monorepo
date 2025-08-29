@@ -8,7 +8,7 @@ import { ORG_TYPES } from "@/lib/utils/types";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { prismaClient } from "@/lib/db";
 import { User } from "@shared/db";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export type BookersData = Array<{
   role: string;
@@ -23,7 +23,7 @@ export default async function AgencyManagePage() {
     const session = await auth.api.getSession({
       headers: headersList,
     });
-    if (!session) redirect(APP_ROUTES_CONFIG.AUCTION.href);
+    if (!session) redirect(APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href);
 
     const {
       session: { activeOrganizationId, activeOrganizationType },

@@ -71,7 +71,7 @@ export const AgenciesApplicationsWidget = ({
           organizationId: targetData.id,
           rejectionReason: rejectionTarget.rejectionReason!,
         });
-        if (result.errorMessage) {
+        if (!result.success) {
           toast(result.errorMessage);
         } else {
           toast(tToasts("rejected-message"));
@@ -86,7 +86,7 @@ export const AgenciesApplicationsWidget = ({
     onSuccess: (receipt) => {
       startTransition(async () => {
         const result = await acceptAgencyApplication(receipt.transactionHash);
-        if (result.errorMessage) {
+        if (!result.success) {
           toast(result.errorMessage);
         } else {
           toast(tToasts("approved-message"));

@@ -11,6 +11,7 @@ import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { useTranslations } from "next-intl";
 import { ModelSignInBtn } from "@/components/ActionButtons/ModelSignInBtn";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const SwitchAccountPageContent = () => {
   const { user } = useAuth();
@@ -57,7 +58,9 @@ export const SwitchAccountPageContent = () => {
       </Button>
       <Suspense>
         <Button asChild>
-          <InterceptedLink href="/settings/switch-account/agency">
+          <InterceptedLink
+            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY]}
+          >
             {"AGENCY"}
           </InterceptedLink>
         </Button>

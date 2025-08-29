@@ -20,6 +20,7 @@ import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { useTranslations } from "next-intl";
 import { useActiveMember } from "@/lib/hooks";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const Navbar = () => {
   const { data: session, isPending: isSessionPending } =
@@ -34,7 +35,8 @@ export const Navbar = () => {
 
   const { data: activeMember } = useActiveMember();
 
-  if (pathname === "/sign-in") return null;
+  if (pathname.startsWith(APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href))
+    return null;
 
   const activeRole = activeMember ? activeMember.role : session?.user.role;
 
@@ -59,7 +61,9 @@ export const Navbar = () => {
               size="reset"
               className="text-2xl text-center font-mono underline text-nowrap"
             >
-              <InterceptedLink href="/settings">
+              <InterceptedLink
+                href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS]}
+              >
                 {tRoles(activeRole!)}
               </InterceptedLink>
             </Button>
@@ -71,7 +75,9 @@ export const Navbar = () => {
               variant="secondary"
               className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
             >
-              <InterceptedLink href="/settings">
+              <InterceptedLink
+                href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS]}
+              >
                 <UserCog />
               </InterceptedLink>
             </Button>
@@ -95,7 +101,10 @@ export const Navbar = () => {
           size="reset"
           className="text-2xl text-center font-mono underline"
         >
-          <Link href="/settings" className="text-nowrap">
+          <Link
+            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS]}
+            className="text-nowrap"
+          >
             {t("signed-out-status")}
           </Link>
         </Button>
@@ -105,7 +114,7 @@ export const Navbar = () => {
           variant="secondary"
           className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
         >
-          <Link href={"/sign-in"}>
+          <Link href={APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN]}>
             <LogIn />
           </Link>
         </Button>

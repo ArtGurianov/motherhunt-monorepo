@@ -26,10 +26,10 @@ import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const REDIRECT_PATH_SIGNED_IN = generateUpdatedPathString(
-  APP_ROUTES_CONFIG.AUCTION.href,
+  APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
   new URLSearchParams({
     toast: "SIGNED_IN",
   })

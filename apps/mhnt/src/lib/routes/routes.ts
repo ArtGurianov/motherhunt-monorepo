@@ -6,7 +6,9 @@ export const APP_ROUTES = {
   REDIRECT_FROM_VK: "REDIRECT_FROM_VK",
   ADMINISTRATED: "ADMINISTRATED",
   SUPERADMINS: "SUPERADMINS",
+  SUPERADMIN_DETAILS: "SUPERADMIN_DETAILS",
   ADMINS: "ADMINS",
+  ADMIN_DETAILS: "ADMIN_DETAILS",
   CASES: "CASES",
   AGENCIES_APPLICATIONS: "AGENCIES_APPLICATIONS",
   AUCTION: "AUCTION",
@@ -32,7 +34,13 @@ export interface AppRouteConfig<T extends AppRoute> {
   href: string;
 }
 
-export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
+function defineRoutes<T extends Record<AppRoute, AppRouteConfig<AppRoute>>>(
+  routes: T
+) {
+  return routes;
+}
+
+export const APP_ROUTES_CONFIG = defineRoutes({
   [APP_ROUTES.SIGN_IN]: {
     key: APP_ROUTES.SIGN_IN,
     href: "/sign-in",
@@ -61,9 +69,17 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
     key: APP_ROUTES.SUPERADMINS,
     href: "/administrated/superadmins",
   },
+  [APP_ROUTES.SUPERADMIN_DETAILS]: {
+    key: APP_ROUTES.SUPERADMIN_DETAILS,
+    href: "/administrated/superadmins/[address]",
+  },
   [APP_ROUTES.ADMINS]: {
     key: APP_ROUTES.ADMINS,
     href: "/administrated/admins",
+  },
+  [APP_ROUTES.ADMIN_DETAILS]: {
+    key: APP_ROUTES.ADMIN_DETAILS,
+    href: "/administrated/admins/[address]",
   },
   [APP_ROUTES.CASES]: {
     key: APP_ROUTES.CASES,
@@ -116,4 +132,4 @@ export const APP_ROUTES_CONFIG: Record<AppRoute, AppRouteConfig<AppRoute>> = {
     key: APP_ROUTES.MODAL_SWITCH_MODEL,
     href: "/settings/switch-account/model",
   },
-};
+} as const);

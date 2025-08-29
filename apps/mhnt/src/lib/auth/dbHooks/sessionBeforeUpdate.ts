@@ -36,7 +36,7 @@ export const sessionBeforeUpdate = async (
 
   const result = await getSessionFromDB();
 
-  if (result.errorMessage) {
+  if (!result.success) {
     throw new APIError("INTERNAL_SERVER_ERROR", {
       message: result.errorMessage,
     });
@@ -81,7 +81,9 @@ export const sessionBeforeUpdate = async (
       userId,
       organizationId: organization.id,
     });
-    membership = result.data;
+    if (result.success) {
+      membership = result.data;
+    }
   }
 
   await prismaClient.user.update({

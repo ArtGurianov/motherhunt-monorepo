@@ -26,7 +26,7 @@ export const EmailInfo = () => {
             "isSystemEmailsEnabled",
             !user.isSystemEmailsEnabled
           );
-          if (result.errorMessage) {
+          if (!result.success) {
             toast(result.errorMessage);
           } else {
             toast(tToasts("UPDATED"));
@@ -41,7 +41,7 @@ export const EmailInfo = () => {
             "isNewsletterEmailsEnabled",
             !user.isNewsletterEmailsEnabled
           );
-          if (result.errorMessage) {
+          if (!result.success) {
             toast(result.errorMessage);
           } else {
             toast(tToasts("UPDATED"));

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppParams } from "@/lib/hooks";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateVkAuthRequestUrl } from "@/lib/utils/generateVkAuthRequestUrl";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
@@ -15,7 +15,7 @@ export const OAuthVkBtn = (props: GetComponentProps<typeof Button>) => {
     const returnTo = getParam("returnTo");
     sessionStorage.setItem(
       "OAUTH_RETURN_TO",
-      returnTo ?? APP_ROUTES_CONFIG.AUCTION.href
+      returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href
     );
 
     const authUrl = await generateVkAuthRequestUrl();

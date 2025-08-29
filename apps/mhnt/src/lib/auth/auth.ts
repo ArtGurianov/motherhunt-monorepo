@@ -221,7 +221,9 @@ const auth = betterAuth({
           userId: id,
           organizationId: activeOrganizationId,
         });
-        membership = result.data;
+        if (result.success) {
+          membership = result.data;
+        }
       }
 
       return {

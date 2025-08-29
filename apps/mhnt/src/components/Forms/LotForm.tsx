@@ -50,7 +50,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
           ...updateData,
         },
       });
-      if (result.errorMessage) {
+      if (!result.success) {
         toast(result.errorMessage);
       } else {
         toast("Success");

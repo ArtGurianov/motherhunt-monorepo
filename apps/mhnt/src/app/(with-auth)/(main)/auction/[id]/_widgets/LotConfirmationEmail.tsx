@@ -46,7 +46,7 @@ export const LotConfirmationEmail = ({
         const result = await sendLotConfirmation({
           lotId: lotData.id,
         });
-        if (result.errorMessage) {
+        if (!result.success) {
           setErrorMessage(result.errorMessage || "Failed to send email");
           return;
         }
@@ -66,7 +66,7 @@ export const LotConfirmationEmail = ({
         const result = await calcelLotConfirmation({
           lotId: lotData.id,
         });
-        if (result.errorMessage) {
+        if (!result.success) {
           setErrorMessage(result.errorMessage || "Failed cancel confirmation");
           return;
         }

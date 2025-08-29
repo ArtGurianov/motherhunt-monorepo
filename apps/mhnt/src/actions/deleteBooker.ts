@@ -6,7 +6,6 @@ import {
   ORG_ROLES,
 } from "@/lib/auth/permissions/org-permissions";
 import { prismaClient } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
@@ -69,7 +68,7 @@ export const deleteBookerRole = async (targetId: string) => {
       });
     }
 
-    revalidatePath("/agency");
+    // TODO revaildate /agency/id ???
 
     return createActionResponse();
   } catch (error) {

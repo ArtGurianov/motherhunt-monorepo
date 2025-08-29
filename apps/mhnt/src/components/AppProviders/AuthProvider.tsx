@@ -7,6 +7,7 @@ import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { createContext, useContext, ReactNode, Suspense, useMemo } from "react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 type AuthContextValue = {
   session: Session;
@@ -51,7 +52,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       >
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
-            <InterceptedLink href="/sign-in">{"Sign in"}</InterceptedLink>
+            <InterceptedLink href={APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN]}>
+              {"Sign in"}
+            </InterceptedLink>
           </Button>
         </Suspense>
       </StatusCard>

@@ -28,6 +28,7 @@ export default async function AcceptInvitationPage(
 ) {
   const { id } = await props.params;
 
+  // TODO
   // const headersList = await headers();
   // const session = await auth.api.getSession({
   //   headers: headersList,

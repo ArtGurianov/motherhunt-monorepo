@@ -13,6 +13,7 @@ import { useActiveMember } from "@/lib/hooks";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense } from "react";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const AuthInfo = () => {
   const { user } = useAuth();
@@ -41,7 +42,9 @@ export const AuthInfo = () => {
           <div className="absolute z-0 top-0 left-1/2 -translate-x-1/2 h-full flex items-center px-1">
             <Suspense>
               <CaptureBtn shape="horizontal">
-                <InterceptedLink href="/settings/switch-account">
+                <InterceptedLink
+                  href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH]}
+                >
                   {"Switch Account"}
                 </InterceptedLink>
               </CaptureBtn>

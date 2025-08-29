@@ -5,6 +5,8 @@ import { AddSuperAdminForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useAppWriteContract } from "@/lib/hooks";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { buildDynamicRoutePath } from "@/lib/utils/buildDynamicRoutePath";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { Button } from "@shared/ui/components/button";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
@@ -87,7 +89,10 @@ export const ManageSuperAdmins = () => {
                       className="p-px [&_svg]:size-6"
                     >
                       <Link
-                        href={`/administrated/daog/superadmins/${adminAddress}`}
+                        href={buildDynamicRoutePath(
+                          APP_ROUTES_CONFIG[APP_ROUTES.SUPERADMIN_DETAILS].href,
+                          { address: adminAddress }
+                        )}
                       >
                         <Eye />
                       </Link>

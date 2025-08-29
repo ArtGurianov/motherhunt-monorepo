@@ -15,7 +15,7 @@ export const CreateLotBtn = () => {
       onClick={() => {
         createDraft()
           .then((result) => {
-            if (result.errorMessage) {
+            if (!result.success) {
               toast(result.errorMessage);
             } else {
               router.refresh();

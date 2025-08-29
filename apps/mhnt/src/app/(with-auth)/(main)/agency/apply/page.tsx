@@ -2,7 +2,7 @@ import auth from "@/lib/auth/auth";
 import { CreateAgencyForm } from "@/components/Forms";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export default async function AgencyApplicationPage() {
   const headersList = await headers();
@@ -10,7 +10,7 @@ export default async function AgencyApplicationPage() {
     headers: headersList,
   });
   if (!session) {
-    redirect(APP_ROUTES_CONFIG.AUCTION.href);
+    redirect(APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href);
   }
 
   return (

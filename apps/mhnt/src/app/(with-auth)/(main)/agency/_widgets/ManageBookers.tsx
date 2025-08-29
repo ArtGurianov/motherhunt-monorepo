@@ -38,7 +38,7 @@ export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
     startTransition(async () => {
       if (targetActionData.action === "revoke") {
         const result = await deleteBookerRole(targetActionData.targetId);
-        if (result.errorMessage) {
+        if (!result.success) {
           toast(result.errorMessage);
         } else {
           toast("SUCCESS");
@@ -47,7 +47,7 @@ export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
       }
       if (targetActionData.action === "transfer") {
         const result = await transferHeadBookerRole(targetActionData.targetId);
-        if (result.errorMessage) {
+        if (!result.success) {
           toast(result.errorMessage);
         } else {
           toast("SUCCESS");

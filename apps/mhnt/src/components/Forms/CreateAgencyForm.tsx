@@ -31,6 +31,7 @@ import { SuccessBlock } from "./SuccessBlock";
 import { createNewAgencyOrg } from "@/actions/createNewAgencyOrg";
 import { toast } from "@shared/ui/components/sonner";
 import { createAgencySchema } from "@/lib/schemas/createAgencySchema";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const transformStringToSlug = (value: string) =>
   value
@@ -64,7 +65,7 @@ export const CreateAgencyForm = () => {
     setErrorMessage(null);
     startTransition(async () => {
       const result = await createNewAgencyOrg({ name, slug });
-      if (result.errorMessage) {
+      if (!result.success) {
         toast(result.errorMessage);
       } else {
         setIsSubmitted(true);
@@ -160,7 +161,9 @@ export const CreateAgencyForm = () => {
       <CardFooter className="border-t pt-2 pb-3 bg-accent-foreground/20">
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
-            <InterceptedLink href="/settings/switch-account/agency/requests">
+            <InterceptedLink
+              href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS]}
+            >
               {t("view-requests")}
             </InterceptedLink>
           </Button>

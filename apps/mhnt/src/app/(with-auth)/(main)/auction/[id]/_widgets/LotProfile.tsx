@@ -24,10 +24,6 @@ export const LotProfile = ({
       title={"model profile"}
     >
       <LotForm lotData={lotData} isOnChain={isOnChain} />
-      {/* TODO:
-          - editable if email isn't sent
-          - locked if email sent
-          - unlock to continue editing by canceling email */}
     </InfoCardAccordion>
   );
 };

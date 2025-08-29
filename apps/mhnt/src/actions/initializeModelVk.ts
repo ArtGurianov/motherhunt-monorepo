@@ -4,7 +4,7 @@ import auth from "@/lib/auth/auth";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
 import { vkUserResponseSchema } from "@/lib/schemas/vkUserResponseSchema";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
@@ -52,7 +52,7 @@ export const initializeModelVk = async (
         code_verifier: bodyValidationResult.data.state,
         device_id: bodyValidationResult.data.device_id,
         code: bodyValidationResult.data.code,
-        redirect_uri: `${getAppURL()}${APP_ROUTES_CONFIG.REDIRECT_FROM_VK.href}`,
+        redirect_uri: `${getAppURL()}${APP_ROUTES_CONFIG[APP_ROUTES.REDIRECT_FROM_VK].href}`,
       }),
     });
 

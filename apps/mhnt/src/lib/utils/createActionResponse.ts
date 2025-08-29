@@ -17,59 +17,78 @@ type ActionResponseData =
   | Array<ActionResponseData>
   | { [key: string | number]: ActionResponseData };
 
-interface CreateActionResponseProps<TData extends ActionResponseData> {
-  data?: TData;
-  error?: unknown;
+interface CreateActionResponsePropsSuccess<TData extends ActionResponseData> {
+  data: TData;
 }
 
-type ActionResponseSuccess<TData extends ActionResponseData> = {
+interface CreateActionResponsePropsError {
+  error: unknown;
+}
+
+type ActionResponseSuccessWithData<TData extends ActionResponseData> = {
   success: true;
-  data: TData | null;
-  errorMessage: null;
+  data: TData;
+};
+
+type ActionResponseSuccessWithoutData = {
+  success: true;
+  data: null;
 };
 
 type ActionResponseFail = {
   success: false;
-  data: null;
   errorMessage: string;
 };
 
-export const formatErrorMessage = (error?: any) => {
+export const formatErrorMessage = (error: unknown) => {
   const isClientError = error instanceof AppClientError;
   const isAuthError = error instanceof APIError;
   if (!isClientError && !isAuthError) {
     console.error(
-      error.message ?? "A server error of unexpected format has occured."
+      typeof error === "string"
+        ? error
+        : !!error && typeof error === "object" && "message" in error
+          ? error.message
+          : "A server error of unexpected format has occurred."
     );
   }
   return isClientError || isAuthError
     ? error.message
-    : "A server error has occured.";
+    : "A server error has occurred.";
 };
 
-export function createActionResponse<TData extends ActionResponseData>(props?: {
-  data: TData;
-  error?: undefined;
-}): ActionResponseSuccess<TData>;
-
-export function createActionResponse(props: {
-  error: unknown;
-}): ActionResponseFail;
-
+// Function overloads
+export function createActionResponse(): ActionResponseSuccessWithoutData;
 export function createActionResponse<TData extends ActionResponseData>(
-  props?: CreateActionResponseProps<TData>
-): ActionResponseSuccess<TData> | ActionResponseFail {
-  if (props?.error) {
+  props: CreateActionResponsePropsSuccess<TData>
+): ActionResponseSuccessWithData<TData>;
+export function createActionResponse(
+  props: CreateActionResponsePropsError
+): ActionResponseFail;
+
+// Implementation
+export function createActionResponse<TData extends ActionResponseData>(
+  props?:
+    | CreateActionResponsePropsError
+    | CreateActionResponsePropsSuccess<TData>
+):
+  | ActionResponseSuccessWithoutData
+  | ActionResponseSuccessWithData<TData>
+  | ActionResponseFail {
+  if (!props) {
+    return {
+      success: true,
+      data: null,
+    };
+  } else if ("error" in props) {
     return {
       success: false,
-      data: null,
-      errorMessage: formatErrorMessage(props?.error),
+      errorMessage: formatErrorMessage(props.error),
     };
   } else {
     return {
       success: true,
-      data: typeof props?.data === "undefined" ? null : (props.data ?? null),
-      errorMessage: null,
+      data: props.data,
     };
   }
 }

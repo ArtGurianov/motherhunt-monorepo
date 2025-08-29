@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useAppParams } from "./useAppParams";
-import { APP_ROUTES_CONFIG, AppRoute } from "../routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG, AppRoute } from "../routes/routes";
 
 export const useCloseIntercepted = () => {
   const router = useRouter();
@@ -11,7 +11,7 @@ export const useCloseIntercepted = () => {
     onInterceptedClose: () => {
       deleteParam("returnTo");
       router.push(
-        `${returnTo ? APP_ROUTES_CONFIG[returnTo as AppRoute].href : APP_ROUTES_CONFIG.AUCTION.href}${getUpdatedParamsString()}`
+        `${returnTo ? APP_ROUTES_CONFIG[returnTo as AppRoute].href : APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`
       );
     },
   };

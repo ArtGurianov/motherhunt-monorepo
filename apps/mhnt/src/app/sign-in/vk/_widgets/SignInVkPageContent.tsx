@@ -4,7 +4,7 @@ import { initializeModelVk } from "@/actions/initializeModelVk";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useActiveMember, useAppParams } from "@/lib/hooks";
-import { APP_ROUTES_CONFIG, AppRoute } from "@/lib/routes/routes";
+import { APP_ROUTES, APP_ROUTES_CONFIG, AppRoute } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
@@ -24,7 +24,7 @@ export const SignInVkPageContent = () => {
   useEffect(() => {
     const returnToKey =
       sessionStorage.getItem("OAUTH_RETURN_TO") ||
-      APP_ROUTES_CONFIG.AUCTION.href;
+      APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href;
 
     const paramsObject = Object.fromEntries(entries);
     const codeValidationResult = vkCodeResponseSchema.safeParse(paramsObject);

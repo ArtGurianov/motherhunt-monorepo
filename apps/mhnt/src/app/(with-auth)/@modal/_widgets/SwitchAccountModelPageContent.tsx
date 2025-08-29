@@ -5,6 +5,7 @@ import { OAuthVkBtn } from "@/components/ActionButtons/OAuthVkBtn";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
 import { useActiveMember } from "@/lib/hooks";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { Button } from "@shared/ui/components/button";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export const SwitchAccountModelPageContent = () => {
       <div className="flex flex-col gap-4">
         <h2>{"Social account already linked."}</h2>
         <Button asChild>
-          <Link href="/settings/switch-account">
+          <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH]}>
             {"To account switching =>"}
           </Link>
         </Button>

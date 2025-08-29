@@ -15,6 +15,7 @@ import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
 import { sendEmail } from "./sendEmail";
 import { canAccessAppRole } from "@/lib/auth/permissions/checkers";
 import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const locale = getAppLocale();
 
@@ -86,11 +87,11 @@ export const acceptAgencyApplication = async (txHash: `0x${string}`) => {
       },
     });
 
-    revalidatePath("/admin/cases/agencies");
-    revalidatePath("/@modal/(.)settings/switch-account/agency");
-    revalidatePath("/@modal/settings/switch-account/agency");
-    revalidatePath("/@modal/(.)settings/switch-account/agency/requests");
-    revalidatePath("/@modal/settings/switch-account/agency/requests");
+    revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.AGENCIES_APPLICATIONS].href);
+    revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY].href);
+    revalidatePath(
+      APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href
+    );
 
     return createActionResponse();
   } catch (error) {

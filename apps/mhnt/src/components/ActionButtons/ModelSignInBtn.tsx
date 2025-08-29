@@ -9,6 +9,7 @@ import { toast } from "@shared/ui/components/sonner";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import Link from "next/link";
 import { useAuth } from "../AppProviders/AuthProvider";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const { user } = useAuth();
@@ -20,7 +21,9 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   if (!user.modelSocialId || !user.modelOrganizationId) {
     return (
       <Button asChild {...props}>
-        <Link href="/settings/switch-account/model">{"MODEL"}</Link>
+        <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_MODEL]}>
+          {"MODEL"}
+        </Link>
       </Button>
     );
   }

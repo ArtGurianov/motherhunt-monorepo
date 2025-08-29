@@ -35,6 +35,7 @@ import { useTranslations } from "next-intl";
 import { useAppParams } from "@/lib/hooks/useAppParams";
 import { magicLinkFormSchema } from "@/lib/schemas/magicLinkFormSchema";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const SignInForm = () => {
   const { getParam, setParam, deleteParam, getUpdatedParamsString } =
@@ -73,7 +74,7 @@ export const SignInForm = () => {
         if (returnTo) deleteParam("returnTo");
         const result = await authClient.signIn.magicLink({
           email,
-          callbackURL: `${returnTo ?? "/"}${getUpdatedParamsString()}`,
+          callbackURL: `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION]}${getUpdatedParamsString()}`,
           fetchOptions: {
             headers: {
               "x-captcha-response": hCaptchaToken,
