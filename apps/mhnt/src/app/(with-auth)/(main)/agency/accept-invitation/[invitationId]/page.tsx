@@ -28,18 +28,6 @@ export default async function AcceptInvitationPage(
 ) {
   const { id } = await props.params;
 
-  // TODO
-  // const headersList = await headers();
-  // const session = await auth.api.getSession({
-  //   headers: headersList,
-  // });
-  // if (!session) {
-  //   const updatedParams = new URLSearchParams({ invitationId });
-  //   updatedParams.set("returnTo", `/agency/accept-invitation/${invitationId}`);
-  //   updatedParams.delete("invitationId");
-  //   redirect(`/sign-in?${updatedParams.toString()}`);
-  // }
-
   const invitationDetails = await prismaClient.invitation.findUnique({
     where: { id },
   });
@@ -50,33 +38,16 @@ export default async function AcceptInvitationPage(
     );
   }
 
-  // if (invitationDetails.email !== session.user.email) {
-  //   return (
-  //     <StatusCard type={StatusCardTypes.ERROR} title="Not an invitee email!" />
-  //   );
-  // }
-
   if (invitationDetails.status !== "pending") {
-    return <StatusCard type={StatusCardTypes.ERROR} title="Already Accepted" />;
+    return (
+      <StatusCard type={StatusCardTypes.ERROR} title="Invitation Closed" />
+    );
   }
 
-  // if (
-  //   session.session.activeOrganizationId === invitationDetails.organizationId
-  // ) {
-  //   return <StatusCard type={StatusCardTypes.ERROR} title="Already a member" />;
-  // }
-
-  // const memberships = await prismaClient.member.findMany({
-  //   where: { userId: session.session.userId },
-  // });
-
-  // for (const membership of memberships) {
-  //   if (membership.organizationId === invitationDetails.organizationId) {
-  //     return (
-  //       <StatusCard type={StatusCardTypes.ERROR} title="Already a member" />
-  //     );
-  //   }
-  // }
-
-  return <AcceptInvitationWidget invitationId={id} />;
+  return (
+    <AcceptInvitationWidget
+      invitationId={id}
+      inviteeEmail={invitationDetails.email}
+    />
+  );
 }

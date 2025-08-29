@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { ErrorBlock } from "@/components/Forms";
 import { authClient } from "@/lib/auth/authClient";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
@@ -12,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
+import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -25,11 +27,15 @@ const REDIRECT_PATH_SUCCESS = generateUpdatedPathString(
 
 interface AcceptInvitationWidgetProps {
   invitationId: string;
+  inviteeEmail: string;
 }
 
 export const AcceptInvitationWidget = ({
   invitationId,
+  inviteeEmail,
 }: AcceptInvitationWidgetProps) => {
+  const { user } = useAuth();
+
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -48,6 +54,12 @@ export const AcceptInvitationWidget = ({
       router.push(REDIRECT_PATH_SUCCESS);
     });
   };
+
+  if (inviteeEmail !== user.email) {
+    return (
+      <StatusCard type={StatusCardTypes.ERROR} title="Not an invitee email!" />
+    );
+  }
 
   return (
     <Card className="w-full max-w-sm">
