@@ -22,6 +22,7 @@ import { Ban, Crown, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
 import { BookersData } from "../page";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
   const router = useRouter();
@@ -36,24 +37,34 @@ export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
   const onActionConfirm = () => {
     if (!targetActionData) return;
     startTransition(async () => {
-      if (targetActionData.action === "revoke") {
-        const result = await deleteBookerRole(targetActionData.targetId);
-        if (!result.success) {
-          toast(result.errorMessage);
-        } else {
+      try {
+        if (targetActionData.action === "revoke") {
+          const result = await deleteBookerRole(targetActionData.targetId);
+          if (!result.success) {
+            toast(result.errorMessage);
+            return;
+          }
           toast("SUCCESS");
           router.refresh();
         }
-      }
-      if (targetActionData.action === "transfer") {
-        const result = await transferHeadBookerRole(targetActionData.targetId);
-        if (!result.success) {
-          toast(result.errorMessage);
-        } else {
+        if (targetActionData.action === "transfer") {
+          const result = await transferHeadBookerRole(
+            targetActionData.targetId
+          );
+          if (!result.success) {
+            toast(result.errorMessage);
+            return;
+          }
           toast("SUCCESS");
           refetch();
           router.refresh();
         }
+      } catch (error) {
+        toast(
+          error instanceof AppClientError
+            ? error.message
+            : "An unexpected error occurred. Please try again."
+        );
       }
     });
   };

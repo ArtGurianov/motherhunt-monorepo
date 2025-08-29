@@ -28,9 +28,9 @@ export const EmailInfo = () => {
           );
           if (!result.success) {
             toast(result.errorMessage);
-          } else {
-            toast(tToasts("UPDATED"));
+            return;
           }
+          toast(tToasts("UPDATED"));
         }}
       />
       <ToggleStateField
@@ -43,9 +43,9 @@ export const EmailInfo = () => {
           );
           if (!result.success) {
             toast(result.errorMessage);
-          } else {
-            toast(tToasts("UPDATED"));
+            return;
           }
+          toast(tToasts("UPDATED"));
         }}
       />
     </InfoCard>

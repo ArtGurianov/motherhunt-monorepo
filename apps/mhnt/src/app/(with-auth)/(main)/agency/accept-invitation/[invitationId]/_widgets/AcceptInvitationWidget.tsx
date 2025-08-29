@@ -1,8 +1,8 @@
 "use client";
 
+import { acceptInvitation } from "@/actions/acceptInvitation";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { ErrorBlock } from "@/components/Forms";
-import { authClient } from "@/lib/auth/authClient";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { Button } from "@shared/ui/components/button";
@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@shared/ui/components/card";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -41,23 +42,29 @@ export const AcceptInvitationWidget = ({
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const acceptInvitation = () => {
+  const handleAcceptInvitation = () => {
     startTransition(async () => {
-      setErrorMessage(null);
-      const result = await authClient.organization.acceptInvitation({
-        invitationId,
-      });
-      if (result.error) {
-        setErrorMessage(result.error.statusText);
-        return;
+      try {
+        setErrorMessage(null);
+        const result = await acceptInvitation(invitationId);
+        if (!result.success) {
+          setErrorMessage(result.errorMessage);
+          return;
+        }
+        router.push(REDIRECT_PATH_SUCCESS);
+      } catch (error) {
+        setErrorMessage(
+          error instanceof AppClientError
+            ? error.message
+            : "An unexpected error occurred. Please try again."
+        );
       }
-      router.push(REDIRECT_PATH_SUCCESS);
     });
   };
 
   if (inviteeEmail !== user.email) {
     return (
-      <StatusCard type={StatusCardTypes.ERROR} title="Not an invitee email!" />
+      <StatusCard type={StatusCardTypes.ERROR} title="Not an invitee email" />
     );
   }
 
@@ -71,7 +78,11 @@ export const AcceptInvitationWidget = ({
       </CardHeader>
       <CardContent className="flex-col gap-4">
         <div className="w-full flex justify-center items-center">
-          <Button size="lg" onClick={acceptInvitation} disabled={isPending}>
+          <Button
+            size="lg"
+            onClick={handleAcceptInvitation}
+            disabled={isPending}
+          >
             {isPending ? (
               <LoaderCircle className="py-1 animate-spin h-8 w-8" />
             ) : (

@@ -28,6 +28,7 @@ import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { Web3ConnectBtn } from "@/components/ActionButtons/Web3ConnectBtn";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -65,18 +66,26 @@ export const AgenciesApplicationsWidget = ({
       const targetData = data[rejectionTarget.targetIndex]!;
 
       startTransition(async () => {
-        const result = await rejectAgencyApplication({
-          address,
-          signature,
-          organizationId: targetData.id,
-          rejectionReason: rejectionTarget.rejectionReason!,
-        });
-        if (!result.success) {
-          toast(result.errorMessage);
-        } else {
+        try {
+          const result = await rejectAgencyApplication({
+            address,
+            signature,
+            organizationId: targetData.id,
+            rejectionReason: rejectionTarget.rejectionReason!,
+          });
+          if (!result.success) {
+            toast(result.errorMessage);
+            return;
+          }
           toast(tToasts("rejected-message"));
           setRejectionTarget(null);
           router.refresh();
+        } catch (error) {
+          toast(
+            error instanceof AppClientError
+              ? error.message
+              : "An unexpected error occurred. Please try again."
+          );
         }
       });
     }
@@ -85,12 +94,20 @@ export const AgenciesApplicationsWidget = ({
   const { writeContract, isProcessing } = useAppWriteContract({
     onSuccess: (receipt) => {
       startTransition(async () => {
-        const result = await acceptAgencyApplication(receipt.transactionHash);
-        if (!result.success) {
-          toast(result.errorMessage);
-        } else {
+        try {
+          const result = await acceptAgencyApplication(receipt.transactionHash);
+          if (!result.success) {
+            toast(result.errorMessage);
+            return;
+          }
           toast(tToasts("approved-message"));
           router.refresh();
+        } catch (error) {
+          toast(
+            error instanceof AppClientError
+              ? error.message
+              : "An unexpected error occurred. Please try again."
+          );
         }
       });
     },

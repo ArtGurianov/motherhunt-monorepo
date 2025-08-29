@@ -32,6 +32,7 @@ import { createNewAgencyOrg } from "@/actions/createNewAgencyOrg";
 import { toast } from "@shared/ui/components/sonner";
 import { createAgencySchema } from "@/lib/schemas/createAgencySchema";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 const transformStringToSlug = (value: string) =>
   value
@@ -62,16 +63,24 @@ export const CreateAgencyForm = () => {
     name,
     slug,
   }: z.infer<typeof createAgencySchema>) => {
-    setErrorMessage(null);
-    startTransition(async () => {
-      const result = await createNewAgencyOrg({ name, slug });
-      if (!result.success) {
-        toast(result.errorMessage);
-      } else {
+    try {
+      setErrorMessage(null);
+      startTransition(async () => {
+        const result = await createNewAgencyOrg({ name, slug });
+        if (!result.success) {
+          toast(result.errorMessage);
+          return;
+        }
         setIsSubmitted(true);
         form.reset();
-      }
-    });
+      });
+    } catch (error) {
+      setErrorMessage(
+        error instanceof AppClientError
+          ? error.message
+          : "An unexpected error occurred. Please try again."
+      );
+    }
   };
 
   return (

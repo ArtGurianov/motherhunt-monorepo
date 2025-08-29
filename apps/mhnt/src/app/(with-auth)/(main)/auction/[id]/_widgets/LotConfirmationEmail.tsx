@@ -47,15 +47,15 @@ export const LotConfirmationEmail = ({
           lotId: lotData.id,
         });
         if (!result.success) {
-          setErrorMessage(result.errorMessage || "Failed to send email");
+          setErrorMessage(result.errorMessage);
           return;
         }
       } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+        setErrorMessage(
+          error instanceof AppClientError
+            ? error.message
+            : "An unexpected error occurred. Please try again."
+        );
       }
     });
   };
@@ -71,11 +71,11 @@ export const LotConfirmationEmail = ({
           return;
         }
       } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+        setErrorMessage(
+          error instanceof AppClientError
+            ? error.message
+            : "An unexpected error occurred. Please try again."
+        );
       }
     });
   };

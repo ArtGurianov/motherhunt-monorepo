@@ -9,6 +9,7 @@ import { Lot } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Suspense, useTransition } from "react";
@@ -47,15 +48,23 @@ export const LotConfirmationWidget = ({ data }: LotConfirmationWidgetProps) => {
       <Button
         disabled={isPending}
         onClick={() => {
-          startTransition(async () => {
-            const result = await signLotConfirmation({ lotId: data.id });
-            if (!result.success) {
-              toast(result.errorMessage);
-            } else {
-              toast("SUCCESS");
-              router.refresh();
-            }
-          });
+          try {
+            startTransition(async () => {
+              const result = await signLotConfirmation({ lotId: data.id });
+              if (!result.success) {
+                toast(result.errorMessage);
+              } else {
+                toast("SUCCESS");
+                router.refresh();
+              }
+            });
+          } catch (error) {
+            toast(
+              error instanceof AppClientError
+                ? error.message
+                : "An unexpected error occurred. Please try again."
+            );
+          }
         }}
       >
         {isPending ? (

@@ -252,6 +252,11 @@ const auth = betterAuth({
 
 type ExtendedAuth = typeof auth & {
   api: (typeof auth)["api"] & {
+    acceptInvitation: ({
+      body,
+    }: {
+      body: { invitationId: string };
+    }) => Promise<void>;
     createOrganization: ({
       body,
     }: {
