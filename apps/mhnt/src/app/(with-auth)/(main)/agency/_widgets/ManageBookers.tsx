@@ -22,7 +22,7 @@ import { Ban, Crown, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
 import { BookersData } from "../page";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
   const router = useRouter();
@@ -60,11 +60,7 @@ export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
           router.refresh();
         }
       } catch (error) {
-        toast(
-          error instanceof AppClientError
-            ? error.message
-            : "An unexpected error occurred. Please try again."
-        );
+        toast(formatErrorMessage(error));
       }
     });
   };

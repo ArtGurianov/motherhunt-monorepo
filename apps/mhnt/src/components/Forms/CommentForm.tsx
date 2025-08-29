@@ -16,11 +16,11 @@ import { Textarea } from "@shared/ui/components/textarea";
 import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { commentSchema } from "@/lib/schemas/commentSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 interface CommentFormProps {
   defaultValue?: string;
@@ -49,17 +49,10 @@ export const CommentForm = ({
     setErrorMessage(null);
     startTransition(async () => {
       try {
-        if (!value || value.length < 20) {
-          throw new AppClientError("Comment must be at least 20 characters");
-        }
         onSubmit(value);
         setFormStatus("SUCCESS");
       } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+        setErrorMessage(formatErrorMessage(error));
         setFormStatus("ERROR");
       }
     });

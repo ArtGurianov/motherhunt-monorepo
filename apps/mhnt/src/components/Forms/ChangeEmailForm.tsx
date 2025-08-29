@@ -19,12 +19,12 @@ import { authClient } from "@/lib/auth/authClient";
 import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { useAppParams } from "@/lib/hooks";
 import { emailSchema } from "@/lib/schemas/emailSchema";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 interface ChangeEmailFormProps {
   currentEmail: string;
@@ -50,9 +50,6 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
     setErrorMessage(null);
     startTransition(async () => {
       try {
-        if (!email) {
-          throw new AppClientError("Email is required");
-        }
         setParam(TOAST_PARAM_URL_TOKEN, "UPDATED");
         const result = await authClient.changeEmail({
           newEmail: email,
@@ -65,11 +62,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
         }
         setFormStatus("SUCCESS");
       } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+        setErrorMessage(formatErrorMessage(error));
         setFormStatus("ERROR");
       }
     });

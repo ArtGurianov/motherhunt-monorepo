@@ -33,10 +33,9 @@ export const Agencies = async () => {
       }))
       .reverse();
   } catch (error) {
-    if (error instanceof AppClientError) {
-      throw error;
-    }
-    throw new AppClientError("Unable to get data from CMS");
+    throw error instanceof AppClientError
+      ? error
+      : new AppClientError("Unable to get data from CMS");
   }
 
   return (

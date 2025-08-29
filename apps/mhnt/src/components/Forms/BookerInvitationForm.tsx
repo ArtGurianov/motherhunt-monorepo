@@ -17,12 +17,12 @@ import { Input } from "@shared/ui/components/input";
 import { authClient } from "@/lib/auth/authClient";
 import { useState, useTransition } from "react";
 import { FormStatus } from "./types";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { LoaderCircle } from "lucide-react";
 import { emailSchema } from "@/lib/schemas/emailSchema";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const BookerInvitationForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
@@ -41,9 +41,6 @@ export const BookerInvitationForm = () => {
     setErrorMessage(null);
     startTransition(async () => {
       try {
-        if (!email) {
-          throw new AppClientError("Email is required");
-        }
         const result = await authClient.organization.inviteMember({
           email,
           role: ORG_ROLES.MEMBER_ROLE,
@@ -55,11 +52,8 @@ export const BookerInvitationForm = () => {
         }
         setFormStatus("SUCCESS");
       } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+        setErrorMessage(formatErrorMessage(error));
+
         setFormStatus("ERROR");
       }
     });

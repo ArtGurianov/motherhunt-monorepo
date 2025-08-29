@@ -20,15 +20,14 @@ import {
 import { Organization } from "@shared/db";
 import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useTranslations } from "next-intl";
 import { useActiveMember } from "@/lib/hooks";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const AgenciesList = () => {
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("AGENCIES_LIST");
   const tTitles = useTranslations("INFO_CARD_TITLES");
-  const tCommon = useTranslations("COMMON");
   const tToasts = useTranslations("TOASTS");
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
@@ -85,11 +84,7 @@ export const AgenciesList = () => {
                             refetchActiveMember();
                             toast(tToasts("switched-to-agency"));
                           } catch (error) {
-                            if (error instanceof AppClientError) {
-                              toast(error.message);
-                            } else {
-                              toast(tCommon("unexpected-error"));
-                            }
+                            toast(formatErrorMessage(error));
                           }
                         });
                       }}

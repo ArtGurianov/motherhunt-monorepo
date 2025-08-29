@@ -17,7 +17,6 @@ import { LoaderCircle } from "lucide-react";
 import { HCaptchaFormItem } from "@/components/HCaptchaFormItem/HCaptchaFormItem";
 import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { useAppParams } from "@/lib/hooks";
 import { useAccount, useSignMessage } from "wagmi";
@@ -27,6 +26,7 @@ import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 const REDIRECT_PATH_SIGNED_IN = generateUpdatedPathString(
   APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
@@ -87,11 +87,7 @@ export const AdminSignInForm = () => {
             router.push(REDIRECT_PATH_SIGNED_IN);
           }
         } catch (error) {
-          if (error instanceof AppClientError) {
-            setErrorMessage(error.message);
-          } else {
-            setErrorMessage("Unexpected error occurred. Please try again.");
-          }
+          setErrorMessage(formatErrorMessage(error));
         }
       });
     }

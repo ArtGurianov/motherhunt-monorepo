@@ -1,8 +1,8 @@
 import { Organization } from "@shared/db";
 import { AgenciesApplicationsWidget } from "./_widgets/AgenciesApplicationsWidget";
 import { prismaClient } from "@/lib/db";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ORG_TYPES } from "@/lib/utils/types";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export default async function AgenciesApplicationsPage() {
   let pendingOrganizations: Organization[] | null = null;
@@ -22,10 +22,7 @@ export default async function AgenciesApplicationsPage() {
       },
     });
   } catch (error) {
-    if (error instanceof AppClientError) {
-      return error.message;
-    }
-    return "Server error";
+    return formatErrorMessage(error);
   }
 
   return <AgenciesApplicationsWidget data={pendingOrganizations} />;

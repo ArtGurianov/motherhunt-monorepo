@@ -28,7 +28,6 @@ import { LoaderCircle } from "lucide-react";
 import { HCaptchaFormItem } from "@/components/HCaptchaFormItem/HCaptchaFormItem";
 import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { useTranslations } from "next-intl";
@@ -36,6 +35,7 @@ import { useAppParams } from "@/lib/hooks/useAppParams";
 import { magicLinkFormSchema } from "@/lib/schemas/magicLinkFormSchema";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const SignInForm = () => {
   const { getParam, setParam, deleteParam, getUpdatedParamsString } =
@@ -63,12 +63,6 @@ export const SignInForm = () => {
     setErrorMessage(null);
     startTransition(async () => {
       try {
-        if (!email) {
-          throw new AppClientError("Email is required");
-        }
-        if (!hCaptchaToken) {
-          throw new AppClientError("You must verify you're human");
-        }
         setParam(TOAST_PARAM_URL_TOKEN, "SIGNED_IN");
         const returnTo = getParam("returnTo");
         if (returnTo) deleteParam("returnTo");
@@ -88,11 +82,7 @@ export const SignInForm = () => {
         }
         setFormStatus("SUCCESS");
       } catch (error) {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+        setErrorMessage(formatErrorMessage(error));
         setFormStatus("ERROR");
       }
     });

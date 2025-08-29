@@ -4,6 +4,7 @@ import { acceptInvitation } from "@/actions/acceptInvitation";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { ErrorBlock } from "@/components/Forms";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -14,7 +15,6 @@ import {
   CardTitle,
 } from "@shared/ui/components/card";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -53,11 +53,7 @@ export const AcceptInvitationWidget = ({
         }
         router.push(REDIRECT_PATH_SUCCESS);
       } catch (error) {
-        setErrorMessage(
-          error instanceof AppClientError
-            ? error.message
-            : "An unexpected error occurred. Please try again."
-        );
+        setErrorMessage(formatErrorMessage(error));
       }
     });
   };

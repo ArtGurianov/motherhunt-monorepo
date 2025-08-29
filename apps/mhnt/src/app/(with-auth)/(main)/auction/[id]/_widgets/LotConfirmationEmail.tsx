@@ -6,6 +6,7 @@ import { DangerousActionDialog } from "@/components/DangerousActionDialog/Danger
 import { ErrorBlock } from "@/components/Forms";
 import { InfoCardAccordion } from "@/components/InfoCard/InfoCardAccordion";
 import { validLotDraftSchema } from "@/lib/schemas/validLotDraftSchema";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Lot } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -14,7 +15,6 @@ import {
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
 import { Quote } from "@shared/ui/components/Quote";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 
@@ -40,9 +40,6 @@ export const LotConfirmationEmail = ({
   const onConfirmationEmailSend = () => {
     startTransition(async () => {
       try {
-        if (!lotData.email) {
-          throw new AppClientError("Email is required");
-        }
         const result = await sendLotConfirmation({
           lotId: lotData.id,
         });
@@ -51,11 +48,7 @@ export const LotConfirmationEmail = ({
           return;
         }
       } catch (error) {
-        setErrorMessage(
-          error instanceof AppClientError
-            ? error.message
-            : "An unexpected error occurred. Please try again."
-        );
+        setErrorMessage(formatErrorMessage(error));
       }
     });
   };
@@ -71,11 +64,7 @@ export const LotConfirmationEmail = ({
           return;
         }
       } catch (error) {
-        setErrorMessage(
-          error instanceof AppClientError
-            ? error.message
-            : "An unexpected error occurred. Please try again."
-        );
+        setErrorMessage(formatErrorMessage(error));
       }
     });
   };

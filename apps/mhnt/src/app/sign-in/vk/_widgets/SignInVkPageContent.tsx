@@ -6,9 +6,9 @@ import { getEnvConfigClient } from "@/lib/config/env";
 import { useActiveMember, useAppParams } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG, AppRoute } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -63,11 +63,7 @@ export const SignInVkPageContent = () => {
           });
       })
       .catch((error) => {
-        if (error instanceof AppClientError) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("Unexpected error occurred while processing VK ID.");
-        }
+        setErrorMessage(formatErrorMessage(error));
       })
       .finally(() => {
         setIsLoading(false);

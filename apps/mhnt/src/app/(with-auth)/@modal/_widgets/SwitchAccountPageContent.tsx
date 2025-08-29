@@ -2,7 +2,6 @@
 
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle } from "lucide-react";
 import { authClient } from "@/lib/auth/authClient";
 import { useActiveMember } from "@/lib/hooks/useActiveMember";
@@ -12,6 +11,7 @@ import { useTranslations } from "next-intl";
 import { ModelSignInBtn } from "@/components/ActionButtons/ModelSignInBtn";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const SwitchAccountPageContent = () => {
   const { user } = useAuth();
@@ -45,11 +45,7 @@ export const SwitchAccountPageContent = () => {
               refetchActiveMember();
               toast("switched to scouter");
             } catch (error) {
-              if (error instanceof AppClientError) {
-                toast(error.message);
-              } else {
-                toast("unexpected error");
-              }
+              toast(formatErrorMessage(error));
             }
           });
         }}

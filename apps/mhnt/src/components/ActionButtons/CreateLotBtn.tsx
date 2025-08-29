@@ -1,9 +1,9 @@
 "use client";
 
 import { createDraft } from "@/actions/createDraft";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -27,11 +27,7 @@ export const CreateLotBtn = () => {
             router.refresh();
           });
         } catch (error) {
-          toast(
-            error instanceof AppClientError
-              ? error.message
-              : "An unexpected error occurred. Please try again."
-          );
+          toast(formatErrorMessage(error));
         }
       }}
     >

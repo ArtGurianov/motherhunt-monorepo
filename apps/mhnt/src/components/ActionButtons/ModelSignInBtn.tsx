@@ -6,10 +6,10 @@ import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import Link from "next/link";
 import { useAuth } from "../AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const { user } = useAuth();
@@ -40,11 +40,7 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
             refetchActiveMember();
             toast("Switched to Model");
           } catch (error) {
-            if (error instanceof AppClientError) {
-              toast(error.message);
-            } else {
-              toast("Unexpected Error");
-            }
+            toast(formatErrorMessage(error));
           }
         });
       }}

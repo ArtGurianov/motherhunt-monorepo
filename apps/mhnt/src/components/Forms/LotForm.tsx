@@ -21,7 +21,7 @@ import { toast } from "@shared/ui/components/sonner";
 import { updateDraft } from "@/actions/updateDraft";
 import { Lot } from "@shared/db";
 import { lotDraftSchema } from "@/lib/schemas/lotDraftSchema";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 interface LotFormProps {
   isOnChain: boolean;
@@ -59,11 +59,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
         toast("Success");
       });
     } catch (error) {
-      setErrorMessage(
-        error instanceof AppClientError
-          ? error.message
-          : "An unexpected error occurred. Please try again."
-      );
+      setErrorMessage(formatErrorMessage(error));
     }
   };
 

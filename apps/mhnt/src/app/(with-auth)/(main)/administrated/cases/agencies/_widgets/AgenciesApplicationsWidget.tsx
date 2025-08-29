@@ -28,7 +28,7 @@ import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { Web3ConnectBtn } from "@/components/ActionButtons/Web3ConnectBtn";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -81,11 +81,7 @@ export const AgenciesApplicationsWidget = ({
           setRejectionTarget(null);
           router.refresh();
         } catch (error) {
-          toast(
-            error instanceof AppClientError
-              ? error.message
-              : "An unexpected error occurred. Please try again."
-          );
+          toast(formatErrorMessage(error));
         }
       });
     }
@@ -103,11 +99,7 @@ export const AgenciesApplicationsWidget = ({
           toast(tToasts("approved-message"));
           router.refresh();
         } catch (error) {
-          toast(
-            error instanceof AppClientError
-              ? error.message
-              : "An unexpected error occurred. Please try again."
-          );
+          toast(formatErrorMessage(error));
         }
       });
     },
