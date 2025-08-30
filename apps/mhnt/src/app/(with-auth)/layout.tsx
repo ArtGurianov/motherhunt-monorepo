@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/components/AppProviders/AuthProvider";
+import { SettingsModalManager } from "@/components/SettingsModalManager/SettingsModalManager";
 import { ReactNode } from "react";
 
 export default function WithAuthLayout({
@@ -8,7 +9,7 @@ export default function WithAuthLayout({
   return (
     <AuthProvider>
       {children}
-      {modal}
+      <SettingsModalManager>{modal}</SettingsModalManager>
     </AuthProvider>
   );
 }

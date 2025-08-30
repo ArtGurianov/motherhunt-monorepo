@@ -6,7 +6,7 @@ import {
   DialogDrawerProps,
 } from "@shared/ui/components/DialogDrawer/DialogDrawer";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
 import { Button } from "@shared/ui/components/button";
@@ -18,50 +18,64 @@ interface InterceptedDialogDrawerProps
   targetPath: string;
 }
 
+const ROUTE_LOOKUP = Object.fromEntries(
+  Object.values(APP_ROUTES_CONFIG).map((route) => [route.href, route.key])
+);
+
 export const InterceptedDialogDrawer = ({
   targetPath,
   children,
   ...rest
 }: InterceptedDialogDrawerProps) => {
   const pathname = usePathname();
-  const particles = pathname.split("/");
   const params = useSearchParams();
   const { onInterceptedClose } = useCloseIntercepted();
   const t = useTranslations("ROUTES_TITLES");
 
-  const routeId =
-    Object.values(APP_ROUTES_CONFIG).find((each) => each.href === pathname)
-      ?.key ?? "default";
+  const isOpen = useMemo(
+    () => pathname.startsWith(targetPath),
+    [pathname, targetPath]
+  );
 
-  const [isOpen, setIsOpen] = useState(pathname.startsWith(targetPath));
-  useEffect(() => {
-    setIsOpen(pathname.startsWith(targetPath));
-  }, [pathname]);
+  const routeId = useMemo(
+    () => ROUTE_LOOKUP[pathname] ?? "default",
+    [pathname]
+  );
+
+  const pathSegments = useMemo(() => pathname.split("/"), [pathname]);
+
+  const backButtonHref = useMemo(() => {
+    if (pathSegments.length <= 2) return null;
+
+    const basePath = pathSegments.slice(0, -1).join("/");
+    const queryString = params.size > 0 ? `?${params.toString()}` : "";
+    return `${basePath}${queryString}`;
+  }, [pathSegments, params]);
+
+  const backButton = useMemo(() => {
+    if (!backButtonHref) return undefined;
+
+    return (
+      <Button
+        asChild
+        variant="secondary"
+        size="reset"
+        className="absolute top-0 left-4 p-1 [&_svg]:size-8"
+      >
+        <Link href={backButtonHref}>
+          <ArrowBigLeft />
+        </Link>
+      </Button>
+    );
+  }, [backButtonHref]);
 
   return (
     <DialogDrawer
-      title={t(routeId)}
       {...rest}
+      title={t(routeId)}
       isOpen={isOpen}
-      backBtn={
-        particles.length > 2 ? (
-          <Button
-            asChild
-            variant="secondary"
-            size="reset"
-            className="absolute top-0 left-4 p-1 [&_svg]:size-8"
-          >
-            <Link
-              href={`${particles.slice(0, particles.length - 1).join("/")}${params.size ? "?" + params.toString() : ""}`}
-            >
-              <ArrowBigLeft />
-            </Link>
-          </Button>
-        ) : undefined
-      }
-      onClose={() => {
-        onInterceptedClose();
-      }}
+      backBtn={backButton}
+      onClose={onInterceptedClose}
     >
       {children}
     </DialogDrawer>

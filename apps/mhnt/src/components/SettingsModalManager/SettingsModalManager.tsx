@@ -2,11 +2,13 @@ import { InterceptedDialogDrawer } from "@/components/InterceptedDialogDrawer/In
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { ReactNode, Suspense } from "react";
 
-interface RouteManagerProps {
+interface SettingsModalManagerProps {
   children: ReactNode;
 }
 
-export const RouteManager = ({ children }: RouteManagerProps) => {
+export const SettingsModalManager = ({
+  children,
+}: SettingsModalManagerProps) => {
   return (
     <Suspense>
       <InterceptedDialogDrawer
