@@ -22,7 +22,7 @@ export const SignInVkPageContent = () => {
   const { refetch: refetchActiveMember } = useActiveMember();
 
   useEffect(() => {
-    const returnToKey =
+    const returnTo =
       sessionStorage.getItem("OAUTH_RETURN_TO") ||
       APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href;
 
@@ -54,7 +54,7 @@ export const SignInVkPageContent = () => {
             refetchActiveMember();
             router.push(
               generateUpdatedPathString(
-                APP_ROUTES_CONFIG[returnToKey as AppRoute].href,
+                returnTo,
                 new URLSearchParams({
                   toast: "SUCCESS",
                 })

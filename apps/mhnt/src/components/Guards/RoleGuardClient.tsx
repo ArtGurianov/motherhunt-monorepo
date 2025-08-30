@@ -43,7 +43,9 @@ export const RoleGuardClient = ({ children, allowedRoles }: RoleGuardProps) => {
       >
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
-            <InterceptedLink href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH]}>
+            <InterceptedLink
+              href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH].href}
+            >
               {"Switch account"}
             </InterceptedLink>
           </Button>

@@ -55,7 +55,7 @@ export const SwitchAccountPageContent = () => {
       <Suspense>
         <Button asChild>
           <InterceptedLink
-            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY]}
+            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY].href}
           >
             {"AGENCY"}
           </InterceptedLink>

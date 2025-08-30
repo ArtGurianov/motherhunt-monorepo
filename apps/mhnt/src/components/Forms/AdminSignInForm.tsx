@@ -23,21 +23,13 @@ import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
 import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
-import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
-const REDIRECT_PATH_SIGNED_IN = generateUpdatedPathString(
-  APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
-  new URLSearchParams({
-    toast: "SIGNED_IN",
-  })
-);
-
 export const AdminSignInForm = () => {
   const router = useRouter();
-  const { getParam, setParam, deleteParam } = useAppParams();
+  const { getParam, deleteParam } = useAppParams();
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -69,9 +61,6 @@ export const AdminSignInForm = () => {
     if (signature && address) {
       startTransition(async () => {
         try {
-          setParam(TOAST_PARAM_URL_TOKEN, "SIGNED_IN");
-          const returnTo = getParam("returnTo");
-          if (returnTo) deleteParam("returnTo");
           const result = await authClient.signIn.trustedUser({
             address,
             signature,
@@ -84,7 +73,16 @@ export const AdminSignInForm = () => {
           if (result.error) {
             setErrorMessage(result.error.message || result.error.statusText);
           } else {
-            router.push(REDIRECT_PATH_SIGNED_IN);
+            const returnTo = getParam("returnTo");
+            if (returnTo) deleteParam("returnTo");
+            router.push(
+              generateUpdatedPathString(
+                returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
+                new URLSearchParams({
+                  toast: "SIGNED_IN",
+                })
+              )
+            );
           }
         } catch (error) {
           setErrorMessage(formatErrorMessage(error));

@@ -16,7 +16,7 @@ export const SwitchAccountAgencyPageContent = () => {
       <div className="flex flex-col gap-1">
         <Button asChild size="lg" className="font-mono">
           <Link
-            href={APP_ROUTES_CONFIG[APP_ROUTES.AGENCY_APPLY]}
+            href={APP_ROUTES_CONFIG[APP_ROUTES.AGENCY_APPLY].href}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -25,7 +25,9 @@ export const SwitchAccountAgencyPageContent = () => {
         </Button>
         <Button asChild variant="link" className="font-mono">
           <Link
-            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS]}
+            href={
+              APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href
+            }
           >
             {t("view-requests")}
           </Link>

@@ -29,7 +29,7 @@ export const SwitchAccountModelPageContent = () => {
       <div className="flex flex-col gap-4">
         <h2>{"Social account already linked."}</h2>
         <Button asChild>
-          <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH]}>
+          <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH].href}>
             {"To account switching =>"}
           </Link>
         </Button>

@@ -18,9 +18,10 @@ import { Suspense, useState } from "react";
 import { NavbarMenu } from "./NavbarMenu";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { useTranslations } from "next-intl";
-import { useActiveMember } from "@/lib/hooks";
-import { CustomMemberRole } from "@/lib/auth/customRoles";
+import { CustomMemberRole, getCustomMemberRole } from "@/lib/auth/customRoles";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { OrgType } from "@/lib/utils/types";
+import { OrgRole } from "@/lib/auth/permissions/org-permissions";
 
 export const Navbar = () => {
   const { data: session, isPending: isSessionPending } =
@@ -33,12 +34,20 @@ export const Navbar = () => {
   const tCommon = useTranslations("COMMON");
   const tRoles = useTranslations("ROLES");
 
-  const { data: activeMember } = useActiveMember();
-
   if (pathname.startsWith(APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href))
     return null;
 
-  const activeRole = activeMember ? activeMember.role : session?.user.role;
+  const activeRole: AppRole | CustomMemberRole | null = Boolean(
+    session?.session.activeOrganizationId &&
+      session?.session.activeOrganizationName &&
+      session?.session.activeOrganizationType &&
+      session?.session.activeOrganizationRole
+  )
+    ? getCustomMemberRole(
+        session!.session.activeOrganizationType as OrgType,
+        session!.session.activeOrganizationRole as OrgRole
+      )
+    : ((session?.user.role as AppRole) ?? null);
 
   const displayContent = session ? (
     <div
@@ -62,7 +71,7 @@ export const Navbar = () => {
               className="text-2xl text-center font-mono underline text-nowrap"
             >
               <InterceptedLink
-                href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS]}
+                href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href}
               >
                 {tRoles(activeRole!)}
               </InterceptedLink>
@@ -76,7 +85,7 @@ export const Navbar = () => {
               className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
             >
               <InterceptedLink
-                href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS]}
+                href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href}
               >
                 <UserCog />
               </InterceptedLink>
@@ -102,7 +111,7 @@ export const Navbar = () => {
           className="text-2xl text-center font-mono underline"
         >
           <Link
-            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS]}
+            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href}
             className="text-nowrap"
           >
             {t("signed-out-status")}
@@ -114,7 +123,7 @@ export const Navbar = () => {
           variant="secondary"
           className="p-px [&_svg]:pointer-events-auto [&_svg]:size-6"
         >
-          <Link href={APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN]}>
+          <Link href={APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href}>
             <LogIn />
           </Link>
         </Button>

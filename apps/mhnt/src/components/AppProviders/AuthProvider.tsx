@@ -52,7 +52,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       >
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
-            <InterceptedLink href={APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN]}>
+            <InterceptedLink href={APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href}>
               {"Sign in"}
             </InterceptedLink>
           </Button>

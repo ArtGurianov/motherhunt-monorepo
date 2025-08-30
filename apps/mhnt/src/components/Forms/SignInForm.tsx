@@ -65,10 +65,9 @@ export const SignInForm = () => {
       try {
         setParam(TOAST_PARAM_URL_TOKEN, "SIGNED_IN");
         const returnTo = getParam("returnTo");
-        if (returnTo) deleteParam("returnTo");
         const result = await authClient.signIn.magicLink({
           email,
-          callbackURL: `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION]}${getUpdatedParamsString()}`,
+          callbackURL: `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`,
           fetchOptions: {
             headers: {
               "x-captcha-response": hCaptchaToken,
@@ -80,6 +79,7 @@ export const SignInForm = () => {
           setFormStatus("ERROR");
           return;
         }
+        if (returnTo) deleteParam("returnTo");
         setFormStatus("SUCCESS");
       } catch (error) {
         setErrorMessage(formatErrorMessage(error));

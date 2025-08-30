@@ -11,7 +11,7 @@ export const useCloseIntercepted = () => {
     onInterceptedClose: () => {
       deleteParam("returnTo");
       router.push(
-        `${returnTo ? APP_ROUTES_CONFIG[returnTo as AppRoute].href : APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`
+        `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`
       );
     },
   };

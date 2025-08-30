@@ -21,7 +21,7 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   if (!user.modelSocialId || !user.modelOrganizationId) {
     return (
       <Button asChild {...props}>
-        <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_MODEL]}>
+        <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_MODEL].href}>
           {"MODEL"}
         </Link>
       </Button>

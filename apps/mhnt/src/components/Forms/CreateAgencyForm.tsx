@@ -167,7 +167,9 @@ export const CreateAgencyForm = () => {
         <Suspense>
           <Button asChild size="lg" type="submit" className="w-full">
             <InterceptedLink
-              href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS]}
+              href={
+                APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href
+              }
             >
               {t("view-requests")}
             </InterceptedLink>

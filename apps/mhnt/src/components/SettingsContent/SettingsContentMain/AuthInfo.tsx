@@ -43,7 +43,7 @@ export const AuthInfo = () => {
             <Suspense>
               <CaptureBtn shape="horizontal">
                 <InterceptedLink
-                  href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH]}
+                  href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH].href}
                 >
                   {"Switch Account"}
                 </InterceptedLink>
