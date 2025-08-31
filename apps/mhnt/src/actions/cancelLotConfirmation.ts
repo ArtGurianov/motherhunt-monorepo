@@ -74,8 +74,8 @@ export const calcelLotConfirmation = async ({
     });
 
     revalidatePath(
-      buildDynamicRoutePath(APP_ROUTES_CONFIG[APP_ROUTES.LOT].href, {
-        lotId,
+      buildDynamicRoutePath(APP_ROUTES_CONFIG[APP_ROUTES.DRAFT].href, {
+        id: lotId,
       })
     );
 

@@ -6,7 +6,6 @@ import {
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getEnvConfigServer } from "./lib/config/env";
-// import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
@@ -56,12 +55,6 @@ export async function middleware(request: NextRequest) {
       });
     }
   }
-
-  // const sessionCookie = getSessionCookie(request);
-  // Only for private routes
-  // if (!sessionCookie) {
-  //   return NextResponse.redirect(new URL("/signin", request.url));
-  // }
 
   return NextResponse.next();
 }

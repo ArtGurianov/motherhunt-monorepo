@@ -14,11 +14,11 @@ import { ZERO_BYTES } from "@/lib/web3/constants";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 
-interface LotContentProps {
-  lotData: Lot;
+interface DraftContentProps {
+  draftData: Lot;
 }
 
-export const LotContent = ({ lotData }: LotContentProps) => {
+export const DraftContent = ({ draftData }: DraftContentProps) => {
   const { session } = useAuth();
 
   const [openedAccordion, setOpenedAccordion] = useState<
@@ -35,7 +35,7 @@ export const LotContent = ({ lotData }: LotContentProps) => {
       .NEXT_PUBLIC_AUCTION_CONTRACT_ADDRESS as `0x${string}`,
     functionName: "getLotData",
     query: {
-      enabled: !!lotData.signedByUserId,
+      enabled: !!draftData.signedByUserId,
     },
   });
 
@@ -43,7 +43,7 @@ export const LotContent = ({ lotData }: LotContentProps) => {
   const isOnChain =
     !!validationResult.data && validationResult.data.scouterId !== ZERO_BYTES;
 
-  if (lotData.scouterId !== session.userId)
+  if (draftData.scouterId !== session.userId)
     return (
       <StatusCard type={StatusCardTypes.ERROR} title="Not a lot creator!" />
     );
@@ -52,7 +52,7 @@ export const LotContent = ({ lotData }: LotContentProps) => {
     <>
       <LotProfile
         isOnChain={isOnChain}
-        lotData={lotData}
+        lotData={draftData}
         isOpen={openedAccordion === "profile"}
         onToggle={() => {
           setOpenedAccordion((prev) => (prev === "profile" ? null : "profile"));
@@ -60,7 +60,7 @@ export const LotContent = ({ lotData }: LotContentProps) => {
       />
       <LotConfirmationEmail
         isOnChain={isOnChain}
-        lotData={lotData}
+        lotData={draftData}
         isOpen={openedAccordion === "confirmation"}
         onToggle={() => {
           setOpenedAccordion((prev) =>
@@ -69,14 +69,14 @@ export const LotContent = ({ lotData }: LotContentProps) => {
         }}
       />
       <LotReview
-        lotData={lotData}
+        lotData={draftData}
         isOpen={openedAccordion === "review"}
         onToggle={() => {
           setOpenedAccordion((prev) => (prev === "review" ? null : "review"));
         }}
       />
       <LotPublish
-        lotData={lotData}
+        lotData={draftData}
         isOpen={openedAccordion === "publish"}
         onToggle={() => {
           setOpenedAccordion((prev) => (prev === "publish" ? null : "publish"));

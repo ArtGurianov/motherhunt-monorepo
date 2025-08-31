@@ -1,6 +1,6 @@
 import { prismaClient } from "@/lib/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
-import { LotContent } from "./_widgets/LotContent";
+import { DraftContent } from "./_widgets/DraftContent";
 
 export async function generateStaticParams() {
   const itemsPerFetch = 100;
@@ -23,16 +23,16 @@ export async function generateStaticParams() {
   return resultData;
 }
 
-interface LotPageProps {
+interface DraftPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function LotPage(props: LotPageProps) {
+export default async function DraftPage(props: DraftPageProps) {
   const { id } = await props.params;
 
-  const lotData = await prismaClient.lot.findUnique({ where: { id } });
-  if (!lotData)
+  const draftData = await prismaClient.lot.findUnique({ where: { id } });
+  if (!draftData)
     return <StatusCard type={StatusCardTypes.ERROR} title="Lot not found" />;
 
-  return <LotContent lotData={lotData} />;
+  return <DraftContent draftData={draftData} />;
 }

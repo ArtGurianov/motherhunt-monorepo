@@ -50,9 +50,12 @@ export const DraftsPageContent = () => {
       {result.data.map((each) => (
         <LotCard
           key={each.id}
-          href={buildDynamicRoutePath(APP_ROUTES_CONFIG[APP_ROUTES.LOT].href, {
-            lotId: each.id,
-          })}
+          href={buildDynamicRoutePath(
+            APP_ROUTES_CONFIG[APP_ROUTES.DRAFT].href,
+            {
+              id: each.id,
+            }
+          )}
           bgUrl={each.profilePictureUrl}
           alias={each.name || "TEST"}
         />

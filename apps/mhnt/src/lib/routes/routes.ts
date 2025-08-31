@@ -4,7 +4,6 @@ export const APP_ROUTES = {
   SIGN_IN: "SIGN_IN",
   SIGN_IN_ADMIN: "SIGN_IN_ADMIN",
   REDIRECT_FROM_VK: "REDIRECT_FROM_VK",
-  ADMINISTRATED: "ADMINISTRATED",
   SUPERADMINS: "SUPERADMINS",
   SUPERADMIN_DETAILS: "SUPERADMIN_DETAILS",
   ADMINS: "ADMINS",
@@ -12,13 +11,12 @@ export const APP_ROUTES = {
   CASES: "CASES",
   AGENCIES_APPLICATIONS: "AGENCIES_APPLICATIONS",
   AUCTION: "AUCTION",
-  LOT: "LOT",
-  AGENCY_MANAGE: "AGENCY_MANAGE",
   AGENCY_DETAILS: "AGENCY_DETAILS",
   AGENCY_ACCEPT_INVITATION: "AGENCY_ACCEPT_INVITATION",
   DEALS: "DEALS",
   HUNT: "HUNT",
   DRAFTS: "DRAFTS",
+  DRAFT: "DRAFT",
   MODEL_CONFIRMATION: "MODEL_CONFIRMATION",
   AGENCY_APPLY: "AGENCY_APPLY",
   MODAL_SETTINGS: "MODAL_SETTINGS",
@@ -41,6 +39,10 @@ function defineRoutes<T extends Record<AppRoute, AppRouteConfig<AppRoute>>>(
 }
 
 export const APP_ROUTES_CONFIG = defineRoutes({
+  [APP_ROUTES.AUCTION]: {
+    key: APP_ROUTES.AUCTION,
+    href: "/",
+  },
   [APP_ROUTES.SIGN_IN]: {
     key: APP_ROUTES.SIGN_IN,
     href: "/sign-in",
@@ -53,52 +55,40 @@ export const APP_ROUTES_CONFIG = defineRoutes({
     key: APP_ROUTES.REDIRECT_FROM_VK,
     href: "/sign-in/vk",
   },
-  [APP_ROUTES.AUCTION]: {
-    key: APP_ROUTES.AUCTION,
-    href: "/",
-  },
-  [APP_ROUTES.LOT]: {
-    key: APP_ROUTES.LOT,
-    href: "/auction/[lotId]",
-  },
-  [APP_ROUTES.ADMINISTRATED]: {
-    key: APP_ROUTES.ADMINISTRATED,
-    href: "/administrated",
-  },
   [APP_ROUTES.SUPERADMINS]: {
     key: APP_ROUTES.SUPERADMINS,
-    href: "/administrated/superadmins",
+    href: "/superadmins",
   },
   [APP_ROUTES.SUPERADMIN_DETAILS]: {
     key: APP_ROUTES.SUPERADMIN_DETAILS,
-    href: "/administrated/superadmins/[address]",
+    href: "/superadmins/[address]",
   },
   [APP_ROUTES.ADMINS]: {
     key: APP_ROUTES.ADMINS,
-    href: "/administrated/admins",
+    href: "/admins",
   },
   [APP_ROUTES.ADMIN_DETAILS]: {
     key: APP_ROUTES.ADMIN_DETAILS,
-    href: "/administrated/admins/[address]",
+    href: "/admins/[address]",
   },
   [APP_ROUTES.CASES]: {
     key: APP_ROUTES.CASES,
-    href: "/administrated/cases",
+    href: "/review-cases",
   },
   [APP_ROUTES.AGENCIES_APPLICATIONS]: {
     key: APP_ROUTES.AGENCIES_APPLICATIONS,
-    href: "/administrated/cases/agencies",
+    href: "/review-cases/agencies",
   },
   [APP_ROUTES.DEALS]: { key: APP_ROUTES.DEALS, href: "/deals" },
   [APP_ROUTES.HUNT]: { key: APP_ROUTES.HUNT, href: "/hunt" },
   [APP_ROUTES.DRAFTS]: { key: APP_ROUTES.DRAFTS, href: "/hunt/drafts" },
+  [APP_ROUTES.DRAFT]: {
+    key: APP_ROUTES.DRAFT,
+    href: "/hunt/drafts/[id]",
+  },
   [APP_ROUTES.MODEL_CONFIRMATION]: {
     key: APP_ROUTES.MODEL_CONFIRMATION,
     href: "/confirmation/[id]",
-  },
-  [APP_ROUTES.AGENCY_MANAGE]: {
-    key: APP_ROUTES.AGENCY_MANAGE,
-    href: "/agency",
   },
   [APP_ROUTES.AGENCY_DETAILS]: {
     key: APP_ROUTES.AGENCY_DETAILS,
@@ -106,11 +96,11 @@ export const APP_ROUTES_CONFIG = defineRoutes({
   },
   [APP_ROUTES.AGENCY_ACCEPT_INVITATION]: {
     key: APP_ROUTES.AGENCY_ACCEPT_INVITATION,
-    href: "/agency/accept-invitation/[invitationId]",
+    href: "/join-agency/[invitationId]",
   },
   [APP_ROUTES.AGENCY_APPLY]: {
     key: APP_ROUTES.AGENCY_APPLY,
-    href: "/agency/apply",
+    href: "/apply-agency",
   },
   [APP_ROUTES.MODAL_SETTINGS]: {
     key: APP_ROUTES.MODAL_SETTINGS,
