@@ -24,7 +24,6 @@
     "description": "Введите ваш email",
     "email-label": "Электронная почта",
     "email-placeholder": "введите ваш email",
-    "email-description": "Описание поля email",
     "success-message": "Письмо отправлено! Проверьте почту.",
     "send-link": "Войти"
   },

@@ -118,7 +118,6 @@ export const SignInForm = () => {
                       }}
                     />
                   </FormControl>
-                  <FormDescription>{t("email-description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

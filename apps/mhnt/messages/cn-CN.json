@@ -24,7 +24,6 @@
     "description": "在下方输入您的邮箱以登录账户",
     "email-label": "邮箱",
     "email-placeholder": "输入您的邮箱",
-    "email-description": "邮箱字段描述",
     "success-message": "邮件已发送！请检查您的收件箱。",
     "send-link": "登录"
   },

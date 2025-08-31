@@ -24,7 +24,6 @@
     "description": "Ingresa tu email a continuación para iniciar sesión en tu cuenta",
     "email-label": "Email",
     "email-placeholder": "escribe tu email",
-    "email-description": "Alguna descripción",
     "success-message": "¡Email enviado! Por favor revisa tu bandeja de entrada.",
     "send-link": "Iniciar sesión"
   },

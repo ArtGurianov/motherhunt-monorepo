@@ -24,7 +24,6 @@
     "description": "Enter your email below to login to your account",
     "email-label": "Email",
     "email-placeholder": "type your email",
-    "email-description": "Some description",
     "success-message": "Email sent! Please check your inbox.",
     "send-link": "Send link"
   },
