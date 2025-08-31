@@ -8,10 +8,21 @@ import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { createContext, useContext, ReactNode, Suspense, useMemo } from "react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { CustomMemberRole, getCustomMemberRole } from "@/lib/auth/customRoles";
+import { OrgType } from "@/lib/utils/types";
+import { OrgRole } from "@/lib/auth/permissions/org-permissions";
+
+interface Membership {
+  organizationId: string;
+  organizationName: string;
+  organizationType: OrgType;
+  role: CustomMemberRole;
+}
 
 type AuthContextValue = {
   session: Session;
   user: User;
+  activeMember: Membership | null;
   refetch: () => void;
 };
 
@@ -28,10 +39,39 @@ export function AuthProvider({ children }: AuthProviderProps) {
     refetch,
   } = authClient.useSession();
 
-  const providerValue: AuthContextValue = useMemo(
-    () => ({ ...session, refetch }) as AuthContextValue,
-    [session]
-  );
+  const providerValue: AuthContextValue | null = useMemo(() => {
+    if (!session) return null;
+
+    const {
+      session: {
+        activeOrganizationId,
+        activeOrganizationName,
+        activeOrganizationType,
+        activeOrganizationRole,
+      },
+    } = session;
+
+    return {
+      ...session,
+      activeMember: Boolean(
+        activeOrganizationId &&
+          activeOrganizationName &&
+          activeOrganizationType &&
+          activeOrganizationRole
+      )
+        ? {
+            organizationId: activeOrganizationId,
+            organizationName: activeOrganizationName,
+            organizationType: activeOrganizationType as OrgType,
+            role: getCustomMemberRole(
+              activeOrganizationType as OrgType,
+              activeOrganizationRole as OrgRole
+            ),
+          }
+        : null,
+      refetch,
+    } as AuthContextValue;
+  }, [session]);
 
   if (isSessionPending) {
     return (
@@ -43,7 +83,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     );
   }
 
-  if (!session) {
+  if (!session || !providerValue) {
     return (
       <StatusCard
         type={StatusCardTypes.ERROR}

@@ -1,4 +1,3 @@
-export { useActiveMember } from "./useActiveMember";
 export { useAppParams } from "./useAppParams";
 export { useAppWriteContract } from "./useAppWriteContract";
 export { useCloseIntercepted } from "./useCloseIntercepted";

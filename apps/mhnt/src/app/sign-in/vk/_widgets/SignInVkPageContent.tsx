@@ -1,10 +1,11 @@
 "use client";
 
 import { initializeModelVk } from "@/actions/initializeModelVk";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useActiveMember, useAppParams } from "@/lib/hooks";
-import { APP_ROUTES, APP_ROUTES_CONFIG, AppRoute } from "@/lib/routes/routes";
+import { useAppParams } from "@/lib/hooks";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
@@ -13,13 +14,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const SignInVkPageContent = () => {
+  const { refetch } = useAuth();
+
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { entries } = useAppParams();
-
-  const { refetch: refetchActiveMember } = useActiveMember();
 
   useEffect(() => {
     const returnTo =
@@ -51,7 +52,7 @@ export const SignInVkPageContent = () => {
               return;
             }
             sessionStorage.removeItem("OAUTH_RETURN_TO");
-            refetchActiveMember();
+            refetch();
             router.push(
               generateUpdatedPathString(
                 returnTo,

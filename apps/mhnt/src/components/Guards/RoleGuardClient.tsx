@@ -1,7 +1,6 @@
 "use client";
 
 import { CustomMemberRole } from "@/lib/auth/customRoles";
-import { useActiveMember } from "@/lib/hooks";
 import { AppRole } from "@shared/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { useTranslations } from "next-intl";
@@ -17,12 +16,10 @@ interface RoleGuardProps {
 }
 
 export const RoleGuardClient = ({ children, allowedRoles }: RoleGuardProps) => {
-  const { user } = useAuth();
+  const { user, activeMember } = useAuth();
 
   const tToasts = useTranslations("TOASTS");
   const tRoles = useTranslations("ROLES");
-
-  const { data: activeMember } = useActiveMember();
 
   const role: AppRole | CustomMemberRole = activeMember
     ? (activeMember.role as CustomMemberRole)

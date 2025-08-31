@@ -4,7 +4,6 @@ import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { LoaderCircle } from "lucide-react";
 import { authClient } from "@/lib/auth/authClient";
-import { useActiveMember } from "@/lib/hooks/useActiveMember";
 import { Suspense, useTransition } from "react";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { useTranslations } from "next-intl";
@@ -14,13 +13,10 @@ import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const SwitchAccountPageContent = () => {
-  const { user } = useAuth();
+  const { user, activeMember, refetch } = useAuth();
 
   const [isPending, startTransition] = useTransition();
   const tRoles = useTranslations("ROLES");
-
-  const { data: activeMember, refetch: refetchActiveMember } =
-    useActiveMember();
 
   return (
     <div className="flex flex-col gap-4 w-full h-full justify-center items-stretch px-8">
@@ -42,7 +38,7 @@ export const SwitchAccountPageContent = () => {
               await authClient.organization.setActive({
                 organizationId: user.scoutingOrganizationId,
               });
-              refetchActiveMember();
+              refetch();
               toast("switched to scouter");
             } catch (error) {
               toast(formatErrorMessage(error));

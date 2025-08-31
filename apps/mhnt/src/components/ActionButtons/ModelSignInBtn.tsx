@@ -1,7 +1,6 @@
 "use client";
 
 import { authClient } from "@/lib/auth/authClient";
-import { useActiveMember } from "@/lib/hooks";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { useTransition } from "react";
@@ -12,11 +11,9 @@ import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
-  const { user } = useAuth();
+  const { user, refetch } = useAuth();
 
   const [isTransitionPending, startTransition] = useTransition();
-
-  const { refetch: refetchActiveMember } = useActiveMember();
 
   if (!user.modelSocialId || !user.modelOrganizationId) {
     return (
@@ -37,7 +34,7 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
             await authClient.organization.setActive({
               organizationId: user.modelOrganizationId,
             });
-            refetchActiveMember();
+            refetch();
             toast("Switched to Model");
           } catch (error) {
             toast(formatErrorMessage(error));

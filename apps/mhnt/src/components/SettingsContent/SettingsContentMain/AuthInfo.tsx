@@ -9,15 +9,13 @@ import {
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
 import { useTranslations } from "next-intl";
-import { useActiveMember } from "@/lib/hooks";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { Suspense } from "react";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 export const AuthInfo = () => {
-  const { user } = useAuth();
-  const { data: activeMember } = useActiveMember();
+  const { user, activeMember } = useAuth();
 
   const t = useTranslations("AUTH_INFO");
   const tTitles = useTranslations("INFO_CARD_TITLES");

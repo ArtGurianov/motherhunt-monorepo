@@ -6,7 +6,6 @@ import { DangerousActionDialog } from "@/components/DangerousActionDialog/Danger
 import { BookerInvitationForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
-import { useActiveMember } from "@/lib/hooks";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import {
@@ -23,16 +22,17 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
 import { BookersData } from "../page";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 
 export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
+  const { refetch } = useAuth();
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [targetActionData, setTargetActionData] = useState<{
     targetId: string;
     action: "revoke" | "transfer";
   } | null>(null);
-
-  const { refetch } = useActiveMember();
 
   const onActionConfirm = () => {
     if (!targetActionData) return;

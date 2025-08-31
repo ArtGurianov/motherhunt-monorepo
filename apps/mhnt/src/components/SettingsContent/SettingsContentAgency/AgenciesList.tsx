@@ -21,10 +21,12 @@ import { Organization } from "@shared/db";
 import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
-import { useActiveMember } from "@/lib/hooks";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 
 export const AgenciesList = () => {
+  const { refetch, activeMember } = useAuth();
+
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("AGENCIES_LIST");
   const tTitles = useTranslations("INFO_CARD_TITLES");
@@ -32,9 +34,6 @@ export const AgenciesList = () => {
 
   const { data: organizationsData, isPending: isOrganizationsPending } =
     authClient.useListOrganizations();
-
-  const { data: activeMember, refetch: refetchActiveMember } =
-    useActiveMember();
 
   const displayOrganizations = organizationsData?.reduce((temp, next) => {
     const { status } = getAgencyApplicationStatus(next as Organization);
@@ -81,7 +80,7 @@ export const AgenciesList = () => {
                             await authClient.organization.setActive({
                               organizationId: each.id,
                             });
-                            refetchActiveMember();
+                            refetch();
                             toast(tToasts("switched-to-agency"));
                           } catch (error) {
                             toast(formatErrorMessage(error));
