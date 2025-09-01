@@ -25,13 +25,14 @@ import { useAppParams } from "@/lib/hooks";
 import { emailSchema } from "@/lib/schemas/emailSchema";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 interface ChangeEmailFormProps {
   currentEmail: string;
 }
 
 export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
-  const { setParam, getUpdatedPathString } = useAppParams();
+  const { setParam, getUpdatedParamsString } = useAppParams();
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -53,7 +54,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
         setParam(TOAST_PARAM_URL_TOKEN, "UPDATED");
         const result = await authClient.changeEmail({
           newEmail: email,
-          callbackURL: getUpdatedPathString(),
+          callbackURL: `${APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`,
         });
         if (result?.error) {
           setErrorMessage(result.error.message || "Failed to change email");
