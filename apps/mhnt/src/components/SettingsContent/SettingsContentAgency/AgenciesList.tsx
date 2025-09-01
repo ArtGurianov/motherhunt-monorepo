@@ -23,6 +23,7 @@ import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 
 export const AgenciesList = () => {
   const { refetch, activeMember } = useAuth();
@@ -36,9 +37,12 @@ export const AgenciesList = () => {
     authClient.useListOrganizations();
 
   const displayOrganizations = organizationsData?.reduce((temp, next) => {
-    const { status } = getAgencyApplicationStatus(next as Organization);
-    if (status === APPLICATION_STATUSES.APPROVED) {
-      temp.push(next as Organization);
+    const orgType = (JSON.parse(next.metadata) as OrgMetadata).orgType;
+    if (orgType === ORG_TYPES.AGENCY) {
+      const { status } = getAgencyApplicationStatus(next as Organization);
+      if (status === APPLICATION_STATUSES.APPROVED) {
+        temp.push(next as Organization);
+      }
     }
     return temp;
   }, [] as Organization[]);

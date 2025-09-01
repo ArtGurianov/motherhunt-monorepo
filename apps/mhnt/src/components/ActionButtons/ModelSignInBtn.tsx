@@ -9,9 +9,10 @@ import Link from "next/link";
 import { useAuth } from "../AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
+import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
-  const { user, refetch } = useAuth();
+  const { user, refetch, activeMember } = useAuth();
 
   const [isTransitionPending, startTransition] = useTransition();
 
@@ -28,6 +29,7 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   return (
     <Button
       {...props}
+      disabled={activeMember?.role === CUSTOM_MEMBER_ROLES.MODEL_ROLE}
       onClick={() => {
         startTransition(async () => {
           try {
