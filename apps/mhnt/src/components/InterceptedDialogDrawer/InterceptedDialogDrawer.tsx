@@ -1,81 +1,67 @@
 "use client";
 
-import { useCloseIntercepted } from "@/lib/hooks";
+import { useAppParams } from "@/lib/hooks";
 import {
   DialogDrawer,
   DialogDrawerProps,
 } from "@shared/ui/components/DialogDrawer/DialogDrawer";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowBigLeft } from "lucide-react";
 import { Button } from "@shared/ui/components/button";
 import { useTranslations } from "next-intl";
-import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-
-interface InterceptedDialogDrawerProps
-  extends Omit<DialogDrawerProps, "isOpen" | "onClose" | "title" | "backBtn"> {
-  targetPath: string;
-}
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const ROUTE_LOOKUP = Object.fromEntries(
   Object.values(APP_ROUTES_CONFIG).map((route) => [route.href, route.key])
 );
+interface InterceptedDialogDrawerProps
+  extends Omit<DialogDrawerProps, "isOpen" | "onClose" | "title" | "backBtn"> {
+  targetPath: string;
+}
 
 export const InterceptedDialogDrawer = ({
   targetPath,
   children,
   ...rest
 }: InterceptedDialogDrawerProps) => {
+  const router = useRouter();
   const pathname = usePathname();
-  const params = useSearchParams();
-  const { onInterceptedClose } = useCloseIntercepted();
+  const pathSegments = pathname.split("/");
+
+  const { getParam, deleteParam, getUpdatedParamsString } = useAppParams();
+
   const t = useTranslations("ROUTES_TITLES");
-
-  const isOpen = useMemo(
-    () => pathname.startsWith(targetPath),
-    [pathname, targetPath]
-  );
-
-  const routeId = useMemo(
-    () => ROUTE_LOOKUP[pathname] ?? "default",
-    [pathname]
-  );
-
-  const pathSegments = useMemo(() => pathname.split("/"), [pathname]);
-
-  const backButtonHref = useMemo(() => {
-    if (pathSegments.length <= 2) return null;
-
-    const basePath = pathSegments.slice(0, -1).join("/");
-    const queryString = params.size > 0 ? `?${params.toString()}` : "";
-    return `${basePath}${queryString}`;
-  }, [pathSegments, params]);
-
-  const backButton = useMemo(() => {
-    if (!backButtonHref) return undefined;
-
-    return (
-      <Button
-        asChild
-        variant="secondary"
-        size="reset"
-        className="absolute top-0 left-4 p-1 [&_svg]:size-8"
-      >
-        <Link href={backButtonHref}>
-          <ArrowBigLeft />
-        </Link>
-      </Button>
-    );
-  }, [backButtonHref]);
 
   return (
     <DialogDrawer
       {...rest}
-      title={t(routeId)}
-      isOpen={isOpen}
-      backBtn={backButton}
-      onClose={onInterceptedClose}
+      title={t(ROUTE_LOOKUP[pathname] ?? "default")}
+      isOpen={pathname.startsWith(targetPath)}
+      backBtn={
+        pathSegments.length > 2 ? (
+          <Button
+            asChild
+            variant="secondary"
+            size="reset"
+            className="absolute top-0 left-4 p-1 [&_svg]:size-8"
+          >
+            <Link
+              href={`${pathSegments.slice(0, -1).join("/")}${getUpdatedParamsString()}`}
+            >
+              <ArrowBigLeft />
+            </Link>
+          </Button>
+        ) : null
+      }
+      onClose={() => {
+        const returnTo = getParam("returnTo");
+        deleteParam("returnTo");
+        const updatedParams = getUpdatedParamsString();
+        router.push(
+          `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${updatedParams}`
+        );
+      }}
     >
       {children}
     </DialogDrawer>
