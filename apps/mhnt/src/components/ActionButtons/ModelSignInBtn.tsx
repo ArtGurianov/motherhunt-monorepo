@@ -10,6 +10,7 @@ import { useAuth } from "../AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
+import { LoaderCircle } from "lucide-react";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const { user, refetch, activeMember } = useAuth();
@@ -29,7 +30,11 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   return (
     <Button
       {...props}
-      disabled={activeMember?.role === CUSTOM_MEMBER_ROLES.MODEL_ROLE}
+      className="[&_svg]:size-6"
+      disabled={
+        isTransitionPending ||
+        activeMember?.role === CUSTOM_MEMBER_ROLES.MODEL_ROLE
+      }
       onClick={() => {
         startTransition(async () => {
           try {
@@ -44,7 +49,11 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
         });
       }}
     >
-      {isTransitionPending ? "Signing in..." : "MODEL"}
+      {isTransitionPending ? (
+        <LoaderCircle className="animate-spin" />
+      ) : (
+        "MODEL"
+      )}
     </Button>
   );
 };
