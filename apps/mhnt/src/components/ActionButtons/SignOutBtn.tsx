@@ -3,15 +3,6 @@
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import { useTranslations } from "next-intl";
-import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
-import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-
-const REDIRECT_PATH_SIGNED_OUT = generateUpdatedPathString(
-  APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href,
-  new URLSearchParams({
-    toast: "SIGNED_OUT",
-  })
-);
 
 export const SignOutBtn = () => {
   const t = useTranslations("ACTION_BUTTONS");
