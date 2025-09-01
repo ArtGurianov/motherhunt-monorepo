@@ -7,7 +7,6 @@ import { Button } from "@shared/ui/components/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,7 +22,6 @@ import {
 } from "@shared/ui/components/card";
 import { authClient } from "@/lib/auth/authClient";
 import { useRef, useState, useTransition } from "react";
-import { FormStatus } from "./types";
 import { LoaderCircle } from "lucide-react";
 import { HCaptchaFormItem } from "@/components/HCaptchaFormItem/HCaptchaFormItem";
 import { LangSwitcher } from "@/components/LangSwitcher/LangSwitcher";
@@ -40,8 +38,8 @@ import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 export const SignInForm = () => {
   const { getParam, setParam, deleteParam, getUpdatedParamsString } =
     useAppParams();
-  const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
   const [isPending, startTransition] = useTransition();
+  const [isSent, setIsSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const hCaptchaRef = useRef<HCaptcha>(null);
@@ -60,12 +58,14 @@ export const SignInForm = () => {
     email,
     hCaptchaToken,
   }: z.infer<typeof magicLinkFormSchema>) => {
-    setErrorMessage(null);
     startTransition(async () => {
+      setErrorMessage(null);
+      setIsSent(false);
       try {
         setParam(TOAST_PARAM_URL_TOKEN, "SIGNED_IN");
         const returnTo = getParam("returnTo");
         if (returnTo) deleteParam("returnTo");
+
         const result = await authClient.signIn.magicLink({
           email,
           callbackURL: `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`,
@@ -76,14 +76,12 @@ export const SignInForm = () => {
           },
         });
         if (result?.error) {
-          setErrorMessage(result.error.message || "Failed to sign in");
-          setFormStatus("ERROR");
+          setErrorMessage(formatErrorMessage(result.error));
           return;
         }
-        setFormStatus("SUCCESS");
+        setIsSent(true);
       } catch (error) {
         setErrorMessage(formatErrorMessage(error));
-        setFormStatus("ERROR");
       }
     });
   };
@@ -105,15 +103,13 @@ export const SignInForm = () => {
                   <FormLabel>{t("email-label")}</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending || formStatus === "SUCCESS"}
-                      placeholder={t("email-placeholder")}
-                      aria-invalid={
-                        !!form.formState.errors.email || !!errorMessage
-                      }
                       {...field}
+                      disabled={isPending}
+                      placeholder={t("email-placeholder")}
+                      aria-invalid={!!form.formState.errors.email}
                       onChange={(e) => {
                         field.onChange(e);
-                        setFormStatus("PENDING");
+                        setIsSent(false);
                         setErrorMessage(null);
                       }}
                     />
@@ -149,9 +145,10 @@ export const SignInForm = () => {
                 size="lg"
                 disabled={
                   isPending ||
+                  !!errorMessage ||
+                  isSent ||
                   !form.formState.isValid ||
-                  !!Object.keys(form.formState.errors).length ||
-                  formStatus === "SUCCESS"
+                  !!Object.keys(form.formState.errors).length
                 }
               >
                 {isPending ? (
@@ -161,11 +158,7 @@ export const SignInForm = () => {
                 )}
               </Button>
             </div>
-            <SuccessBlock
-              message={
-                formStatus === "SUCCESS" ? t("success-message") : undefined
-              }
-            />
+            <SuccessBlock message={isSent ? t("success-message") : undefined} />
           </form>
         </Form>
       </CardContent>
