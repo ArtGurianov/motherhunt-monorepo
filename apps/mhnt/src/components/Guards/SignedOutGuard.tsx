@@ -12,8 +12,12 @@ interface SignedOutGuardProps {
 }
 
 export const SignedOutGuard = ({ children }: SignedOutGuardProps) => {
-  const { data: session, isPending: isSessionPending } =
-    authClient.useSession();
+  // BetterAuth issue: Do not use isPending here since
+  // sending magic link is changing isPending state
+  // leading to sign in component complete remount (losing state)
+  // Opened issue: https://github.com/better-auth/better-auth/issues/4357
+
+  const { data: session } = authClient.useSession();
 
   const router = useRouter();
 
@@ -30,11 +34,11 @@ export const SignedOutGuard = ({ children }: SignedOutGuardProps) => {
     }
   }, [session]);
 
-  if (isSessionPending || session) {
+  if (session) {
     return (
       <StatusCard
         type={StatusCardTypes.LOADING}
-        title={"Loading..."}
+        title={"Logged In. Redirecting."}
         className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
       />
     );
