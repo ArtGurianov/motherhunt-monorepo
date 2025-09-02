@@ -5,12 +5,14 @@ import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-export const CreateLotBtn = () => {
+interface CreateLotBtnProps {
+  onSuccess: () => void;
+}
+
+export const CreateLotBtn = ({ onSuccess }: CreateLotBtnProps) => {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   return (
     <Button
@@ -24,7 +26,7 @@ export const CreateLotBtn = () => {
               toast(result.errorMessage);
               return;
             }
-            router.refresh();
+            onSuccess();
           });
         } catch (error) {
           toast(formatErrorMessage(error));

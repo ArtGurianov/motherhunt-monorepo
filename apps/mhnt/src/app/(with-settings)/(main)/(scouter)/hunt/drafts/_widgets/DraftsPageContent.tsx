@@ -9,7 +9,7 @@ import { PageSection } from "@shared/ui/components/PageSection";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 
 export const DraftsPageContent = () => {
-  const { data: result, isPending, isLoading, isError, error } = useMyDrafts();
+  const { data: result, isPending, isLoading, error, refetch } = useMyDrafts();
 
   if (isPending || isLoading)
     return (
@@ -20,7 +20,7 @@ export const DraftsPageContent = () => {
       />
     );
 
-  if (isError) {
+  if (error) {
     return (
       <StatusCard
         type={StatusCardTypes.ERROR}
@@ -60,7 +60,7 @@ export const DraftsPageContent = () => {
           alias={each.name || "TEST"}
         />
       ))}
-      <CreateLotBtn />
+      <CreateLotBtn onSuccess={refetch} />
     </PageSection>
   );
 };
