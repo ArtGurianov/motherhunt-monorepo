@@ -126,6 +126,9 @@ model Lot {
   scouterId                 String      @db.ObjectId
   scouter                   User        @relation(fields: [scouterId], references: [id], onDelete: NoAction)
   name                      String?
+  sex                       Sex?
+  nickname                  String
+  nicknameOptionsJson       String
   email                     String?
   signedByUserId            String?     @db.ObjectId
   isConfirmationEmailSent   Boolean     @default(false)
@@ -155,4 +158,9 @@ enum OrganizationRole {
 enum OrganizationType {
   SCOUTING
   AGENCY
+}
+
+enum Sex {
+  MALE
+  FEMALE
 }

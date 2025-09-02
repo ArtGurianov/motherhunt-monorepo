@@ -7,9 +7,11 @@ import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
+import { generateNicknameOptions } from "@/lib/utils/generateRandomNickname";
 import { auctionContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { viemClient } from "@/lib/web3/viemClient";
+import { Sex } from "@shared/db";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
@@ -19,6 +21,7 @@ const ALLOWED_CUSTOM_ROLES: CustomMemberRole[] = [
   CUSTOM_MEMBER_ROLES.SCOUTER_ROLE,
 ] as const;
 
+export const DEFAULT_MODEL_NICKNAME = "Model Draft";
 const MAX_DRAFTS_NUMBER = 3;
 
 export const createDraft = async () => {
@@ -56,9 +59,15 @@ export const createDraft = async () => {
       throw new AppClientError("Allowed drafts limit reached.");
     }
 
-    // TODO: GENERATE AND SAVE NAME ALIAS
+    const nicknameOptions = generateNicknameOptions();
+
     const newDraft = await prismaClient.lot.create({
-      data: { scouterId: userId, signedByUserId: null },
+      data: {
+        nickname: DEFAULT_MODEL_NICKNAME,
+        nicknameOptionsJson: JSON.stringify(nicknameOptions),
+        scouterId: userId,
+        signedByUserId: null,
+      },
     });
 
     revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.DRAFTS].href);
