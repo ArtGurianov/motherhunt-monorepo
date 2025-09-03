@@ -5,13 +5,13 @@ import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
 import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
+import { DEFAULT_MODEL_NICKNAME } from "@/lib/dictionaries/nicknames";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { generateNicknameOptions } from "@/lib/utils/generateRandomNickname";
 import { auctionContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { viemClient } from "@/lib/web3/viemClient";
-import { Sex } from "@shared/db";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
@@ -21,7 +21,6 @@ const ALLOWED_CUSTOM_ROLES: CustomMemberRole[] = [
   CUSTOM_MEMBER_ROLES.SCOUTER_ROLE,
 ] as const;
 
-export const DEFAULT_MODEL_NICKNAME = "Model Draft";
 const MAX_DRAFTS_NUMBER = 3;
 
 export const createDraft = async () => {

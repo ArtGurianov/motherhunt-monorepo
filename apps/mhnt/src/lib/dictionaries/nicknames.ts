@@ -1,3 +1,5 @@
+export const DEFAULT_MODEL_NICKNAME = "Model Draft";
+
 export const NICKNAMES_DICT = {
   adjectives: [
     "Trendy",
