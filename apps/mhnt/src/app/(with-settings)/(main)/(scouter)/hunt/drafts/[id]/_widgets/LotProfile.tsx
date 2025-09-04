@@ -25,6 +25,7 @@ export const LotProfile = ({
       title={"model profile"}
     >
       <LotImageForm
+        lotId={lotData.id}
         currentImageUrl={lotData.profilePictureUrl ?? "/lot-default-bg.png"}
       />
       <LotForm lotData={lotData} isOnChain={isOnChain} />

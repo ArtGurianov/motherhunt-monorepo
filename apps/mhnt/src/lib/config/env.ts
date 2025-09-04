@@ -12,6 +12,10 @@ const CLIENT_ENV = {
     process.env.NEXT_PUBLIC_KARMA_CONTRACT_ADDRESS,
   NEXT_PUBLIC_HCAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY,
   NEXT_PUBLIC_REOWN_PROJECT_ID: process.env.NEXT_PUBLIC_REOWN_PROJECT_ID,
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  NEXT_PUBLIC_CLOUDINARY_PUBLIC_KEY:
+    process.env.NEXT_PUBLIC_CLOUDINARY_PUBLIC_KEY,
   NEXT_PUBLIC_VK_CLIENT_ID: process.env.NEXT_PUBLIC_VK_CLIENT_ID,
   NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID:
     process.env.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
@@ -29,6 +33,8 @@ const clientEnvSchema = z.object({
   }),
   NEXT_PUBLIC_HCAPTCHA_SITE_KEY: z.string(),
   NEXT_PUBLIC_REOWN_PROJECT_ID: z.string(),
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
+  NEXT_PUBLIC_CLOUDINARY_PUBLIC_KEY: z.string(),
   NEXT_PUBLIC_SYSTEM_CONTRACT_ADDRESS: z
     .string({
       description: "Contract address for system smart contract.",
@@ -62,6 +68,7 @@ const serverEnvSchema = clientEnvSchema.extend({
     .email(),
   NODEMAILER_APP_PASSWORD: z.string(),
   HCAPTCHA_SECRET_KEY: z.string(),
+  CLOUDINARY_SECRET_KEY: z.string(),
   VK_CLIENT_SECRET: z.string(),
 });
 

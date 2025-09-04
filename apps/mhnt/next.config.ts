@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         hostname: "images.ctfassets.net",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+      },
     ],
   },
   reactStrictMode: true,
