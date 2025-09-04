@@ -1,5 +1,5 @@
 import { Button } from "@shared/ui/components/button";
-import Image from "next/image";
+import { AppImage } from "../AppImage/AppImage";
 import Link from "next/link";
 
 interface LotCardProps {
@@ -16,7 +16,7 @@ export const LotCard = ({ alias, bgUrl, href }: LotCardProps) => {
       className="w-full h-auto max-w-72 aspect-3/4 overflow-clip"
     >
       <Link href={href} className="relative">
-        <Image
+        <AppImage
           src={bgUrl || "/lot-default-bg.png"}
           alt="lot card"
           width="0"

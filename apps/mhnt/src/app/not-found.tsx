@@ -1,7 +1,7 @@
 "use client";
 
 import { PageSection } from "@shared/ui/components/PageSection";
-import Image from "next/image";
+import { AppImage } from "@/components/AppImage/AppImage";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <PageSection className="flex grow justify-center items-center">
       <div className="w-full max-w-sm flex flex-col justify-center items-center">
-        <Image
+        <AppImage
           src="/404.png"
           width="0"
           height="0"

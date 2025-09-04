@@ -10,7 +10,7 @@ import { toast } from "@shared/ui/components/sonner";
 import { cn } from "@shared/ui/lib/utils";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle, Upload } from "lucide-react";
-import Image from "next/image";
+import { AppImage } from "../AppImage/AppImage";
 import { useCallback, useTransition } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Controller, useForm } from "react-hook-form";
@@ -198,7 +198,7 @@ export const LotImageForm = ({
         </form>
       </div>
       <div className="relative flex-1 grow aspect-3/4 rounded-4xl overflow-clip">
-        <Image
+        <AppImage
           src={currentImageUrl}
           alt="Model image url"
           width="0"
