@@ -17,7 +17,7 @@ export const CreateLotBtn = ({ onSuccess }: CreateLotBtnProps) => {
   return (
     <Button
       disabled={isPending}
-      className="relative h-96 w-72 [&_svg]:size-48"
+      className="relative w-full h-auto max-w-72 aspect-3/4 [&_svg]:size-48"
       onClick={() => {
         try {
           startTransition(async () => {

@@ -76,7 +76,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
                 <Input
                   id="name"
                   aria-invalid={!!form.formState.errors.name}
-                  placeholder="Input model name"
+                  placeholder="Enter model name"
                   {...field}
                 />
               </FormControl>
@@ -92,7 +92,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
               <FormLabel>{"email"}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder={"input email"}
+                  placeholder={"Enter model email for invitation"}
                   aria-invalid={!!form.formState.errors.email || !!errorMessage}
                   {...field}
                   onChange={(e) => {

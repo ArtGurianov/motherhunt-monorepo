@@ -1,6 +1,7 @@
 "use client";
 
 import { LotForm } from "@/components/Forms";
+import { LotImageForm } from "@/components/Forms/LotImageForm";
 import { InfoCardAccordion } from "@/components/InfoCard/InfoCardAccordion";
 import { Lot } from "@shared/db";
 
@@ -23,6 +24,9 @@ export const LotProfile = ({
       onToggle={onToggle}
       title={"model profile"}
     >
+      <LotImageForm
+        currentImageUrl={lotData.profilePictureUrl ?? "/lot-default-bg.png"}
+      />
       <LotForm lotData={lotData} isOnChain={isOnChain} />
     </InfoCardAccordion>
   );
