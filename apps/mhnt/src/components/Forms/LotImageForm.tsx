@@ -27,11 +27,7 @@ export const LotImageForm = ({
 }: {
   currentImageUrl: string;
 }) => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<z.infer<typeof LotImageSchema>>({
+  const { handleSubmit, control } = useForm<z.infer<typeof LotImageSchema>>({
     resolver: zodResolver(LotImageSchema),
   });
 
