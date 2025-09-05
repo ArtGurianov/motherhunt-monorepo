@@ -173,7 +173,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
               <FormLabel htmlFor={field.name}>{"model name"}</FormLabel>
               <FormControl>
                 <Input
-                  id="model"
+                  id={field.name}
                   aria-invalid={!!form.formState.errors.name}
                   placeholder="Enter model name"
                   {...field}
@@ -191,6 +191,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
               <FormLabel htmlFor={field.name}>{"model email"}</FormLabel>
               <FormControl>
                 <Input
+                  id={field.name}
                   placeholder={"Enter model email for invitation"}
                   aria-invalid={!!form.formState.errors.email || !!errorMessage}
                   {...field}
@@ -256,8 +257,8 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
                   defaultValue={field.value}
                   className="flex justify-center items-center"
                 >
-                  <div className="flex flex-col md:flex-row gap-4">
-                    <FormItem className="flex items-center">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <FormItem className="flex items-center gap-1.5">
                       <FormControl>
                         <RadioGroupItem
                           value={Sex.FEMALE}
@@ -271,7 +272,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
                         {"female"}
                       </FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center">
+                    <FormItem className="flex items-center gap-1.5">
                       <FormControl>
                         <RadioGroupItem
                           value={Sex.MALE}
@@ -323,6 +324,92 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+        <div className="grid grid-cols-2 xs:grid-cols-4 gap-2">
+          <FormField
+            control={form.control}
+            name="bustSizeMM"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor={field.name}>{"bust (in mm)"}</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-24"
+                    id={field.name}
+                    type="number"
+                    min={0}
+                    aria-invalid={!!form.formState.errors.name}
+                    placeholder="Value"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="waistSizeMM"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor={field.name}>{"waist (in mm)"}</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-24"
+                    id={field.name}
+                    type="number"
+                    min={0}
+                    aria-invalid={!!form.formState.errors.name}
+                    placeholder="Value"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="hipsSizeMM"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor={field.name}>{"hips (in mm)"}</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-24"
+                    id={field.name}
+                    type="number"
+                    min={0}
+                    aria-invalid={!!form.formState.errors.name}
+                    placeholder="Value"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="feetSizeMM"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor={field.name}>{"feet (in mm)"}</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-24"
+                    id={field.name}
+                    type="number"
+                    min={0}
+                    aria-invalid={!!form.formState.errors.name}
+                    placeholder="Value"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <ErrorBlock message={errorMessage} />
         <div className="w-full flex justify-end items-center">
           <Button
