@@ -130,6 +130,11 @@ model Lot {
   nickname                  String?
   nicknameOptionsJson       String
   email                     String?
+  birthDate                 DateTime?
+  bustSizeMM                Int?
+  waistSizeMM               Int?
+  hipsSizeMM                Int?
+  feetSizeMM                Int?
   passportCitizenship       String?
   locationCountry           String?
   locationCity              String?

@@ -43,7 +43,14 @@ export const InfoCardAccordion = ({
           )}
           onClick={onToggle}
         >
-          <ChevronDown className={cn("size-6", { "rotate-180": isOpen })} />
+          <span className="font-mono text-sm text-primary/90">
+            <ChevronDown
+              className={cn("size-6 mr-1 inline-block", {
+                "rotate-180": isOpen,
+              })}
+            />
+            {isOpen ? "collapse" : "expand"}
+          </span>
           <span className="text-lg font-light font-mono text-main/90">{`.${title}`}</span>
         </CardTitle>
       </CardHeader>
