@@ -57,7 +57,7 @@ export const DraftsPageContent = () => {
             }
           )}
           bgUrl={each.profilePictureUrl}
-          alias={each.name || "Draft"}
+          nickname={each.nickname}
         />
       ))}
       <CreateLotBtn onSuccess={refetch} />

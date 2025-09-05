@@ -127,9 +127,15 @@ model Lot {
   scouter                   User        @relation(fields: [scouterId], references: [id], onDelete: NoAction)
   name                      String?
   sex                       Sex?
-  nickname                  String
+  nickname                  String?
   nicknameOptionsJson       String
   email                     String?
+  passportCitizenship       String?
+  locationCountry           String?
+  locationCity              String?
+  canTravel                 Boolean?
+  hasAgency                 Boolean?
+  googleDriveLink           String?
   signedByUserId            String?     @db.ObjectId
   isConfirmationEmailSent   Boolean     @default(false)
   isOnChain                 Boolean     @default(false)

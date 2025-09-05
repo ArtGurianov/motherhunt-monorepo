@@ -5,7 +5,6 @@ import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
 import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
-import { DEFAULT_MODEL_NICKNAME } from "@/lib/dictionaries/nicknames";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { generateNicknameOptions } from "@/lib/utils/generateRandomNickname";
@@ -62,7 +61,6 @@ export const createDraft = async () => {
 
     const newDraft = await prismaClient.lot.create({
       data: {
-        nickname: DEFAULT_MODEL_NICKNAME,
         nicknameOptionsJson: JSON.stringify(nicknameOptions),
         scouterId: userId,
         signedByUserId: null,

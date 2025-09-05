@@ -3,12 +3,12 @@ import { AppImage } from "../AppImage/AppImage";
 import Link from "next/link";
 
 interface LotCardProps {
-  alias: string;
+  nickname: string | null;
   bgUrl: string | null;
   href: string;
 }
 
-export const LotCard = ({ alias, bgUrl, href }: LotCardProps) => {
+export const LotCard = ({ nickname, bgUrl, href }: LotCardProps) => {
   return (
     <Button
       size="reset"
@@ -26,7 +26,7 @@ export const LotCard = ({ alias, bgUrl, href }: LotCardProps) => {
           priority
         />
         <span className="absolute bottom-2 left-0 z-10 w-full text-center font-medium text-xl font-mono p-1 bg-linear-to-r from-secondary/0 via-secondary/50 to-secondary/0 px-4">
-          {alias}
+          {nickname ?? "Model Draft"}
         </span>
       </Link>
     </Button>

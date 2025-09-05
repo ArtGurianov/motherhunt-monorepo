@@ -1,10 +1,11 @@
+import { Sex } from "@shared/db";
 import { NICKNAMES_DICT } from "../dictionaries/nicknames";
 
 export const generateNicknameOptions = (count: number = 5) => {
   const options: {
-    male: string[];
-    female: string[];
-  } = { male: [], female: [] };
+    [Sex.MALE]: string[];
+    [Sex.FEMALE]: string[];
+  } = { MALE: [], FEMALE: [] };
 
   for (let i = 0; i < count; i++) {
     const adjective =
@@ -20,8 +21,8 @@ export const generateNicknameOptions = (count: number = 5) => {
         Math.floor(Math.random() * NICKNAMES_DICT.female.length)
       ];
 
-    options.female.push(`${adjective} ${femaleNoun}`);
-    options.male.push(`${adjective} ${maleNoun}`);
+    options.FEMALE.push(`${adjective} ${femaleNoun}`);
+    options.MALE.push(`${adjective} ${maleNoun}`);
   }
 
   return options;

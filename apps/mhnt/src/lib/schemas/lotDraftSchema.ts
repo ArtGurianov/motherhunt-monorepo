@@ -1,6 +1,14 @@
 import z from "zod";
 
 export const lotDraftSchema = z.object({
-  name: z.string().min(3),
-  email: z.string().email(),
+  sex: z.enum(["MALE", "FEMALE"]).or(z.literal("")),
+  nickname: z.string().or(z.literal("")),
+  name: z.string().min(3).or(z.literal("")),
+  email: z.string().email().or(z.literal("")),
+  passportCitizenship: z.string().or(z.literal("")),
+  locationCountry: z.string().or(z.literal("")),
+  locationCity: z.string().or(z.literal("")),
+  canTravel: z.boolean().or(z.literal("")),
+  hasAgency: z.boolean().or(z.literal("")),
+  googleDriveLink: z.string().or(z.literal("")),
 });
