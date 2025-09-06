@@ -37,6 +37,7 @@ import {
 } from "@shared/ui/components/popover";
 import { Calendar } from "@shared/ui/components/calendar";
 import { cn } from "@shared/ui/lib/utils";
+import { Heading } from "@shared/ui/components/Heading";
 
 interface LotFormProps {
   isOnChain: boolean;
@@ -99,7 +100,8 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
   const formSexValue = form.watch("sex");
 
   useEffect(() => {
-    form.resetField("nickname");
+    form.setValue("nickname", formSexValue !== sex ? "" : (nickname ?? ""));
+
     const dbOptions = JSON.parse(lotData.nicknameOptionsJson) as {
       [Sex.MALE]: string[];
       [Sex.FEMALE]: string[];
@@ -165,6 +167,9 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-2">
+        <Heading className="my-3" variant="card" tag={"h3"}>
+          {"Personal Info"}
+        </Heading>
         <FormField
           control={form.control}
           name="name"
@@ -324,6 +329,9 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+        <Heading className="my-3" variant="card" tag={"h3"}>
+          {"Measurements"}
+        </Heading>
         <div className="grid grid-cols-2 xs:grid-cols-4 gap-2">
           <FormField
             control={form.control}

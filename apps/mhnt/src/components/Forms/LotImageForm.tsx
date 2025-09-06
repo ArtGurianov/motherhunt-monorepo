@@ -15,6 +15,7 @@ import { useCallback, useTransition } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
+import { Heading } from "@shared/ui/components/Heading";
 
 const lotImageSchema = z.object({
   image: z
@@ -152,62 +153,67 @@ export const LotImageForm = ({
   }
 
   return (
-    <div className="w-full flex gap-4">
-      <div
-        className={cn(
-          "flex-1 grow aspect-3/4 relative border-2 border-dashed transition-colors duration-200 ease-in-out rounded-4xl",
-          isDragActive || isTransitionPending
-            ? "border-secondary bg-secondary/10 border-solid"
-            : "border-accent-foreground hover:border-primary"
-        )}
-        {...getRootProps()}
-      >
-        <form
-          className="flex flex-col h-full w-full items-center justify-center"
-          onSubmit={handleSubmit(onSubmit)}
+    <>
+      <Heading className="mb-3" variant="card" tag={"h3"}>
+        {"Main Picture"}
+      </Heading>
+      <div className="w-full flex gap-4">
+        <div
+          className={cn(
+            "flex-1 grow aspect-3/4 relative border-2 border-dashed transition-colors duration-200 ease-in-out rounded-4xl",
+            isDragActive || isTransitionPending
+              ? "border-secondary bg-secondary/10 border-solid"
+              : "border-accent-foreground hover:border-primary"
+          )}
+          {...getRootProps()}
         >
-          <Controller
-            name="image"
-            control={control}
-            render={({ field: { ref, name, onBlur, onChange } }) => {
-              const {
-                onBlur: onDropzoneInputBlur,
-                onChange: onDropzoneInputChange,
-                ...restDropzoneInputProps
-              } = getInputProps();
-              return (
-                <input
-                  type="file"
-                  ref={ref}
-                  accept="image/*"
-                  name={name}
-                  onBlur={(e) => {
-                    onBlur();
-                    onDropzoneInputBlur?.(e);
-                  }}
-                  onChange={(e) => {
-                    onChange(e);
-                    onDropzoneInputChange?.(e);
-                  }}
-                  {...restDropzoneInputProps}
-                />
-              );
-            }}
+          <form
+            className="flex flex-col h-full w-full items-center justify-center"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Controller
+              name="image"
+              control={control}
+              render={({ field: { ref, name, onBlur, onChange } }) => {
+                const {
+                  onBlur: onDropzoneInputBlur,
+                  onChange: onDropzoneInputChange,
+                  ...restDropzoneInputProps
+                } = getInputProps();
+                return (
+                  <input
+                    type="file"
+                    ref={ref}
+                    accept="image/*"
+                    name={name}
+                    onBlur={(e) => {
+                      onBlur();
+                      onDropzoneInputBlur?.(e);
+                    }}
+                    onChange={(e) => {
+                      onChange(e);
+                      onDropzoneInputChange?.(e);
+                    }}
+                    {...restDropzoneInputProps}
+                  />
+                );
+              }}
+            />
+            {displayDropzone}
+          </form>
+        </div>
+        <div className="relative flex-1 grow aspect-3/4 rounded-4xl overflow-clip">
+          <AppImage
+            src={currentImageUrl}
+            alt="Model image url"
+            width="0"
+            height="0"
+            sizes="100vh"
+            className="w-full h-full object-cover"
+            priority
           />
-          {displayDropzone}
-        </form>
+        </div>
       </div>
-      <div className="relative flex-1 grow aspect-3/4 rounded-4xl overflow-clip">
-        <AppImage
-          src={currentImageUrl}
-          alt="Model image url"
-          width="0"
-          height="0"
-          sizes="100vh"
-          className="w-full h-full object-cover"
-          priority
-        />
-      </div>
-    </div>
+    </>
   );
 };
