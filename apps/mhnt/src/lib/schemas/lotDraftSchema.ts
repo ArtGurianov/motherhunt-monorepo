@@ -15,5 +15,8 @@ export const lotDraftSchema = z.object({
   locationCity: z.string().or(z.literal("")),
   canTravel: z.boolean().or(z.literal("")),
   hasAgency: z.boolean().or(z.literal("")),
-  googleDriveLink: z.string().or(z.literal("")),
+  googleDriveLink: z
+    .string()
+    .startsWith("https://drive.google.com/drive/")
+    .or(z.literal("")),
 });

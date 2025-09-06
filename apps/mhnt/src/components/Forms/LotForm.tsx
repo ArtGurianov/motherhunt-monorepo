@@ -418,6 +418,27 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             )}
           />
         </div>
+        <Heading className="my-3" variant="card" tag={"h3"}>
+          {"Polaroids & Book"}
+        </Heading>
+        <FormField
+          control={form.control}
+          name="googleDriveLink"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor={field.name}>{"Google Drive link"}</FormLabel>
+              <FormControl>
+                <Input
+                  id={field.name}
+                  aria-invalid={!!form.formState.errors.name}
+                  placeholder="https://drive.google.com/drive/your-link"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <ErrorBlock message={errorMessage} />
         <div className="w-full flex justify-end items-center">
           <Button
