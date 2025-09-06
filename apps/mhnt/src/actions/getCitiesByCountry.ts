@@ -5,7 +5,7 @@ import { COUNTRIES_LIST, Country } from "@/lib/dictionaries/countriesList";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
-export const getCitiesByCountry = (country: Country) => {
+export const getCitiesByCountry = async (country: Country) => {
   try {
     if (!COUNTRIES_LIST.includes(country)) {
       throw new AppClientError("Country not found");

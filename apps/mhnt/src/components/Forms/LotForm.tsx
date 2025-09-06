@@ -38,6 +38,8 @@ import {
 import { Calendar } from "@shared/ui/components/calendar";
 import { cn } from "@shared/ui/lib/utils";
 import { Heading } from "@shared/ui/components/Heading";
+import { COUNTRIES_LIST, Country } from "@/lib/dictionaries/countriesList";
+import { useCityOptions } from "@/lib/hooks/useCityOptions";
 
 interface LotFormProps {
   isOnChain: boolean;
@@ -46,14 +48,14 @@ interface LotFormProps {
 
 const ZERO_DATE = new Date(0);
 
-const DEFAULT_NICKNAME_OPTIONS: string[] = [];
+const DEFAULT_EMPTY_OPTIONS: string[] = [];
 const DEFAULT_NICKAME_PLACEHOLDER = "Select nickname";
 
 export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isTransitionPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [nicknameOptions, setNicknameOptions] = useState<string[]>(
-    DEFAULT_NICKNAME_OPTIONS
+    DEFAULT_EMPTY_OPTIONS
   );
 
   const {
@@ -75,7 +77,8 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
   } = lotData;
 
   const form = useForm<z.infer<typeof lotDraftSchema>>({
-    disabled: isPending || lotData.isConfirmationEmailSent || isOnChain,
+    disabled:
+      isTransitionPending || lotData.isConfirmationEmailSent || isOnChain,
     mode: "onSubmit",
     resolver: zodResolver(lotDraftSchema),
     defaultValues: {
@@ -107,9 +110,18 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
       [Sex.FEMALE]: string[];
     };
     setNicknameOptions(
-      formSexValue === "" ? DEFAULT_NICKNAME_OPTIONS : dbOptions[formSexValue]
+      formSexValue === "" ? DEFAULT_EMPTY_OPTIONS : dbOptions[formSexValue]
     );
   }, [formSexValue]);
+
+  const formLocationCountryValue = form.watch("locationCountry");
+
+  const {
+    data: citiesResponse,
+    isLoading: isCitiesLoading,
+    isPending: isCitiesPending,
+    isError: isCitiesError,
+  } = useCityOptions(formLocationCountryValue as Country);
 
   const onSubmit = async ({
     name,
@@ -329,6 +341,108 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="passportCitizenship"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor={field.name}>
+                {"country of citizenship"}
+              </FormLabel>
+              <FormControl>
+                <Select
+                  {...field}
+                  onValueChange={(value: string) => {
+                    form.setValue("passportCitizenship", value);
+                    form.clearErrors("passportCitizenship");
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={"Choose country"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COUNTRIES_LIST.map((each) => (
+                      <SelectItem key={each} value={each}>
+                        {each}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="locationCountry"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor={field.name}>{"location (country)"}</FormLabel>
+              <FormControl>
+                <Select
+                  {...field}
+                  onValueChange={(value: string) => {
+                    form.setValue("locationCountry", value);
+                    form.setValue("locationCity", "");
+                    form.clearErrors("locationCountry");
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={"Choose country"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COUNTRIES_LIST.map((each) => (
+                      <SelectItem key={each} value={each}>
+                        {each}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          disabled={
+            isCitiesPending ||
+            isCitiesLoading ||
+            isCitiesError ||
+            !citiesResponse.success
+          }
+          control={form.control}
+          name="locationCity"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor={field.name}>{"location (city)"}</FormLabel>
+              <FormControl>
+                <Select
+                  {...field}
+                  onValueChange={(value: string) => {
+                    form.setValue("locationCity", value);
+                    form.clearErrors("locationCity");
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue
+                      placeholder={
+                        isCitiesLoading ? "loading cities..." : "Choose city"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {citiesResponse?.success
+                      ? citiesResponse.data.map((each) => (
+                          <SelectItem key={each} value={each}>
+                            {each}
+                          </SelectItem>
+                        ))
+                      : null}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
         <Heading className="my-3" variant="card" tag={"h3"}>
           {"Measurements"}
         </Heading>
@@ -446,12 +560,12 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             variant="secondary"
             disabled={
               !form.formState.isDirty ||
-              isPending ||
+              isTransitionPending ||
               !!Object.keys(form.formState.errors).length ||
               isOnChain
             }
           >
-            {isPending ? (
+            {isTransitionPending ? (
               <LoaderCircle className="py-1 animate-spin h-8 w-8" />
             ) : (
               "Save draft"
