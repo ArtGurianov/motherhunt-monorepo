@@ -6,13 +6,14 @@ import { Calendar } from "@shared/ui/components/calendar";
 import { FormControl } from "@shared/ui/components/form";
 import {
   Popover,
+  PopoverClose,
   PopoverContent,
   PopoverTrigger,
 } from "@shared/ui/components/popover";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { cn } from "@shared/ui/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
 interface DatePickerProps
   extends Omit<GetComponentProps<typeof Button>, "value"> {
@@ -22,6 +23,16 @@ interface DatePickerProps
 
 export const DatePicker = (props: DatePickerProps) => {
   const { value, onValueSelect, ...rest } = props;
+
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleDateSelect = useCallback(
+    (date: Date | undefined) => {
+      onValueSelect(date);
+      closeBtnRef.current?.click();
+    },
+    [onValueSelect]
+  );
 
   const isZeroDate = useMemo(() => {
     return value.getTime() === ZERO_DATE.getTime();
@@ -56,12 +67,13 @@ export const DatePicker = (props: DatePickerProps) => {
         <Calendar
           mode="single"
           selected={value}
-          onSelect={onValueSelect}
+          onSelect={handleDateSelect}
           disabled={(date) =>
             date > new Date() || date < new Date("1900-01-01")
           }
           captionLayout="dropdown"
         />
+        <PopoverClose btnRef={closeBtnRef} />
       </PopoverContent>
     </Popover>
   );
