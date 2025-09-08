@@ -26,15 +26,20 @@ interface ComboboxProps extends GetComponentProps<typeof Button> {
   onValueSelect: (_: string) => void;
   options: string[];
   searchEnabled?: boolean;
+  placeholder?: string;
+  isLoading?: boolean;
 }
 
 export const Combobox = (props: ComboboxProps) => {
   const {
     children,
+    disabled,
     value,
     onValueSelect,
     options,
     searchEnabled = true,
+    placeholder = "Select value",
+    isLoading = false,
     ...rest
   } = props;
 
@@ -95,9 +100,18 @@ export const Combobox = (props: ComboboxProps) => {
             className={cn(
               "[&_svg]:size-4 px-3 font-normal justify-start relative h-auto bg-secondary border-2 border-border py-2"
             )}
+            disabled={disabled || isLoading}
             {...rest}
           >
-            {children}
+            <span
+              className={cn(
+                "",
+                !value.length && "text-primary/50 text-sm py-1",
+                isLoading && "text-primary text-sm py-1"
+              )}
+            >
+              {isLoading ? "loading..." : value.length ? value : placeholder}
+            </span>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2" />
           </Button>
         </FormControl>

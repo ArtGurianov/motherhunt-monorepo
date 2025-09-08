@@ -440,11 +440,8 @@ export const LotForm = memo(function LotForm({
                   onValueSelect={handleNicknameChange}
                   options={nicknameOptions}
                   searchEnabled={false}
-                >
-                  {field.value.length
-                    ? field.value
-                    : DEFAULT_NICKAME_PLACEHOLDER}
-                </Combobox>
+                  placeholder={DEFAULT_NICKAME_PLACEHOLDER}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -463,9 +460,8 @@ export const LotForm = memo(function LotForm({
                 value={field.value}
                 onValueSelect={handlePassportCitizenshipChange}
                 options={COUNTRIES_LIST as unknown as string[]}
-              >
-                {field.value ?? "Select country"}
-              </Combobox>
+                placeholder="Select"
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -482,9 +478,8 @@ export const LotForm = memo(function LotForm({
                   value={field.value}
                   onValueSelect={handleLocationCountryChange}
                   options={COUNTRIES_LIST as unknown as string[]}
-                >
-                  {field.value ?? "Select country"}
-                </Combobox>
+                  placeholder="Select country"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -502,10 +497,9 @@ export const LotForm = memo(function LotForm({
                 onValueSelect={handleLocationCityChange}
                 options={citiesOptions}
                 disabled={isCitiesDisabled}
-              >
-                {field.value ||
-                  (isCitiesLoading ? "loading cities..." : "Select city")}
-              </Combobox>
+                placeholder="Select city"
+                isLoading={isCitiesLoading}
+              />
               <FormMessage />
             </FormItem>
           )}
