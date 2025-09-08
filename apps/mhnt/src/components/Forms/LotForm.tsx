@@ -134,7 +134,9 @@ export const LotForm = memo(function LotForm({
   const formSexValue = form.watch("sex");
 
   useEffect(() => {
-    form.setValue("nickname", formSexValue !== sex ? "" : (nickname ?? ""));
+    form.setValue("nickname", formSexValue !== sex ? "" : (nickname ?? ""), {
+      shouldDirty: true,
+    });
 
     const newOptions =
       formSexValue === ""
@@ -239,7 +241,7 @@ export const LotForm = memo(function LotForm({
 
   const handleNicknameChange = useCallback(
     (value: string) => {
-      form.setValue("nickname", value);
+      form.setValue("nickname", value, { shouldDirty: true });
       form.clearErrors("nickname");
     },
     [form]
@@ -247,7 +249,7 @@ export const LotForm = memo(function LotForm({
 
   const handlePassportCitizenshipChange = useCallback(
     (value: string) => {
-      form.setValue("passportCitizenship", value);
+      form.setValue("passportCitizenship", value, { shouldDirty: true });
       form.clearErrors("passportCitizenship");
     },
     [form]
@@ -257,8 +259,8 @@ export const LotForm = memo(function LotForm({
     (value: string) => {
       const currentCountry = form.getValues("locationCountry");
       if (currentCountry !== value) {
-        form.setValue("locationCountry", value);
-        form.setValue("locationCity", "");
+        form.setValue("locationCountry", value, { shouldDirty: true });
+        form.setValue("locationCity", "", { shouldDirty: true });
         form.clearErrors("locationCountry");
         form.clearErrors("locationCity");
       }
@@ -270,7 +272,7 @@ export const LotForm = memo(function LotForm({
     (value: string) => {
       const currentCity = form.getValues("locationCity");
       if (currentCity !== value) {
-        form.setValue("locationCity", value);
+        form.setValue("locationCity", value, { shouldDirty: true });
         form.clearErrors("locationCity");
       }
     },
