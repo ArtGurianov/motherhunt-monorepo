@@ -8,6 +8,8 @@ export const useCityOptions = (country: Country) => {
     queryFn: () => {
       return getCitiesByCountry(country!);
     },
-    enabled: !!country.length,
+    enabled: !!country && country.length > 0,
+    staleTime: Infinity,
+    gcTime: 10 * 60 * 1000,
   });
 };

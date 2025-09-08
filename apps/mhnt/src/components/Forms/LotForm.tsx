@@ -14,16 +14,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@shared/ui/components/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@shared/ui/components/select";
 import { Input } from "@shared/ui/components/input";
-import { useEffect, useState, useTransition } from "react";
-import { CalendarIcon, LoaderCircle } from "lucide-react";
+import {
+  useEffect,
+  useState,
+  useTransition,
+  useMemo,
+  useCallback,
+  memo,
+} from "react";
+import { CalendarIcon, LoaderCircle, Check, ChevronDown } from "lucide-react";
 import { ErrorBlock } from "./ErrorBlock";
 import { toast } from "@shared/ui/components/sonner";
 import { updateDraft } from "@/actions/updateDraft";
@@ -40,6 +40,7 @@ import { cn } from "@shared/ui/lib/utils";
 import { Heading } from "@shared/ui/components/Heading";
 import { COUNTRIES_LIST, Country } from "@/lib/dictionaries/countriesList";
 import { useCityOptions } from "@/lib/hooks/useCityOptions";
+import { Combobox } from "../Combobox/Combobox";
 
 interface LotFormProps {
   isOnChain: boolean;
@@ -47,16 +48,30 @@ interface LotFormProps {
 }
 
 const ZERO_DATE = new Date(0);
-
 const DEFAULT_EMPTY_OPTIONS: string[] = [];
 const DEFAULT_NICKAME_PLACEHOLDER = "Select nickname";
 
-export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
+export const LotForm = memo(function LotForm({
+  lotData,
+  isOnChain,
+}: LotFormProps) {
   const [isTransitionPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [nicknameOptions, setNicknameOptions] = useState<string[]>(
     DEFAULT_EMPTY_OPTIONS
   );
+
+  const parsedNicknameOptions = useMemo(() => {
+    try {
+      return JSON.parse(lotData.nicknameOptionsJson) as {
+        [Sex.MALE]: string[];
+        [Sex.FEMALE]: string[];
+      };
+    } catch (error) {
+      console.error("Failed to parse nickname options:", error);
+      return { [Sex.MALE]: [], [Sex.FEMALE]: [] };
+    }
+  }, [lotData.nicknameOptionsJson]);
 
   const {
     name: modelName,
@@ -76,28 +91,50 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
     googleDriveLink,
   } = lotData;
 
+  const defaultValues = useMemo(
+    () =>
+      ({
+        sex: sex ?? "",
+        nickname: nickname ?? "",
+        name: modelName ?? "",
+        email: modelEmail ?? "",
+        birthDate: birthDate ?? ZERO_DATE,
+        bustSizeMM: bustSizeMM ?? 0,
+        waistSizeMM: waistSizeMM ?? 0,
+        hipsSizeMM: hipsSizeMM ?? 0,
+        feetSizeMM: feetSizeMM ?? 0,
+        passportCitizenship: passportCitizenship ?? "",
+        locationCountry: locationCountry ?? "",
+        locationCity: locationCity ?? "",
+        canTravel: typeof canTravel === "boolean" ? canTravel : "",
+        hasAgency: typeof hasAgency === "boolean" ? hasAgency : "",
+        googleDriveLink: googleDriveLink ?? "",
+      }) as z.infer<typeof lotDraftSchema>,
+    [
+      sex,
+      nickname,
+      modelName,
+      modelEmail,
+      birthDate,
+      bustSizeMM,
+      waistSizeMM,
+      hipsSizeMM,
+      feetSizeMM,
+      passportCitizenship,
+      locationCountry,
+      locationCity,
+      canTravel,
+      hasAgency,
+      googleDriveLink,
+    ]
+  );
+
   const form = useForm<z.infer<typeof lotDraftSchema>>({
     disabled:
       isTransitionPending || lotData.isConfirmationEmailSent || isOnChain,
     mode: "onSubmit",
     resolver: zodResolver(lotDraftSchema),
-    defaultValues: {
-      sex: sex ?? "",
-      nickname: nickname ?? "",
-      name: modelName ?? "",
-      email: modelEmail ?? "",
-      birthDate: birthDate ?? ZERO_DATE,
-      bustSizeMM: bustSizeMM ?? 0,
-      waistSizeMM: waistSizeMM ?? 0,
-      hipsSizeMM: hipsSizeMM ?? 0,
-      feetSizeMM: feetSizeMM ?? 0,
-      passportCitizenship: passportCitizenship ?? "",
-      locationCountry: locationCountry ?? "",
-      locationCity: locationCity ?? "",
-      canTravel: typeof canTravel === "boolean" ? canTravel : "",
-      hasAgency: typeof hasAgency === "boolean" ? hasAgency : "",
-      googleDriveLink: googleDriveLink ?? "",
-    },
+    defaultValues,
   });
 
   const formSexValue = form.watch("sex");
@@ -105,14 +142,13 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
   useEffect(() => {
     form.setValue("nickname", formSexValue !== sex ? "" : (nickname ?? ""));
 
-    const dbOptions = JSON.parse(lotData.nicknameOptionsJson) as {
-      [Sex.MALE]: string[];
-      [Sex.FEMALE]: string[];
-    };
-    setNicknameOptions(
-      formSexValue === "" ? DEFAULT_EMPTY_OPTIONS : dbOptions[formSexValue]
-    );
-  }, [formSexValue]);
+    const newOptions =
+      formSexValue === ""
+        ? DEFAULT_EMPTY_OPTIONS
+        : parsedNicknameOptions[formSexValue] || DEFAULT_EMPTY_OPTIONS;
+
+    setNicknameOptions(newOptions);
+  }, [formSexValue, sex, nickname, parsedNicknameOptions, form]);
 
   const formLocationCountryValue = form.watch("locationCountry");
 
@@ -123,58 +159,106 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
     isError: isCitiesError,
   } = useCityOptions(formLocationCountryValue as Country);
 
-  const onSubmit = async ({
-    name,
-    email,
-    birthDate,
-    bustSizeMM,
-    waistSizeMM,
-    hipsSizeMM,
-    feetSizeMM,
-    nickname,
-    sex,
-    passportCitizenship,
-    locationCountry,
-    locationCity,
-    canTravel,
-    hasAgency,
-    googleDriveLink,
-  }: z.infer<typeof lotDraftSchema>) => {
-    try {
-      setErrorMessage(null);
-      startTransition(async () => {
-        const result = await updateDraft({
-          lotId: lotData.id,
-          updateData: {
-            name: name !== "" ? name : null,
-            email: email !== "" ? email : null,
-            birthDate:
-              birthDate.getTime() !== ZERO_DATE.getTime() ? birthDate : null,
-            bustSizeMM: bustSizeMM !== 0 ? bustSizeMM : null,
-            waistSizeMM: waistSizeMM !== 0 ? waistSizeMM : null,
-            hipsSizeMM: hipsSizeMM !== 0 ? hipsSizeMM : null,
-            feetSizeMM: feetSizeMM !== 0 ? feetSizeMM : null,
-            nickname: nickname !== "" ? nickname : null,
-            sex: sex !== "" ? sex : null,
-            passportCitizenship:
-              passportCitizenship !== "" ? passportCitizenship : null,
-            locationCountry: locationCountry !== "" ? locationCountry : null,
-            locationCity: locationCity !== "" ? locationCity : null,
-            canTravel: canTravel !== "" ? canTravel : null,
-            hasAgency: hasAgency !== "" ? hasAgency : null,
-            googleDriveLink: googleDriveLink !== "" ? googleDriveLink : null,
-          },
+  const onSubmit = useCallback(
+    async ({
+      name,
+      email,
+      birthDate,
+      bustSizeMM,
+      waistSizeMM,
+      hipsSizeMM,
+      feetSizeMM,
+      nickname,
+      sex,
+      passportCitizenship,
+      locationCountry,
+      locationCity,
+      canTravel,
+      hasAgency,
+      googleDriveLink,
+    }: z.infer<typeof lotDraftSchema>) => {
+      try {
+        setErrorMessage(null);
+        startTransition(async () => {
+          const result = await updateDraft({
+            lotId: lotData.id,
+            updateData: {
+              name: name !== "" ? name : null,
+              email: email !== "" ? email : null,
+              birthDate:
+                birthDate.getTime() !== ZERO_DATE.getTime() ? birthDate : null,
+              bustSizeMM: bustSizeMM !== 0 ? bustSizeMM : null,
+              waistSizeMM: waistSizeMM !== 0 ? waistSizeMM : null,
+              hipsSizeMM: hipsSizeMM !== 0 ? hipsSizeMM : null,
+              feetSizeMM: feetSizeMM !== 0 ? feetSizeMM : null,
+              nickname: nickname !== "" ? nickname : null,
+              sex: sex !== "" ? sex : null,
+              passportCitizenship:
+                passportCitizenship !== "" ? passportCitizenship : null,
+              locationCountry: locationCountry !== "" ? locationCountry : null,
+              locationCity: locationCity !== "" ? locationCity : null,
+              canTravel: canTravel !== "" ? canTravel : null,
+              hasAgency: hasAgency !== "" ? hasAgency : null,
+              googleDriveLink: googleDriveLink !== "" ? googleDriveLink : null,
+            },
+          });
+          if (!result.success) {
+            toast(result.errorMessage);
+            return;
+          }
+          toast("Success");
         });
-        if (!result.success) {
-          toast(result.errorMessage);
-          return;
-        }
-        toast("Success");
-      });
-    } catch (error) {
-      setErrorMessage(formatErrorMessage(error));
-    }
+      } catch (error) {
+        setErrorMessage(formatErrorMessage(error));
+      }
+    },
+    [lotData.id]
+  );
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage(null);
+    return e;
   };
+
+  const handleNicknameChange = useCallback(
+    (value: string) => {
+      form.setValue("nickname", value);
+      form.clearErrors("nickname");
+    },
+    [form]
+  );
+
+  const handlePassportCitizenshipChange = useCallback(
+    (value: string) => {
+      form.setValue("passportCitizenship", value);
+      form.clearErrors("passportCitizenship");
+    },
+    [form]
+  );
+
+  const handleLocationCountryChange = useCallback(
+    (value: string) => {
+      const currentCountry = form.getValues("locationCountry");
+      if (currentCountry !== value) {
+        form.setValue("locationCountry", value);
+        form.setValue("locationCity", "");
+        form.clearErrors("locationCountry");
+        form.clearErrors("locationCity");
+      }
+    },
+    [form]
+  );
+
+  const handleLocationCityChange = useCallback(
+    (value: string) => {
+      const currentCity = form.getValues("locationCity");
+      if (currentCity !== value) {
+        form.setValue("locationCity", value);
+        form.clearErrors("locationCity");
+      }
+    },
+    [form]
+  );
 
   return (
     <Form {...form}>
@@ -182,6 +266,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
         <Heading className="my-3" variant="card" tag={"h3"}>
           {"Personal Info"}
         </Heading>
+
         <FormField
           control={form.control}
           name="name"
@@ -200,6 +285,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="email"
@@ -214,7 +300,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    setErrorMessage(null);
+                    handleEmailChange(e);
                   }}
                 />
               </FormControl>
@@ -222,6 +308,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="birthDate"
@@ -262,6 +349,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="sex"
@@ -270,7 +358,12 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
               <FormLabel htmlFor={field.name}>{"sex"}</FormLabel>
               <FormControl>
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    handleNicknameChange(
+                      sex === form.getValues("sex") ? (nickname ?? "") : ""
+                    );
+                  }}
                   defaultValue={field.value}
                   className="flex justify-center items-center"
                 >
@@ -309,6 +402,7 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="nickname"
@@ -318,60 +412,42 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
                 {"nickname (auto-generated options)"}
               </FormLabel>
               <FormControl>
-                <Select
-                  {...field}
-                  disabled={form.getValues("sex") === ""}
-                  onValueChange={(value: string) => {
-                    form.setValue("nickname", value);
-                    form.clearErrors("nickname");
-                  }}
+                <Combobox
+                  value={field.value}
+                  onValueSelect={handleNicknameChange}
+                  options={nicknameOptions}
+                  searchEnabled={false}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder={DEFAULT_NICKAME_PLACEHOLDER} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {nicknameOptions.map((each) => (
-                      <SelectItem key={each} value={each}>
-                        {each}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  {field.value.length
+                    ? field.value
+                    : DEFAULT_NICKAME_PLACEHOLDER}
+                </Combobox>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="passportCitizenship"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col">
               <FormLabel htmlFor={field.name}>
                 {"country of citizenship"}
               </FormLabel>
-              <FormControl>
-                <Select
-                  {...field}
-                  onValueChange={(value: string) => {
-                    form.setValue("passportCitizenship", value);
-                    form.clearErrors("passportCitizenship");
-                  }}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={"Choose country"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COUNTRIES_LIST.map((each) => (
-                      <SelectItem key={each} value={each}>
-                        {each}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
+              <Combobox
+                value={field.value}
+                onValueSelect={handlePassportCitizenshipChange}
+                options={COUNTRIES_LIST as unknown as string[]}
+              >
+                {field.value ?? "Select country"}
+              </Combobox>
+              <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="locationCountry"
@@ -379,73 +455,52 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             <FormItem>
               <FormLabel htmlFor={field.name}>{"location (country)"}</FormLabel>
               <FormControl>
-                <Select
-                  {...field}
-                  onValueChange={(value: string) => {
-                    form.setValue("locationCountry", value);
-                    form.setValue("locationCity", "");
-                    form.clearErrors("locationCountry");
-                  }}
+                <Combobox
+                  value={field.value}
+                  onValueSelect={handleLocationCountryChange}
+                  options={COUNTRIES_LIST as unknown as string[]}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder={"Choose country"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COUNTRIES_LIST.map((each) => (
-                      <SelectItem key={each} value={each}>
-                        {each}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  {field.value ?? "Select country"}
+                </Combobox>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
-          disabled={
-            isCitiesPending ||
-            isCitiesLoading ||
-            isCitiesError ||
-            !citiesResponse.success
-          }
           control={form.control}
           name="locationCity"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor={field.name}>{"location (city)"}</FormLabel>
-              <FormControl>
-                <Select
-                  {...field}
-                  onValueChange={(value: string) => {
-                    form.setValue("locationCity", value);
-                    form.clearErrors("locationCity");
-                  }}
-                >
-                  <SelectTrigger>
-                    <SelectValue
-                      placeholder={
-                        isCitiesLoading ? "loading cities..." : "Choose city"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {citiesResponse?.success
-                      ? citiesResponse.data.map((each) => (
-                          <SelectItem key={each} value={each}>
-                            {each}
-                          </SelectItem>
-                        ))
-                      : null}
-                  </SelectContent>
-                </Select>
-              </FormControl>
+            <FormItem className="flex flex-col">
+              <FormLabel>{"location (city)"}</FormLabel>
+              <Combobox
+                value={field.value}
+                onValueSelect={handleLocationCityChange}
+                options={
+                  citiesResponse?.success
+                    ? citiesResponse.data
+                    : DEFAULT_EMPTY_OPTIONS
+                }
+                disabled={
+                  isCitiesPending ||
+                  isCitiesLoading ||
+                  isCitiesError ||
+                  !citiesResponse?.success
+                }
+              >
+                {field.value ||
+                  (isCitiesLoading ? "loading cities..." : "Select city")}
+              </Combobox>
+              <FormMessage />
             </FormItem>
           )}
         />
+
         <Heading className="my-3" variant="card" tag={"h3"}>
           {"Measurements"}
         </Heading>
+
         <div className="grid grid-cols-2 xs:grid-cols-4 gap-2">
           <FormField
             control={form.control}
@@ -532,9 +587,11 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             )}
           />
         </div>
+
         <Heading className="my-3" variant="card" tag={"h3"}>
           {"Polaroids & Book"}
         </Heading>
+
         <FormField
           control={form.control}
           name="googleDriveLink"
@@ -553,7 +610,9 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
             </FormItem>
           )}
         />
+
         <ErrorBlock message={errorMessage} />
+
         <div className="w-full flex justify-end items-center">
           <Button
             type="submit"
@@ -575,4 +634,4 @@ export const LotForm = ({ lotData, isOnChain }: LotFormProps) => {
       </form>
     </Form>
   );
-};
+});

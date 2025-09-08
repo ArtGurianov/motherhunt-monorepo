@@ -55,10 +55,13 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  showCloseButton = true,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  showCloseButton?: boolean;
+}) {
   return (
-    <DialogPortal>
+    <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
       <DialogPrimitive.Content
         data-slot="dialog-content"
@@ -67,22 +70,21 @@ function DialogContent({
           className
         )}
         {...props}
-        onPointerDownOutside={(e) => {
-          e.preventDefault();
-        }}
       >
         {children}
-        <Button
-          asChild
-          size="reset"
-          variant="secondary"
-          className="p-1 [&_svg]:size-8"
-        >
-          <DialogPrimitive.Close className="absolute right-4 top-4 opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none">
-            <X />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        </Button>
+        {showCloseButton && (
+          <Button
+            asChild
+            size="reset"
+            variant="secondary"
+            className="p-1 [&_svg]:size-8"
+          >
+            <DialogPrimitive.Close className="absolute right-4 top-4 opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none">
+              <X />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          </Button>
+        )}
       </DialogPrimitive.Content>
     </DialogPortal>
   );
@@ -145,13 +147,13 @@ function DialogDescription({
 
 export {
   Dialog,
-  DialogPortal,
-  DialogOverlay,
   DialogClose,
-  DialogTrigger,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
 };

@@ -40,4 +40,18 @@ function PopoverContent({
   );
 }
 
-export { Popover, PopoverTrigger, PopoverContent };
+function PopoverClose({
+  btnRef,
+}: {
+  btnRef: React.RefObject<HTMLButtonElement | null>;
+}) {
+  return (
+    <PopoverPrimitive.PopoverClose asChild>
+      <button className="absolute -z-50 opacity-0" ref={btnRef}>
+        {"X"}
+      </button>
+    </PopoverPrimitive.PopoverClose>
+  );
+}
+
+export { Popover, PopoverTrigger, PopoverContent, PopoverClose };
