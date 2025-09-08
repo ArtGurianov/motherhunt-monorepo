@@ -19,7 +19,7 @@ import {
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { cn } from "@shared/ui/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface ComboboxProps extends GetComponentProps<typeof Button> {
   value: string;
@@ -57,7 +57,7 @@ export const Combobox = (props: ComboboxProps) => {
 
   const hasManyOptions = useMemo(() => {
     return options.length > 500;
-  }, [options]);
+  }, [options.length]);
 
   useEffect(() => {
     if (searchTimeoutRef.current) {
@@ -74,6 +74,16 @@ export const Combobox = (props: ComboboxProps) => {
       }
     };
   }, [searchValue]);
+
+  const handleOptionSelect = useCallback(
+    (option: string) => {
+      onValueSelect(option);
+      setSearchValue("");
+      setDebouncedSearchValue("");
+      closeBtnRef.current?.click();
+    },
+    [onValueSelect]
+  );
 
   return (
     <Popover>
@@ -117,12 +127,7 @@ export const Combobox = (props: ComboboxProps) => {
                 <CommandItem
                   value={option}
                   key={option}
-                  onSelect={() => {
-                    onValueSelect(option);
-                    setSearchValue("");
-                    setDebouncedSearchValue("");
-                    closeBtnRef.current?.click();
-                  }}
+                  onSelect={handleOptionSelect}
                 >
                   {option}
                   <Check

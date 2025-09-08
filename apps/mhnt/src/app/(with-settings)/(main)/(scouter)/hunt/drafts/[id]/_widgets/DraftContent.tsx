@@ -52,12 +52,6 @@ export const DraftContent = ({ draftData }: DraftContentProps) => {
     );
   }, [lotChainData]);
 
-  if (draftData.scouterId !== session.userId) {
-    return (
-      <StatusCard type={StatusCardTypes.ERROR} title="Not a lot creator!" />
-    );
-  }
-
   const handleProfileToggle = useCallback(() => {
     setOpenedAccordion((prev) => (prev === "profile" ? null : "profile"));
   }, []);
@@ -75,6 +69,12 @@ export const DraftContent = ({ draftData }: DraftContentProps) => {
   const handlePublishToggle = useCallback(() => {
     setOpenedAccordion((prev) => (prev === "publish" ? null : "publish"));
   }, []);
+
+  if (draftData.scouterId !== session.userId) {
+    return (
+      <StatusCard type={StatusCardTypes.ERROR} title="Not a lot creator!" />
+    );
+  }
 
   return (
     <>

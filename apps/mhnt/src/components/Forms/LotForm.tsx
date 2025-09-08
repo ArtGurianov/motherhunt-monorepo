@@ -23,7 +23,7 @@ import {
   useCallback,
   memo,
 } from "react";
-import { CalendarIcon, LoaderCircle, Check, ChevronDown } from "lucide-react";
+import { CalendarIcon, LoaderCircle } from "lucide-react";
 import { ErrorBlock } from "./ErrorBlock";
 import { toast } from "@shared/ui/components/sonner";
 import { updateDraft } from "@/actions/updateDraft";
@@ -159,6 +159,26 @@ export const LotForm = memo(function LotForm({
     isError: isCitiesError,
   } = useCityOptions(formLocationCountryValue as Country);
 
+  const citiesOptions = useMemo(() => {
+    return citiesResponse?.success
+      ? citiesResponse.data
+      : DEFAULT_EMPTY_OPTIONS;
+  }, [citiesResponse]);
+
+  const isCitiesDisabled = useMemo(() => {
+    return (
+      isCitiesPending ||
+      isCitiesLoading ||
+      isCitiesError ||
+      !citiesResponse?.success
+    );
+  }, [
+    isCitiesPending,
+    isCitiesLoading,
+    isCitiesError,
+    citiesResponse?.success,
+  ]);
+
   const onSubmit = useCallback(
     async ({
       name,
@@ -215,10 +235,13 @@ export const LotForm = memo(function LotForm({
     [lotData.id]
   );
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setErrorMessage(null);
-    return e;
-  };
+  const handleEmailChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setErrorMessage(null);
+      return e;
+    },
+    []
+  );
 
   const handleNicknameChange = useCallback(
     (value: string) => {
@@ -477,17 +500,8 @@ export const LotForm = memo(function LotForm({
               <Combobox
                 value={field.value}
                 onValueSelect={handleLocationCityChange}
-                options={
-                  citiesResponse?.success
-                    ? citiesResponse.data
-                    : DEFAULT_EMPTY_OPTIONS
-                }
-                disabled={
-                  isCitiesPending ||
-                  isCitiesLoading ||
-                  isCitiesError ||
-                  !citiesResponse?.success
-                }
+                options={citiesOptions}
+                disabled={isCitiesDisabled}
               >
                 {field.value ||
                   (isCitiesLoading ? "loading cities..." : "Select city")}
