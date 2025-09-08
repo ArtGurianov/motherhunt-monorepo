@@ -32,7 +32,6 @@ interface ComboboxProps extends GetComponentProps<typeof Button> {
 
 export const Combobox = (props: ComboboxProps) => {
   const {
-    children,
     disabled,
     value,
     onValueSelect,

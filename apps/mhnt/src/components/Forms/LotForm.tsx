@@ -23,24 +23,18 @@ import {
   useCallback,
   memo,
 } from "react";
-import { CalendarIcon, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { ErrorBlock } from "./ErrorBlock";
 import { toast } from "@shared/ui/components/sonner";
 import { updateDraft } from "@/actions/updateDraft";
 import { Lot, Sex } from "@shared/db";
 import { lotDraftSchema } from "@/lib/schemas/lotDraftSchema";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@shared/ui/components/popover";
-import { Calendar } from "@shared/ui/components/calendar";
-import { cn } from "@shared/ui/lib/utils";
 import { Heading } from "@shared/ui/components/Heading";
 import { COUNTRIES_LIST, Country } from "@/lib/dictionaries/countriesList";
 import { useCityOptions } from "@/lib/hooks/useCityOptions";
 import { Combobox } from "../Combobox/Combobox";
+import { DatePicker } from "../DatePicker/DatePicker";
 
 interface LotFormProps {
   isOnChain: boolean;
@@ -338,36 +332,7 @@ export const LotForm = memo(function LotForm({
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>{"date of birth"}</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"flat"}
-                      className={cn(
-                        "relative pl-3 py-2 h-auto text-lg font-normal bg-secondary border-2"
-                      )}
-                    >
-                      <span className="w-full text-start">
-                        {field.value
-                          ? field.value.toLocaleDateString()
-                          : "Pick a date"}
-                      </span>
-                      <CalendarIcon className="absolute ml-auto right-2 top-1/2 -translate-y-1/2" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    captionLayout="dropdown"
-                  />
-                </PopoverContent>
-              </Popover>
+              <DatePicker value={field.value} onValueSelect={field.onChange} />
               <FormMessage />
             </FormItem>
           )}
