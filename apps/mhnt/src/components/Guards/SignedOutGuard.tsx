@@ -5,7 +5,11 @@ import { authClient } from "@/lib/auth/authClient";
 import { useRouter } from "next/navigation";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import {
+  StatusCard,
+  StatusCardLoading,
+  StatusCardTypes,
+} from "@shared/ui/components/StatusCard";
 
 interface SignedOutGuardProps {
   children: ReactNode;
@@ -35,13 +39,7 @@ export const SignedOutGuard = ({ children }: SignedOutGuardProps) => {
   }, [session]);
 
   if (session) {
-    return (
-      <StatusCard
-        type={StatusCardTypes.LOADING}
-        title={"Logged In. Redirecting."}
-        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-      />
-    );
+    return <StatusCardLoading />;
   }
 
   return children;

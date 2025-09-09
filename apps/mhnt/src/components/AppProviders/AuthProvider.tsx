@@ -3,7 +3,11 @@
 import { authClient } from "@/lib/auth/authClient";
 import { Session, User } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
-import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import {
+  StatusCard,
+  StatusCardLoading,
+  StatusCardTypes,
+} from "@shared/ui/components/StatusCard";
 import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { createContext, useContext, ReactNode, Suspense, useMemo } from "react";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
@@ -74,13 +78,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [session]);
 
   if (isSessionPending) {
-    return (
-      <StatusCard
-        type={StatusCardTypes.LOADING}
-        title={"Loading..."}
-        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-      />
-    );
+    return <StatusCardLoading />;
   }
 
   if (!session || !providerValue) {

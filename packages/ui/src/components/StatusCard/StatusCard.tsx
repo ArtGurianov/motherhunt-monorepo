@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "../card";
 import { cn } from "@shared/ui/lib/utils";
+import { BanIcon, Check, LoaderCircle } from "lucide-react";
 
 export const StatusCardTypes = {
   LOADING: "LOADING",
@@ -15,6 +16,13 @@ export const StatusCardTypes = {
 } as const;
 export type StatusCardType = ValueOf<typeof StatusCardTypes>;
 
+const STATUS_CARD_ICONS = {
+  [StatusCardTypes.ERROR]: <BanIcon className="inline-block mr-2 h-8 w-8" />,
+  [StatusCardTypes.LOADING]: (
+    <LoaderCircle className="inline-block mr-2 animate-spin h-8 w-8" />
+  ),
+  [StatusCardTypes.SUCCESS]: <Check className="inline-block mr-2 h-8 w-8" />,
+} as const;
 interface StatusCardProps {
   className?: string;
   title: string;
@@ -42,6 +50,7 @@ export const StatusCard = ({
     >
       <CardHeader className="text-center">
         <CardTitle className="text-nowrap font-mono text-2xl">
+          {STATUS_CARD_ICONS[type]}
           {title}
         </CardTitle>
         {description ? (
