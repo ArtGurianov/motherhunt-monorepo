@@ -63,7 +63,6 @@ export const createDraft = async () => {
       data: {
         nicknameOptionsJson: JSON.stringify(nicknameOptions),
         scouterId: userId,
-        signedByUserId: null,
       },
     });
 
