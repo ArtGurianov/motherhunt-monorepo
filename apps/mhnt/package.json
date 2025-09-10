@@ -27,6 +27,7 @@
     "better-auth": "^1.2.9",
     "cloudinary": "^2.7.0",
     "dotenv": "^17.2.1",
+    "framer-motion": "^12.17.3",
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
     "next-intl": "^4.1.0",

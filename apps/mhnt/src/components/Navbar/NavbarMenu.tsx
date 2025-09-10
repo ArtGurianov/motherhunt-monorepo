@@ -12,19 +12,18 @@ import { usePathname } from "next/navigation";
 import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
 
-interface NavbarMenuProps<R extends AppRole | CustomMemberRole> {
+interface NavbarMenuProps {
   isOpened: boolean;
-  role: R;
+  activeRole: AppRole | CustomMemberRole | null;
 }
 
-export const NavbarMenu = <R extends AppRole | CustomMemberRole>({
-  isOpened,
-  role,
-}: NavbarMenuProps<R>) => {
+export const NavbarMenu = ({ isOpened, activeRole }: NavbarMenuProps) => {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const order = NAV_ROUTES_ORDERS[role];
+  if (!activeRole) return null;
+
+  const order = NAV_ROUTES_ORDERS[activeRole];
 
   return (
     <div

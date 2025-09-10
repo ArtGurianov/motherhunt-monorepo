@@ -5,11 +5,7 @@ import { authClient } from "@/lib/auth/authClient";
 import { useRouter } from "next/navigation";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import {
-  StatusCard,
-  StatusCardLoading,
-  StatusCardTypes,
-} from "@shared/ui/components/StatusCard";
+import { StatusCardLoading } from "@shared/ui/components/StatusCard";
 
 interface SignedOutGuardProps {
   children: ReactNode;
