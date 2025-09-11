@@ -40,21 +40,25 @@ export const Navbar = () => {
   const [scope, animate] = useAnimate();
   const previousActiveRole = usePreviousValue(activeRole);
   const isSessionInitialized = useRef(false);
+  const [displayRole, setDisplayRole] = useState<
+    AppRole | CustomMemberRole | null
+  >(activeRole);
 
   const animationSequence = useCallback(async () => {
     if (!scope.current) return;
-
+    setDisplayRole(previousActiveRole ?? activeRole);
     await animate(
       scope.current,
       { transform: "translateY(100%)", opacity: 0 },
       { duration: 0.3, ease: "easeInOut" }
     );
+    setDisplayRole(activeRole);
     await animate(
       scope.current,
       { transform: "translateY(0%)", opacity: 1 },
       { duration: 0.3, ease: "easeInOut" }
     );
-  }, [animate, scope]);
+  }, [animate, scope, previousActiveRole, activeRole]);
 
   useEffect(() => {
     if (!isSessionInitialized.current && !isSessionPending) {
@@ -65,6 +69,8 @@ export const Navbar = () => {
   useEffect(() => {
     if (isSessionInitialized.current && previousActiveRole !== activeRole) {
       animationSequence();
+    } else {
+      setDisplayRole(activeRole);
     }
   }, [activeRole, previousActiveRole, animationSequence]);
 
@@ -116,7 +122,7 @@ export const Navbar = () => {
           >
             <>
               <NavbarContent
-                activeRole={activeRole}
+                activeRole={displayRole}
                 isMenuOpened={isMenuOpened}
               />
               {session ? (
