@@ -98,15 +98,14 @@ export const Navbar = () => {
       initial={{ transform: "translateY(100%)", opacity: 0 }}
       animate={{ transform: "translateY(0%)", opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={cn(
-        "h-nav fixed bottom-4 left-1/2 -translate-x-1/2 lg:left-4 lg:translate-x-0",
-        {
-          "-translate-x-full left-0 lg:-translate-x-full lg:left-0 transition-all duration-700 ease-in-out":
-            isNavbarCollapsed,
-        }
-      )}
+      className="h-nav fixed bottom-4 left-1/2 -translate-x-1/2 lg:left-4 lg:translate-x-0"
     >
-      <div className="relative h-full">
+      <div
+        className={cn("transition-all duration-700 ease-in-out", {
+          "-translate-x-full left-0 lg:-translate-x-full lg:left-0":
+            isNavbarCollapsed,
+        })}
+      >
         <div
           className={cn(
             "h-full flex border rounded-2xl overflow-clip opacity-100 transition-all duration-700 ease-in-out",
