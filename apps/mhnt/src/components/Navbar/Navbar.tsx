@@ -101,7 +101,7 @@ export const Navbar = () => {
       className="h-nav fixed bottom-4 left-1/2 -translate-x-1/2 lg:left-4 lg:translate-x-0"
     >
       <div
-        className={cn("transition-all duration-700 ease-in-out", {
+        className={cn("h-full transition-all duration-700 ease-in-out", {
           "-translate-x-full left-0 lg:-translate-x-full lg:left-0":
             isNavbarCollapsed,
         })}
