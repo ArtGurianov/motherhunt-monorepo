@@ -1,40 +1,46 @@
 "use client";
 
 import { initializeModelVk } from "@/actions/initializeModelVk";
+import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useAppParams } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
-import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
+import { Button } from "@shared/ui/components/button";
 import {
   StatusCard,
   StatusCardLoading,
   StatusCardTypes,
 } from "@shared/ui/components/StatusCard";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export const SignInVkPageContent = () => {
-  const { refetch } = authClient.useSession();
-
-  const router = useRouter();
+  const isInitialized = useRef(false);
+  const { refetch } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { entries } = useAppParams();
+  const params = useSearchParams();
+
+  const [returnTo, setReturnTo] = useState<string>(
+    APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href
+  );
 
   useEffect(() => {
-    const returnTo =
-      sessionStorage.getItem("OAUTH_RETURN_TO") ||
-      APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href;
+    if (isInitialized.current) return;
+    isInitialized.current = true;
 
-    const paramsObject = Object.fromEntries(entries);
-    const codeValidationResult = vkCodeResponseSchema.safeParse(paramsObject);
+    const storedReturnTo = sessionStorage.getItem("OAUTH_RETURN_TO");
+    if (storedReturnTo) setReturnTo(storedReturnTo);
+
+    const codeValidationResult = vkCodeResponseSchema.safeParse(
+      Object.fromEntries(params.entries())
+    );
 
     if (!codeValidationResult.success) {
-      setIsLoading(false);
       setErrorMessage("Received unexpected data shape from VK ID");
       return;
     }
@@ -43,7 +49,11 @@ export const SignInVkPageContent = () => {
     setErrorMessage(null);
 
     initializeModelVk(codeValidationResult.data)
-      .then(() => {
+      .then((response) => {
+        if (!response.success) {
+          setErrorMessage(response.errorMessage);
+          return;
+        }
         authClient.organization
           .setActive({
             organizationId:
@@ -51,19 +61,11 @@ export const SignInVkPageContent = () => {
           })
           .then((result) => {
             if (result.error) {
-              setErrorMessage(result.error.message || result.error.statusText);
+              setErrorMessage(formatErrorMessage(result.error));
               return;
             }
             sessionStorage.removeItem("OAUTH_RETURN_TO");
             refetch();
-            router.push(
-              generateUpdatedPathString(
-                returnTo,
-                new URLSearchParams({
-                  toast: "SUCCESS",
-                })
-              )
-            );
           });
       })
       .catch((error) => {
@@ -74,6 +76,8 @@ export const SignInVkPageContent = () => {
       });
   }, []);
 
+  if (isLoading) return <StatusCardLoading />;
+
   if (errorMessage)
     return (
       <StatusCard
@@ -81,10 +85,12 @@ export const SignInVkPageContent = () => {
         title={"An error has occured"}
         description={errorMessage}
         className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-      />
+      >
+        <Button asChild>
+          <Link href={returnTo}>{"Go Back"}</Link>
+        </Button>
+      </StatusCard>
     );
-
-  if (isLoading) return <StatusCardLoading />;
 
   return (
     <StatusCard
@@ -92,6 +98,10 @@ export const SignInVkPageContent = () => {
       title={"SUCCESS"}
       description={"Sussesfully linked VK ID to your model account."}
       className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-    />
+    >
+      <Button asChild>
+        <Link href={returnTo}>{"Go Back"}</Link>
+      </Button>
+    </StatusCard>
   );
 };

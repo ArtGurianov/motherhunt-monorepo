@@ -36,7 +36,7 @@ export const SwitchAccountModelPageContent = () => {
   }
 
   return (
-    <div className="flex gap-4 justify-center items-center">
+    <div className="flex flex-col h-full gap-6 justify-center items-center">
       <OAuthVkBtn />
       <OAuthFacebookBtn />
     </div>

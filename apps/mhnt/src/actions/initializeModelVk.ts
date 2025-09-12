@@ -61,7 +61,7 @@ export const initializeModelVk = async (
 
     if (!tokensValidationResult.success)
       throw new APIError("INTERNAL_SERVER_ERROR", {
-        message: "Received unexpected data shape from VK ID",
+        message: "VK ID Tokens already used or invalid.",
       });
 
     const userResponse = await fetch("https://id.vk.com/oauth2/user_info", {
@@ -80,7 +80,19 @@ export const initializeModelVk = async (
 
     if (!userValidationResult.success)
       throw new APIError("INTERNAL_SERVER_ERROR", {
-        message: "Received unexpected data shape from VK ID",
+        message: "Received unexpected user data shape from VK ID",
+      });
+
+    const alreadyExists = await prismaClient.user.findFirst({
+      where: { modelSocialId: `vk:${userValidationResult.data.user.user_id}` },
+    });
+
+    if (alreadyExists)
+      throw new APIError("CONFLICT", {
+        message:
+          alreadyExists.id === session.user.id
+            ? "You already linked your VK ID to the app."
+            : "Person with this VK ID already exists in the system.",
       });
 
     await prismaClient.$transaction([
