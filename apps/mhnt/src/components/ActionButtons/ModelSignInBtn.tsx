@@ -11,8 +11,13 @@ import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
 import { LoaderCircle } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
+  const router = useRouter();
+  const params = useSearchParams();
+
   const { user, refetch, activeMember } = useAuth();
 
   const [isTransitionPending, startTransition] = useTransition();
@@ -43,6 +48,9 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
             });
             refetch();
             toast("Switched to Model");
+            router.push(
+              `${generateUpdatedPathString(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href, params)}`
+            );
           } catch (error) {
             toast(formatErrorMessage(error));
           }

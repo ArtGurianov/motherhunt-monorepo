@@ -9,12 +9,14 @@ import {
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
 import { useTranslations } from "next-intl";
-import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
-import { Suspense } from "react";
 import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 
 export const AuthInfo = () => {
+  const params = useSearchParams();
   const { user, activeMember } = useAuth();
 
   const t = useTranslations("AUTH_INFO");
@@ -38,15 +40,16 @@ export const AuthInfo = () => {
       {user.role === APP_ROLES.USER_ROLE ? (
         <div className="relative w-full h-10">
           <div className="absolute z-0 top-0 left-1/2 -translate-x-1/2 h-full flex items-center px-1">
-            <Suspense>
-              <CaptureBtn shape="horizontal">
-                <InterceptedLink
-                  href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH].href}
-                >
-                  {"Switch Account"}
-                </InterceptedLink>
-              </CaptureBtn>
-            </Suspense>
+            <CaptureBtn shape="horizontal">
+              <Link
+                href={generateUpdatedPathString(
+                  APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH].href,
+                  params
+                )}
+              >
+                {"Switch Account"}
+              </Link>
+            </CaptureBtn>
           </div>
         </div>
       ) : null}
