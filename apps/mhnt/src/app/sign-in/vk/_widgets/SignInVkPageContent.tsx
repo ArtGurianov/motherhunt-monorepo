@@ -1,7 +1,6 @@
 "use client";
 
 import { initializeModelVk } from "@/actions/initializeModelVk";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
 import { useAppParams } from "@/lib/hooks";
@@ -18,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const SignInVkPageContent = () => {
-  const { refetch } = useAuth();
+  const { refetch } = authClient.useSession();
 
   const router = useRouter();
 
@@ -89,9 +88,9 @@ export const SignInVkPageContent = () => {
 
   return (
     <StatusCard
-      type={StatusCardTypes.ERROR}
+      type={StatusCardTypes.SUCCESS}
       title={"SUCCESS"}
-      description={"Sussessfully linked VK ID to your model account."}
+      description={"Sussesfully linked VK ID to your model account."}
       className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
     />
   );

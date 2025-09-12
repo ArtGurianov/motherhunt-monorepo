@@ -3,9 +3,8 @@
 import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
-import { useTransition } from "react";
+import { Suspense, useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
-import Link from "next/link";
 import { useAuth } from "../AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
@@ -13,6 +12,7 @@ import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
 import { LoaderCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
+import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const router = useRouter();
@@ -24,11 +24,15 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
 
   if (!user.modelSocialId || !user.modelOrganizationId) {
     return (
-      <Button asChild {...props}>
-        <Link href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_MODEL].href}>
-          {"MODEL"}
-        </Link>
-      </Button>
+      <Suspense>
+        <Button asChild {...props}>
+          <InterceptedLink
+            href={APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_MODEL].href}
+          >
+            {"MODEL"}
+          </InterceptedLink>
+        </Button>
+      </Suspense>
     );
   }
 

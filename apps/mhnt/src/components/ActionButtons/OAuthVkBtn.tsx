@@ -8,14 +8,15 @@ import { GetComponentProps } from "@shared/ui/lib/types";
 import { useRouter } from "next/navigation";
 
 export const OAuthVkBtn = (props: GetComponentProps<typeof Button>) => {
-  const { getParam } = useAppParams();
+  const { getParam, getUpdatedParamsString, deleteParam } = useAppParams();
   const router = useRouter();
 
   const handleClick = async () => {
     const returnTo = getParam("returnTo");
+    deleteParam("returnTo");
     sessionStorage.setItem(
       "OAUTH_RETURN_TO",
-      returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href
+      `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`
     );
 
     const authUrl = await generateVkAuthRequestUrl();
