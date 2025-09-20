@@ -1,6 +1,6 @@
 import {
   AdminSvgUrl,
-  AgencySvgUrl,
+  // AgencySvgUrl,
   CaseSvgUrl,
   DealSvgUrl,
   HuntSvgUrl,
@@ -23,7 +23,7 @@ export const SCOUTER_NAV_ROUTES_ORDER = [
 ] as const;
 export const HEADBOOKER_NAV_ROUTES_ORDER = [
   APP_ROUTES.AUCTION,
-  APP_ROUTES.AGENCY_DETAILS,
+  // APP_ROUTES.AGENCY_DETAILS,
   APP_ROUTES.DEALS,
 ] as const;
 export const BOOKER_NAV_ROUTES_ORDER = [APP_ROUTES.AUCTION] as const;
@@ -44,6 +44,6 @@ export const NAV_ROUTES_SVG_PATHS = {
   [APP_ROUTES.CASES]: CaseSvgUrl,
   [APP_ROUTES.DEALS]: DealSvgUrl,
   [APP_ROUTES.HUNT]: HuntSvgUrl,
-  [APP_ROUTES.AGENCY_DETAILS]: AgencySvgUrl,
+  // [APP_ROUTES.AGENCY_DETAILS]: AgencySvgUrl,
   [APP_ROUTES.ADMINS]: AdminSvgUrl,
 } as const;

@@ -1,13 +1,12 @@
 "use client";
 
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useToastParam } from "@/lib/hooks";
 import { chain, wagmiAdapter, wagmiConfig } from "@/lib/web3/wagmiConfig";
 import { createAppKit } from "@reown/appkit/react";
 import { getAppURL } from "@shared/ui/lib/utils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
-import { State, WagmiProvider } from "wagmi";
+import { WagmiProvider } from "wagmi";
 
 const metadata = {
   name: "motherhunt",
@@ -28,20 +27,12 @@ createAppKit({
   enableNetworkSwitch: true,
 });
 
-export const AppProviders = ({
-  children,
-  initialState,
-}: {
-  children: ReactNode;
-  initialState?: State;
-}) => {
+export const AppProviders = ({ children }: { children: ReactNode }) => {
   const [config] = useState(() => wagmiConfig);
   const [queryClient] = useState(() => new QueryClient());
 
-  useToastParam();
-
   return (
-    <WagmiProvider config={config} initialState={initialState}>
+    <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
