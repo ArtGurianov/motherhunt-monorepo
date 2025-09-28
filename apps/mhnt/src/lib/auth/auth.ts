@@ -21,7 +21,7 @@ import {
   orgAccessControl,
 } from "@/lib/auth/permissions/org-permissions";
 import { getAppURL, getSiteURL, getAppLocale } from "@shared/ui/lib/utils";
-import { getMemberRole } from "@/actions/getMemberRole";
+import { getMemberRole } from "./getMemberRole";
 import { sessionBeforeUpdate } from "./dbHooks/sessionBeforeUpdate";
 import { sessionBeforeCreate } from "./dbHooks/sessionBeforeCreate";
 import { getTranslations } from "next-intl/server";

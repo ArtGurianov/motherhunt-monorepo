@@ -2,8 +2,8 @@
 
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { ReactNode } from "react";
-import { useAuth } from "../AppProviders/AuthProvider";
 import { useTranslations } from "next-intl";
+import { useAuthenticated } from "@/lib/hooks";
 
 interface BookerGuardClientProps {
   children: ReactNode;
@@ -14,7 +14,7 @@ export const BookerGuardClient = ({
   children,
   bookersUserIds,
 }: BookerGuardClientProps) => {
-  const { session } = useAuth();
+  const { session } = useAuthenticated();
 
   const tToasts = useTranslations("TOASTS");
 

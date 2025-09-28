@@ -1,9 +1,9 @@
 "use client";
 
 import { initializeModelVk } from "@/actions/initializeModelVk";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
+import { useAuth } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";

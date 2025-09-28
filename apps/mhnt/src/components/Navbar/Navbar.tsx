@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { authClient } from "@/lib/auth/authClient";
 import { Button } from "@shared/ui/components/button";
 import { ChevronsLeft, MenuIcon, XIcon } from "lucide-react";
 import { cn } from "@shared/ui/lib/utils";
@@ -16,6 +15,7 @@ import { motion, useAnimate } from "framer-motion";
 import { usePreviousValue } from "@/lib/hooks/usePreviousValue";
 import { useBreakpoint } from "@/lib/hooks/useBreakpoint";
 import { useWindowSize } from "@/lib/hooks/useWindowSize";
+import { useAuth } from "@/lib/hooks";
 
 export const Navbar = () => {
   const windowSize = useWindowSize();
@@ -25,26 +25,8 @@ export const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  const { data: session, isPending: isSessionPending } =
-    authClient.useSession();
-
-  const activeRole: AppRole | CustomMemberRole | null = useMemo(() => {
-    if (!session) return null;
-
-    const hasActiveOrg = Boolean(
-      session.session.activeOrganizationId &&
-        session.session.activeOrganizationName &&
-        session.session.activeOrganizationType &&
-        session.session.activeOrganizationRole
-    );
-
-    return hasActiveOrg
-      ? getCustomMemberRole(
-          session.session.activeOrganizationType as OrgType,
-          session.session.activeOrganizationRole as OrgRole
-        )
-      : ((session.user.role as AppRole) ?? null);
-  }, [session]);
+  const { activeMember, isPending, session, user } = useAuth();
+  const activeRole = activeMember?.role ?? user?.role ?? null;
 
   const [scope, animate] = useAnimate();
   const previousActiveRole = usePreviousValue(activeRole);
@@ -70,10 +52,10 @@ export const Navbar = () => {
   }, [animate, scope, previousActiveRole, activeRole]);
 
   useEffect(() => {
-    if (!isSessionInitialized.current && !isSessionPending) {
+    if (!isSessionInitialized.current && !isPending) {
       isSessionInitialized.current = true;
     }
-  }, [isSessionPending]);
+  }, [isPending]);
 
   useEffect(() => {
     if (isSessionInitialized.current && previousActiveRole !== activeRole) {
@@ -109,7 +91,7 @@ export const Navbar = () => {
 
   if (
     pathname.startsWith(APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href) ||
-    (isSessionPending && !isSessionInitialized.current)
+    (isPending && !isSessionInitialized.current)
   )
     return null;
 

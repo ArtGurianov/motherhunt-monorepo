@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 import { prismaClient } from "@/lib/db";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";

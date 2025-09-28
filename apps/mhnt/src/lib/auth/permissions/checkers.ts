@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 import { headers } from "next/headers";
 import auth from "../auth";
@@ -6,6 +6,7 @@ import { OrgAction, OrgEntity, OrgRole } from "./org-permissions";
 import { AppAction, AppEntity } from "./app-permissions";
 import { CustomMemberRole, getCustomMemberRole } from "../customRoles";
 import { OrgType } from "@/lib/utils/types";
+import { getSession } from "@/data/getSession";
 
 export type CanAccessAppRoleReturnType =
   | {
@@ -32,11 +33,7 @@ export const canAccessCustomRole = async <TEntity extends OrgEntity>(
 ): Promise<CanAccessCustomRoleReturnType> => {
   try {
     const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
-
-    if (!session) return { canAccess: false };
+    const session = await getSession();
 
     const {
       activeOrganizationId,
@@ -90,12 +87,7 @@ export const canAccessAppRole = async <TEntity extends AppEntity>(
   action: AppAction<TEntity>
 ): Promise<CanAccessAppRoleReturnType> => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
-
-    if (!session) return { canAccess: false };
+    const session = await getSession();
 
     const result = await auth.api.userHasPermission({
       body: {

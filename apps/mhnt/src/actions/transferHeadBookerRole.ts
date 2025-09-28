@@ -37,8 +37,6 @@ export const transferHeadBookerRole = async (targetId: string) => {
       }),
     ]);
 
-    // TODO: revalidate /agency/id ???
-
     return createActionResponse();
   } catch (error) {
     return createActionResponse({ error });

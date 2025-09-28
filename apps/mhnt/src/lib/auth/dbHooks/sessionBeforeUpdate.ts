@@ -1,16 +1,17 @@
-"use server";
+import "server-only";
 
 import { Session } from "better-auth";
 import { APIError } from "better-auth/api";
 import { prismaClient } from "@/lib/db";
-import { getMemberRole } from "@/actions/getMemberRole";
-import { getSessionFromDB } from "@/actions/getSessionFromDB";
+import { getSession } from "@/data/getSession";
 import {
   APPLICATION_STATUSES,
   ApplicationStatus,
   getAgencyApplicationStatus,
 } from "@/lib/utils/getAgencyApplicationStatus";
 import { ORG_TYPES, OrgMetadata, OrgType } from "@/lib/utils/types";
+import { getMemberRole } from "../getMemberRole";
+import { revalidateTag } from "next/cache";
 
 export const sessionBeforeUpdate = async (
   updateSessionData: Partial<Session>
@@ -34,15 +35,11 @@ export const sessionBeforeUpdate = async (
     return true;
   }
 
-  const result = await getSessionFromDB();
+  const { session } = await getSession();
+  revalidateTag(`session:${session.token}`);
 
-  if (!result.success) {
-    throw new APIError("INTERNAL_SERVER_ERROR", {
-      message: result.errorMessage,
-    });
-  }
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const { userId, id, ...oldSession } = result.data!;
+  const { userId, id, ...oldSession } = session;
 
   const updateActiveOrganizationId = (
     updateSessionData as unknown as {

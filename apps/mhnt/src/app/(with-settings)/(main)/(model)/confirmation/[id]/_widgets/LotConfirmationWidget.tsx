@@ -1,8 +1,8 @@
 "use client";
 
 import { signLotConfirmation } from "@/actions/signLotConfirmation";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
+import { useAuthenticated } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Lot } from "@shared/db";
@@ -19,7 +19,7 @@ interface LotConfirmationWidgetProps {
 
 export const LotConfirmationWidget = ({ data }: LotConfirmationWidgetProps) => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user } = useAuthenticated();
 
   const [isPending, startTransition] = useTransition();
 

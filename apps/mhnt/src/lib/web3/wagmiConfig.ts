@@ -5,7 +5,7 @@ import { getEnvConfigClient } from "../config/env";
 export const chain = getAppChain();
 
 export const wagmiAdapter = new WagmiAdapter({
-  ssr: false,
+  ssr: true,
   projectId: getEnvConfigClient().NEXT_PUBLIC_REOWN_PROJECT_ID,
   networks: [chain],
 });

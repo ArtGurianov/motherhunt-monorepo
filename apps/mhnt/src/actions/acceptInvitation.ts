@@ -7,14 +7,11 @@ import { buildDynamicRoutePath } from "@/lib/utils/buildDynamicRoutePath";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
+import { getSession } from "@/data/getSession";
 
 export const acceptInvitation = async (invitationId: string) => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
+    const session = await getSession();
     if (!session) {
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
     }

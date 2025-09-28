@@ -1,13 +1,12 @@
 "use client";
 
-import { useAppWriteContract } from "@/lib/hooks";
+import { useAppWriteContract, useAuthenticated } from "@/lib/hooks";
 import { karmaContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { LoaderCircle } from "lucide-react";
 import { Web3ConnectBtn } from "./Web3ConnectBtn";
-import { useAuth } from "../AppProviders/AuthProvider";
 
 interface TopUpKarmaBtnProps extends GetComponentProps<typeof Button> {
   isLoading: boolean;
@@ -29,7 +28,7 @@ export const TopUpKarmaBtn = ({
   onSuccess,
   children,
 }: TopUpKarmaBtnProps) => {
-  const { session } = useAuth();
+  const { session } = useAuthenticated();
 
   const {
     writeContract,

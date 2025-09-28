@@ -9,15 +9,15 @@ import {
   InlineDataLabel,
 } from "@shared/ui/components/InlineData";
 import { useTranslations } from "next-intl";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const AuthInfo = () => {
   const params = useSearchParams();
-  const { user, activeMember } = useAuth();
+  const { user, activeMember } = useAuthenticated();
 
   const t = useTranslations("AUTH_INFO");
   const tTitles = useTranslations("INFO_CARD_TITLES");

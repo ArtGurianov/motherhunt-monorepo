@@ -22,11 +22,11 @@ import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const AgenciesList = () => {
-  const { refetch, activeMember } = useAuth();
+  const { refetch, activeMember } = useAuthenticated();
 
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("AGENCIES_LIST");

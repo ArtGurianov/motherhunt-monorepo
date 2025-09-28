@@ -1,8 +1,8 @@
 "use client";
 
 import { acceptInvitation } from "@/actions/acceptInvitation";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { ErrorBlock } from "@/components/Forms";
+import { useAuthenticated } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
@@ -35,7 +35,7 @@ export const AcceptInvitationWidget = ({
   invitationId,
   inviteeEmail,
 }: AcceptInvitationWidgetProps) => {
-  const { user } = useAuth();
+  const { user } = useAuthenticated();
 
   const router = useRouter();
 

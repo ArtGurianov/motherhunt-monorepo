@@ -5,12 +5,12 @@ import { Suspense } from "react";
 import { InterceptedLink } from "@/components/InterceptedLink/InterceptedLink";
 import { useTranslations } from "next-intl";
 import { ModelSignInBtn } from "@/components/ActionButtons/ModelSignInBtn";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { ScouterSignInBtn } from "@/components/ActionButtons/ScouterSignInBtn";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const SwitchAccountPageContent = () => {
-  const { activeMember } = useAuth();
+  const { activeMember } = useAuthenticated();
   const tRoles = useTranslations("ROLES");
 
   return (

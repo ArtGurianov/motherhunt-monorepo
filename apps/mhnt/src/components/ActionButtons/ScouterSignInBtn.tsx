@@ -5,18 +5,18 @@ import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { useTransition } from "react";
-import { useAuth } from "../AppProviders/AuthProvider";
 import { LoaderCircle } from "lucide-react";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const ScouterSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const router = useRouter();
   const params = useSearchParams();
 
-  const { user, activeMember, refetch } = useAuth();
+  const { user, activeMember, refetch } = useAuthenticated();
 
   const [isTransitionPending, startTransition] = useTransition();
 

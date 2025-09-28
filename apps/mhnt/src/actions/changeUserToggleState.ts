@@ -1,9 +1,8 @@
 "use server";
 
-import auth from "@/lib/auth/auth";
+import { getSession } from "@/data/getSession";
 import { prismaClient } from "@/lib/db";
 import { User } from "@shared/db";
-import { headers } from "next/headers";
 import { APIError } from "better-auth/api";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 
@@ -17,10 +16,7 @@ export const changeUserToggleState = async (
   value: boolean
 ) => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
+    const session = await getSession();
     if (!session) {
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
     }

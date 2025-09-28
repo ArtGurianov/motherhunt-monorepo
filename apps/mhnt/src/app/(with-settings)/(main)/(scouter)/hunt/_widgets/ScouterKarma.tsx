@@ -18,10 +18,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { useReadContract } from "wagmi";
 import { TopUpDialog } from "./TopUpDialog";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const ScouterKarma = () => {
-  const { session } = useAuth();
+  const { session } = useAuthenticated();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 

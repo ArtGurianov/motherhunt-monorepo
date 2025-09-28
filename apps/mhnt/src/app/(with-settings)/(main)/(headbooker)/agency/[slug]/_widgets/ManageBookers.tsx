@@ -22,10 +22,10 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
 import { BookersData } from "../page";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
-  const { refetch } = useAuth();
+  const { refetch } = useAuthenticated();
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

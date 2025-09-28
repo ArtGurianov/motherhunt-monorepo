@@ -2,15 +2,15 @@
 
 import { OAuthFacebookBtn } from "@/components/ActionButtons/OAuthFacebookBtn";
 import { OAuthVkBtn } from "@/components/ActionButtons/OAuthVkBtn";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
+import { useAuthenticated } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { Button } from "@shared/ui/components/button";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import Link from "next/link";
 
 export const SwitchAccountModelPageContent = () => {
-  const { user, activeMember } = useAuth();
+  const { user, activeMember } = useAuthenticated();
 
   if (activeMember?.role === CUSTOM_MEMBER_ROLES.MODEL_ROLE) {
     return (

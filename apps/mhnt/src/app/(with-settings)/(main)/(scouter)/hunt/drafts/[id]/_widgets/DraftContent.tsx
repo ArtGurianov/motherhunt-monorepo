@@ -12,7 +12,7 @@ import { getEnvConfigClient } from "@/lib/config/env";
 import { lotChainSchema } from "@/lib/schemas/lotChainSchema";
 import { ZERO_BYTES } from "@/lib/web3/constants";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
+import { useAuthenticated } from "@/lib/hooks";
 
 interface DraftContentProps {
   draftData: Lot;
@@ -21,7 +21,7 @@ interface DraftContentProps {
 type AccordionState = "profile" | "confirmation" | "review" | "publish" | null;
 
 export const DraftContent = ({ draftData }: DraftContentProps) => {
-  const { session } = useAuth();
+  const { session } = useAuthenticated();
 
   const [openedAccordion, setOpenedAccordion] =
     useState<AccordionState>("profile");

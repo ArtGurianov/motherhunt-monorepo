@@ -1,6 +1,6 @@
 "use server";
 
-import auth from "@/lib/auth/auth";
+import { getSession } from "@/data/getSession";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";
@@ -11,7 +11,6 @@ import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES } from "@/lib/utils/types";
 import { getAppURL } from "@shared/ui/lib/utils";
 import { APIError } from "better-auth/api";
-import { headers } from "next/headers";
 import z from "zod";
 
 const vkTokensResponseSchema = z.object({
@@ -30,10 +29,7 @@ export const initializeModelVk = async (
   data: z.infer<typeof vkCodeResponseSchema>
 ) => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
+    const session = await getSession();
     if (!session)
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
 

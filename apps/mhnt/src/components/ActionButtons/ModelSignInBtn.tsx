@@ -5,7 +5,6 @@ import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { Suspense, useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
-import { useAuth } from "../AppProviders/AuthProvider";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
@@ -13,12 +12,13 @@ import { LoaderCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
+import { useAuthenticated } from "@/lib/hooks";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const router = useRouter();
   const params = useSearchParams();
 
-  const { user, refetch, activeMember } = useAuth();
+  const { user, refetch, activeMember } = useAuthenticated();
 
   const [isTransitionPending, startTransition] = useTransition();
 

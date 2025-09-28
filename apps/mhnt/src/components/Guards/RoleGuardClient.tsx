@@ -5,10 +5,10 @@ import { AppRole } from "@shared/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { useTranslations } from "next-intl";
 import { ReactNode, Suspense } from "react";
-import { useAuth } from "../AppProviders/AuthProvider";
 import { Button } from "@shared/ui/components/button";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { useAuthenticated } from "@/lib/hooks";
 
 interface RoleGuardProps {
   children: ReactNode;
@@ -16,7 +16,7 @@ interface RoleGuardProps {
 }
 
 export const RoleGuardClient = ({ children, allowedRoles }: RoleGuardProps) => {
-  const { user, activeMember } = useAuth();
+  const { user, activeMember } = useAuthenticated();
 
   const tToasts = useTranslations("TOASTS");
   const tRoles = useTranslations("ROLES");

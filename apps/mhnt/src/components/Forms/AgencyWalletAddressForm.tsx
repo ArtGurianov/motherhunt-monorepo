@@ -19,15 +19,14 @@ import { LoaderCircle } from "lucide-react";
 import { useAccount, useReadContract } from "wagmi";
 import { systemContractAbi } from "@/lib/web3/abi";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useAppWriteContract } from "@/lib/hooks";
+import { useAppWriteContract, useAuthenticated } from "@/lib/hooks";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { toast } from "@shared/ui/components/sonner";
 import { ZERO_ADDRESS } from "@/lib/web3/constants";
 import { addressSchema } from "@/lib/schemas/addressSchema";
-import { useAuth } from "../AppProviders/AuthProvider";
 
 export const AgencyWalletAddressForm = () => {
-  const { session } = useAuth();
+  const { session } = useAuthenticated();
 
   const { address: connectedWalletAddress } = useAccount();
   const [isSubmitted, setIsSubmitted] = useState(false);

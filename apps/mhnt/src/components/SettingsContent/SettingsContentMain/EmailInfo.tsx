@@ -4,12 +4,12 @@ import { changeUserToggleState } from "@/actions/changeUserToggleState";
 import { ChangeEmailForm } from "@/components/Forms";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { ToggleStateField } from "@/components/ToggleStateField/ToggleStateField";
+import { useAuthenticated } from "@/lib/hooks";
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
-import { useAuth } from "@/components/AppProviders/AuthProvider";
 
 export const EmailInfo = () => {
-  const { user } = useAuth();
+  const { user } = useAuthenticated();
 
   const t = useTranslations("TOGGLE_LABELS");
   const tTitles = useTranslations("INFO_CARD_TITLES");

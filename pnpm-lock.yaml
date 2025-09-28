@@ -104,6 +104,9 @@ importers:
       react-hook-form:
         specifier: ^7.57.0
         version: 7.62.0(react@19.1.1)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
       tsx:
         specifier: ^4.20.3
         version: 4.20.5
@@ -12754,6 +12757,10 @@ packages:
       no-case: 2.3.2
       upper-case-first: 1.1.2
     dev: true
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+    dev: false
 
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}

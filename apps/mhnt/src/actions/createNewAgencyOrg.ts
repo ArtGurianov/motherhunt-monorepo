@@ -3,7 +3,7 @@
 import auth from "@/lib/auth/auth";
 import { APIError } from "better-auth/api";
 import { prismaClient } from "@/lib/db";
-import { headers } from "next/headers";
+import { getSession } from "@/data/getSession";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "./sendEmail";
 import { getTranslations } from "next-intl/server";
@@ -22,10 +22,7 @@ export const createNewAgencyOrg = async ({
   slug: string;
 }) => {
   try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
+    const session = await getSession();
     if (!session)
       throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
 

@@ -36,6 +36,7 @@
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.57.0",
+    "server-only": "^0.0.1",
     "tsx": "^4.20.3",
     "viem": "^2.31.7",
     "wagmi": "^2.15.6",

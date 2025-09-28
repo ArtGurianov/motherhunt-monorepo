@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 import { RouteHeading } from "@/components/RouteHeading/RouteHeading";
-import { AuthProvider } from "@/components/AppProviders/AuthProvider";
+import { SignedInGuardClient } from "@/components/Guards/SignedInGuardClient";
 
 export default function MainLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <AuthProvider>
+    <SignedInGuardClient>
       <RouteHeading />
       {children}
-    </AuthProvider>
+    </SignedInGuardClient>
   );
 }

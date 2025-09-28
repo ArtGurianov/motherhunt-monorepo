@@ -1,8 +1,8 @@
-import { AuthProvider } from "@/components/AppProviders/AuthProvider";
+import { SignedInGuardClient } from "@/components/Guards/SignedInGuardClient";
 import { ReactNode } from "react";
 
 export default function SettingsModalLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <SignedInGuardClient>{children}</SignedInGuardClient>;
 }
