@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createActionResponse } from "../utils/createActionResponse";
+import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { Lot } from "@shared/db";
 
 export const useMyDrafts = () => {

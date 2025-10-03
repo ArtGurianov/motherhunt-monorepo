@@ -1,7 +1,7 @@
 import { getSession } from "@/data/getSession";
 import { APIError } from "better-auth/api";
 
-export async function GET(_: Request) {
+export async function GET() {
   try {
     const session = await getSession();
     return Response.json(session);

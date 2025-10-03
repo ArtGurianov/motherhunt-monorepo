@@ -2,7 +2,8 @@
 
 import { acceptInvitation } from "@/actions/acceptInvitation";
 import { ErrorBlock } from "@/components/Forms";
-import { useAuthenticated } from "@/lib/hooks";
+import { useAppParams, useAuthenticated } from "@/lib/hooks";
+import { useInvitationDetails } from "@/lib/hooks/useInvitationDetails";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
@@ -14,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import { StatusCard, StatusCardLoading, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -26,21 +27,29 @@ const REDIRECT_PATH_SUCCESS = generateUpdatedPathString(
   })
 );
 
-interface AcceptInvitationWidgetProps {
-  invitationId: string;
-  inviteeEmail: string;
-}
+export const AcceptInvitationWidget = () => {
+  const { getParam } = useAppParams();
+  const invitationId = getParam("invitationId");
+  const { data: dataResult, isPending: isDataResultPending } = useInvitationDetails(invitationId);
 
-export const AcceptInvitationWidget = ({
-  invitationId,
-  inviteeEmail,
-}: AcceptInvitationWidgetProps) => {
   const { user } = useAuthenticated();
 
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  if (isDataResultPending) {
+    return <StatusCardLoading />;
+  }
+
+  if (!invitationId) {
+    return <StatusCard type={StatusCardTypes.ERROR} title="Invitation ID not provided" />;
+  }
+
+  if (!dataResult?.success) {
+    return <StatusCard type={StatusCardTypes.ERROR} title="Error while fetching invitation data" />;
+  }
 
   const handleAcceptInvitation = () => {
     startTransition(async () => {
@@ -58,9 +67,15 @@ export const AcceptInvitationWidget = ({
     });
   };
 
-  if (inviteeEmail !== user.email) {
+  if (dataResult.data.email !== user.email) {
     return (
       <StatusCard type={StatusCardTypes.ERROR} title="Not an invitee email" />
+    );
+  }
+
+  if (dataResult.data.status !== "pending") {
+    return (
+      <StatusCard type={StatusCardTypes.ERROR} title="Invitation Closed" />
     );
   }
 

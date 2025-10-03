@@ -1,29 +1,17 @@
-import { Organization } from "@shared/db";
+import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { AgenciesApplicationsWidget } from "./_widgets/AgenciesApplicationsWidget";
-import { prismaClient } from "@/lib/db";
-import { ORG_TYPES } from "@/lib/utils/types";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
+import { getPendingOrganizations } from "@/data/getPendingOrganizations";
 
 export default async function AgenciesApplicationsPage() {
-  let pendingOrganizations: Organization[] | null = null;
-  try {
-    pendingOrganizations = await prismaClient.organization.findMany({
-      where: {
-        metadata: {
-          contains: ORG_TYPES.AGENCY,
-        },
-        AND: {
-          NOT: {
-            metadata: {
-              contains: "reviewerAddress",
-            },
-          },
-        },
-      },
-    });
-  } catch (error) {
-    return formatErrorMessage(error);
-  }
+  const result = await getPendingOrganizations();
+  if (!result.success)
+    return (
+      <StatusCard
+        type={StatusCardTypes.ERROR}
+        title="An error occured"
+        description={result.errorMessage}
+      />
+    );
 
-  return <AgenciesApplicationsWidget data={pendingOrganizations} />;
+  return <AgenciesApplicationsWidget data={result.data} />;
 }

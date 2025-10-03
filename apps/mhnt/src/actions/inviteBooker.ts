@@ -26,7 +26,7 @@ export const inviteBooker = async ({
       subject: `You are invited to join ${organization.name}`,
       meta: {
         description: `Are you a booker of ${organization.name}? Accept your invitation and start booking models now!`,
-        link: `${getAppURL()}/agency/accept-invitation/${id}`,
+        link: `${getAppURL()}/agency/accept-invitation?invitationId=${id}`,
       },
     });
   } catch (error) {
