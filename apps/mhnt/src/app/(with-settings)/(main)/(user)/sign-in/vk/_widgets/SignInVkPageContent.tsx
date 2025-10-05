@@ -6,7 +6,6 @@ import { getEnvConfigClient } from "@/lib/config/env";
 import { useAuth } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Button } from "@shared/ui/components/button";
 import {
   StatusCard,
@@ -60,16 +59,16 @@ export const SignInVkPageContent = () => {
               getEnvConfigClient().NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
           })
           .then((result) => {
-            if (result.error) {
-              setErrorMessage(formatErrorMessage(result.error));
-              return;
-            }
+            if (result.error)
+              throw new Error("Error while setting active organization.");
             sessionStorage.removeItem("OAUTH_RETURN_TO");
             refetch();
           });
       })
       .catch((error) => {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
       })
       .finally(() => {
         setIsLoading(false);

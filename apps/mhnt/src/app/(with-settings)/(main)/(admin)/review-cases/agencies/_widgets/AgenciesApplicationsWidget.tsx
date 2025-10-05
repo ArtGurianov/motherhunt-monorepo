@@ -28,7 +28,6 @@ import { acceptAgencyApplication } from "@/actions/acceptAgencyApplication";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { Web3ConnectBtn } from "@/components/ActionButtons/Web3ConnectBtn";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 interface AgenciesApplicationsWidgetProps {
   data: Organization[];
@@ -81,7 +80,9 @@ export const AgenciesApplicationsWidget = ({
           setRejectionTarget(null);
           router.refresh();
         } catch (error) {
-          toast(formatErrorMessage(error));
+          toast(
+            error instanceof Error ? error.message : "Something went wrong."
+          );
         }
       });
     }
@@ -99,7 +100,9 @@ export const AgenciesApplicationsWidget = ({
           toast(tToasts("approved-message"));
           router.refresh();
         } catch (error) {
-          toast(formatErrorMessage(error));
+          toast(
+            error instanceof Error ? error.message : "Something went wrong."
+          );
         }
       });
     },

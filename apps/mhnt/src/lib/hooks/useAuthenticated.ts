@@ -1,4 +1,3 @@
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { useAuth } from "./useAuth";
 
 export const useAuthenticated = () => {
@@ -6,7 +5,7 @@ export const useAuthenticated = () => {
     useAuth();
 
   if (isPending || isError || !session || !user)
-    throw new AppClientError("Unauthorized");
+    throw new Error("Unauthorized");
 
   return {
     session,

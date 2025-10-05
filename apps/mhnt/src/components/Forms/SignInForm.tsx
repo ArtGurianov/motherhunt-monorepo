@@ -33,7 +33,6 @@ import { useAppParams } from "@/lib/hooks/useAppParams";
 import { magicLinkFormSchema } from "@/lib/schemas/magicLinkFormSchema";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const SignInForm = () => {
   const { getParam, setParam, deleteParam, getUpdatedParamsString } =
@@ -76,12 +75,13 @@ export const SignInForm = () => {
           },
         });
         if (result?.error) {
-          setErrorMessage(formatErrorMessage(result.error));
-          return;
+          throw new Error("Error while sending magic link.");
         }
         setIsSent(true);
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
       }
     });
   };

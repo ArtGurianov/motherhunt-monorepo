@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@shared/ui/components/button";
 import {
   Form,
@@ -22,7 +21,6 @@ import { SuccessBlock } from "./SuccessBlock";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { LoaderCircle } from "lucide-react";
 import { emailSchema } from "@/lib/schemas/emailSchema";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const BookerInvitationForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("PENDING");
@@ -52,7 +50,9 @@ export const BookerInvitationForm = () => {
         }
         setFormStatus("SUCCESS");
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
 
         setFormStatus("ERROR");
       }

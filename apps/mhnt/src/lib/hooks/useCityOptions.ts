@@ -5,8 +5,8 @@ import { getCitiesByCountry } from "@/actions/getCitiesByCountry";
 export const useCityOptions = (country: Country) => {
   return useQuery({
     queryKey: ["cities", country],
-    queryFn: () => {
-      return getCitiesByCountry(country!);
+    queryFn: async () => {
+      return await getCitiesByCountry(country!);
     },
     enabled: !!country && country.length > 0,
     staleTime: Infinity,

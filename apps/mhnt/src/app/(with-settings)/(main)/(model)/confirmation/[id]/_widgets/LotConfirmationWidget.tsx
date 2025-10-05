@@ -4,7 +4,6 @@ import { signLotConfirmation } from "@/actions/signLotConfirmation";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { useAuthenticated } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Lot } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
@@ -51,7 +50,9 @@ export const LotConfirmationWidget = ({ data }: LotConfirmationWidgetProps) => {
               router.push(APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href);
             });
           } catch (error) {
-            toast(formatErrorMessage(error));
+            toast(
+              error instanceof Error ? error.message : "Something went wrong"
+            );
           }
         }}
       >

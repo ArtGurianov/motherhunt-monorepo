@@ -25,7 +25,6 @@ import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 export const AdminSignInForm = () => {
   const router = useRouter();
@@ -85,7 +84,9 @@ export const AdminSignInForm = () => {
             );
           }
         } catch (error) {
-          setErrorMessage(formatErrorMessage(error));
+          setErrorMessage(
+            error instanceof Error ? error.message : "Something went wrong."
+          );
         }
       });
     }

@@ -1,8 +1,8 @@
-"use server";
+import "server-only";
 
 import { getEnvConfigServer } from "@/lib/config/env";
 import { transporter } from "@/lib/nodemailer";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
+import { formatErrorMessage } from "@/lib/utils/errorUtils";
 
 const styles = {
   container:

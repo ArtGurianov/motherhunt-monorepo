@@ -8,7 +8,7 @@ import {
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { canAccessCustomRole } from "@/lib/auth/permissions/checkers";
 import { CUSTOM_MEMBER_ROLES, CustomMemberRole } from "@/lib/auth/customRoles";
 
@@ -51,7 +51,7 @@ export const deleteBookerRole = async (targetId: string) => {
       (JSON.parse(organization.metadata) as OrgMetadata).orgType !==
       ORG_TYPES.AGENCY
     ) {
-      throw new AppClientError("Not an agency organization");
+      throw new AppBusinessError("Not an agency organization", 400);
     }
 
     await prismaClient.member.delete({

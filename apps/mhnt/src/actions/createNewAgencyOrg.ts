@@ -3,12 +3,12 @@
 import auth from "@/lib/auth/auth";
 import { APIError } from "better-auth/api";
 import { prismaClient } from "@/lib/db";
-import { getSession } from "@/data/getSession";
+import { getSession } from "@/data/session/getSession";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "./sendEmail";
 import { getTranslations } from "next-intl/server";
 import { getAppLocale, getAppURL } from "@shared/ui/lib/utils";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
@@ -36,14 +36,18 @@ export const createNewAgencyOrg = async ({
         },
       });
       if (!organizationData?.metadata)
-        throw new AppClientError(
-          "Could not get data for one of your organizations"
+        throw new AppBusinessError(
+          "Could not get data for one of your organizations",
+          400
         );
       const metadata: OrgMetadata = JSON.parse(
         organizationData.metadata
       ) as OrgMetadata;
       if (metadata.orgType === "AGENCY" && !metadata.reviewerAddress) {
-        throw new AppClientError("Your previous request is still pending.");
+        throw new AppBusinessError(
+          "Your previous request is still pending",
+          400
+        );
       }
     }
 

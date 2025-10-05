@@ -6,7 +6,7 @@ import { ORG_ENTITIES } from "@/lib/auth/permissions/org-permissions";
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { Lot } from "@shared/db";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
 
@@ -39,8 +39,9 @@ export const updateDraft = async ({ lotId, updateData }: UpdateDraftProps) => {
       });
 
     if (lotData.isConfirmationEmailSent)
-      throw new AppClientError(
-        "Need to cancel previous confirmation email first."
+      throw new AppBusinessError(
+        "Need to cancel previous confirmation email first",
+        400
       );
 
     await prismaClient.lot.update({

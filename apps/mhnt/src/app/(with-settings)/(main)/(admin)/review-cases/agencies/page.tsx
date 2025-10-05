@@ -1,17 +1,20 @@
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { AgenciesApplicationsWidget } from "./_widgets/AgenciesApplicationsWidget";
-import { getPendingOrganizations } from "@/data/getPendingOrganizations";
+import { getPendingOrganizations } from "@/data/pendingOrganizations/getPendingOrganizations";
 
 export default async function AgenciesApplicationsPage() {
-  const result = await getPendingOrganizations();
-  if (!result.success)
+  try {
+    const organizations = await getPendingOrganizations();
+    return <AgenciesApplicationsWidget data={organizations} />;
+  } catch (error) {
     return (
       <StatusCard
         type={StatusCardTypes.ERROR}
         title="An error occured"
-        description={result.errorMessage}
+        description={
+          error instanceof Error ? error.message : "Something went wrong."
+        }
       />
     );
-
-  return <AgenciesApplicationsWidget data={result.data} />;
+  }
 }

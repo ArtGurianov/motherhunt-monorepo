@@ -1,7 +1,6 @@
 "use client";
 
 import { authClient } from "@/lib/auth/authClient";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { useTransition } from "react";
@@ -40,7 +39,9 @@ export const ScouterSignInBtn = (props: GetComponentProps<typeof Button>) => {
               `${generateUpdatedPathString(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href, params)}`
             );
           } catch (error) {
-            toast(formatErrorMessage(error));
+            toast(
+              error instanceof Error ? error.message : "Something went wrong."
+            );
           }
         });
       }}

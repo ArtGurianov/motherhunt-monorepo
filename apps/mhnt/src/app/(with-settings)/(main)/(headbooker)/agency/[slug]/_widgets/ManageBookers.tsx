@@ -21,7 +21,6 @@ import { Ban, Crown, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
 import { BookersData } from "../page";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { useAuthenticated } from "@/lib/hooks";
 
 export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
@@ -60,7 +59,7 @@ export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
           router.refresh();
         }
       } catch (error) {
-        toast(formatErrorMessage(error));
+        toast(error instanceof Error ? error.message : "Something went wrong.");
       }
     });
   };

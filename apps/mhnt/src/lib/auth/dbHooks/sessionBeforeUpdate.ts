@@ -3,7 +3,7 @@ import "server-only";
 import { Session } from "better-auth";
 import { APIError } from "better-auth/api";
 import { prismaClient } from "@/lib/db";
-import { getSession } from "@/data/getSession";
+import { getSession } from "@/data/session/getSession";
 import {
   APPLICATION_STATUSES,
   ApplicationStatus,

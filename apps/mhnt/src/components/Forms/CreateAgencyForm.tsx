@@ -32,7 +32,6 @@ import { createNewAgencyOrg } from "@/actions/createNewAgencyOrg";
 import { toast } from "@shared/ui/components/sonner";
 import { createAgencySchema } from "@/lib/schemas/createAgencySchema";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 const transformStringToSlug = (value: string) =>
   value
@@ -75,7 +74,9 @@ export const CreateAgencyForm = () => {
         form.reset();
       });
     } catch (error) {
-      setErrorMessage(formatErrorMessage(error));
+      setErrorMessage(
+        error instanceof Error ? error.message : "Something went wrong."
+      );
     }
   };
 

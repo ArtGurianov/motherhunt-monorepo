@@ -1,6 +1,6 @@
 "use server";
 
-import { getSession } from "@/data/getSession";
+import { getSession } from "@/data/session/getSession";
 import { ORG_ROLES } from "@/lib/auth/permissions/org-permissions";
 import { getEnvConfigServer } from "@/lib/config/env";
 import { prismaClient } from "@/lib/db";

@@ -4,7 +4,6 @@ import { RadioGroup, RadioGroupItem } from "@shared/ui/components/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@shared/ui/components/button";
 import {
   Form,
@@ -29,7 +28,6 @@ import { toast } from "@shared/ui/components/sonner";
 import { updateDraft } from "@/actions/updateDraft";
 import { Lot, Sex } from "@shared/db";
 import { lotDraftSchema } from "@/lib/schemas/lotDraftSchema";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Heading } from "@shared/ui/components/Heading";
 import { COUNTRIES_LIST, Country } from "@/lib/dictionaries/countriesList";
 import { useCityOptions } from "@/lib/hooks/useCityOptions";
@@ -225,7 +223,9 @@ export const LotForm = memo(function LotForm({
           toast("Success");
         });
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
       }
     },
     [lotData.id]

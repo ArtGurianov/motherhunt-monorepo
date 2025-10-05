@@ -6,7 +6,7 @@ import { OrgAction, OrgEntity, OrgRole } from "./org-permissions";
 import { AppAction, AppEntity } from "./app-permissions";
 import { CustomMemberRole, getCustomMemberRole } from "../customRoles";
 import { OrgType } from "@/lib/utils/types";
-import { getSession } from "@/data/getSession";
+import { getSession } from "@/data/session/getSession";
 
 export type CanAccessAppRoleReturnType =
   | {

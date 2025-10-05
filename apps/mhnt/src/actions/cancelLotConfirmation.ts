@@ -2,7 +2,7 @@
 
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
 import { viemClient } from "@/lib/web3/viemClient";
@@ -46,7 +46,7 @@ export const calcelLotConfirmation = async ({
       });
 
     if (!lotData.isConfirmationEmailSent)
-      throw new AppClientError("Confirmation email not sent");
+      throw new AppBusinessError("Confirmation email not sent", 400);
 
     const chainLotData = await viemClient.readContract({
       abi: auctionContractAbi,

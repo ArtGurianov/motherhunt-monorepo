@@ -7,7 +7,7 @@ import { buildDynamicRoutePath } from "@/lib/utils/buildDynamicRoutePath";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
-import { getSession } from "@/data/getSession";
+import { getSession } from "@/data/session/getSession";
 
 export const acceptInvitation = async (invitationId: string) => {
   try {

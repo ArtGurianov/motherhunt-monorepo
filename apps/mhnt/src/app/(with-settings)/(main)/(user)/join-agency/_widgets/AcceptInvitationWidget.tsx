@@ -5,7 +5,6 @@ import { ErrorBlock } from "@/components/Forms";
 import { useAppParams, useAuthenticated } from "@/lib/hooks";
 import { useInvitationDetails } from "@/lib/hooks/useInvitationDetails";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -15,7 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@shared/ui/components/card";
-import { StatusCard, StatusCardLoading, StatusCardTypes } from "@shared/ui/components/StatusCard";
+import {
+  StatusCard,
+  StatusCardLoading,
+  StatusCardTypes,
+} from "@shared/ui/components/StatusCard";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -30,7 +33,11 @@ const REDIRECT_PATH_SUCCESS = generateUpdatedPathString(
 export const AcceptInvitationWidget = () => {
   const { getParam } = useAppParams();
   const invitationId = getParam("invitationId");
-  const { data: dataResult, isPending: isDataResultPending } = useInvitationDetails(invitationId);
+  const {
+    data,
+    isPending: isDataPending,
+    error,
+  } = useInvitationDetails(invitationId);
 
   const { user } = useAuthenticated();
 
@@ -39,16 +46,26 @@ export const AcceptInvitationWidget = () => {
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  if (isDataResultPending) {
+  if (isDataPending) {
     return <StatusCardLoading />;
   }
 
   if (!invitationId) {
-    return <StatusCard type={StatusCardTypes.ERROR} title="Invitation ID not provided" />;
+    return (
+      <StatusCard
+        type={StatusCardTypes.ERROR}
+        title="Invitation ID not provided"
+      />
+    );
   }
 
-  if (!dataResult?.success) {
-    return <StatusCard type={StatusCardTypes.ERROR} title="Error while fetching invitation data" />;
+  if (error) {
+    return (
+      <StatusCard
+        type={StatusCardTypes.ERROR}
+        title="Error while fetching invitation data"
+      />
+    );
   }
 
   const handleAcceptInvitation = () => {
@@ -62,18 +79,20 @@ export const AcceptInvitationWidget = () => {
         }
         router.push(REDIRECT_PATH_SUCCESS);
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
       }
     });
   };
 
-  if (dataResult.data.email !== user.email) {
+  if (data.email !== user.email) {
     return (
       <StatusCard type={StatusCardTypes.ERROR} title="Not an invitee email" />
     );
   }
 
-  if (dataResult.data.status !== "pending") {
+  if (data.status !== "pending") {
     return (
       <StatusCard type={StatusCardTypes.ERROR} title="Invitation Closed" />
     );

@@ -20,7 +20,6 @@ import { ErrorBlock } from "./ErrorBlock";
 import { SuccessBlock } from "./SuccessBlock";
 import { commentSchema } from "@/lib/schemas/commentSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 
 interface CommentFormProps {
   defaultValue?: string;
@@ -52,7 +51,9 @@ export const CommentForm = ({
         onSubmit(value);
         setFormStatus("SUCCESS");
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
         setFormStatus("ERROR");
       }
     });

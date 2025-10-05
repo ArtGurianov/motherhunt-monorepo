@@ -3,12 +3,10 @@
 import { getCloudinarySignature } from "@/actions/getCloudinarySignature";
 import { updateDraft } from "@/actions/updateDraft";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { cn } from "@shared/ui/lib/utils";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 import { LoaderCircle, Upload } from "lucide-react";
 import { AppImage } from "../AppImage/AppImage";
 import { useCallback, useTransition } from "react";
@@ -54,6 +52,7 @@ export const LotImageForm = ({
           toast(result.errorMessage);
           return;
         }
+
         const formData = new FormData();
         formData.append("file", data.image);
         formData.append("folder", "images");
@@ -61,6 +60,7 @@ export const LotImageForm = ({
         formData.append("timestamp", result.data.timestamp.toString());
         formData.append("api_key", envConfig.NEXT_PUBLIC_CLOUDINARY_PUBLIC_KEY);
         formData.append("signature", result.data.signature);
+
         const cloudinaryRes = await fetch(
           `https://api.cloudinary.com/v1_1/${envConfig.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
           {
@@ -72,18 +72,18 @@ export const LotImageForm = ({
         const validationResult =
           cloudinaryResSchema.safeParse(cloudinaryJsonData);
         if (!validationResult.success)
-          throw new AppClientError("Uploading failed. Try again later.");
+          throw new Error("Uploading failed. Try again later.");
+
         const updatedResult = await updateDraft({
           lotId,
           updateData: { profilePictureUrl: validationResult.data.secure_url },
         });
         if (!updatedResult.success)
-          throw new AppClientError(
-            "Failed while updating Lot data. Try again later"
-          );
+          throw new Error("Failed while updating Lot data. Try again later");
+
         toast("Success");
       } catch (error) {
-        toast(formatErrorMessage(error));
+        toast(error instanceof Error ? error.message : "Something went wrong.");
       }
     });
   };

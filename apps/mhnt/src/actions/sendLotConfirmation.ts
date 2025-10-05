@@ -2,7 +2,7 @@
 
 import { prismaClient } from "@/lib/db";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "./sendEmail";
@@ -49,11 +49,13 @@ export const sendLotConfirmation = async ({
       });
 
     if (lotData.isConfirmationEmailSent)
-      throw new AppClientError(
-        "Need to cancel previous confirmation email first."
+      throw new AppBusinessError(
+        "Need to cancel previous confirmation email first.",
+        400
       );
 
-    if (lotData.signedByUserId) throw new AppClientError("Already confirmed");
+    if (lotData.signedByUserId)
+      throw new AppBusinessError("Already confirmed", 400);
 
     const chainLotData = await viemClient.readContract({
       abi: auctionContractAbi,

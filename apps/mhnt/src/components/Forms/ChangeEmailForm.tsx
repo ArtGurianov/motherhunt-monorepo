@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-
 import { Button } from "@shared/ui/components/button";
 import {
   Form,
@@ -24,7 +23,6 @@ import { SuccessBlock } from "./SuccessBlock";
 import { useAppParams } from "@/lib/hooks";
 import { emailSchema } from "@/lib/schemas/emailSchema";
 import { TOAST_PARAM_URL_TOKEN } from "@/lib/hooks/useToastParam";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 interface ChangeEmailFormProps {
@@ -63,7 +61,9 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
         }
         setFormStatus("SUCCESS");
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
         setFormStatus("ERROR");
       }
     });

@@ -1,12 +1,9 @@
 import { createClient, EntrySkeletonType } from "contentful";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 if (!process.env.CONTENTFUL_SPACE_ID)
-  throw new AppClientError("env variable CONTENTFUL_SPACE_ID not provided!");
+  throw new Error("env variable CONTENTFUL_SPACE_ID not provided!");
 if (!process.env.CONTENTFUL_ACCESS_TOKEN)
-  throw new AppClientError(
-    "env variable CONTENTFUL_ACCESS_TOKEN not provided!"
-  );
+  throw new Error("env variable CONTENTFUL_ACCESS_TOKEN not provided!");
 
 export const contentfulClient = createClient({
   space: process.env.CONTENTFUL_SPACE_ID,

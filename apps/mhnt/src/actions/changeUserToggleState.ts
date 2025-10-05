@@ -1,6 +1,6 @@
 "use server";
 
-import { getSession } from "@/data/getSession";
+import { getSession } from "@/data/session/getSession";
 import { prismaClient } from "@/lib/db";
 import { User } from "@shared/db";
 import { APIError } from "better-auth/api";

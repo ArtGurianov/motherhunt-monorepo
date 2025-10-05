@@ -1,15 +1,18 @@
-import { getSession } from "@/data/getSession";
-import { APIError } from "better-auth/api";
+import { getSession } from "@/data/session/getSession";
+import {
+  createApiResponse,
+  CreateApiResponseProps,
+} from "@/lib/utils/createApiResponse";
 
 export async function GET() {
+  let responseProps: CreateApiResponseProps;
+
   try {
     const session = await getSession();
-    return Response.json(session);
+    responseProps = { data: session };
   } catch (error) {
-    throw error instanceof APIError
-      ? error
-      : new APIError("INTERNAL_SERVER_ERROR", {
-          message: "A server error has occured",
-        });
+    responseProps = { error };
   }
+
+  return createApiResponse(responseProps);
 }

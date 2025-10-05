@@ -3,14 +3,14 @@ import "server-only";
 import { cache } from "react";
 import { prismaClient } from "@/lib/db";
 import { APIError } from "better-auth/api";
-import { createActionResponse } from "@/lib/utils/createActionResponse";
 import { unstable_cacheTag as cacheTag } from "next/cache";
+import { AppSession } from "./types";
 
-export const getSessionByToken = cache(async (token: string) => {
-  "use cache";
-  
-  cacheTag(`session:${token}`);
-  try {
+export const getSessionByToken = cache(
+  async (token: string): Promise<AppSession> => {
+    "use cache";
+    cacheTag(`session:${token}`);
+
     const data = await prismaClient.session.findUnique({
       where: { token },
       include: { user: true },
@@ -19,8 +19,6 @@ export const getSessionByToken = cache(async (token: string) => {
 
     const { user, ...rest } = data;
 
-    return createActionResponse({ data: { user, session: rest } });
-  } catch (error) {
-    return createActionResponse({ error });
+    return { user, session: rest };
   }
-});
+);

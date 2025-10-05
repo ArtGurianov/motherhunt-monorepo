@@ -5,26 +5,24 @@ import { useSession } from "./useSession";
 
 export const useAuth = () => {
   const query = useSession();
-  const { data: result } = query;
+  const { data } = query;
 
   return {
     ...query,
-    session: result?.success ? result.data.session : null,
-    user: result?.success ? result.data.user : null,
+    session: data?.session ?? null,
+    user: data?.user ?? null,
     activeMember:
-      !!result?.success &&
-      !!result.data.session.activeOrganizationId &&
-      !!result.data.session.activeOrganizationName &&
-      !!result.data.session.activeOrganizationType &&
-      !!result.data.session.activeOrganizationRole
+      !!data?.session.activeOrganizationId &&
+      !!data?.session.activeOrganizationName &&
+      !!data?.session.activeOrganizationType &&
+      !!data?.session.activeOrganizationRole
         ? {
-            organizationId: result.data.session.activeOrganizationId,
-            organizationName: result.data.session.activeOrganizationName,
-            organizationType: result.data.session
-              .activeOrganizationType as OrgType,
+            organizationId: data?.session.activeOrganizationId,
+            organizationName: data?.session.activeOrganizationName,
+            organizationType: data?.session.activeOrganizationType as OrgType,
             role: getCustomMemberRole(
-              result.data.session.activeOrganizationType as OrgType,
-              result.data.session.activeOrganizationRole as OrgRole
+              data?.session.activeOrganizationType as OrgType,
+              data?.session.activeOrganizationRole as OrgRole
             ),
           }
         : null,

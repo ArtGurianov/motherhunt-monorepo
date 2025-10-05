@@ -1,16 +1,18 @@
-import { getMyDrafts } from "@/data/getMyDrafts";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
-import { APIError } from "better-auth/api";
+import { getMyDrafts } from "@/data/drafts/getMyDrafts";
+import {
+  createApiResponse,
+  CreateApiResponseProps,
+} from "@/lib/utils/createApiResponse";
 
 export async function GET() {
+  let responseProps: CreateApiResponseProps;
+
   try {
     const drafts = await getMyDrafts();
-    return Response.json(drafts);
+    responseProps = { data: drafts };
   } catch (error) {
-    throw error instanceof APIError || error instanceof AppClientError
-      ? error
-      : new APIError("INTERNAL_SERVER_ERROR", {
-          message: "A server error has occured",
-        });
+    responseProps = { error };
   }
+
+  return createApiResponse(responseProps);
 }

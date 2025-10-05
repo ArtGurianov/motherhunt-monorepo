@@ -6,7 +6,6 @@ import { DisplayAgencyContentfulSkeleton } from "@/lib/types/contentful";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 interface DisplayAgencyData {
   name: string;
@@ -32,10 +31,8 @@ export const Agencies = async () => {
         logoUrl: each.fields.logo?.fields.file?.url || "",
       }))
       .reverse();
-  } catch (error) {
-    throw error instanceof AppClientError
-      ? error
-      : new AppClientError("Unable to get data from CMS");
+  } catch {
+    return null;
   }
 
   return (

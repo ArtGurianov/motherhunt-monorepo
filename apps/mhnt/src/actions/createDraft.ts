@@ -10,7 +10,7 @@ import { generateNicknameOptions } from "@/lib/utils/generateRandomNickname";
 import { auctionContractAbi } from "@/lib/web3/abi";
 import { stringToBytes32 } from "@/lib/web3/stringToBytes32";
 import { viemClient } from "@/lib/web3/viemClient";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { APIError } from "better-auth/api";
 import { revalidateTag } from "next/cache";
 import z from "zod";
@@ -53,7 +53,7 @@ export const createDraft = async () => {
       });
 
     if (offChainNumber - Number(verificationResult.data) >= MAX_DRAFTS_NUMBER) {
-      throw new AppClientError("Allowed drafts limit reached.");
+      throw new AppBusinessError("Allowed drafts limit reached", 400);
     }
 
     const nicknameOptions = generateNicknameOptions();

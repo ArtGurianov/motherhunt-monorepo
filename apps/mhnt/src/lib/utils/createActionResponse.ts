@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import "server-only";
+import { formatErrorMessage } from "./errorUtils";
 
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
-import { APIError } from "better-auth/api";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 type ActionResponsePrimitive =
   | boolean
@@ -20,7 +20,6 @@ type ActionResponseData =
 interface CreateActionResponsePropsSuccess<TData extends ActionResponseData> {
   data: TData;
 }
-
 interface CreateActionResponsePropsError {
   error: unknown;
 }
@@ -38,23 +37,6 @@ type ActionResponseSuccessWithoutData = {
 type ActionResponseFail = {
   success: false;
   errorMessage: string;
-};
-
-export const formatErrorMessage = (error: unknown) => {
-  const isClientError = error instanceof AppClientError;
-  const isAuthError = error instanceof APIError;
-  if (!isClientError && !isAuthError) {
-    console.error(
-      typeof error === "string"
-        ? error
-        : !!error && typeof error === "object" && "message" in error
-          ? error.message
-          : "A server error of unexpected format has occurred."
-    );
-  }
-  return isClientError || isAuthError
-    ? error.message
-    : "A server error has occurred.";
 };
 
 // Function overloads

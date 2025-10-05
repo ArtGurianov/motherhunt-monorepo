@@ -21,7 +21,6 @@ import { Organization } from "@shared/db";
 import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { useAuthenticated } from "@/lib/hooks";
 
@@ -87,7 +86,11 @@ export const AgenciesList = () => {
                             refetch();
                             toast(tToasts("switched-to-agency"));
                           } catch (error) {
-                            toast(formatErrorMessage(error));
+                            toast(
+                              error instanceof Error
+                                ? error.message
+                                : "Something went wrong."
+                            );
                           }
                         });
                       }}

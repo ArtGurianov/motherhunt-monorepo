@@ -15,9 +15,5 @@ export const getSession = cache(async () => {
   const token = await getSessionToken(headersList);
   if (!token) throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
 
-  const result = await getSessionByToken(token);
-  if (!result.success)
-    throw new APIError("UNAUTHORIZED", { message: "Unauthorized" });
-
-  return result.data;
+  return await getSessionByToken(token);
 });

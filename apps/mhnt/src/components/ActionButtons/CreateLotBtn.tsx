@@ -1,7 +1,6 @@
 "use client";
 
 import { createDraft } from "@/actions/createDraft";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
 import { Plus } from "lucide-react";
@@ -29,7 +28,9 @@ export const CreateLotBtn = ({ onSuccess }: CreateLotBtnProps) => {
             onSuccess();
           });
         } catch (error) {
-          toast(formatErrorMessage(error));
+          toast(
+            error instanceof Error ? error.message : "Something went wrong."
+          );
         }
       }}
     >

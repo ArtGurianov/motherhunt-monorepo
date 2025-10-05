@@ -8,7 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { viemClient } from "@/lib/web3/viemClient";
 import { revalidatePath } from "next/cache";
 import { createActionResponse } from "@/lib/utils/createActionResponse";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
+import { AppBusinessError } from "@/lib/utils/errorUtils";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
 import { canAccessAppRole } from "@/lib/auth/permissions/checkers";
 import { APP_ENTITIES } from "@/lib/auth/permissions/app-permissions";
@@ -50,23 +50,23 @@ export const rejectAgencyApplication = async ({
     });
 
     if (!orgData?.metadata)
-      throw new AppClientError("Organization data not present");
+      throw new AppBusinessError("Organization data not present", 404);
 
     const metadata = JSON.parse(orgData.metadata) as OrgMetadata;
 
     if (metadata.orgType !== ORG_TYPES.AGENCY)
-      throw new AppClientError("Not an agency organization");
+      throw new AppBusinessError("Not an agency organization", 400);
 
     const creator = await prismaClient.user.findUnique({
       where: { id: metadata.creatorUserId },
     });
 
     if (!creator) {
-      throw new AppClientError("Creator not found");
+      throw new AppBusinessError("Creator not found", 404);
     }
 
     if (creator.banned) {
-      throw new AppClientError("Banned");
+      throw new AppBusinessError("Banned", 400);
     }
 
     const updateMetadata = {

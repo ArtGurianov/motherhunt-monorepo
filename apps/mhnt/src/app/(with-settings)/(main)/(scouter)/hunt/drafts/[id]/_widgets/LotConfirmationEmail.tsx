@@ -6,7 +6,6 @@ import { DangerousActionDialog } from "@/components/DangerousActionDialog/Danger
 import { ErrorBlock } from "@/components/Forms";
 import { InfoCardAccordion } from "@/components/InfoCard/InfoCardAccordion";
 import { validLotDraftSchema } from "@/lib/schemas/validLotDraftSchema";
-import { formatErrorMessage } from "@/lib/utils/createActionResponse";
 import { Lot } from "@shared/db";
 import { Button } from "@shared/ui/components/button";
 import {
@@ -48,7 +47,9 @@ export const LotConfirmationEmail = ({
           return;
         }
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
       }
     });
   };
@@ -64,7 +65,9 @@ export const LotConfirmationEmail = ({
           return;
         }
       } catch (error) {
-        setErrorMessage(formatErrorMessage(error));
+        setErrorMessage(
+          error instanceof Error ? error.message : "Something went wrong."
+        );
       }
     });
   };

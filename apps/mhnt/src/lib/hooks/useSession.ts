@@ -1,18 +1,10 @@
-import { AppSession } from "@/data/types";
+import { AppSession } from "@/data/session/types";
 import { useQuery } from "@tanstack/react-query";
-import { createActionResponse } from "@/lib/utils/createActionResponse";
+import { createQueryFn } from "../utils/createQueryFn";
 
 export const useSession = () => {
   return useQuery({
     queryKey: ["my-session"],
-    queryFn: async () => {
-      try {
-        const res = await fetch("/api/data/getSession");
-        const session = await res.json();
-        return createActionResponse({ data: session as AppSession });
-      } catch (error) {
-        return createActionResponse({ error });
-      }
-    },
+    queryFn: createQueryFn<AppSession>("/api/data/getSession"),
   });
 };

@@ -1,7 +1,6 @@
 import { ValueOf } from "@shared/ui/lib/types";
 import { ORG_ROLES, OrgRole } from "./permissions/org-permissions";
 import { ORG_TYPES, OrgType } from "../utils/types";
-import { AppClientError } from "@shared/ui/lib/utils/appClientError";
 
 export const CUSTOM_MEMBER_ROLES = {
   SCOUTER_ROLE: "SCOUTER_ROLE",
@@ -24,7 +23,7 @@ export const getCustomMemberRole = (
         case ORG_ROLES.MEMBER_ROLE:
           return CUSTOM_MEMBER_ROLES.BOOKER_ROLE;
         default:
-          throw new AppClientError("Unknown AGENCY role");
+          throw new Error("Unknown AGENCY role");
       }
     case ORG_TYPES.SCOUTING:
       switch (orgRole) {
@@ -33,9 +32,9 @@ export const getCustomMemberRole = (
         case ORG_ROLES.MEMBER_ROLE:
           return CUSTOM_MEMBER_ROLES.MODEL_ROLE;
         default:
-          throw new AppClientError("Unknown SCOUTING role");
+          throw new Error("Unknown SCOUTING role");
       }
     default:
-      throw new AppClientError("Unknown ORG type");
+      throw new Error("Unknown ORG type");
   }
 };

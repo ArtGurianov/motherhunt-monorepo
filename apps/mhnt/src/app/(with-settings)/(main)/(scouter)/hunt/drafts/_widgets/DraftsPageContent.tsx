@@ -13,7 +13,7 @@ import {
 } from "@shared/ui/components/StatusCard";
 
 export const DraftsPageContent = () => {
-  const { data: result, isPending, isLoading, error, refetch } = useMyDrafts();
+  const { data, isPending, isLoading, error, refetch } = useMyDrafts();
 
   if (isPending || isLoading) return <StatusCardLoading />;
 
@@ -28,23 +28,12 @@ export const DraftsPageContent = () => {
     );
   }
 
-  if (!result.success) {
-    return (
-      <StatusCard
-        type={StatusCardTypes.ERROR}
-        title={"Error while fetching data"}
-        description={result.errorMessage}
-        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-      />
-    );
-  }
-
   return (
     <PageSection
       fullWidth
       className="flex gap-6 flex-wrap justify-center items-center"
     >
-      {result.data.map((each) => (
+      {data.map((each) => (
         <LotCard
           key={each.id}
           href={buildDynamicRoutePath(
