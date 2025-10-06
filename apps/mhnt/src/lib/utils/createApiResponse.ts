@@ -21,7 +21,7 @@ export function createApiResponse(
 ): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
-      success: !!props?.error,
+      success: !props?.error,
       data: props?.data ?? null,
       errorMessage: props?.error ? formatErrorMessage(props.error) : null,
     },
