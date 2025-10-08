@@ -20,10 +20,14 @@ import {
 import { Ban, Crown, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
-import { BookersData } from "../page";
 import { useAuthenticated } from "@/lib/hooks";
+import { BookersData } from "@/data/agencyBookers/types";
 
-export const ManageBookers = ({ data: bookersList }: { data: BookersData }) => {
+export const ManageBookersContent = ({
+  bookersList,
+}: {
+  bookersList: BookersData;
+}) => {
   const { refetch } = useAuthenticated();
 
   const router = useRouter();

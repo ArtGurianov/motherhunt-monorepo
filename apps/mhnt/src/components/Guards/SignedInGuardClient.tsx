@@ -16,9 +16,9 @@ interface SignedInGuardProps {
 }
 
 export const SignedInGuardClient = ({ children }: SignedInGuardProps) => {
-  const { user, isPending } = useAuth();
+  const { user, isPending, isLoading } = useAuth();
 
-  if (isPending) {
+  if (isPending || isLoading) {
     return <StatusCardLoading />;
   }
 

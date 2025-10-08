@@ -406,6 +406,7 @@ export const LotForm = memo(function LotForm({
                   value={field.value}
                   onValueSelect={handleNicknameChange}
                   options={nicknameOptions}
+                  disabled={!nicknameOptions.length}
                   searchEnabled={false}
                   placeholder={DEFAULT_NICKAME_PLACEHOLDER}
                 />

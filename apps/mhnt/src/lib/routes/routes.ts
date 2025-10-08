@@ -92,7 +92,7 @@ export const APP_ROUTES_CONFIG = defineRoutes({
   },
   [APP_ROUTES.AGENCY_DETAILS]: {
     key: APP_ROUTES.AGENCY_DETAILS,
-    href: "/agency/[slug]",
+    href: "/agency",
   },
   [APP_ROUTES.AGENCY_ACCEPT_INVITATION]: {
     key: APP_ROUTES.AGENCY_ACCEPT_INVITATION,
