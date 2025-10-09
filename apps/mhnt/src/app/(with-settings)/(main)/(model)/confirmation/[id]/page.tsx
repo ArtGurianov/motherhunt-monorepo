@@ -2,10 +2,6 @@ import { prismaClient } from "@/lib/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { LotConfirmationWidget } from "./_widgets/LotConfirmationWidget";
 import { Lot } from "@shared/db";
-import { CUSTOM_MEMBER_ROLES } from "@/lib/auth/customRoles";
-import { RoleGuardClient } from "@/components/Guards/RoleGuardClient";
-
-const ALLOWED_ROLES = [CUSTOM_MEMBER_ROLES.MODEL_ROLE];
 
 export async function generateStaticParams() {
   const itemsPerFetch = 100;
@@ -67,9 +63,5 @@ export default async function LotConfirmation(props: LotPageProps) {
     );
   }
 
-  return (
-    <RoleGuardClient allowedRoles={ALLOWED_ROLES}>
-      <LotConfirmationWidget data={lotData} />
-    </RoleGuardClient>
-  );
+  return <LotConfirmationWidget data={lotData} />;
 }
