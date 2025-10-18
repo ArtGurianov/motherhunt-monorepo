@@ -6,5 +6,6 @@ export const useMyDrafts = () => {
   return useQuery({
     queryKey: ["my-drafts"],
     queryFn: createQueryFn<Lot[]>("/api/data/getMyDrafts"),
+    enabled: typeof window !== "undefined",
   });
 };

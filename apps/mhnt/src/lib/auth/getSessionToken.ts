@@ -71,7 +71,7 @@ export const getSessionToken = cache(
     const token = getSessionCookie(request, config);
     if (!token)
       throw new APIError("UNAUTHORIZED", {
-        message: "Session token not found",
+        message: "Unauthorized",
       });
     const decodedToken = decodeURIComponent(token);
     const isValid = await createHMAC("SHA-256", "base64urlnopad").verify(

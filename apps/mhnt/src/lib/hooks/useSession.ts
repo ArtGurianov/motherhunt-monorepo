@@ -6,5 +6,6 @@ export const useSession = () => {
   return useQuery({
     queryKey: ["my-session"],
     queryFn: createQueryFn<AppSession>("/api/data/getSession"),
+    enabled: typeof window !== "undefined",
   });
 };

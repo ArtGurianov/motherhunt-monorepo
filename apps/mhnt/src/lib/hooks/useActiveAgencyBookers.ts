@@ -6,5 +6,6 @@ export const useActiveAgencyBookers = () => {
   return useQuery({
     queryKey: ["my-drafts"],
     queryFn: createQueryFn<BookersData>("/api/data/getActiveAgencyBookers"),
+    enabled: typeof window !== "undefined",
   });
 };

@@ -8,6 +8,6 @@ export const useInvitationDetails = (invitationId: string | null) => {
     queryFn: createQueryFn<Invitation>(
       `/api/data/getInvitationDetails/${invitationId}`
     ),
-    enabled: !!invitationId,
+    enabled: typeof window !== "undefined" && !!invitationId,
   });
 };

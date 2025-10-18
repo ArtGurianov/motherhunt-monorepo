@@ -8,7 +8,7 @@ export const useCityOptions = (country: Country) => {
     queryFn: async () => {
       return await getCitiesByCountry(country!);
     },
-    enabled: !!country && country.length > 0,
+    enabled: typeof window !== "undefined" && !!country && country.length > 0,
     staleTime: Infinity,
     gcTime: 10 * 60 * 1000,
   });
