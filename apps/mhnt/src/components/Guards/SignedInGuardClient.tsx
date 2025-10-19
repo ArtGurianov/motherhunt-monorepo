@@ -5,7 +5,7 @@ import {
   StatusCardLoading,
   StatusCardTypes,
 } from "@shared/ui/components/StatusCard";
-import { ReactNode, Suspense } from "react";
+import { ReactNode, Suspense, useEffect, useState } from "react";
 import { Button } from "@shared/ui/components/button";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
@@ -17,8 +17,13 @@ interface SignedInGuardProps {
 
 export const SignedInGuardClient = ({ children }: SignedInGuardProps) => {
   const { user, isPending, isLoading } = useAuth();
+  const [mounted, setMounted] = useState(false);
 
-  if (isPending || isLoading) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || isPending || isLoading) {
     return <StatusCardLoading />;
   }
 

@@ -6,9 +6,11 @@ export default function MainLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <SignedInGuardClient>
+    <>
       <RouteHeading />
-      {children}
-    </SignedInGuardClient>
+      <SignedInGuardClient>
+        {children}
+      </SignedInGuardClient>
+    </>
   );
 }
