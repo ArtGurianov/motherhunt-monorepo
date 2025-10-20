@@ -1,6 +1,7 @@
 import { prismaClient } from "@/lib/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { DraftContent } from "./_widgets/DraftContent";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
   const itemsPerFetch = 100;
@@ -27,7 +28,7 @@ interface DraftPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function DraftPage(props: DraftPageProps) {
+async function DraftPageContent(props: DraftPageProps) {
   const { id } = await props.params;
 
   const draftData = await prismaClient.lot.findUnique({ where: { id } });
@@ -35,4 +36,12 @@ export default async function DraftPage(props: DraftPageProps) {
     return <StatusCard type={StatusCardTypes.ERROR} title="Lot not found" />;
 
   return <DraftContent draftData={draftData} />;
+}
+
+export default async function DraftPage(props: DraftPageProps) {
+  return (
+    <Suspense>
+      <DraftPageContent {...props} />
+    </Suspense>
+  );
 }

@@ -2,6 +2,7 @@ import { prismaClient } from "@/lib/db";
 import { StatusCard, StatusCardTypes } from "@shared/ui/components/StatusCard";
 import { LotConfirmationWidget } from "./_widgets/LotConfirmationWidget";
 import { Lot } from "@shared/db";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
   const itemsPerFetch = 100;
@@ -28,7 +29,7 @@ interface LotPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function LotConfirmation(props: LotPageProps) {
+async function LotConfirmationPageContent(props: LotPageProps) {
   const { id } = await props.params;
 
   let lotData: Lot | null = null;
@@ -64,4 +65,12 @@ export default async function LotConfirmation(props: LotPageProps) {
   }
 
   return <LotConfirmationWidget data={lotData} />;
+}
+
+export default async function LotConfirmation(props: LotPageProps) {
+  return (
+    <Suspense>
+      <LotConfirmationPageContent {...props} />
+    </Suspense>
+  );
 }
