@@ -60,6 +60,7 @@ async function main() {
     };
     const defaultScoutingOrg = await prismaClient.organization.create({
       data: {
+        id: process.env.NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
         name: "SCOUTING_DEFAULT",
         slug: "scouting-default",
         metadata: JSON.stringify(orgMetadata),

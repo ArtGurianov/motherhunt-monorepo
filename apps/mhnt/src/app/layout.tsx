@@ -8,8 +8,6 @@ import { AppProviders } from "@/components/AppProviders/AppProviders";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { CameraBg } from "@/components/CameraBg/CameraBg";
 import { NextIntlClientProvider } from "next-intl";
-import { Suspense } from "react";
-import { AppToaster } from "@/components/AppProviders/AppToaster";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -49,9 +47,6 @@ export default async function RootLayout({
               </div>
               <Navbar />
             </AppProviders>
-            <Suspense>
-              <AppToaster />
-            </Suspense>
           </NextIntlClientProvider>
         </main>
       </body>
