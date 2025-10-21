@@ -29,8 +29,8 @@ interface LotPageProps {
   params: Promise<{ id: string }>;
 }
 
-async function LotConfirmationPageContent(props: LotPageProps) {
-  const { id } = await props.params;
+async function SuspendedPageContent({ params }: LotPageProps) {
+  const { id } = await params;
 
   let lotData: Lot | null = null;
   try {
@@ -67,10 +67,10 @@ async function LotConfirmationPageContent(props: LotPageProps) {
   return <LotConfirmationWidget data={lotData} />;
 }
 
-export default async function LotConfirmation(props: LotPageProps) {
+export default function LotConfirmation({ params }: LotPageProps) {
   return (
     <Suspense>
-      <LotConfirmationPageContent {...props} />
+      <SuspendedPageContent params={params} />
     </Suspense>
   );
 }

@@ -28,8 +28,8 @@ interface DraftPageProps {
   params: Promise<{ id: string }>;
 }
 
-async function DraftPageContent(props: DraftPageProps) {
-  const { id } = await props.params;
+async function SuspendedPageContent({ params }: DraftPageProps) {
+  const { id } = await params;
 
   const draftData = await prismaClient.lot.findUnique({ where: { id } });
   if (!draftData)
@@ -38,10 +38,10 @@ async function DraftPageContent(props: DraftPageProps) {
   return <DraftContent draftData={draftData} />;
 }
 
-export default async function DraftPage(props: DraftPageProps) {
+export default function DraftPage({ params }: DraftPageProps) {
   return (
     <Suspense>
-      <DraftPageContent {...props} />
+      <SuspendedPageContent params={params} />
     </Suspense>
   );
 }
