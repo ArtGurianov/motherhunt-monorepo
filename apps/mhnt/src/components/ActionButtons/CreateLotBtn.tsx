@@ -1,8 +1,10 @@
 "use client";
 
 import { createDraft } from "@/actions/createDraft";
+import { DRAFTS_QUERY_KEY } from "@/lib/hooks";
 import { Button } from "@shared/ui/components/button";
 import { toast } from "@shared/ui/components/sonner";
+import { useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useTransition } from "react";
 
@@ -12,6 +14,7 @@ interface CreateLotBtnProps {
 
 export const CreateLotBtn = ({ onSuccess }: CreateLotBtnProps) => {
   const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
 
   return (
     <Button
@@ -25,6 +28,7 @@ export const CreateLotBtn = ({ onSuccess }: CreateLotBtnProps) => {
               toast(result.errorMessage);
               return;
             }
+            queryClient.invalidateQueries({ queryKey: [DRAFTS_QUERY_KEY] });
             onSuccess();
           });
         } catch (error) {

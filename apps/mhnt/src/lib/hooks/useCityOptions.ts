@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Country } from "../dictionaries/countriesList";
 import { getCitiesByCountry } from "@/actions/getCitiesByCountry";
+import { CITIES_QUERY_KEY } from "./keys";
 
 export const useCityOptions = (country: Country) => {
   return useQuery({
-    queryKey: ["cities", country],
+    queryKey: [CITIES_QUERY_KEY, country],
     queryFn: async () => {
       return await getCitiesByCountry(country!);
     },

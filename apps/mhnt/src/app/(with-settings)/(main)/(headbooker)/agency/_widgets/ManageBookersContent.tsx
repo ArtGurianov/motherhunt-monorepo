@@ -20,8 +20,9 @@ import {
 import { Ban, Crown, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState, useTransition } from "react";
-import { useAuthenticated } from "@/lib/hooks";
+import { BOOKERS_QUERY_KEY, useAuthenticated } from "@/lib/hooks";
 import { BookersData } from "@/data/agencyBookers/types";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ManageBookersContent = ({
   bookersList,
@@ -29,6 +30,7 @@ export const ManageBookersContent = ({
   bookersList: BookersData;
 }) => {
   const { refetch } = useAuthenticated();
+  const queryClient = useQueryClient();
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -47,6 +49,7 @@ export const ManageBookersContent = ({
             toast(result.errorMessage);
             return;
           }
+          queryClient.invalidateQueries({ queryKey: [BOOKERS_QUERY_KEY] });
           toast("SUCCESS");
           router.refresh();
         }

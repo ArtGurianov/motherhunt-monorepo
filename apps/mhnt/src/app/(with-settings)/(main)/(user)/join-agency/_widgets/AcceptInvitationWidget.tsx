@@ -2,7 +2,7 @@
 
 import { acceptInvitation } from "@/actions/acceptInvitation";
 import { ErrorBlock } from "@/components/Forms";
-import { useAppParams, useAuthenticated } from "@/lib/hooks";
+import { INVITATION_QUERY_KEY, useAppParams, useAuthenticated } from "@/lib/hooks";
 import { useInvitationDetails } from "@/lib/hooks/useInvitationDetails";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
@@ -19,6 +19,7 @@ import {
   StatusCardLoading,
   StatusCardTypes,
 } from "@shared/ui/components/StatusCard";
+import { useQueryClient } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -40,7 +41,7 @@ export const AcceptInvitationWidget = () => {
   } = useInvitationDetails(invitationId);
 
   const { user } = useAuthenticated();
-
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -84,6 +85,7 @@ export const AcceptInvitationWidget = () => {
         );
       }
     });
+    queryClient.invalidateQueries({ queryKey: [INVITATION_QUERY_KEY] });
   };
 
   if (data.email !== user.email) {
