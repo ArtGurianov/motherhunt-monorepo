@@ -11,13 +11,15 @@ import { LoaderCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { InterceptedLink } from "../InterceptedLink/InterceptedLink";
-import { useAuthenticated } from "@/lib/hooks";
+import { SESSION_QUERY_KEY, useAuthenticated } from "@/lib/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const router = useRouter();
   const params = useSearchParams();
+  const queryClient = useQueryClient();
 
-  const { user, refetch, activeMember } = useAuthenticated();
+  const { user, activeMember } = useAuthenticated();
 
   const [isTransitionPending, startTransition] = useTransition();
 
@@ -48,8 +50,10 @@ export const ModelSignInBtn = (props: GetComponentProps<typeof Button>) => {
           try {
             await authClient.organization.setActive({
               organizationId: user.modelOrganizationId,
+              fetchOptions: {
+                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
+              }
             });
-            refetch();
             toast("Switched to Model");
             router.push(
               `${generateUpdatedPathString(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href, params)}`

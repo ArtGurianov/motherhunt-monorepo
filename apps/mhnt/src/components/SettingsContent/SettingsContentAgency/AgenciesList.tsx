@@ -22,10 +22,12 @@ import { useTransition } from "react";
 import { toast } from "@shared/ui/components/sonner";
 import { useTranslations } from "next-intl";
 import { ORG_TYPES, OrgMetadata } from "@/lib/utils/types";
-import { useAuthenticated } from "@/lib/hooks";
+import { SESSION_QUERY_KEY, useAuthenticated } from "@/lib/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const AgenciesList = () => {
-  const { refetch, activeMember } = useAuthenticated();
+  const queryClient = useQueryClient();
+  const { activeMember } = useAuthenticated();
 
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("AGENCIES_LIST");
@@ -82,8 +84,10 @@ export const AgenciesList = () => {
                           try {
                             await authClient.organization.setActive({
                               organizationId: each.id,
+                              fetchOptions: {
+                                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
+                              }
                             });
-                            refetch();
                             toast(tToasts("switched-to-agency"));
                           } catch (error) {
                             toast(

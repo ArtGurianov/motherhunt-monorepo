@@ -9,13 +9,15 @@ import { GetComponentProps } from "@shared/ui/lib/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
-import { useAuthenticated } from "@/lib/hooks";
+import { SESSION_QUERY_KEY, useAuthenticated } from "@/lib/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ScouterSignInBtn = (props: GetComponentProps<typeof Button>) => {
   const router = useRouter();
   const params = useSearchParams();
+  const queryClient = useQueryClient();
 
-  const { user, activeMember, refetch } = useAuthenticated();
+  const { user, activeMember } = useAuthenticated();
 
   const [isTransitionPending, startTransition] = useTransition();
 
@@ -32,8 +34,10 @@ export const ScouterSignInBtn = (props: GetComponentProps<typeof Button>) => {
           try {
             await authClient.organization.setActive({
               organizationId: user.scoutingOrganizationId,
+              fetchOptions: {
+                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
+              }
             });
-            refetch();
             toast("Switched to scouter");
             router.push(
               `${generateUpdatedPathString(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href, params)}`

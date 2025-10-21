@@ -3,7 +3,7 @@
 import { initializeModelVk } from "@/actions/initializeModelVk";
 import { authClient } from "@/lib/auth/authClient";
 import { getEnvConfigClient } from "@/lib/config/env";
-import { useAuth } from "@/lib/hooks";
+import { SESSION_QUERY_KEY } from "@/lib/hooks";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { vkCodeResponseSchema } from "@/lib/schemas/vkCodeResponseSchema";
 import { Button } from "@shared/ui/components/button";
@@ -12,13 +12,14 @@ import {
   StatusCardLoading,
   StatusCardTypes,
 } from "@shared/ui/components/StatusCard";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export const SignInVkPageContent = () => {
   const isInitialized = useRef(false);
-  const { refetch } = useAuth();
+  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -57,12 +58,14 @@ export const SignInVkPageContent = () => {
           .setActive({
             organizationId:
               getEnvConfigClient().NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
+              fetchOptions: {
+                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
+              }
           })
           .then((result) => {
             if (result.error)
               throw new Error("Error while setting active organization.");
             sessionStorage.removeItem("OAUTH_RETURN_TO");
-            refetch();
           });
       })
       .catch((error) => {
