@@ -5,6 +5,7 @@ import { ReactNode, Suspense } from "react";
 import ProvidersClient from "./ProvidersClient";
 import { AppToaster } from "./AppToaster";
 import { AppGlobalActions } from "./AppGlobalActions";
+import { QueryErrorBoundary } from "@/components/ErrorBoundaries";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -37,7 +38,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
   return (
     <ProvidersClient queryClient={queryClient}>
-      {children}
+      <QueryErrorBoundary>
+        {children}
+      </QueryErrorBoundary>
       <Suspense>
         <AppToaster />
         <AppGlobalActions />
