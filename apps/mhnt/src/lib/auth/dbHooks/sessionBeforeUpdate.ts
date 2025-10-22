@@ -83,17 +83,23 @@ export const sessionBeforeUpdate = async (
     }
   }
 
+  const shouldPersistOrganization =
+    updateActiveOrganizationId &&
+    (updateOrganizationType === ORG_TYPES.SCOUTING ||
+      applicationStatus === APPLICATION_STATUSES.APPROVED);
+
   await prismaClient.user.update({
     where: { id: userId },
     data: {
-      recentOrganizationId:
-        updateActiveOrganizationId &&
-        (updateOrganizationType === ORG_TYPES.SCOUTING ||
-          applicationStatus === APPLICATION_STATUSES.APPROVED)
-          ? updateActiveOrganizationId
-          : null,
-      recentOrganizationName: updateOrganizationName,
-      recentOrganizationType: updateOrganizationType,
+      recentOrganizationId: shouldPersistOrganization
+        ? updateActiveOrganizationId
+        : null,
+      recentOrganizationName: shouldPersistOrganization
+        ? updateOrganizationName
+        : null,
+      recentOrganizationType: shouldPersistOrganization
+        ? updateOrganizationType
+        : null,
     },
   });
 

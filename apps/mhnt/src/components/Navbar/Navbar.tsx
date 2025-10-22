@@ -69,9 +69,10 @@ export const Navbar = () => {
   const [scope, animate] = useAnimate();
   const previousActiveRole = usePreviousValue(activeRole);
 
-  const animationSequence = useCallback(async () => {
+  const animationSequence = useCallback(async (oldRole: AppRole | CustomMemberRole | null, newRole: AppRole | CustomMemberRole | null) => {
     if (!scope.current) return;
-    dispatch({ type: "SET_DISPLAY_ROLE", payload: previousActiveRole ?? activeRole });
+    // Show old role while sliding down
+    dispatch({ type: "SET_DISPLAY_ROLE", payload: oldRole });
     await animate(
       scope.current,
       { transform: "translateY(100%)", opacity: 0 },
@@ -80,7 +81,8 @@ export const Navbar = () => {
         ease: "easeInOut"
       }
     );
-    dispatch({ type: "SET_DISPLAY_ROLE", payload: activeRole });
+    // Update to new role and slide up
+    dispatch({ type: "SET_DISPLAY_ROLE", payload: newRole });
     await animate(
       scope.current,
       { transform: "translateY(0%)", opacity: 1 },
@@ -89,7 +91,7 @@ export const Navbar = () => {
         ease: "easeInOut"
       }
     );
-  }, [animate, previousActiveRole, activeRole]);
+  }, [animate]);
 
   useEffect(() => {
     if (!state.isSessionInitialized && !isPending) {
@@ -98,10 +100,12 @@ export const Navbar = () => {
   }, [isPending, state.isSessionInitialized]);
 
   useEffect(() => {
-    if (state.isSessionInitialized && previousActiveRole !== activeRole) {
-      animationSequence();
-    } else {
-      dispatch({ type: "SET_DISPLAY_ROLE", payload: activeRole });
+    if (state.isSessionInitialized) {
+      if (previousActiveRole !== undefined && previousActiveRole !== activeRole) {
+        animationSequence(previousActiveRole, activeRole);
+      } else {
+        dispatch({ type: "SET_DISPLAY_ROLE", payload: activeRole });
+      }
     }
   }, [activeRole, previousActiveRole, animationSequence, state.isSessionInitialized]);
 
