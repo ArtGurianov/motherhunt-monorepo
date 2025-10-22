@@ -5,10 +5,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { getAppLocale } from "@shared/ui/lib/utils";
 import { APP_LOCALE_TO_LANG_MAP } from "@shared/ui/lib/utils";
 import { AppProviders } from "@/components/AppProviders/AppProviders";
-import { Navbar } from "@/components/Navbar/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { CameraBg } from "@/components/CameraBg/CameraBg";
 import { NextIntlClientProvider } from "next-intl";
-import { Suspense } from "react";
+import { MountedGuard } from "@/components/Guards/MountedGuard";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -46,9 +46,9 @@ export default async function RootLayout({
               <div className="flex flex-col min-h-content justify-start items-center gap-6 px-4 mb-12">
                 {children}
               </div>
-              <Suspense>
-                <Navbar />
-              </Suspense>
+                <MountedGuard>
+                  <Navbar />
+                </MountedGuard>
             </AppProviders>
           </NextIntlClientProvider>
         </main>

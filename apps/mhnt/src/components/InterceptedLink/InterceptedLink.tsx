@@ -3,7 +3,7 @@
 import { useAppParams } from "@/lib/hooks";
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useEffect, useMemo } from "react";
 
 export const InterceptedLink = (
   props: LinkProps & HTMLAttributes<HTMLAnchorElement>
@@ -11,8 +11,17 @@ export const InterceptedLink = (
   const pathname = usePathname();
   const { getParam, setParam, getUpdatedParamsString } = useAppParams();
 
-  const hasReturn = getParam("returnTo");
-  if (!hasReturn) setParam("returnTo", pathname);
+  useEffect(() => {
+    const hasReturn = getParam("returnTo");
+    if (!hasReturn) {
+      setParam("returnTo", pathname);
+    }
+  }, [pathname, getParam, setParam]);
 
-  return <Link {...props} href={`${props.href}${getUpdatedParamsString()}`} />;
+  const href = useMemo(
+    () => `${props.href}${getUpdatedParamsString()}`,
+    [props.href, getUpdatedParamsString]
+  );
+
+  return <Link {...props} href={href} />;
 };

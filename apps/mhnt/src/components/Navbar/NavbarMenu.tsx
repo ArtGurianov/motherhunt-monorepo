@@ -7,7 +7,7 @@ import {
 } from "@/lib/routes/navRoutes";
 import { AppRole } from "@/lib/auth/permissions/app-permissions";
 import { NavbarMenuItem } from "./NavbarMenuItem";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { CustomMemberRole } from "@/lib/auth/customRoles";
@@ -21,9 +21,38 @@ export const NavbarMenu = ({ isOpened, activeRole }: NavbarMenuProps) => {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  if (!activeRole) return null;
+  const handleMouseOver = useCallback((index: number) => {
+    setHoveredIndex(index);
+  }, []);
 
-  const order = NAV_ROUTES_ORDERS[activeRole];
+  const handleMouseOut = useCallback(() => {
+    setHoveredIndex(null);
+  }, []);
+
+  const order = activeRole ? NAV_ROUTES_ORDERS[activeRole] : [];
+
+  const menuItems = useMemo(
+    () => {
+      if (!activeRole) return null;
+
+      return order.map((routeId, index) => {
+        const config = APP_ROUTES_CONFIG[routeId as (typeof order)[number]];
+        return (
+          <NavbarMenuItem
+            key={routeId}
+            href={config.href}
+            svgPath={NAV_ROUTES_SVG_PATHS[routeId]}
+            onMouseOver={() => handleMouseOver(index)}
+            onMouseOut={handleMouseOut}
+            isActive={pathname === config.href && hoveredIndex === null}
+          />
+        );
+      });
+    },
+    [order, pathname, hoveredIndex, handleMouseOver, handleMouseOut, activeRole]
+  );
+
+  if (!activeRole) return null;
 
   return (
     <div
@@ -34,23 +63,7 @@ export const NavbarMenu = ({ isOpened, activeRole }: NavbarMenuProps) => {
         }
       )}
     >
-      {order.map((routeId, index) => {
-        const config = APP_ROUTES_CONFIG[routeId as (typeof order)[number]];
-        return (
-          <NavbarMenuItem
-            key={routeId}
-            href={config.href}
-            svgPath={NAV_ROUTES_SVG_PATHS[routeId]}
-            onMouseOver={() => {
-              setHoveredIndex(index);
-            }}
-            onMouseOut={() => {
-              setHoveredIndex(null);
-            }}
-            isActive={pathname === config.href && !hoveredIndex}
-          />
-        );
-      })}
+      {menuItems}
     </div>
   );
 };
