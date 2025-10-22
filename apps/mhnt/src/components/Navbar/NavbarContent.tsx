@@ -21,7 +21,7 @@ export const NavbarContent = ({
   isMenuOpened,
 }: NavbarContentProps) => {
   const t = useTranslations("NAVBAR");
-  const tCommon = useTranslations("COMMON");
+  const tLoading = useTranslations("COMMON.LOADING");
   const tRoles = useTranslations("ROLES");
 
   return (
@@ -38,7 +38,7 @@ export const NavbarContent = ({
           {`${t(activeRole ? "signed-in-label" : "signed-out-label")}:`}
         </span>
         <Suspense
-          fallback={<span className="text-sm">{tCommon("loading")}</span>}
+          fallback={<span className="text-sm">{tLoading("loading")}</span>}
         >
           <span className="flex gap-2 justify-center items-center">
             <Button
