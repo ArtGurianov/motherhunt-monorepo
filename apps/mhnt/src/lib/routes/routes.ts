@@ -33,7 +33,7 @@ export interface AppRouteConfig<T extends AppRoute> {
 }
 
 function defineRoutes<T extends Record<AppRoute, AppRouteConfig<AppRoute>>>(
-  routes: T
+  routes: T,
 ) {
   return routes;
 }

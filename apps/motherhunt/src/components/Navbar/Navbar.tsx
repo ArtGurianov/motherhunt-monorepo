@@ -35,7 +35,7 @@ export const Navbar = () => {
     setIsBurgerMenu(
       itemsContainerRef.current.offsetWidth +
         imageContainerRef.current.offsetWidth >
-        document.body.clientWidth
+        document.body.clientWidth,
     );
   }, [windowWidth]);
 

@@ -1,13 +1,21 @@
 {
-  "SHARED": {},
-  "ERRORS": {
-    "404": {
-      "message-before": "Потерялся?",
-      "message-action": "Пошли домой"
+  "COMMON": {
+    "BRAND": "Motherhunt",
+    "BUTTONS": {
+      "learn-more": "Узнать больше",
+      "get-started": "Начать",
+      "sign-up": "Зарегистрироваться",
+      "sign-in": "Войти",
+      "explore": "Исследовать",
+      "apply": "Подать заявку",
+      "browse": "Просмотреть"
     }
   },
   "NAV": {
     "home": "Главная",
+    "features": "Возможности",
+    "about": "О нас",
+    "contact": "Контакты",
     "guides": "Гайды",
     "blog": "Блог",
     "faq": "FAQ",
@@ -15,8 +23,10 @@
     "menu-title": "Меню"
   },
   "FOOTER": {
-    "ecosystem": "Экосистема",
-    "rights": "Права защищены."
+    "brand": "Motherhunt",
+    "mydaogs": "MyDAOgs",
+    "rights": "Права защищены.",
+    "ecosystem": "Экосистема"
   },
   "HOME": {
     "HERO": {
@@ -40,6 +50,18 @@
       "apply-before": "Вы — материнское агентство?",
       "apply-action": "Подайте заявку",
       "apply-after": "чтобы присоединиться!"
+    }
+  },
+  "MARKETING": {
+    "before-title": "КАК БЫЛА ИНДУСТРИЯ РАНЬШЕ",
+    "not-anymore": "! НО БОЛЬШЕ НЕТ !"
+  },
+  "ERRORS": {
+    "404": {
+      "title": "Страница не найдена",
+      "description": "Страница, которую вы ищете, не существует.",
+      "message-before": "Потерялся?",
+      "message-action": "Пошли домой"
     }
   },
   "GUIDES": {

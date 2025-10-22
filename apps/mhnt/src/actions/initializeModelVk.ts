@@ -26,7 +26,7 @@ const vkTokensResponseSchema = z.object({
 const envConfig = getEnvConfigServer();
 
 export const initializeModelVk = async (
-  data: z.infer<typeof vkCodeResponseSchema>
+  data: z.infer<typeof vkCodeResponseSchema>,
 ) => {
   try {
     const session = await getSession();

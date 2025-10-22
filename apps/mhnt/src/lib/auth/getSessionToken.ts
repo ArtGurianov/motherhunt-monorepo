@@ -23,7 +23,7 @@ const getSessionCookie = (
     cookiePrefix?: string;
     cookieName?: string;
     path?: string;
-  }
+  },
 ) => {
   if (config?.cookiePrefix) {
     if (config.cookieName) {
@@ -66,7 +66,7 @@ export const getSessionToken = cache(
       cookiePrefix?: string;
       cookieName?: string;
       path?: string;
-    }
+    },
   ) => {
     const token = getSessionCookie(request, config);
     if (!token)
@@ -77,11 +77,11 @@ export const getSessionToken = cache(
     const isValid = await createHMAC("SHA-256", "base64urlnopad").verify(
       getEnvConfigServer().BETTER_AUTH_SECRET,
       decodedToken.split(".")[0]!,
-      decodedToken.split(".")[1]!
+      decodedToken.split(".")[1]!,
     );
     if (!isValid) {
       throw new APIError("UNAUTHORIZED", { message: "Invalid session token" });
     }
     return decodedToken.split(".")[0];
-  }
+  },
 );

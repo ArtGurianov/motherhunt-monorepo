@@ -22,7 +22,7 @@ export const useAuth = () => {
             organizationType: data?.session.activeOrganizationType as OrgType,
             role: getCustomMemberRole(
               data?.session.activeOrganizationType as OrgType,
-              data?.session.activeOrganizationRole as OrgRole
+              data?.session.activeOrganizationRole as OrgRole,
             ),
           }
         : null,

@@ -22,7 +22,7 @@ export const InlineDataContent = ({
         {
           "border-border/50 cursor-not-allowed": disabled,
           "border-border/100 cursor-auto": !disabled,
-        }
+        },
       )}
     >
       <span
@@ -40,7 +40,7 @@ export const InlineDataContent = ({
             {
               "border-border/50": disabled,
               "border-border/100": !disabled,
-            }
+            },
           )}
         >
           {sideContent}

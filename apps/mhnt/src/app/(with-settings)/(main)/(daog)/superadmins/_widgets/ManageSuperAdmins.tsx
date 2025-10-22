@@ -91,7 +91,7 @@ export const ManageSuperAdmins = () => {
                       <Link
                         href={buildDynamicRoutePath(
                           APP_ROUTES_CONFIG[APP_ROUTES.SUPERADMIN_DETAILS].href,
-                          { address: adminAddress }
+                          { address: adminAddress },
                         )}
                       >
                         <Eye />

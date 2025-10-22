@@ -51,7 +51,9 @@ export const Combobox = (props: ComboboxProps) => {
   const filteredOptions = useMemo(() => {
     if (debouncedSearchValue.trim()) {
       const filtered = options.filter((option) =>
-        option.toLowerCase().includes(debouncedSearchValue.trim().toLowerCase())
+        option
+          .toLowerCase()
+          .includes(debouncedSearchValue.trim().toLowerCase()),
       );
       return filtered.slice(0, 200);
     }
@@ -86,7 +88,7 @@ export const Combobox = (props: ComboboxProps) => {
       setDebouncedSearchValue("");
       closeBtnRef.current?.click();
     },
-    [onValueSelect]
+    [onValueSelect],
   );
 
   return (
@@ -97,7 +99,7 @@ export const Combobox = (props: ComboboxProps) => {
             variant="flat"
             role="combobox"
             className={cn(
-              "[&_svg]:size-4 px-3 font-normal justify-start relative h-auto bg-secondary border-2 border-border py-2"
+              "[&_svg]:size-4 px-3 font-normal justify-start relative h-auto bg-secondary border-2 border-border py-2",
             )}
             disabled={disabled || isLoading}
             {...rest}
@@ -106,7 +108,7 @@ export const Combobox = (props: ComboboxProps) => {
               className={cn(
                 "",
                 !value.length && "text-primary/50 text-sm py-1",
-                isLoading && "text-primary text-sm py-1"
+                isLoading && "text-primary text-sm py-1",
               )}
             >
               {isLoading ? "loading..." : value.length ? value : placeholder}
@@ -146,7 +148,7 @@ export const Combobox = (props: ComboboxProps) => {
                   <Check
                     className={cn(
                       "ml-auto",
-                      option === value ? "opacity-100" : "opacity-0"
+                      option === value ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>

@@ -29,7 +29,7 @@ export type CanAccessCustomRoleReturnType =
 export const canAccessCustomRole = async <TEntity extends OrgEntity>(
   entity: TEntity,
   action: OrgAction<TEntity>,
-  allowedCustomRoles: CustomMemberRole[]
+  allowedCustomRoles: CustomMemberRole[],
 ): Promise<CanAccessCustomRoleReturnType> => {
   try {
     const headersList = await headers();
@@ -54,7 +54,7 @@ export const canAccessCustomRole = async <TEntity extends OrgEntity>(
 
     const customRole = getCustomMemberRole(
       activeOrganizationType as OrgType,
-      activeOrganizationRole as OrgRole
+      activeOrganizationRole as OrgRole,
     );
 
     if (!allowedCustomRoles.includes(customRole)) return { canAccess: false };
@@ -84,7 +84,7 @@ export const canAccessCustomRole = async <TEntity extends OrgEntity>(
 
 export const canAccessAppRole = async <TEntity extends AppEntity>(
   entity: TEntity,
-  action: AppAction<TEntity>
+  action: AppAction<TEntity>,
 ): Promise<CanAccessAppRoleReturnType> => {
   try {
     const session = await getSession();

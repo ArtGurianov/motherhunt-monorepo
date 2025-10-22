@@ -75,7 +75,7 @@ export const CreateAgencyForm = () => {
       });
     } catch (error) {
       setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong."
+        error instanceof Error ? error.message : "Something went wrong.",
       );
     }
   };
@@ -105,7 +105,7 @@ export const CreateAgencyForm = () => {
                         field.onChange(e);
                         form.setValue(
                           "slug",
-                          transformStringToSlug(e.target.value)
+                          transformStringToSlug(e.target.value),
                         );
                         setErrorMessage(null);
                       }}

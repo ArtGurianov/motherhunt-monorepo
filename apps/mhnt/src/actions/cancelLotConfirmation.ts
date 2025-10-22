@@ -31,7 +31,7 @@ export const calcelLotConfirmation = async ({
     const result = await canAccessCustomRole(
       ORG_ENTITIES.LOT,
       "cancel",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
@@ -76,7 +76,7 @@ export const calcelLotConfirmation = async ({
     revalidatePath(
       buildDynamicRoutePath(APP_ROUTES_CONFIG[APP_ROUTES.DRAFT].href, {
         id: lotId,
-      })
+      }),
     );
 
     return createActionResponse();

@@ -33,7 +33,7 @@ export const signLotConfirmation = async ({
     const result = await canAccessCustomRole(
       ORG_ENTITIES.LOT,
       "update",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });

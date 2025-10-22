@@ -75,7 +75,7 @@ export const ScouterWalletAddressForm = () => {
   useEffect(() => {
     if (isErrorCurrentSavedAddress) {
       toast(
-        "An error occured during fetching current saved address from the blockchain."
+        "An error occured during fetching current saved address from the blockchain.",
       );
     }
   }, [isErrorCurrentSavedAddress]);

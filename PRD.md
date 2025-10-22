@@ -64,10 +64,12 @@ Defined in `ORG_ROLES` constant:
 These are derived roles combining org type and org role:
 
 **For SCOUTING organizations:**
+
 - `SCOUTER_ROLE` - OWNER_ROLE in SCOUTING org; can create and manage draft lots, send model confirmation requests
 - `MODEL_ROLE` - MEMBER_ROLE in SCOUTING org; can sign lot confirmations, view their profile
 
 **For AGENCY organizations:**
+
 - `HEADBOOKER_ROLE` - OWNER_ROLE in AGENCY org; can manage bookers, invite/remove members, transfer ownership
 - `BOOKER_ROLE` - MEMBER_ROLE in AGENCY org; can view selections, participate in agency workflows
 
@@ -75,35 +77,37 @@ These are derived roles combining org type and org role:
 
 **App Entities and Actions:**
 
-| Entity | Actions | Allowed Roles |
-|--------|---------|---------------|
-| SUPERADMIN | create, update, revoke | MYDAOGS_ADMIN_ROLE |
-| ADMIN | update | MYDAOGS_ADMIN_ROLE, PROJECT_SUPERADMIN_ROLE |
-| SCOUTER | update, ban | PROJECT_SUPERADMIN_ROLE, PROJECT_ADMIN_ROLE |
-| MODEL | update, ban | PROJECT_SUPERADMIN_ROLE, PROJECT_ADMIN_ROLE |
-| ORGANIZATION | create | USER_ROLE (all authenticated users) |
-| ORGANIZATION | process | PROJECT_SUPERADMIN_ROLE, PROJECT_ADMIN_ROLE |
+| Entity       | Actions                | Allowed Roles                               |
+| ------------ | ---------------------- | ------------------------------------------- |
+| SUPERADMIN   | create, update, revoke | MYDAOGS_ADMIN_ROLE                          |
+| ADMIN        | update                 | MYDAOGS_ADMIN_ROLE, PROJECT_SUPERADMIN_ROLE |
+| SCOUTER      | update, ban            | PROJECT_SUPERADMIN_ROLE, PROJECT_ADMIN_ROLE |
+| MODEL        | update, ban            | PROJECT_SUPERADMIN_ROLE, PROJECT_ADMIN_ROLE |
+| ORGANIZATION | create                 | USER_ROLE (all authenticated users)         |
+| ORGANIZATION | process                | PROJECT_SUPERADMIN_ROLE, PROJECT_ADMIN_ROLE |
 
 **Organization Entities and Actions:**
 
-| Entity | Actions | OWNER_ROLE | MEMBER_ROLE |
-|--------|---------|------------|-------------|
-| OWNER | update, transferRole | Yes | No |
-| MEMBER | update, delete | Yes | delete only (self) |
-| ORGANIZATION | update | Yes | No |
-| LOT | create, update, cancel | Yes | update only |
-| BID | create, update | Yes | No |
-| SELECTION | create, update | Yes | Yes |
-| invitation | view, create, cancel | Yes | No |
+| Entity       | Actions                | OWNER_ROLE | MEMBER_ROLE        |
+| ------------ | ---------------------- | ---------- | ------------------ |
+| OWNER        | update, transferRole   | Yes        | No                 |
+| MEMBER       | update, delete         | Yes        | delete only (self) |
+| ORGANIZATION | update                 | Yes        | No                 |
+| LOT          | create, update, cancel | Yes        | update only        |
+| BID          | create, update         | Yes        | No                 |
+| SELECTION    | create, update         | Yes        | Yes                |
+| invitation   | view, create, cancel   | Yes        | No                 |
 
 ### Key User Workflows by Role
 
 **MYDAOGS_ADMIN:**
+
 - Sign in via Web3 wallet signature verification
 - Manage project superadmins via smart contract
 - Full ecosystem governance
 
 **PROJECT_SUPERADMIN/ADMIN:**
+
 - Sign in via Web3 wallet signature verification
 - Whitelist agency organizations (on-chain)
 - Review and process agency applications
@@ -111,6 +115,7 @@ These are derived roles combining org type and org role:
 - Manage project admins (superadmin only)
 
 **SCOUTER:**
+
 - Sign in via magic link email authentication
 - Create draft lots (max 3 drafts at a time)
 - Fill in model details (name, measurements, location, photos via Cloudinary)
@@ -119,6 +124,7 @@ These are derived roles combining org type and org role:
 - Submit confirmed lots to blockchain (IMPLEMENTATION PENDING)
 
 **MODEL:**
+
 - Sign in via VK OAuth or magic link
 - Receive confirmation email from scouter
 - Review and sign lot confirmation
@@ -126,6 +132,7 @@ These are derived roles combining org type and org role:
 - View profile status
 
 **HEADBOOKER:**
+
 - Sign in via magic link
 - Create new agency organization (requires admin whitelist approval)
 - Invite bookers to agency
@@ -134,6 +141,7 @@ These are derived roles combining org type and org role:
 - Set agency wallet address for on-chain operations (IMPLEMENTATION PENDING)
 
 **BOOKER:**
+
 - Sign in via magic link
 - Accept agency invitations
 - Access agency dashboard
@@ -141,6 +149,7 @@ These are derived roles combining org type and org role:
 - Participate in lot evaluation (IMPLEMENTATION PENDING)
 
 **USER (Default):**
+
 - Sign in via magic link with hCaptcha verification
 - Create scouting or agency organizations
 - Accept invitations to organizations
@@ -155,15 +164,18 @@ These are derived roles combining org type and org role:
 ### Monorepo Structure
 
 **Build System:**
+
 - Turborepo with pnpm workspace v8.15.6+
 - Node.js >=18 required
 - Framework inference disabled (`--framework-inference=false`)
 
 **Applications:**
+
 - `apps/mhnt` - Main application (Next.js 15.6.0-canary.6, runs on port 443 with HTTPS in dev)
 - `apps/motherhunt` - Marketing/landing site (Next.js 15, runs on port 3000)
 
 **Shared Packages:**
+
 - `packages/db` - Prisma 6.10.1 database schema and client (MongoDB)
 - `packages/ui` - Shared UI components (shadcn/ui)
 - `packages/eslint-config` - Shared ESLint configuration
@@ -172,6 +184,7 @@ These are derived roles combining org type and org role:
 ### Technology Stack
 
 **Frontend:**
+
 - Next.js 15.6.0-canary.6 with App Router
 - React 19.0.0 with React DOM 19.0.0
 - TypeScript 5 (strict mode)
@@ -181,16 +194,19 @@ These are derived roles combining org type and org role:
 - Lucide React 0.475.0 for icons
 
 **State Management:**
+
 - TanStack Query (React Query) 5.80.7
 - localStorage persistence via query-async-storage-persister and persist-client
 - SSR-safe configuration with client-side only persistence
 
 **Forms and Validation:**
+
 - react-hook-form 7.57.0
 - @hookform/resolvers 5.1.1
 - zod 3.25.64 for schema validation
 
 **Authentication:**
+
 - better-auth 1.2.9 with custom plugins:
   - admin plugin (app-level RBAC)
   - organization plugin (org-level RBAC)
@@ -203,15 +219,18 @@ These are derived roles combining org type and org role:
 - Database hooks for session lifecycle management
 
 **Email:**
+
 - Nodemailer 7.0.3
 - Email templates for: magic link, change email, organization setup, agency acceptance, model confirmation, lot confirmation
 
 **File Upload:**
+
 - Cloudinary 2.7.0
 - Server-side signature generation for secure uploads
 - Profile pictures and lot images stored in Cloudinary
 
 **Web3 Integration:**
+
 - wagmi 2.18.0
 - @wagmi/core 2.22.0
 - viem 2.38.0
@@ -220,16 +239,19 @@ These are derived roles combining org type and org role:
 - Contract ABIs for: System, Karma, Auction, USD token
 
 **Internationalization:**
+
 - next-intl 4.1.0
 - Locale stored in user preferences
 - Supported locales configurable via NEXT_PUBLIC_APP_LOCALE
 
 **Development:**
+
 - tsx 4.20.3 for seed scripts
 - @svgr/webpack 8.1.0 for SVG as React components
 - Experimental HTTPS in development mode
 
 **OAuth Providers:**
+
 - VK OAuth (configured but optional)
 - Facebook OAuth (UI button exists but integration incomplete)
 
@@ -240,11 +262,13 @@ These are derived roles combining org type and org role:
 **Database:** MongoDB via Prisma (connection string in DATABASE_URL)
 
 **Build Pipeline:**
+
 - Turbo tasks with dependency graph
 - `db:generate` runs before all build tasks
 - @prisma/nextjs-monorepo-workaround-plugin ensures correct client bundling
 
 **Asset Handling:**
+
 - SVG imports as React components (with ?url suffix for URL imports)
 - Image optimization via Next.js Image component
 
@@ -255,6 +279,7 @@ These are derived roles combining org type and org role:
 ### Smart Contracts
 
 **MotherhuntSystem:**
+
 - Manages offchain ID mappings (bytes32 for scouters and agencies)
 - Agency whitelist functionality
 - Admin role management (superadmin, admin tiers)
@@ -263,18 +288,21 @@ These are derived roles combining org type and org role:
 - Ban management (IMPLEMENTATION PENDING)
 
 **MotherhuntKarma:**
+
 - Non-transferable karma accounting by bytes32 ID
 - Karma balance tracking
 - Karma purchase functionality with USD price
 - Minimum votable karma threshold
 
 **MotherhuntAuction:**
+
 - Lot lifecycle management with voting system
 - Scouter lots number tracking
 - Lot data retrieval (scouterId, votingDetails, status, pricing, appealability)
 - Voting, bidding, and settlement (IMPLEMENTATION PENDING)
 
 **USD Token (Fees Token):**
+
 - Standard ERC20 interface
 - Balance checking, approvals, allowances
 - Used for on-chain payments
@@ -282,12 +310,14 @@ These are derived roles combining org type and org role:
 ### Identity Model
 
 **Offchain IDs:**
+
 - Users identified by bytes32 hash of their database ObjectId
 - Conversion via `stringToBytes32` utility
 - Scouters and agencies must claim addresses on-chain
 - Address updates allowed through contract calls
 
 **Agency Whitelist:**
+
 - Agencies must be whitelisted by admins before full access
 - Whitelist events emit agencyId and whitelister address
 - Application processed via `acceptAgencyApplication` action
@@ -295,12 +325,14 @@ These are derived roles combining org type and org role:
 ### Web3 Integration Patterns
 
 **Admin Sign-in:**
+
 - Wallet signature verification ("sign-in" message)
 - On-chain role lookup via System contract
 - Automatic user creation/retrieval based on blockchain role
 - Rate limited (10 requests per 60 seconds)
 
 **Contract Interactions:**
+
 - Read-only calls via viem client
 - Write operations via wagmi hooks (useWriteContract)
 - Transaction receipt parsing for event logs
@@ -311,6 +343,7 @@ These are derived roles combining org type and org role:
 ## System components
 
 ### Main Website (motherhunt.com)
+
 Marketing, onboarding, and program information surface (separate Next.js app).
 
 ### Web Application (mhnt.app)
@@ -378,9 +411,11 @@ sign-in/
 ```
 
 **Parallel Routes:**
+
 - `@modal` - Intercepted modal routes for settings
 
 **Guards:**
+
 - SignedOutGuard - Redirects authenticated users
 - SignedInGuardClient - Requires authentication
 - RoleGuardClient - Enforces custom member role access
@@ -399,30 +434,35 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 1. Authentication System
 
 **Magic Link Email Auth:**
+
 - Email-based passwordless authentication
 - hCaptcha verification (skipped in dev mode with 0x0000... secret)
 - 1-hour magic link expiration
 - Email delivery via Nodemailer
 
 **Web3 Admin Auth:**
+
 - Wallet signature verification
 - On-chain role retrieval from System contract
 - Automatic role mapping to app roles
 - Separate sign-in flow at /sign-in/admin
 
 **VK OAuth:**
+
 - VK ID integration for model onboarding
 - Token exchange and user info retrieval
 - Automatic scouting organization membership
 - Social ID tracking (vk:userId format)
 
 **Session Management:**
+
 - Custom session fields for organization context
 - Database hooks populate activeOrganization fields
 - Session token stored in cookies
 - Cross-subdomain cookie support
 
 **User Management:**
+
 - Email verification tracking
 - Newsletter/system email preferences
 - Banned status with reason and expiration
@@ -431,12 +471,14 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 2. Organization Management
 
 **Organization Creation:**
+
 - Users can create SCOUTING or AGENCY organizations
 - Better-auth organization plugin integration
 - Metadata stored as JSON (orgType, creatorUserId, reviewerAddress)
 - Auto-ownership assignment to creator
 
 **Agency Application Workflow:**
+
 1. User creates agency via createNewAgencyOrg action
 2. Validation: no pending applications for same user
 3. Organization created with AGENCY type, no reviewerAddress
@@ -448,6 +490,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 9. Creator receives acceptance email
 
 **Member Management:**
+
 - Invite bookers via email (organization plugin)
 - Accept invitations (updates recentOrganization)
 - Remove bookers (headbooker only)
@@ -455,6 +498,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - View active agency bookers
 
 **Organization Switching:**
+
 - Session tracks active organization context
 - Switch via settings modal
 - Session updates activeOrganization fields
@@ -463,12 +507,14 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 3. Lot (Model Profile) Management
 
 **Draft Creation:**
+
 - Scouters can create up to 3 draft lots
 - Limit enforced by comparing offchain count vs onchain count
 - Random nickname options generated on creation
 - Draft stored in database, not on-chain
 
 **Draft Editing:**
+
 - Comprehensive lot form with validation
 - Fields: name, nickname, email, sex, birth date
 - Measurements: bust, waist, hips, feet (in millimeters)
@@ -479,6 +525,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - Auto-save on update
 
 **Model Confirmation Flow:**
+
 1. Scouter completes draft lot
 2. Scouter sends confirmation email to model (sendLotConfirmation)
 3. Model receives email with confirmation link
@@ -491,12 +538,14 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 10. Lot ready for blockchain submission (PENDING)
 
 **Confirmation Management:**
+
 - Cancel confirmation request (sets isConfirmationEmailSent = false)
 - Validates model email matches invitation
 - Validates no duplicate confirmation
 - Checks on-chain registration status
 
 **Draft Listing:**
+
 - View all user's draft lots
 - Filter by confirmation status
 - Real-time updates via TanStack Query
@@ -505,17 +554,20 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 4. Admin Management
 
 **Superadmin Management (MYDAOGS_ADMIN only):**
+
 - Add project superadmins via smart contract
 - Revoke superadmin privileges
 - View list of current superadmins
 - On-chain role assignment
 
 **Admin Management (PROJECT_SUPERADMIN only):**
+
 - View list of project admins
 - On-chain admin role tracking
 - Admin details pages
 
 **Agency Application Review:**
+
 - View pending agency applications
 - Whitelist agencies on-chain
 - Accept applications with tx verification
@@ -524,6 +576,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 5. User Settings
 
 **Account Settings:**
+
 - Change email (with verification)
 - Toggle newsletter emails
 - Toggle system emails
@@ -531,6 +584,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - Switch locale (i18n support)
 
 **Account Switching:**
+
 - View all organizations user is member of
 - Switch active organization
 - View pending agency applications (for user's own agencies)
@@ -539,23 +593,27 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 6. Web3 Features
 
 **Wallet Connection:**
+
 - Reown AppKit integration
 - Network switching
 - Balance display
 - Account management
 
 **Karma System:**
+
 - View karma balance by scouterId
 - Top-up karma (purchase with USD token)
 - Karma price retrieval
 - Minimum votable amount display
 
 **Wallet Address Management:**
+
 - Scouters can set their wallet address on-chain
 - Agencies can set their wallet address on-chain
 - Address claiming from offchain IDs
 
 **Transaction Approval:**
+
 - USD token approval flows
 - Allowance checking
 - Generic approve transaction button
@@ -563,6 +621,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 7. Data Fetching Layer
 
 **Server-side Data Functions:**
+
 - `getSession()` - Current user session
 - `getMyDrafts()` - User's draft lots
 - `getActiveAgencyBookers()` - Agency member list
@@ -570,6 +629,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - `getPendingOrganizations()` - Agencies awaiting approval
 
 **TanStack Query Hooks:**
+
 - `useSession()` - Client-side session access
 - `useMyDrafts()` - Draft lots with auto-refetch
 - `useActiveAgencyBookers()` - Agency members with caching
@@ -577,6 +637,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - `useCityOptions()` - City list by country
 
 **Caching Strategy:**
+
 - Tag-based cache revalidation
 - localStorage persistence (REACT_QUERY_OFFLINE_CACHE)
 - SSR-safe configuration
@@ -585,6 +646,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 8. Email System
 
 **Email Templates:**
+
 - Magic link authentication
 - Email change verification
 - Organization setup confirmation
@@ -594,6 +656,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - Booker invitation
 
 **Email Configuration:**
+
 - Nodemailer with app password authentication
 - Internationalized subject/description
 - Deep links to specific app pages
@@ -602,6 +665,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 9. Internationalization
 
 **Supported Features:**
+
 - User locale preference storage
 - next-intl integration
 - Locale-aware URLs
@@ -611,21 +675,25 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 #### 10. Security Features
 
 **Rate Limiting:**
+
 - Trusted user sign-in: 10 requests per 60 seconds
 - Better-auth built-in rate limiting
 
 **Access Control:**
+
 - App-level RBAC via better-auth admin plugin
 - Organization-level RBAC via organization plugin
 - Custom access checkers (canAccessAppRole, canAccessCustomRole)
 - Route guards at layout level
 
 **Validation:**
+
 - Zod schemas for all inputs
 - Server-side validation for all actions
 - Type-safe form handling
 
 **Security Headers:**
+
 - CSRF protection (better-auth)
 - Secure cookies (httpOnly, sameSite)
 - Server-only directive for data functions
@@ -635,6 +703,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 ### NOT IMPLEMENTED / INCOMPLETE FEATURES
 
 #### 1. Auction & Bidding System
+
 - Lot voting phase
 - Community voting mechanism
 - Karma rewards for voters
@@ -647,23 +716,27 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 - Status transitions (VOTING → ACTIVE → SETTLING → FULFILLED)
 
 **Evidence:**
+
 - No Auction or Bid models in database schema
 - Lot model exists but has no status field
 - Selection page is empty placeholder
 - Deals page exists but incomplete
 
 #### 2. On-chain Lot Submission
+
 - Submit confirmed lot to blockchain
 - Lot status tracking
 - Voting phase initiation
 - On-chain ID assignment to lots
 
 **Evidence:**
+
 - Lot model has no onchainId field
 - No actions for blockchain lot submission
 - Confirmation flow stops at database update
 
 #### 3. Analytics & Reporting
+
 - Lot pipeline analytics
 - Voting outcome tracking
 - Appeal rate monitoring
@@ -673,35 +746,42 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 **Evidence:** No analytics routes or components found
 
 #### 4. Ban Management
+
 - UI for banning scouters/models
 - Ban expiration enforcement
 - Ban reason display
 - Appeal process for bans
 
 **Evidence:**
+
 - Database fields exist (banned, banReason, banExpires)
 - No UI or actions for ban management
 
 #### 5. Facebook OAuth
+
 - Facebook OAuth button exists in UI
 - No Facebook OAuth configuration in auth setup
 - Incomplete integration
 
 #### 6. Selection/Voting UI
+
 - Booker selection page is placeholder only
 - No lot browsing for agencies
 - No voting interface
 
 #### 7. Deals Management
+
 - Deals page route exists but no implementation
 - No deal tracking or display
 
 #### 8. Karma Purchase Flow
+
 - Top-up karma button exists
 - No complete purchase transaction flow
 - No approval + purchase combination
 
 #### 9. Mobile Optimization
+
 - No mobile-specific layouts
 - No PWA configuration
 - Responsive design assumed but not verified
@@ -737,6 +817,7 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 ```
 
 **Relationships:**
+
 - One-to-many with Session
 - One-to-many with Account (OAuth accounts)
 - One-to-many with Lot (as scouter)
@@ -777,10 +858,12 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 ```
 
 **Organization Types:**
+
 - SCOUTING - For scouts and models
 - AGENCY - For agencies and bookers
 
 **Metadata Structure:**
+
 ```typescript
 {
   orgType: 'SCOUTING' | 'AGENCY'
@@ -793,11 +876,11 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 
 ```typescript
 {
-  id: string // ObjectId
-  userId: string // ObjectId, foreign key
-  organizationId: string // ObjectId, foreign key
-  role: 'OWNER_ROLE' | 'MEMBER_ROLE'
-  createdAt: Date
+  id: string; // ObjectId
+  userId: string; // ObjectId, foreign key
+  organizationId: string; // ObjectId, foreign key
+  role: "OWNER_ROLE" | "MEMBER_ROLE";
+  createdAt: Date;
 }
 ```
 
@@ -805,14 +888,14 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 
 ```typescript
 {
-  id: string // ObjectId
-  email: string
-  inviterId: string // ObjectId, who sent the invitation
-  organizationId: string // ObjectId
-  role: string // 'OWNER_ROLE' | 'MEMBER_ROLE'
-  status: string // 'pending' | 'accepted' | 'expired' | 'revoked'
-  expiresAt: Date
-  createdAt: Date
+  id: string; // ObjectId
+  email: string;
+  inviterId: string; // ObjectId, who sent the invitation
+  organizationId: string; // ObjectId
+  role: string; // 'OWNER_ROLE' | 'MEMBER_ROLE'
+  status: string; // 'pending' | 'accepted' | 'expired' | 'revoked'
+  expiresAt: Date;
+  createdAt: Date;
 }
 ```
 
@@ -876,12 +959,12 @@ On-chain registry, karma tracking, and auction lifecycle (see Blockchain layer s
 
 ```typescript
 {
-  id: string // ObjectId
-  identifier: string // Email address
-  value: string // Token value
-  expiresAt: Date
-  createdAt: Date
-  updatedAt: Date
+  id: string; // ObjectId
+  identifier: string; // Email address
+  value: string; // Token value
+  expiresAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 ```
 
@@ -936,38 +1019,45 @@ struct FeesTokenDetails {
 ### Application Layer
 
 **Authentication:**
+
 - Signature verification for Web3 admin auth
 - Magic link with single-use tokens
 - Session token rotation
 - Secure cookie settings (httpOnly, sameSite, secure in prod)
 
 **Authorization:**
+
 - Multi-level RBAC enforcement
 - Route guards at layout level
 - Server-side permission checks in actions
 - Access control helpers (canAccessAppRole, canAccessCustomRole)
 
 **Data Validation:**
+
 - Zod schema validation on all inputs
 - Type-safe API responses
 - Server-side validation for all mutations
 - Database constraint enforcement
 
 **Rate Limiting:**
+
 - Better-auth built-in rate limiting
 - Custom rate limits on sensitive endpoints (Web3 admin sign-in)
 
 **Data Protection:**
+
 - Server-only directive for data fetching
 - Encrypted database connections (MongoDB Atlas)
 - No sensitive data in client state
 - GDPR-compliant data handling patterns
 
 **CSRF Protection:**
+
 - Better-auth CSRF middleware
 - Same-site cookie policy
 
 **File Upload Security:**
+
 - Cloudinary signature verification
 - Server-side signature generation
 - No direct client uploads to storage
@@ -979,17 +1069,20 @@ struct FeesTokenDetails {
 ### Frontend
 
 **Rendering:**
+
 - Server-side rendering for authenticated routes
 - Static generation for public pages
 - Client-side navigation via App Router
 
 **State Management:**
+
 - TanStack Query with staleTime optimization
 - localStorage persistence for offline capability
 - Selective refetch on mount/reconnect disabled
 - Tag-based cache invalidation
 
 **Assets:**
+
 - Next.js Image component for optimization
 - SVG as React components for smaller bundles
 - Code splitting via dynamic imports
@@ -997,16 +1090,19 @@ struct FeesTokenDetails {
 ### Backend
 
 **Database:**
+
 - MongoDB indexes on frequently queried fields
 - Prisma query optimization
 - Connection pooling
 
 **Caching:**
+
 - React cache() for server-side deduplication
 - unstable_cacheTag for granular revalidation
 - Browser cache headers
 
 **API Performance:**
+
 - Server actions for mutations (colocated with UI)
 - Streaming responses where applicable
 - Parallel data fetching
@@ -1014,11 +1110,13 @@ struct FeesTokenDetails {
 ### Blockchain
 
 **Gas Optimization:**
+
 - Foundry optimizer enabled
 - Batch operations where possible
 - Read-only calls cached client-side
 
 **Network:**
+
 - RPC provider failover (assumed from viem config)
 - Transaction retry logic (via wagmi)
 
@@ -1071,11 +1169,13 @@ NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID=... # ObjectId of default scouting org
 ### Configuration Management
 
 **Runtime Config:**
+
 - Server-side config via getEnvConfigServer()
-- Client-side config via NEXT_PUBLIC_ prefix
+- Client-side config via NEXT*PUBLIC* prefix
 - Type-safe environment variable access
 
 **Build Config:**
+
 - Turbo task dependencies in turbo.json
 - Prisma generation before build
 - Next.js config with monorepo plugin
@@ -1157,42 +1257,49 @@ NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID=... # ObjectId of default scouting org
 ### Development Standards
 
 **Next.js:**
+
 - Use App Router conventions (app/ directory)
 - Server components by default, "use client" when needed
 - Server actions for mutations
 - Parallel routes for modals
 
 **TypeScript:**
+
 - Strict mode enabled
 - Use Prisma generated types
 - Zod for runtime validation
 - No any types without explicit reason
 
 **Authentication:**
+
 - Use getSession() for server-side auth
 - Use useSession() for client-side auth
 - Respect role guards and permissions
 - Never bypass access control checks
 
 **Database:**
+
 - Use Prisma client from @/lib/db
 - Tag cache keys for revalidation
 - Use transactions for multi-step operations
 - Always run db:generate before build
 
 **Forms:**
+
 - react-hook-form with zod resolver
 - Server-side validation in actions
 - Error handling with createActionResponse
 - Loading states and optimistic updates
 
 **Web3:**
+
 - Use wagmi hooks for contract interactions
 - Use viem for read-only calls
 - Parse contract errors properly
 - Handle transaction states (pending, success, error)
 
 **Styling:**
+
 - Tailwind CSS 4 utility classes
 - shadcn/ui components
 - Responsive design (mobile-first)
@@ -1256,6 +1363,7 @@ NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID=... # ObjectId of default scouting org
 ## Changelog
 
 ### Version 2.0 (October 18, 2025)
+
 - Complete rewrite based on actual codebase analysis
 - Added detailed role permission matrix
 - Documented all implemented features with evidence
@@ -1276,6 +1384,7 @@ NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID=... # ObjectId of default scouting org
 - Enhanced AI agent guidelines with specific patterns
 
 ### Version 1.1 (Previous)
+
 - Initial draft with aspirational features
 
 ---

@@ -50,7 +50,7 @@ export const LotForm = memo(function LotForm({
   const [isTransitionPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [nicknameOptions, setNicknameOptions] = useState<string[]>(
-    DEFAULT_EMPTY_OPTIONS
+    DEFAULT_EMPTY_OPTIONS,
   );
 
   const parsedNicknameOptions = useMemo(() => {
@@ -118,7 +118,7 @@ export const LotForm = memo(function LotForm({
       canTravel,
       hasAgency,
       googleDriveLink,
-    ]
+    ],
   );
 
   const form = useForm<z.infer<typeof lotDraftSchema>>({
@@ -224,11 +224,11 @@ export const LotForm = memo(function LotForm({
         });
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error ? error.message : "Something went wrong.",
         );
       }
     },
-    [lotData.id]
+    [lotData.id],
   );
 
   const handleEmailChange = useCallback(
@@ -236,7 +236,7 @@ export const LotForm = memo(function LotForm({
       setErrorMessage(null);
       return e;
     },
-    []
+    [],
   );
 
   const handleNicknameChange = useCallback(
@@ -244,7 +244,7 @@ export const LotForm = memo(function LotForm({
       form.setValue("nickname", value, { shouldDirty: true });
       form.clearErrors("nickname");
     },
-    [form]
+    [form],
   );
 
   const handlePassportCitizenshipChange = useCallback(
@@ -252,7 +252,7 @@ export const LotForm = memo(function LotForm({
       form.setValue("passportCitizenship", value, { shouldDirty: true });
       form.clearErrors("passportCitizenship");
     },
-    [form]
+    [form],
   );
 
   const handleLocationCountryChange = useCallback(
@@ -265,7 +265,7 @@ export const LotForm = memo(function LotForm({
         form.clearErrors("locationCity");
       }
     },
-    [form]
+    [form],
   );
 
   const handleLocationCityChange = useCallback(
@@ -276,7 +276,7 @@ export const LotForm = memo(function LotForm({
         form.clearErrors("locationCity");
       }
     },
-    [form]
+    [form],
   );
 
   return (
@@ -351,7 +351,7 @@ export const LotForm = memo(function LotForm({
                   onValueChange={(value) => {
                     field.onChange(value);
                     handleNicknameChange(
-                      sex === form.getValues("sex") ? (nickname ?? "") : ""
+                      sex === form.getValues("sex") ? (nickname ?? "") : "",
                     );
                   }}
                   defaultValue={field.value}

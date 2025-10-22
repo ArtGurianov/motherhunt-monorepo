@@ -41,7 +41,7 @@ export const Testimonials = () => {
     let zoomTimeoutId: NodeJS.Timeout | null = null;
     const intervalId = setInterval(() => {
       setActiveIndex((prev) =>
-        prev < TESTIMONIALS_DATA.length - 1 ? prev + 1 : 0
+        prev < TESTIMONIALS_DATA.length - 1 ? prev + 1 : 0,
       );
       setIsAppliedZoom(true);
       zoomTimeoutId = setTimeout(() => {
@@ -79,7 +79,7 @@ export const Testimonials = () => {
                 "-translate-x-full": isAppliedZoom,
                 "-translate-x-0 transition-transform duration-400 ease-out":
                   !isAppliedZoom,
-              }
+              },
             )}
           >
             <h4 className="text-4xl text-background/80">

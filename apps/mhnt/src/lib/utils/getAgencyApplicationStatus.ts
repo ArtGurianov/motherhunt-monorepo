@@ -10,7 +10,7 @@ export const APPLICATION_STATUSES = {
 export type ApplicationStatus = ValueOf<typeof APPLICATION_STATUSES>;
 
 export const getAgencyApplicationStatus = (
-  agencyData: Organization
+  agencyData: Organization,
 ): { status: ApplicationStatus; rejectionReason?: string } => {
   const metadata = JSON.parse(agencyData.metadata!) as unknown as OrgMetadata;
   if (metadata.rejectionReason) {

@@ -31,7 +31,7 @@ export const DatePicker = (props: DatePickerProps) => {
       onValueSelect(date);
       closeBtnRef.current?.click();
     },
-    [onValueSelect]
+    [onValueSelect],
   );
 
   const isZeroDate = useMemo(() => {
@@ -45,14 +45,14 @@ export const DatePicker = (props: DatePickerProps) => {
           <Button
             variant={"flat"}
             className={cn(
-              "relative pl-3 py-2 h-auto text-lg font-normal bg-secondary border-2"
+              "relative pl-3 py-2 h-auto text-lg font-normal bg-secondary border-2",
             )}
             {...rest}
           >
             <span
               className={cn(
                 "w-full text-start",
-                (!value || isZeroDate) && "text-primary/50 text-sm py-1"
+                (!value || isZeroDate) && "text-primary/50 text-sm py-1",
               )}
             >
               {value && !isZeroDate

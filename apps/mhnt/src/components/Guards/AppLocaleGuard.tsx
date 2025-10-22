@@ -26,7 +26,7 @@ export const AppLocaleGuard = ({ children }: { children: ReactNode }) => {
     ) {
       if (recentLocale && recentLocale !== "en-US") {
         router.push(
-          `${getAppURL(recentLocale as AppLocale)}${getUpdatedPathString()}`
+          `${getAppURL(recentLocale as AppLocale)}${getUpdatedPathString()}`,
         );
       }
     } else {

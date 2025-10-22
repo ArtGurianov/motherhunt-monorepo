@@ -13,7 +13,7 @@ export type CustomMemberRole = ValueOf<typeof CUSTOM_MEMBER_ROLES>;
 
 export const getCustomMemberRole = (
   orgType: OrgType,
-  orgRole: OrgRole
+  orgRole: OrgRole,
 ): CustomMemberRole => {
   switch (orgType) {
     case ORG_TYPES.AGENCY:

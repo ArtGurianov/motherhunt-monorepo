@@ -88,7 +88,7 @@ export const AgencyWalletAddressForm = () => {
   useEffect(() => {
     if (isErrorWhitelisted) {
       toast(
-        "An error occured during fetching whitelisted data from the blockchain."
+        "An error occured during fetching whitelisted data from the blockchain.",
       );
     }
   }, [isErrorWhitelisted]);
@@ -96,7 +96,7 @@ export const AgencyWalletAddressForm = () => {
   useEffect(() => {
     if (isErrorCurrentSavedAddress) {
       toast(
-        "An error occured during fetching current saved address from the blockchain."
+        "An error occured during fetching current saved address from the blockchain.",
       );
     }
   }, [isErrorCurrentSavedAddress]);

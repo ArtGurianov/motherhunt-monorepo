@@ -39,7 +39,7 @@ export const InfoCardAccordion = ({
             {
               "border-b-2": isOpen,
               "border-b-0": !isOpen,
-            }
+            },
           )}
           onClick={onToggle}
         >
@@ -60,7 +60,7 @@ export const InfoCardAccordion = ({
           {
             "grid-rows-[0fr]": !isOpen,
             "grid-rows-[1fr]": isOpen,
-          }
+          },
         )}
       >
         <div className="overflow-hidden">

@@ -2,5 +2,5 @@ import { generateUpdatedParamsString } from "./generateUpdatedParamsString";
 
 export const generateUpdatedPathString = (
   pathname: string,
-  params: URLSearchParams
+  params: URLSearchParams,
 ) => `${pathname}${generateUpdatedParamsString(params)}`;

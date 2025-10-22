@@ -1,13 +1,21 @@
 {
-  "SHARED": {},
-  "ERRORS": {
-    "404": {
-      "message-before": "¿Te perdiste?",
-      "message-action": "Vámonos a casa"
+  "COMMON": {
+    "BRAND": "Motherhunt",
+    "BUTTONS": {
+      "learn-more": "Saber más",
+      "get-started": "Comenzar",
+      "sign-up": "Registrarse",
+      "sign-in": "Iniciar sesión",
+      "explore": "Explorar",
+      "apply": "Aplicar",
+      "browse": "Navegar"
     }
   },
   "NAV": {
     "home": "Inicio",
+    "features": "Características",
+    "about": "Acerca de",
+    "contact": "Contacto",
     "guides": "Guías",
     "blog": "Blog",
     "faq": "FAQ",
@@ -15,8 +23,10 @@
     "menu-title": "Menú"
   },
   "FOOTER": {
-    "ecosystem": "Ecosistema",
-    "rights": "Todos los derechos reservados."
+    "brand": "Motherhunt",
+    "mydaogs": "MyDAOgs",
+    "rights": "Todos los derechos reservados.",
+    "ecosystem": "Ecosistema"
   },
   "HOME": {
     "HERO": {
@@ -40,6 +50,18 @@
       "apply-before": "¿Eres una agencia madre?",
       "apply-action": "Solicita aquí",
       "apply-after": "¡y únete a nosotros!"
+    }
+  },
+  "MARKETING": {
+    "before-title": "CÓMO ERA LA INDUSTRIA ANTES",
+    "not-anymore": "! PERO YA NO MÁS !"
+  },
+  "ERRORS": {
+    "404": {
+      "title": "Página no encontrada",
+      "description": "La página que buscas no existe.",
+      "message-before": "¿Te perdiste?",
+      "message-action": "Vámonos a casa"
     }
   },
   "GUIDES": {

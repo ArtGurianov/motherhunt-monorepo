@@ -2,6 +2,7 @@
 
 import { Button } from "@shared/ui/components/button";
 import { DialogDrawer } from "@shared/ui/components/DialogDrawer/DialogDrawer";
+import { useTranslations } from "next-intl";
 
 interface DangerousActionDialogProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ export const DangerousActionDialog = ({
   title,
   desctiption,
 }: DangerousActionDialogProps) => {
+  const t = useTranslations("DIALOGS");
+  const tButtons = useTranslations("COMMON.BUTTONS");
   const handleClick = () => {
     onActionConfirm();
     onClose();
@@ -25,16 +28,16 @@ export const DangerousActionDialog = ({
 
   return (
     <DialogDrawer
-      title={title ?? "Confirm action"}
+      title={title ?? t("confirm-action-title")}
       isOpen={isOpen}
       onClose={onClose}
       className="bg-red-800 h-auto"
     >
       <div className="flex flex-col gap-4 px-6 py-4 justify-center items-center">
         <span className="text-lg text-center">
-          {desctiption ?? "Do you want to continue?"}
+          {desctiption ?? t("confirm-continue")}
         </span>
-        <Button onClick={handleClick}>{"Confirm"}</Button>
+        <Button onClick={handleClick}>{tButtons("confirm")}</Button>
       </div>
     </DialogDrawer>
   );

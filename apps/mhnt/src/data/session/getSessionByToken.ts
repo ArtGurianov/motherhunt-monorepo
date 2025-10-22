@@ -39,5 +39,5 @@ export const getSessionByToken = cache(
     }
 
     return { user, session };
-  }
+  },
 );

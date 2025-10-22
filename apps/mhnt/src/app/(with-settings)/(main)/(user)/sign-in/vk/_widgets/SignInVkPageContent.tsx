@@ -26,7 +26,7 @@ export const SignInVkPageContent = () => {
   const params = useSearchParams();
 
   const [returnTo, setReturnTo] = useState<string>(
-    APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href
+    APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href,
   );
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export const SignInVkPageContent = () => {
     if (storedReturnTo) setReturnTo(storedReturnTo);
 
     const codeValidationResult = vkCodeResponseSchema.safeParse(
-      Object.fromEntries(params.entries())
+      Object.fromEntries(params.entries()),
     );
 
     if (!codeValidationResult.success) {
@@ -58,9 +58,12 @@ export const SignInVkPageContent = () => {
           .setActive({
             organizationId:
               getEnvConfigClient().NEXT_PUBLIC_DEFAULT_SCOUTING_ORG_ID,
-              fetchOptions: {
-                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
-              }
+            fetchOptions: {
+              onSuccess: () =>
+                queryClient.invalidateQueries({
+                  queryKey: [SESSION_QUERY_KEY],
+                }),
+            },
           })
           .then((result) => {
             if (result.error)
@@ -70,7 +73,7 @@ export const SignInVkPageContent = () => {
       })
       .catch((error) => {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error ? error.message : "Something went wrong.",
         );
       })
       .finally(() => {

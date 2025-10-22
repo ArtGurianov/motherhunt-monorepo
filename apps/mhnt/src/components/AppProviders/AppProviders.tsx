@@ -37,9 +37,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
   return (
     <ProvidersClient queryClient={queryClient}>
-      <QueryErrorBoundary>
-        {children}
-      </QueryErrorBoundary>
+      <QueryErrorBoundary>{children}</QueryErrorBoundary>
       <Suspense>
         <AppToaster />
       </Suspense>

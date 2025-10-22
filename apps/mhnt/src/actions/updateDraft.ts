@@ -24,7 +24,7 @@ export const updateDraft = async ({ lotId, updateData }: UpdateDraftProps) => {
     const result = await canAccessCustomRole(
       ORG_ENTITIES.LOT,
       "update",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
@@ -41,7 +41,7 @@ export const updateDraft = async ({ lotId, updateData }: UpdateDraftProps) => {
     if (lotData.isConfirmationEmailSent)
       throw new AppBusinessError(
         "Need to cancel previous confirmation email first",
-        400
+        400,
       );
 
     await prismaClient.lot.update({

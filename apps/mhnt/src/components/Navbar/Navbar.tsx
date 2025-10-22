@@ -30,7 +30,7 @@ type NavbarAction =
 
 const navbarReducer = (
   state: NavbarState,
-  action: NavbarAction
+  action: NavbarAction,
 ): NavbarState => {
   switch (action.type) {
     case "TOGGLE_NAVBAR_COLLAPSED":
@@ -63,35 +63,41 @@ export const Navbar = () => {
 
   const activeRole = useMemo(
     () => activeMember?.role ?? user?.role ?? null,
-    [activeMember?.role, user?.role]
+    [activeMember?.role, user?.role],
   );
 
   const [scope, animate] = useAnimate();
   const previousActiveRole = usePreviousValue(activeRole);
 
-  const animationSequence = useCallback(async (oldRole: AppRole | CustomMemberRole | null, newRole: AppRole | CustomMemberRole | null) => {
-    if (!scope.current) return;
-    // Show old role while sliding down
-    dispatch({ type: "SET_DISPLAY_ROLE", payload: oldRole });
-    await animate(
-      scope.current,
-      { transform: "translateY(100%)", opacity: 0 },
-      {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    );
-    // Update to new role and slide up
-    dispatch({ type: "SET_DISPLAY_ROLE", payload: newRole });
-    await animate(
-      scope.current,
-      { transform: "translateY(0%)", opacity: 1 },
-      {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    );
-  }, [animate]);
+  const animationSequence = useCallback(
+    async (
+      oldRole: AppRole | CustomMemberRole | null,
+      newRole: AppRole | CustomMemberRole | null,
+    ) => {
+      if (!scope.current) return;
+      // Show old role while sliding down
+      dispatch({ type: "SET_DISPLAY_ROLE", payload: oldRole });
+      await animate(
+        scope.current,
+        { transform: "translateY(100%)", opacity: 0 },
+        {
+          duration: 0.3,
+          ease: "easeInOut",
+        },
+      );
+      // Update to new role and slide up
+      dispatch({ type: "SET_DISPLAY_ROLE", payload: newRole });
+      await animate(
+        scope.current,
+        { transform: "translateY(0%)", opacity: 1 },
+        {
+          duration: 0.3,
+          ease: "easeInOut",
+        },
+      );
+    },
+    [animate],
+  );
 
   useEffect(() => {
     if (!state.isSessionInitialized && !isPending) {
@@ -101,20 +107,25 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (state.isSessionInitialized) {
-      if (previousActiveRole !== undefined && previousActiveRole !== activeRole) {
+      if (
+        previousActiveRole !== undefined &&
+        previousActiveRole !== activeRole
+      ) {
         animationSequence(previousActiveRole, activeRole);
       } else {
         dispatch({ type: "SET_DISPLAY_ROLE", payload: activeRole });
       }
     }
-  }, [activeRole, previousActiveRole, animationSequence, state.isSessionInitialized]);
+  }, [
+    activeRole,
+    previousActiveRole,
+    animationSequence,
+    state.isSessionInitialized,
+  ]);
 
   const collapsedPosition = useMemo(
-    () =>
-      isWindowOverMD
-        ? "-100%"
-        : `calc(-${windowSize.width / 2}px - 50%)`,
-    [isWindowOverMD, windowSize.width]
+    () => (isWindowOverMD ? "-100%" : `calc(-${windowSize.width / 2}px - 50%)`),
+    [isWindowOverMD, windowSize.width],
   );
 
   useEffect(() => {
@@ -127,8 +138,8 @@ export const Navbar = () => {
       },
       {
         duration: 0.5,
-        ease: "easeInOut"
-      }
+        ease: "easeInOut",
+      },
     );
   }, [state.isNavbarCollapsed, collapsedPosition, animate]);
 
@@ -153,7 +164,7 @@ export const Navbar = () => {
       animate={{ transform: "translateY(0%)", opacity: 1 }}
       transition={{
         duration: 0.3,
-        ease: "easeInOut"
+        ease: "easeInOut",
       }}
       className="h-nav fixed bottom-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0"
     >
@@ -162,7 +173,7 @@ export const Navbar = () => {
           "h-full flex border rounded-2xl overflow-clip opacity-100 transition-all duration-700 ease-in-out",
           {
             "opacity-0": state.isNavbarCollapsed,
-          }
+          },
         )}
       >
         <div
@@ -197,7 +208,7 @@ export const Navbar = () => {
           "absolute top-1/2 -translate-y-1/2 -right-px translate-x-full [&_svg]:pointer-events-auto [&_svg]:size-10",
           {
             "-right-4": state.isNavbarCollapsed,
-          }
+          },
         )}
         onClick={toggleNavbarCollapsed}
       >

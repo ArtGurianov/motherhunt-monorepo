@@ -12,4 +12,4 @@ export const MountedGuard = ({ children }: { children: ReactNode }) => {
   if (!isMounted) return null;
 
   return children;
-}
+};

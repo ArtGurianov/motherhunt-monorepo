@@ -24,7 +24,7 @@ export const EmailInfo = () => {
         onToggle={async () => {
           const result = await changeUserToggleState(
             "isSystemEmailsEnabled",
-            !user.isSystemEmailsEnabled
+            !user.isSystemEmailsEnabled,
           );
           if (!result.success) {
             toast(result.errorMessage);
@@ -39,7 +39,7 @@ export const EmailInfo = () => {
         onToggle={async () => {
           const result = await changeUserToggleState(
             "isNewsletterEmailsEnabled",
-            !user.isNewsletterEmailsEnabled
+            !user.isNewsletterEmailsEnabled,
           );
           if (!result.success) {
             toast(result.errorMessage);

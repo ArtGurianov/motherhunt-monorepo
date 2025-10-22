@@ -36,7 +36,7 @@ export const getAgencyBookersById = cache(async (organizationId: string) => {
       ...temp,
       [next.id]: next,
     }),
-    {} as Record<string, User>
+    {} as Record<string, User>,
   );
 
   const bookers = membersList.reduce(
@@ -48,7 +48,7 @@ export const getAgencyBookersById = cache(async (organizationId: string) => {
         memberId: id,
       },
     ],
-    [] as BookersData
+    [] as BookersData,
   );
 
   return bookers;

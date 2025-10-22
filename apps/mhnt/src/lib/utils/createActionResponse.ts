@@ -42,17 +42,17 @@ type ActionResponseFail = {
 // Function overloads
 export function createActionResponse(): ActionResponseSuccessWithoutData;
 export function createActionResponse<TData extends ActionResponseData>(
-  props: CreateActionResponsePropsSuccess<TData>
+  props: CreateActionResponsePropsSuccess<TData>,
 ): ActionResponseSuccessWithData<TData>;
 export function createActionResponse(
-  props: CreateActionResponsePropsError
+  props: CreateActionResponsePropsError,
 ): ActionResponseFail;
 
 // Implementation
 export function createActionResponse<TData extends ActionResponseData>(
   props?:
     | CreateActionResponsePropsError
-    | CreateActionResponsePropsSuccess<TData>
+    | CreateActionResponsePropsSuccess<TData>,
 ):
   | ActionResponseSuccessWithoutData
   | ActionResponseSuccessWithData<TData>

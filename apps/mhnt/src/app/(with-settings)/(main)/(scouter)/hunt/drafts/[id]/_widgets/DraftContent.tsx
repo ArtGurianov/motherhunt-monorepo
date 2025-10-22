@@ -36,7 +36,7 @@ export const DraftContent = ({ draftData }: DraftContentProps) => {
         enabled: !!draftData.signedByUserId,
       },
     }),
-    [draftData.signedByUserId]
+    [draftData.signedByUserId],
   );
 
   const {
@@ -58,7 +58,7 @@ export const DraftContent = ({ draftData }: DraftContentProps) => {
 
   const handleConfirmationToggle = useCallback(() => {
     setOpenedAccordion((prev) =>
-      prev === "confirmation" ? null : "confirmation"
+      prev === "confirmation" ? null : "confirmation",
     );
   }, []);
 

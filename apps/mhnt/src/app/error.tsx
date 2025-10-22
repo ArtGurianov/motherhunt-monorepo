@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@shared/ui/components/button";
+import { useTranslations } from "next-intl";
 
 export default function Error({
   error,
@@ -9,6 +10,9 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("ERRORS");
+  const tButtons = useTranslations("COMMON.BUTTONS");
+  const tLabels = useTranslations("COMMON.LABELS");
   return (
     <div className="flex min-h-[400px] w-full max-w-md flex-col items-center justify-center gap-6 px-4">
       <div className="flex flex-col items-center gap-4 text-center">
@@ -28,33 +32,31 @@ export default function Error({
           </svg>
         </div>
 
-        <h2 className="text-2xl font-bold">{'Something went wrong'}</h2>
+        <h2 className="text-2xl font-bold">{t("something-went-wrong")}</h2>
 
         <p className="text-muted-foreground max-w-sm">
-          {'We encountered an unexpected error. This has been logged and we will look into it.'}
+          {t("unexpected-error")}
         </p>
 
         {error.message && (
           <details className="w-full cursor-pointer rounded-base border-2 border-border bg-secondary p-4 text-left">
             <summary className="font-mono text-sm font-semibold">
-              {'Error details'}
+              {tLabels("error-details")}
             </summary>
-            <pre className="mt-2 overflow-x-auto text-xs">
-              {error.message}
-            </pre>
+            <pre className="mt-2 overflow-x-auto text-xs">{error.message}</pre>
           </details>
         )}
       </div>
 
       <div className="flex gap-4">
         <Button onClick={reset} variant="default">
-          {'Try again'}
+          {tButtons("try-again")}
         </Button>
         <Button
-          onClick={() => window.location.href = "/"}
+          onClick={() => (window.location.href = "/")}
           variant="secondary"
         >
-          {'Go home'}
+          {tButtons("go-home")}
         </Button>
       </div>
     </div>

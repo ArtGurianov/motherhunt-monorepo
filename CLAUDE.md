@@ -9,16 +9,19 @@ This is a pnpm monorepo for the Motherhunt project, a web3 fashion street scouti
 ## Package Manager
 
 **Required**: pnpm v8.15.6+
+
 - The repository enforces pnpm usage via preinstall script
 - Node.js >=18 is required
 
 ## Monorepo Structure
 
 ### Applications
+
 - `apps/mhnt` - Main application (Next.js 15, runs on port 443 with HTTPS)
 - `apps/motherhunt` - Marketing/landing site (Next.js 15, runs on port 3000)
 
 ### Shared Packages
+
 - `packages/db` - Prisma database schema and client (MongoDB)
 - `packages/ui` - Shared UI components (shadcn/ui)
 - `packages/eslint-config` - Shared ESLint configuration
@@ -27,6 +30,7 @@ This is a pnpm monorepo for the Motherhunt project, a web3 fashion street scouti
 ## Common Commands
 
 ### Development
+
 ```bash
 # Run all apps in dev mode
 pnpm dev
@@ -43,6 +47,7 @@ pnpm lint
 ```
 
 ### Database (Prisma)
+
 ```bash
 # Generate Prisma client (run from root)
 pnpm db:generate
@@ -55,6 +60,7 @@ cd packages/db && pnpm db:format
 ```
 
 ### Code Formatting
+
 ```bash
 # Check formatting
 pnpm format
@@ -64,12 +70,14 @@ pnpm format:fix
 ```
 
 ### Working with shadcn/ui Components
+
 ```bash
 # Add a new UI component to the shared package
 pnpm dlx shadcn@latest add button -c apps/web
 ```
 
 Components are placed in `packages/ui/src/components` and imported as:
+
 ```tsx
 import { Button } from "@shared/ui/components/button";
 ```
@@ -77,6 +85,7 @@ import { Button } from "@shared/ui/components/button";
 ## Main App (mhnt) Architecture
 
 ### Tech Stack
+
 - **Framework**: Next.js 15 with App Router
 - **Authentication**: better-auth with custom plugins (admin, organization, magic link, captcha)
 - **Database**: MongoDB via Prisma
@@ -91,6 +100,7 @@ import { Button } from "@shared/ui/components/button";
 ### Directory Structure (`apps/mhnt/src`)
 
 #### `/app` - Next.js App Router
+
 - Route groups for role-based access:
   - `(with-settings)/(main)/(daog)` - MyDAOGs admin routes
   - `(with-settings)/(main)/(headbooker)` - Agency head booker routes
@@ -99,19 +109,24 @@ import { Button } from "@shared/ui/components/button";
 - Each route group has its own layout with authorization checks
 
 #### `/actions` - Server Actions
+
 Server actions for mutations and API calls (e.g., `acceptInvitation.ts`, `createDraft.ts`, `sendEmail.ts`)
 
 #### `/data` - Data Fetching Layer
+
 Server-side data fetching functions organized by domain:
+
 - `session/` - Session management
 - `drafts/` - Draft model lots
 - `agencyBookers/` - Agency booker management
 - `invitationDetails/` - Invitation handling
 
 #### `/components` - React Components
+
 Reusable UI components and widgets
 
 #### `/lib` - Utilities and Configuration
+
 - `auth/` - Authentication setup, permissions, roles
   - `auth.ts` - Main better-auth configuration
   - `authClient.ts` - Client-side auth utilities
@@ -131,20 +146,24 @@ Reusable UI components and widgets
 The app uses better-auth with a complex multi-role system:
 
 **App-level roles** (stored in User model):
+
 - `MYDAOGS_ADMIN_ROLE` - MyDAOGs platform admin
 - `PROJECT_SUPERADMIN_ROLE` - Project super admin
 - `PROJECT_ADMIN_ROLE` - Project admin
 - `USER_ROLE` - Default user
 
 **Organization-level roles** (stored in Member model):
+
 - `OWNER_ROLE` - Organization owner (head booker)
 - `MEMBER_ROLE` - Organization member (booker)
 
 **Organization types**:
+
 - `SCOUTING` - Default scouting organization
 - `AGENCY` - Model agency organization
 
 Sessions are extended with custom fields:
+
 - `activeOrganizationId`, `activeMemberId`, `activeOrganizationRole` - Current org context
 - Session management handles organization switching
 
@@ -153,6 +172,7 @@ Sessions are extended with custom fields:
 **Server-side data fetching**: Data is fetched using server components and server functions in `/data`, then exposed via API routes for client-side TanStack Query hooks in `/lib/hooks`.
 
 **Authentication flow**:
+
 1. Magic link authentication (email-based)
 2. Session created with user role and recent organization context
 3. Database hooks populate session fields on create/update
@@ -167,6 +187,7 @@ Sessions are extended with custom fields:
 ### Environment Variables
 
 Required environment variables are documented in `apps/mhnt/.env.example`:
+
 - Database: `DATABASE_URL`
 - Auth: `BETTER_AUTH_SECRET`
 - Email: `NODEMAILER_USER`, `NODEMAILER_APP_PASSWORD`
@@ -178,6 +199,7 @@ Required environment variables are documented in `apps/mhnt/.env.example`:
 ### Database Schema (Prisma)
 
 **Core models**:
+
 - `User` - User accounts with app role, recent org context, model/agency associations
 - `Session` - Sessions with active org context
 - `Organization` - Agencies or scouting orgs
@@ -187,6 +209,7 @@ Required environment variables are documented in `apps/mhnt/.env.example`:
 - `Account` - OAuth accounts for authentication
 
 **Key relationships**:
+
 - Users can be members of multiple organizations
 - Users have a "recent organization" that becomes their active org on login
 - Lots are created by scouts (users) and can be signed by agencies
@@ -195,6 +218,7 @@ Required environment variables are documented in `apps/mhnt/.env.example`:
 ### Testing & Seeding
 
 Seed script available at `apps/mhnt/scripts/seed.ts`:
+
 ```bash
 cd apps/mhnt && pnpm seed
 ```

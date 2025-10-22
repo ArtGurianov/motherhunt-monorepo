@@ -11,7 +11,7 @@ export const InlineData = ({ className, children }: InlineDataProps) => {
     <div
       className={cn(
         "flex w-full flex-col items-start justify-center gap-1",
-        className
+        className,
       )}
     >
       {children}

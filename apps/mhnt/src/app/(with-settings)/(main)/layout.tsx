@@ -8,9 +8,7 @@ export default function MainLayout({
   return (
     <>
       <RouteHeading />
-      <SignedInGuardClient>
-        {children}
-      </SignedInGuardClient>
+      <SignedInGuardClient>{children}</SignedInGuardClient>
     </>
   );
 }

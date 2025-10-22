@@ -5,7 +5,7 @@ const RESIZE_THROTTLE_DELAY = 150;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function throttle<T extends (...args: any[]) => any>(
   func: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
   let lastRan: number = 0;
@@ -18,10 +18,13 @@ function throttle<T extends (...args: any[]) => any>(
       lastRan = now;
     } else {
       if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-        lastRan = Date.now();
-      }, delay - (now - lastRan));
+      timeoutId = setTimeout(
+        () => {
+          func.apply(this, args);
+          lastRan = Date.now();
+        },
+        delay - (now - lastRan),
+      );
     }
   };
 }

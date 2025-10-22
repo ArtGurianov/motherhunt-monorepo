@@ -35,16 +35,19 @@ export const ScouterSignInBtn = (props: GetComponentProps<typeof Button>) => {
             await authClient.organization.setActive({
               organizationId: user.scoutingOrganizationId,
               fetchOptions: {
-                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
-              }
+                onSuccess: () =>
+                  queryClient.invalidateQueries({
+                    queryKey: [SESSION_QUERY_KEY],
+                  }),
+              },
             });
             toast("Switched to scouter");
             router.push(
-              `${generateUpdatedPathString(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href, params)}`
+              `${generateUpdatedPathString(APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SETTINGS].href, params)}`,
             );
           } catch (error) {
             toast(
-              error instanceof Error ? error.message : "Something went wrong."
+              error instanceof Error ? error.message : "Something went wrong.",
             );
           }
         });

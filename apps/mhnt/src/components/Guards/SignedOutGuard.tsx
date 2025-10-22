@@ -28,8 +28,8 @@ export const SignedOutGuard = ({ children }: SignedOutGuardProps) => {
           APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
           new URLSearchParams({
             toast: "SIGNED_IN",
-          })
-        )
+          }),
+        ),
       );
     }
   }, [session]);

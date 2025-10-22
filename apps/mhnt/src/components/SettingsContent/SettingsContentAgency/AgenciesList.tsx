@@ -85,15 +85,18 @@ export const AgenciesList = () => {
                             await authClient.organization.setActive({
                               organizationId: each.id,
                               fetchOptions: {
-                                onSuccess: () => queryClient.invalidateQueries({ queryKey: [SESSION_QUERY_KEY] })
-                              }
+                                onSuccess: () =>
+                                  queryClient.invalidateQueries({
+                                    queryKey: [SESSION_QUERY_KEY],
+                                  }),
+                              },
                             });
                             toast(tToasts("switched-to-agency"));
                           } catch (error) {
                             toast(
                               error instanceof Error
                                 ? error.message
-                                : "Something went wrong."
+                                : "Something went wrong.",
                             );
                           }
                         });

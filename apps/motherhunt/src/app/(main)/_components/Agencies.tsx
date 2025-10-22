@@ -20,7 +20,7 @@ export const Agencies = async () => {
   try {
     const data =
       await getContentfulEntriesByType<DisplayAgencyContentfulSkeleton>(
-        "displayAgency"
+        "displayAgency",
       );
 
     agencies = data

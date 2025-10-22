@@ -57,7 +57,7 @@ export const trustedUserPlugin = <T extends z.Schema>({
 
           const session = await ctx.context.internalAdapter.createSession(
             trustedUser.id,
-            ctx
+            ctx,
           );
 
           if (!session) {
@@ -74,7 +74,7 @@ export const trustedUserPlugin = <T extends z.Schema>({
             token: session.token,
             user: trustedUser,
           });
-        }
+        },
       ),
     },
     rateLimit: [

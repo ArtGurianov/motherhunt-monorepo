@@ -1,18 +1,166 @@
 {
+  "COMMON": {
+    "BUTTONS": {
+      "sign-in": "登录",
+      "sign-out": "退出",
+      "connect": "连接",
+      "approve": "批准",
+      "purchase": "购买",
+      "confirm": "确认",
+      "cancel": "取消",
+      "create": "创建",
+      "add": "添加",
+      "edit": "编辑",
+      "delete": "删除",
+      "save": "保存",
+      "submit": "提交",
+      "learn-more": "了解更多",
+      "go-back": "返回",
+      "go-home": "回到首页",
+      "try-again": "重试",
+      "close": "关闭",
+      "switch-account": "切换账户",
+      "top-up": "充值",
+      "select-image": "选择图片",
+      "approve-text": "批准",
+      "learn": "学习",
+      "send-link": "发送链接",
+      "register": "注册",
+      "view-requests": "查看我的申请",
+      "enter": "进入",
+      "verify": "验证",
+      "signing-out": "退出中..."
+    },
+    "LABELS": {
+      "email": "电子邮箱",
+      "password": "密码",
+      "address": "地址",
+      "karma-balance": "Karma余额",
+      "wallet-balance": "钱包余额",
+      "error-details": "错误详情",
+      "success": "成功",
+      "name": "名称",
+      "slug": "标识",
+      "status": "状态",
+      "action": "操作",
+      "created-at": "创建时间",
+      "comment": "评论"
+    },
+    "PLACEHOLDERS": {
+      "type-address": "输入以0x开头的地址",
+      "drop-image": "拖放图片或点击选择文件...",
+      "drop-files": "将文件拖放到这里...",
+      "type-email": "输入您的邮箱",
+      "type-comment": "写下您的评论"
+    },
+    "LOADING": {
+      "creating": "创建中...",
+      "uploading": "上传中...",
+      "loading": "加载中..."
+    },
+    "MESSAGES": {
+      "success": "成功",
+      "error": "错误",
+      "email-sent-waiting": "邮件已发送。等待确认中。",
+      "lot-confirmed": "批次数据已被模特确认。",
+      "social-account-linked": "社交账户已关联。",
+      "go-to-account-switching": "前往账户切换 =>",
+      "vk-linked-success": "成功将VK ID关联到您的模特账户。",
+      "verified": "已验证",
+      "email-sent": "邮件已发送"
+    },
+    "STATES": {
+      "active": "活跃",
+      "logged-out": "未登录",
+      "pending": "待处理",
+      "approved": "已批准",
+      "rejected": "已拒绝"
+    },
+    "SEPARATORS": {
+      "or": "或",
+      "or-separator": "- 或 -"
+    }
+  },
+  "ERRORS": {
+    "something-went-wrong": "出错了",
+    "unexpected-error": "我们遇到了意外错误。这已被记录，我们将会进行调查。",
+    "wallet-not-connected": "钱包未连接",
+    "magic-link-failed": "发送魔术链接时出错。",
+    "change-email-failed": "更改邮箱失败",
+    "vk-invalid-data": "从VK ID收到意外数据",
+    "error-occurred": "发生错误",
+    "no-applications": "没有待处理的申请。",
+    "no-membership": "您没有会员记录。",
+    "no-requests": "没有代理机构创建申请。"
+  },
+  "FORMS": {
+    "personal-info": "个人信息",
+    "measurements": "尺寸",
+    "polaroids-book": "宝丽来和作品集",
+    "google-drive-label": "Google Drive链接",
+    "admin-address-label": "新超级管理员地址",
+    "agency-wallet-label": "设置代理机构钱包地址",
+    "scouter-wallet-label": "星探钱包地址",
+    "invite-booker-label": "邀请新预订员",
+    "main-picture-label": "主图片",
+    "image-dropzone": "拖放图片或点击选择文件...",
+    "drop-files": "将文件拖放到这里..."
+  },
+  "DIALOGS": {
+    "confirm-action-title": "确认操作",
+    "confirm-continue": "您要继续吗？",
+    "topup-karma-title": "充值Karma",
+    "choose-account-type": "选择账户类型"
+  },
+  "SECTIONS": {
+    "auction-listing": "拍卖列表",
+    "publish-auction-desc": "发布到拍卖或取消",
+    "super-admins-title": "MHNT系统超级管理员",
+    "admins-title": "MHNT系统管理员",
+    "bookers-title": "您的代理机构预订员"
+  },
+  "INFO": {
+    "karma-purchase-note": "Karma旨在通过投票和成功配置来赚取，因此您只能在余额为零时购买1 KRM。",
+    "wallet-balance": "钱包余额：{balance}",
+    "krm-price": "1 KRM价格：{price} USD"
+  },
   "NAVBAR": {
+    "home": "首页",
+    "hunt": "搜索",
+    "auctions": "拍卖",
+    "agencies": "代理机构",
+    "my-profile": "我的资料",
+    "settings": "设置",
     "signed-in-label": "当前登录为",
     "signed-out-label": "您当前",
     "signed-out-status": "未登录"
   },
   "ROLES": {
-    "USER_ROLE": "NEW USER",
+    "USER_ROLE": "新用户",
     "SCOUTER_ROLE": "星探",
-    "MODEL_ROLE": "MODEL",
+    "MODEL_ROLE": "模特",
     "HEADBOOKER_ROLE": "首席预订员",
     "BOOKER_ROLE": "预订员",
-    "MYDAOGS_ADMIN_ROLE": "管理员",
-    "PROJECT_SUPERADMIN_ROLE": "管理员",
-    "PROJECT_ADMIN_ROLE": "超级管理员"
+    "MYDAOGS_ADMIN_ROLE": "DAOG",
+    "PROJECT_SUPERADMIN_ROLE": "超级管理员",
+    "PROJECT_ADMIN_ROLE": "管理员",
+    "model": "模特",
+    "scouter": "星探",
+    "booker": "预订员",
+    "head-booker": "首席预订员",
+    "admin": "管理员",
+    "superadmin": "超级管理员"
+  },
+  "ACCOUNT_TYPES": {
+    "model": "模特",
+    "agency": "代理机构",
+    "scouter": "星探"
+  },
+  "PAGES": {
+    "sign-in": "登录",
+    "accept-invitation": "接受您的邀请",
+    "selection": "选择页面",
+    "auction": "拍卖"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "待处理",
@@ -22,16 +170,20 @@
   "SIGN_IN": {
     "title": "登录您的账户",
     "description": "在下方输入您的邮箱以登录账户",
-    "email-label": "邮箱",
+    "email-label": "电子邮箱",
     "email-placeholder": "输入您的邮箱",
     "success-message": "邮件已发送！请检查您的收件箱。",
-    "send-link": "登录"
+    "send-link": "发送链接"
+  },
+  "ADMIN_SIGN_IN": {
+    "title": "管理员登录",
+    "description": "使用您的web3钱包登录"
   },
   "CHANGE_EMAIL": {
     "verify": "验证",
     "verified": "已验证",
     "email-sent": "邮件已发送",
-    "email-label": "邮箱",
+    "email-label": "电子邮箱",
     "email-placeholder": "输入您的新邮箱",
     "success-message": "邮箱更改请求已发送。请检查您的收件箱。"
   },
@@ -85,26 +237,26 @@
   },
   "ROUTES_TITLES": {
     "MODAL_SETTINGS": "用户设置",
-    "MODAL_SWITCH": "Switch account",
-    "MODAL_SWITCH_AGENCY": "我的机构",
+    "MODAL_SWITCH": "切换账户",
+    "MODAL_SWITCH_AGENCY": "我的代理机构",
     "MODAL_SWITCH_AGENCY_REQUESTS": "我的申请",
-    "MODAL_SWITCH_MODEL": "Switch to model",
+    "MODAL_SWITCH_MODEL": "切换到模特",
     "REDIRECT_FROM_VK": "VK ID",
     "AUCTION": "拍卖",
-    "DRAFT": "Draft",
-    "CASES": "案件",
+    "DRAFT": "草稿",
+    "CASES": "案例",
     "DEALS": "交易",
-    "HUNT": "猎捕",
-    "DRAFTS": "Drafts",
-    "MODEL_CONFIRMATION": "MODEL CONFIRMATION",
-    "AGENCY_DETAILS": "机构",
-    "AGENCY_ACCEPT_INVITATION": "Accept Invitation",
-    "ADMINISTRATED": "Administrated",
-    "SUPERADMINS": "Super Admins",
-    "ADMINS": "Admins",
-    "AGENCY_APPLY": "机构申请",
-    "AGENCY_MANAGE": "管理机构",
-    "AGENCIES_APPLICATIONS": "机构申请",
+    "HUNT": "搜索",
+    "DRAFTS": "草稿",
+    "MODEL_CONFIRMATION": "模特确认",
+    "AGENCY_DETAILS": "代理机构详情",
+    "AGENCY_ACCEPT_INVITATION": "接受邀请",
+    "ADMINISTRATED": "管理中",
+    "SUPERADMINS": "超级管理员",
+    "ADMINS": "管理员",
+    "AGENCY_APPLY": "代理机构申请",
+    "AGENCY_MANAGE": "管理代理机构",
+    "AGENCIES_APPLICATIONS": "代理机构申请",
     "default": "未知路由"
   },
   "EMAIL": {
@@ -113,11 +265,11 @@
     "agency-accepted-subject": "代理机构已接受",
     "agency-accepted-description": "恭喜！您的代理机构已设置完成！立即登录并开始预订模特！",
     "magic-link-subject": "登录",
-    "magic-link-description": "您请求登录 mhnt.app",
+    "magic-link-description": "您请求登录mhnt.app",
     "org-setup-subject": "组织设置",
     "org-setup-description": "您的代理机构档案已创建，正在审核中",
     "change-email-subject": "更改邮箱",
-    "change-email-description": "您请求更改 mhnt.app 的邮箱",
+    "change-email-description": "您请求更改mhnt.app的邮箱",
     "cta": "点击这里"
   },
   "INFO_CARD_TITLES": {
@@ -135,9 +287,9 @@
     "sign-out": "退出",
     "signing-out": "退出中..."
   },
-  "COMMON": {
-    "loading": "加载中...",
-    "unexpected-error": "发生意外错误。请重试。"
+  "OAUTH": {
+    "vk-button": "使用VK登录",
+    "facebook-button": "使用FB登录"
   },
   "AGENCY_SETTINGS": {
     "register-agency": "注册代理机构",
@@ -146,7 +298,7 @@
   },
   "NOT_FOUND": {
     "page-not-found": "页面未找到",
-    "go-home": "让我们回家吧"
+    "go-home": "让我们回到首页"
   },
   "TOASTS": {
     "approved-message": "代理机构已批准！",
@@ -157,7 +309,7 @@
     "SIGNED_IN": "登录成功！",
     "SIGNED_OUT": "已退出登录！",
     "UPDATED": "更新成功！",
-    "SUCCESS": "SUCCESS",
-    "ACCESS_DENIED": "无权访问"
+    "SUCCESS": "成功",
+    "ACCESS_DENIED": "访问被拒绝！"
   }
 }

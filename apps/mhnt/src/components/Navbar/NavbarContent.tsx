@@ -30,7 +30,7 @@ export const NavbarContent = ({
         "relative flex h-full -translate-x-0 transition-all duration-500 ease-in-out",
         {
           "-translate-x-full": isMenuOpened,
-        }
+        },
       )}
     >
       <div className="flex flex-col items-center justify-center px-4">

@@ -44,7 +44,7 @@ export const AuthInfo = () => {
               <Link
                 href={generateUpdatedPathString(
                   APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH].href,
-                  params
+                  params,
                 )}
               >
                 {"Switch Account"}

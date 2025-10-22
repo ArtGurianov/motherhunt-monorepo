@@ -14,7 +14,7 @@ export const useMatchingRoute = () => {
     const pathSegments = pathname.split("/");
 
     const dynamicMatch = ROUTE_CONFIGS.filter((route) =>
-      route.href.includes("[")
+      route.href.includes("["),
     ).find((route) => {
       const routeSegments = route.href.split("/");
 

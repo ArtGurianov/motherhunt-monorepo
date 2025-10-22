@@ -25,8 +25,12 @@ import { hCaptchaSchema } from "@/lib/schemas/hCaptchaSchema";
 import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
+import { useTranslations } from "next-intl";
 
 export const AdminSignInForm = () => {
+  const t = useTranslations("ADMIN_SIGN_IN");
+  const tCommon = useTranslations("COMMON.BUTTONS");
+  const tErrors = useTranslations("ERRORS");
   const router = useRouter();
   const { getParam, deleteParam } = useAppParams();
   const [isPending, startTransition] = useTransition();
@@ -79,13 +83,15 @@ export const AdminSignInForm = () => {
                 returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
                 new URLSearchParams({
                   toast: "SIGNED_IN",
-                })
-              )
+                }),
+              ),
             );
           }
         } catch (error) {
           setErrorMessage(
-            error instanceof Error ? error.message : "Something went wrong."
+            error instanceof Error
+              ? error.message
+              : tErrors("something-went-wrong"),
           );
         }
       });
@@ -95,8 +101,8 @@ export const AdminSignInForm = () => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>{"Admin login"}</CardTitle>
-        <CardDescription>{"Sign in using your web3 wallet"}</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -136,7 +142,7 @@ export const AdminSignInForm = () => {
                 {isPending || (isSignaturePending && !isIdle) ? (
                   <LoaderCircle className="py-1 animate-spin h-8 w-8" />
                 ) : (
-                  "Sign in"
+                  tCommon("sign-in")
                 )}
               </Web3ConnectBtn>
             </div>

@@ -6,8 +6,10 @@ import { generateVkAuthRequestUrl } from "@/lib/utils/generateVkAuthRequestUrl";
 import { Button } from "@shared/ui/components/button";
 import { GetComponentProps } from "@shared/ui/lib/types";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export const OAuthVkBtn = (props: GetComponentProps<typeof Button>) => {
+  const t = useTranslations("OAUTH");
   const { getParam, getUpdatedParamsString, deleteParam } = useAppParams();
   const router = useRouter();
 
@@ -16,7 +18,7 @@ export const OAuthVkBtn = (props: GetComponentProps<typeof Button>) => {
     deleteParam("returnTo");
     sessionStorage.setItem(
       "OAUTH_RETURN_TO",
-      `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`
+      `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${getUpdatedParamsString()}`,
     );
 
     const authUrl = await generateVkAuthRequestUrl();
@@ -25,7 +27,7 @@ export const OAuthVkBtn = (props: GetComponentProps<typeof Button>) => {
 
   return (
     <Button {...props} onClick={handleClick}>
-      {"VK Sign In"}
+      {t("vk-button")}
     </Button>
   );
 };

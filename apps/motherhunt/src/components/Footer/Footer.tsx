@@ -13,7 +13,7 @@ export const Footer = () => {
         {"MyDAOgs"}
       </Link>
       <span className="ml-1">{` ${t("ecosystem")} ${now.getFullYear()}. ${t(
-        "rights"
+        "rights",
       )}`}</span>
     </footer>
   );

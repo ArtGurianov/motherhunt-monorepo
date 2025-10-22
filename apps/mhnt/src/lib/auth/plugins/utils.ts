@@ -17,7 +17,7 @@ export async function setCookieCache(
   session: {
     session: Session;
     user: User;
-  }
+  },
 ) {
   const shouldStoreSessionDataInCookie =
     ctx.context.options.session?.cookieCache?.enabled;
@@ -32,7 +32,7 @@ export async function setCookieCache(
         }
         return acc;
       },
-      {} as Record<string, string | Date | null>
+      {} as Record<string, string | Date | null>,
     );
     const sessionData = { session: filteredSession, user: session.user };
     const data = base64Url.encode(
@@ -40,7 +40,7 @@ export async function setCookieCache(
         session: sessionData,
         expiresAt: getDate(
           ctx.context.authCookies.sessionData.options.maxAge || 60,
-          "sec"
+          "sec",
         ).getTime(),
         signature: await createHMAC("SHA-256", "base64urlnopad").sign(
           ctx.context.secret,
@@ -48,24 +48,24 @@ export async function setCookieCache(
             ...sessionData,
             expiresAt: getDate(
               ctx.context.authCookies.sessionData.options.maxAge || 60,
-              "sec"
+              "sec",
             ).getTime(),
-          })
+          }),
         ),
       }),
       {
         padding: false,
-      }
+      },
     );
     if (data.length > 4093) {
       throw new BetterAuthError(
-        "Session data is too large to store in the cookie. Please disable session cookie caching or reduce the size of the session data"
+        "Session data is too large to store in the cookie. Please disable session cookie caching or reduce the size of the session data",
       );
     }
     ctx.setCookie(
       ctx.context.authCookies.sessionData.name,
       data,
-      ctx.context.authCookies.sessionData.options
+      ctx.context.authCookies.sessionData.options,
     );
   }
 }
@@ -77,11 +77,11 @@ export async function setSessionCookie(
     user: User;
   },
   dontRememberMe?: boolean,
-  overrides?: Partial<CookieOptions>
+  overrides?: Partial<CookieOptions>,
 ) {
   const dontRememberMeCookie = await ctx.getSignedCookie(
     ctx.context.authCookies.dontRememberToken.name,
-    ctx.context.secret
+    ctx.context.secret,
   );
   // if dontRememberMe is not set, use the cookie value
   dontRememberMe =
@@ -99,7 +99,7 @@ export async function setSessionCookie(
       ...options,
       maxAge,
       ...overrides,
-    }
+    },
   );
 
   if (dontRememberMe) {
@@ -107,7 +107,7 @@ export async function setSessionCookie(
       ctx.context.authCookies.dontRememberToken.name,
       "true",
       ctx.context.secret,
-      ctx.context.authCookies.dontRememberToken.options
+      ctx.context.authCookies.dontRememberToken.options,
     );
   }
   await setCookieCache(ctx, session);
@@ -125,8 +125,8 @@ export async function setSessionCookie(
         session: session.session,
       }),
       Math.floor(
-        (new Date(session.session.expiresAt).getTime() - Date.now()) / 1000
-      )
+        (new Date(session.session.expiresAt).getTime() - Date.now()) / 1000,
+      ),
     );
   }
 }

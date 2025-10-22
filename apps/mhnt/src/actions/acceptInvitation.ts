@@ -47,8 +47,8 @@ export const acceptInvitation = async (invitationId: string) => {
         APP_ROUTES_CONFIG[APP_ROUTES.AGENCY_ACCEPT_INVITATION].href,
         {
           invitationId,
-        }
-      )
+        },
+      ),
     );
 
     return createActionResponse();

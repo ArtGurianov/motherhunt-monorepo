@@ -20,7 +20,7 @@ const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
     const svgLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
+      rule.test?.test?.(".svg"),
     );
 
     config.module.rules.push(
@@ -36,7 +36,7 @@ const nextConfig = {
         issuer: svgLoaderRule.issuer,
         resourceQuery: { not: [...svgLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
         use: ["@svgr/webpack"],
-      }
+      },
     );
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");

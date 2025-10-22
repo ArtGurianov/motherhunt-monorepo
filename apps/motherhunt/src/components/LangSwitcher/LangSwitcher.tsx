@@ -25,7 +25,7 @@ export const LangSwitcher = ({ className }: { className?: string }) => {
               "bg-accent-foreground/30 shadow-transparent translate-x-boxShadowX translate-y-boxShadowY":
                 (activeLocale === locale && hoveredIndex === null) ||
                 hoveredIndex === index,
-            }
+            },
           )}
           onMouseOver={() => setHoveredIndex(index)}
           onMouseOut={() => setHoveredIndex(null)}

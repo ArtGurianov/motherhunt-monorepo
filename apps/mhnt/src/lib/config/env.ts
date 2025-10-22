@@ -78,7 +78,7 @@ export const getEnvConfigClient = () => {
     const errorStr = validationResult.error.errors.reduce(
       (temp, next) =>
         `${temp} ${next.path.toString().toUpperCase()} - ${next.message};`,
-      ""
+      "",
     );
     throw new Error(`Env vars validation failed: ${errorStr}`);
   }
@@ -91,7 +91,7 @@ export const getEnvConfigServer = () => {
     const errorStr = validationResult.error.errors.reduce(
       (temp, next) =>
         `${temp} ${next.path.toString().toUpperCase()} - ${next.message};`,
-      ""
+      "",
     );
     throw new Error(`Env vars validation failed: ${errorStr}`);
   }

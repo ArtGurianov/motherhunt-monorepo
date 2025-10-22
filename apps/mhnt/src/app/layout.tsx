@@ -46,9 +46,9 @@ export default async function RootLayout({
               <div className="flex flex-col min-h-content justify-start items-center gap-6 px-4 mb-12">
                 {children}
               </div>
-                <MountedGuard>
-                  <Navbar />
-                </MountedGuard>
+              <MountedGuard>
+                <Navbar />
+              </MountedGuard>
             </AppProviders>
           </NextIntlClientProvider>
         </main>

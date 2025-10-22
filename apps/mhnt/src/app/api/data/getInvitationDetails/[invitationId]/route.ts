@@ -6,7 +6,7 @@ import {
 
 export async function GET(
   _: Request,
-  { params }: { params: Promise<{ invitationId: string }> }
+  { params }: { params: Promise<{ invitationId: string }> },
 ) {
   let responseProps: CreateApiResponseProps;
 

@@ -30,7 +30,7 @@ export const rejectAgencyApplication = async ({
   try {
     const canAccess = await canAccessAppRole(
       APP_ENTITIES.ORGANIZATION,
-      "process"
+      "process",
     );
     if (!canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
@@ -95,7 +95,7 @@ export const rejectAgencyApplication = async ({
 
     revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.AGENCIES_APPLICATIONS].href);
     revalidatePath(
-      APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href
+      APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href,
     );
 
     return createActionResponse();

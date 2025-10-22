@@ -26,7 +26,7 @@ export const createDraft = async () => {
     const result = await canAccessCustomRole(
       ORG_ENTITIES.LOT,
       "create",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });

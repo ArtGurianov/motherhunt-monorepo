@@ -1,13 +1,21 @@
 {
-  "SHARED": {},
-  "ERRORS": {
-    "404": {
-      "message-before": "迷路啦？",
-      "message-action": "走，回家吧"
+  "COMMON": {
+    "BRAND": "Motherhunt",
+    "BUTTONS": {
+      "learn-more": "了解更多",
+      "get-started": "开始",
+      "sign-up": "注册",
+      "sign-in": "登录",
+      "explore": "探索",
+      "apply": "申请",
+      "browse": "浏览"
     }
   },
   "NAV": {
     "home": "首页",
+    "features": "特性",
+    "about": "关于",
+    "contact": "联系",
     "guides": "指南",
     "blog": "博客",
     "faq": "常见问题",
@@ -15,8 +23,10 @@
     "menu-title": "菜单"
   },
   "FOOTER": {
-    "ecosystem": "生态系统",
-    "rights": "版权所有。"
+    "brand": "Motherhunt",
+    "mydaogs": "MyDAOgs",
+    "rights": "版权所有。",
+    "ecosystem": "生态系统"
   },
   "HOME": {
     "HERO": {
@@ -40,6 +50,18 @@
       "apply-before": "您是母公司机构吗？",
       "apply-action": "点击申请",
       "apply-after": "加入我们！"
+    }
+  },
+  "MARKETING": {
+    "before-title": "行业过去是怎样的",
+    "not-anymore": "！但现在不再是这样了！"
+  },
+  "ERRORS": {
+    "404": {
+      "title": "页面未找到",
+      "description": "您正在寻找的页面不存在。",
+      "message-before": "迷路啦？",
+      "message-action": "走，回家吧"
     }
   },
   "GUIDES": {

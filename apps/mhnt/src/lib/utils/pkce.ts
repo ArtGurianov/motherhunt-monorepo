@@ -7,7 +7,7 @@ export const generateRandomString = createRandomStringGenerator(
   "a-z",
   "0-9",
   "A-Z",
-  "-_"
+  "-_",
 );
 
 export async function generateCodeChallenge(codeVerifier: string) {

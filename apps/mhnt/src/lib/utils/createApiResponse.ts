@@ -17,7 +17,7 @@ export type ApiResponse = {
 };
 
 export function createApiResponse(
-  props?: CreateApiResponseProps
+  props?: CreateApiResponseProps,
 ): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
@@ -25,6 +25,6 @@ export function createApiResponse(
       data: props?.data ?? null,
       errorMessage: props?.error ? formatErrorMessage(props.error) : null,
     },
-    { status: props?.error ? formatErrorStatusCode(props.error) : 200 }
+    { status: props?.error ? formatErrorStatusCode(props.error) : 200 },
   );
 }

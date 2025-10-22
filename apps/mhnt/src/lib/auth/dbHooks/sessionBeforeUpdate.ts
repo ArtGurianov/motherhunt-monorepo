@@ -14,7 +14,7 @@ import { getMemberRole } from "../getMemberRole";
 import { revalidateTag } from "next/cache";
 
 export const sessionBeforeUpdate = async (
-  updateSessionData: Partial<Session>
+  updateSessionData: Partial<Session>,
 ): Promise<
   | boolean
   | void

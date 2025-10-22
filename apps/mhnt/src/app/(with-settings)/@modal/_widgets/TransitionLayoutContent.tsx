@@ -19,14 +19,14 @@ export const TransitionLayoutContent = ({
           transform: ["translateX(0)", "translateX(-100%)"],
           opacity: [1, 0],
         },
-        { duration: 300 }
+        { duration: 300 },
       );
       instance.new.animate(
         {
           transform: ["translateX(100%)", "translateX(0)"],
           opacity: [0, 1],
         },
-        { duration: 300 }
+        { duration: 300 },
       );
     }}
   >

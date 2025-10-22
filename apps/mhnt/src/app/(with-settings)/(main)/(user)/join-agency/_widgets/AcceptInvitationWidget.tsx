@@ -2,7 +2,11 @@
 
 import { acceptInvitation } from "@/actions/acceptInvitation";
 import { ErrorBlock } from "@/components/Forms";
-import { INVITATION_QUERY_KEY, useAppParams, useAuthenticated } from "@/lib/hooks";
+import {
+  INVITATION_QUERY_KEY,
+  useAppParams,
+  useAuthenticated,
+} from "@/lib/hooks";
 import { useInvitationDetails } from "@/lib/hooks/useInvitationDetails";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
@@ -28,7 +32,7 @@ const REDIRECT_PATH_SUCCESS = generateUpdatedPathString(
   APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href,
   new URLSearchParams({
     toast: "SUCCESS",
-  })
+  }),
 );
 
 export const AcceptInvitationWidget = () => {
@@ -81,7 +85,7 @@ export const AcceptInvitationWidget = () => {
         router.push(REDIRECT_PATH_SUCCESS);
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error ? error.message : "Something went wrong.",
         );
       }
     });

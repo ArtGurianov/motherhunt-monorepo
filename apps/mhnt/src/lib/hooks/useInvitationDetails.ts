@@ -7,7 +7,7 @@ export const useInvitationDetails = (invitationId: string | null) => {
   return useQuery({
     queryKey: [INVITATION_QUERY_KEY, invitationId],
     queryFn: createQueryFn<Invitation>(
-      `/api/data/getInvitationDetails/${invitationId}`
+      `/api/data/getInvitationDetails/${invitationId}`,
     ),
     enabled: typeof window !== "undefined" && !!invitationId,
   });

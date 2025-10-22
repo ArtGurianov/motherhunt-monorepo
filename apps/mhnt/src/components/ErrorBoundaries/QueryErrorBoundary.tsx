@@ -13,7 +13,10 @@ interface QueryErrorFallbackProps {
   resetErrorBoundary: () => void;
 }
 
-function QueryErrorFallback({ error, resetErrorBoundary }: QueryErrorFallbackProps) {
+function QueryErrorFallback({
+  error,
+  resetErrorBoundary,
+}: QueryErrorFallbackProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -83,7 +86,7 @@ interface QueryErrorBoundaryProps {
 
 export function QueryErrorBoundary({
   children,
-  fallback = QueryErrorFallback
+  fallback = QueryErrorFallback,
 }: QueryErrorBoundaryProps) {
   return (
     <QueryErrorResetBoundary>

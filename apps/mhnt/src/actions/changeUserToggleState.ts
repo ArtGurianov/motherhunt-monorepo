@@ -13,7 +13,7 @@ type UserToggleStateField = keyof Pick<
 
 export const changeUserToggleState = async (
   field: UserToggleStateField,
-  value: boolean
+  value: boolean,
 ) => {
   try {
     const session = await getSession();

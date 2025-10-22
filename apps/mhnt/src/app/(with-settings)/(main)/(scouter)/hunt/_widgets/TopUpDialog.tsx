@@ -93,7 +93,7 @@ export const TopUpDialog = ({
   if (validationResult.success && typeof balanceUsd === "bigint") {
     displayBalance = `${formatUnits(
       balanceUsd,
-      validationResult.data.decimals
+      validationResult.data.decimals,
     )} ${validationResult.data.symbol}`;
   }
   if (isLoadingDisplayBalance) {
@@ -150,7 +150,7 @@ export const TopUpDialog = ({
             currentBalanceUsd={
               typeof balanceUsd === "bigint" && validationResult.success
                 ? Number(
-                    formatUnits(balanceUsd, validationResult.data.decimals)
+                    formatUnits(balanceUsd, validationResult.data.decimals),
                   )
                 : undefined
             }
@@ -189,7 +189,7 @@ export const TopUpDialog = ({
             currentBalanceUsd={
               typeof balanceUsd === "bigint" && validationResult.success
                 ? Number(
-                    formatUnits(balanceUsd, validationResult.data.decimals)
+                    formatUnits(balanceUsd, validationResult.data.decimals),
                   )
                 : undefined
             }

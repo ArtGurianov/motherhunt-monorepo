@@ -1,13 +1,21 @@
 {
-  "SHARED": {},
-  "ERRORS": {
-    "404": {
-      "message-before": "Got lost?",
-      "message-action": "Just go home"
+  "COMMON": {
+    "BRAND": "Motherhunt",
+    "BUTTONS": {
+      "learn-more": "Learn More",
+      "get-started": "Get Started",
+      "sign-up": "Sign Up",
+      "sign-in": "Sign In",
+      "explore": "Explore",
+      "apply": "Apply",
+      "browse": "Browse"
     }
   },
   "NAV": {
     "home": "Home",
+    "features": "Features",
+    "about": "About",
+    "contact": "Contact",
     "guides": "Guides",
     "blog": "Blog",
     "faq": "FAQ",
@@ -15,8 +23,10 @@
     "menu-title": "Menu"
   },
   "FOOTER": {
-    "ecosystem": "Ecosystem",
-    "rights": "Rights reserved."
+    "brand": "Motherhunt",
+    "mydaogs": "MyDAOgs",
+    "rights": "Rights reserved.",
+    "ecosystem": "Ecosystem"
   },
   "HOME": {
     "HERO": {
@@ -40,6 +50,18 @@
       "apply-before": "Are you a Mother Agent?",
       "apply-action": "Apply here",
       "apply-after": "to join!"
+    }
+  },
+  "MARKETING": {
+    "before-title": "HOW WAS INDUSTRY BACK THEN",
+    "not-anymore": "! BUT NOT ANYMORE !"
+  },
+  "ERRORS": {
+    "404": {
+      "title": "Page not found",
+      "description": "The page you are looking for does not exist.",
+      "message-before": "Got lost?",
+      "message-action": "Just go home"
     }
   },
   "GUIDES": {

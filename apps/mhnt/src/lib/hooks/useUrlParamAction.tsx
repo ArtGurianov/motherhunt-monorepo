@@ -4,7 +4,7 @@ import { useAppParams } from "./useAppParams";
 
 export const useUrlParamAction = (
   key: string,
-  callbackFn: (_: string) => void
+  callbackFn: (_: string) => void,
 ) => {
   const router = useRouter();
   const { getParam, deleteParam, getUpdatedPathString } = useAppParams();

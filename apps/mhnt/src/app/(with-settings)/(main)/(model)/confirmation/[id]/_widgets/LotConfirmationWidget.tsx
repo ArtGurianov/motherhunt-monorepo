@@ -51,7 +51,7 @@ export const LotConfirmationWidget = ({ data }: LotConfirmationWidgetProps) => {
             });
           } catch (error) {
             toast(
-              error instanceof Error ? error.message : "Something went wrong"
+              error instanceof Error ? error.message : "Something went wrong",
             );
           }
         }}

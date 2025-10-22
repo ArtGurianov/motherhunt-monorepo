@@ -62,7 +62,7 @@ export const ChangeEmailForm = ({ currentEmail }: ChangeEmailFormProps) => {
         setFormStatus("SUCCESS");
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error ? error.message : "Something went wrong.",
         );
         setFormStatus("ERROR");
       }

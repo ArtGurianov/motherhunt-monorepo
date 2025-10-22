@@ -45,7 +45,7 @@ export const StatusCard = ({
         {
           "bg-red-900/90": type === StatusCardTypes.ERROR,
         },
-        className
+        className,
       )}
     >
       <CardHeader className="text-center">

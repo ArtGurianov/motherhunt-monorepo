@@ -21,7 +21,7 @@ export const deleteBookerRole = async (targetId: string) => {
     const result = await canAccessCustomRole(
       ORG_ENTITIES.MEMBER,
       "delete",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });

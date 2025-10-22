@@ -38,15 +38,15 @@ export const createNewAgencyOrg = async ({
       if (!organizationData?.metadata)
         throw new AppBusinessError(
           "Could not get data for one of your organizations",
-          400
+          400,
         );
       const metadata: OrgMetadata = JSON.parse(
-        organizationData.metadata
+        organizationData.metadata,
       ) as OrgMetadata;
       if (metadata.orgType === "AGENCY" && !metadata.reviewerAddress) {
         throw new AppBusinessError(
           "Your previous request is still pending",
-          400
+          400,
         );
       }
     }
@@ -79,7 +79,7 @@ export const createNewAgencyOrg = async ({
 
     revalidatePath(APP_ROUTES_CONFIG[APP_ROUTES.AGENCIES_APPLICATIONS].href);
     revalidatePath(
-      APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href
+      APP_ROUTES_CONFIG[APP_ROUTES.MODAL_SWITCH_AGENCY_REQUESTS].href,
     );
 
     return createActionResponse();

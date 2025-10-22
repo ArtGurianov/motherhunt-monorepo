@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   ) {
     if (recentLocale && recentLocale.value !== "en-US") {
       return NextResponse.redirect(
-        `${getAppURL(recentLocale.value as AppLocale)}${request.nextUrl.pathname}${request.nextUrl.search}`
+        `${getAppURL(recentLocale.value as AppLocale)}${request.nextUrl.pathname}${request.nextUrl.search}`,
       );
     }
   } else {

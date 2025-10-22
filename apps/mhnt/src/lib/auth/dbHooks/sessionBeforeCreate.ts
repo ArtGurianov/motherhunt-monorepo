@@ -7,7 +7,7 @@ import { getMemberRole } from "../getMemberRole";
 
 export const sessionBeforeCreate = async (
   session: Session,
-  ctx?: GenericEndpointContext
+  ctx?: GenericEndpointContext,
 ) => {
   revalidateTag(`session:${session.token}`);
 
@@ -20,7 +20,11 @@ export const sessionBeforeCreate = async (
     recentOrganizationType: string | null;
   };
 
-  const { recentOrganizationId, recentOrganizationName, recentOrganizationType } = typedUser;
+  const {
+    recentOrganizationId,
+    recentOrganizationName,
+    recentOrganizationType,
+  } = typedUser;
 
   // Build base session data
   const sessionData = {

@@ -13,7 +13,7 @@ import { useTranslations } from "next-intl";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 const ROUTE_LOOKUP = Object.fromEntries(
-  Object.values(APP_ROUTES_CONFIG).map((route) => [route.href, route.key])
+  Object.values(APP_ROUTES_CONFIG).map((route) => [route.href, route.key]),
 );
 interface InterceptedDialogDrawerProps
   extends Omit<DialogDrawerProps, "isOpen" | "onClose" | "title" | "backBtn"> {
@@ -59,7 +59,7 @@ export const InterceptedDialogDrawer = ({
         deleteParam("returnTo");
         const updatedParams = getUpdatedParamsString();
         router.push(
-          `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${updatedParams}`
+          `${returnTo ?? APP_ROUTES_CONFIG[APP_ROUTES.AUCTION].href}${updatedParams}`,
         );
       }}
     >

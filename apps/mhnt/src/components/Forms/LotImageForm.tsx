@@ -22,7 +22,7 @@ const lotImageSchema = z.object({
       (file) => !file || file.size !== 0 || file.size <= 1024 * 1024 * 10,
       {
         message: "Max size exceeded",
-      }
+      },
     ),
 });
 
@@ -66,7 +66,7 @@ export const LotImageForm = ({
           {
             method: "POST",
             body: formData,
-          }
+          },
         );
         const cloudinaryJsonData = await cloudinaryRes.json();
         const validationResult =
@@ -98,13 +98,13 @@ export const LotImageForm = ({
     if (!rejections.length) return;
     console.log(rejections[0]);
     const unsupportedFormat = rejections.find(
-      (each) => each.errors[0]?.code === "file-invalid-type"
+      (each) => each.errors[0]?.code === "file-invalid-type",
     );
     const tooManyFiles = rejections.find(
-      (each) => each.errors[0]?.code === "too-many-files"
+      (each) => each.errors[0]?.code === "too-many-files",
     );
     const sizeTooLarge = rejections.find(
-      (each) => each.errors[0]?.code === "file-too-large"
+      (each) => each.errors[0]?.code === "file-too-large",
     );
 
     if (unsupportedFormat) toast.error("Unsupported file format");
@@ -163,7 +163,7 @@ export const LotImageForm = ({
             "flex-1 grow aspect-3/4 relative border-2 border-dashed transition-colors duration-200 ease-in-out rounded-4xl",
             isDragActive || isTransitionPending
               ? "border-secondary bg-secondary/10 border-solid"
-              : "border-accent-foreground hover:border-primary"
+              : "border-accent-foreground hover:border-primary",
           )}
           {...getRootProps()}
         >

@@ -55,7 +55,7 @@ export const ManageBookersContent = ({
         }
         if (targetActionData.action === "transfer") {
           const result = await transferHeadBookerRole(
-            targetActionData.targetId
+            targetActionData.targetId,
           );
           if (!result.success) {
             toast(result.errorMessage);

@@ -16,7 +16,7 @@ export const getCloudinarySignature = async () => {
         upload_preset: "profile_picture",
         timestamp,
       },
-      envConfig.CLOUDINARY_SECRET_KEY
+      envConfig.CLOUDINARY_SECRET_KEY,
     );
     return createActionResponse({ data: { signature, timestamp } });
   } catch (error) {

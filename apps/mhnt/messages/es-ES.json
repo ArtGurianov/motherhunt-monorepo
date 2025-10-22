@@ -1,18 +1,166 @@
 {
+  "COMMON": {
+    "BUTTONS": {
+      "sign-in": "Iniciar sesión",
+      "sign-out": "Cerrar sesión",
+      "connect": "Conectar",
+      "approve": "Aprobar",
+      "purchase": "Comprar",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "add": "Añadir",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "save": "Guardar",
+      "submit": "Enviar",
+      "learn-more": "Saber más",
+      "go-back": "Volver",
+      "go-home": "Ir al inicio",
+      "try-again": "Intentar de nuevo",
+      "close": "Cerrar",
+      "switch-account": "Cambiar cuenta",
+      "top-up": "Recargar",
+      "select-image": "Seleccionar imagen",
+      "approve-text": "Aprobar",
+      "learn": "Aprender",
+      "send-link": "Enviar enlace",
+      "register": "Registrar",
+      "view-requests": "Ver mis solicitudes",
+      "enter": "Entrar",
+      "verify": "Verificar",
+      "signing-out": "Cerrando sesión..."
+    },
+    "LABELS": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "address": "Dirección",
+      "karma-balance": "Balance de Karma",
+      "wallet-balance": "Balance de Cartera",
+      "error-details": "Detalles del error",
+      "success": "Éxito",
+      "name": "Nombre",
+      "slug": "Slug",
+      "status": "Estado",
+      "action": "Acción",
+      "created-at": "Creado el",
+      "comment": "Comentario"
+    },
+    "PLACEHOLDERS": {
+      "type-address": "Escribe la dirección que comienza con 0x",
+      "drop-image": "Arrastra una imagen o haz clic para seleccionar archivo...",
+      "drop-files": "Arrastra los archivos aquí...",
+      "type-email": "escribe tu correo electrónico",
+      "type-comment": "Escribe tu comentario"
+    },
+    "LOADING": {
+      "creating": "Creando...",
+      "uploading": "Subiendo...",
+      "loading": "Cargando..."
+    },
+    "MESSAGES": {
+      "success": "Éxito",
+      "error": "Error",
+      "email-sent-waiting": "Correo enviado. Esperando confirmación.",
+      "lot-confirmed": "Los datos del lote han sido confirmados por el modelo.",
+      "social-account-linked": "Cuenta social ya vinculada.",
+      "go-to-account-switching": "Ir al cambio de cuenta =>",
+      "vk-linked-success": "VK ID vinculado exitosamente a tu cuenta de modelo.",
+      "verified": "Verificado",
+      "email-sent": "Correo enviado"
+    },
+    "STATES": {
+      "active": "ACTIVO",
+      "logged-out": "DESCONECTADO",
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado"
+    },
+    "SEPARATORS": {
+      "or": "o",
+      "or-separator": "- o -"
+    }
+  },
+  "ERRORS": {
+    "something-went-wrong": "Algo salió mal",
+    "unexpected-error": "Hemos encontrado un error inesperado. Esto ha sido registrado y lo revisaremos.",
+    "wallet-not-connected": "Cartera no conectada",
+    "magic-link-failed": "Error al enviar el enlace mágico.",
+    "change-email-failed": "No se pudo cambiar el correo electrónico",
+    "vk-invalid-data": "Se recibieron datos inesperados de VK ID",
+    "error-occurred": "Ha ocurrido un error",
+    "no-applications": "No hay solicitudes pendientes.",
+    "no-membership": "No tienes registros de membresía.",
+    "no-requests": "No hay solicitudes para la creación de agencias."
+  },
+  "FORMS": {
+    "personal-info": "Información personal",
+    "measurements": "Medidas",
+    "polaroids-book": "Polaroids y Portfolio",
+    "google-drive-label": "Enlace de Google Drive",
+    "admin-address-label": "Nueva dirección de superadministrador",
+    "agency-wallet-label": "Establecer dirección de cartera de agencia",
+    "scouter-wallet-label": "Dirección de cartera del scout",
+    "invite-booker-label": "Invitar nuevo booker",
+    "main-picture-label": "Foto principal",
+    "image-dropzone": "Arrastra una imagen o haz clic para seleccionar archivo...",
+    "drop-files": "Arrastra los archivos aquí..."
+  },
+  "DIALOGS": {
+    "confirm-action-title": "Confirmar acción",
+    "confirm-continue": "¿Deseas continuar?",
+    "topup-karma-title": "Recargar Karma",
+    "choose-account-type": "Elige el tipo de cuenta"
+  },
+  "SECTIONS": {
+    "auction-listing": "Listado de subasta",
+    "publish-auction-desc": "Publicar en subasta o cancelar",
+    "super-admins-title": "Superadministradores del sistema MHNT",
+    "admins-title": "Administradores del sistema MHNT",
+    "bookers-title": "Bookers de tu agencia"
+  },
+  "INFO": {
+    "karma-purchase-note": "Karma está diseñado para ganarse mediante votación y colocaciones exitosas, por lo que solo puedes comprar 1 KRM si tienes saldo cero.",
+    "wallet-balance": "Balance de cartera: {balance}",
+    "krm-price": "Precio de 1 KRM: {price} USD"
+  },
   "NAVBAR": {
+    "home": "Inicio",
+    "hunt": "Caza",
+    "auctions": "Subastas",
+    "agencies": "Agencias",
+    "my-profile": "Mi perfil",
+    "settings": "Configuración",
     "signed-in-label": "Actualmente conectado como",
     "signed-out-label": "Actualmente estás",
     "signed-out-status": "DESCONECTADO"
   },
   "ROLES": {
-    "USER_ROLE": "NEW USER",
+    "USER_ROLE": "NUEVO USUARIO",
     "SCOUTER_ROLE": "SCOUTER",
-    "MODEL_ROLE": "MODEL",
-    "HEADBOOKER_ROLE": "RESERVADOR PRINCIPAL",
-    "BOOKER_ROLE": "RESERVADOR",
+    "MODEL_ROLE": "MODELO",
+    "HEADBOOKER_ROLE": "BOOKER PRINCIPAL",
+    "BOOKER_ROLE": "BOOKER",
     "MYDAOGS_ADMIN_ROLE": "DAOG",
     "PROJECT_SUPERADMIN_ROLE": "SUPER ADMIN",
-    "PROJECT_ADMIN_ROLE": "ADMIN"
+    "PROJECT_ADMIN_ROLE": "ADMIN",
+    "model": "MODELO",
+    "scouter": "Scout",
+    "booker": "Booker",
+    "head-booker": "Booker principal",
+    "admin": "Admin",
+    "superadmin": "Super Admin"
+  },
+  "ACCOUNT_TYPES": {
+    "model": "Modelo",
+    "agency": "Agencia",
+    "scouter": "SCOUTER"
+  },
+  "PAGES": {
+    "sign-in": "Iniciar sesión",
+    "accept-invitation": "Acepta tu invitación",
+    "selection": "Página de selección",
+    "auction": "Subasta"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "Pendiente",
@@ -21,19 +169,23 @@
   },
   "SIGN_IN": {
     "title": "Inicia sesión en tu cuenta",
-    "description": "Ingresa tu email a continuación para iniciar sesión en tu cuenta",
-    "email-label": "Email",
-    "email-placeholder": "escribe tu email",
-    "success-message": "¡Email enviado! Por favor revisa tu bandeja de entrada.",
-    "send-link": "Iniciar sesión"
+    "description": "Ingresa tu correo electrónico a continuación para iniciar sesión",
+    "email-label": "Correo electrónico",
+    "email-placeholder": "escribe tu correo electrónico",
+    "success-message": "¡Correo enviado! Por favor revisa tu bandeja de entrada.",
+    "send-link": "Enviar enlace"
+  },
+  "ADMIN_SIGN_IN": {
+    "title": "Inicio de sesión de administrador",
+    "description": "Inicia sesión usando tu cartera web3"
   },
   "CHANGE_EMAIL": {
     "verify": "Verificar",
     "verified": "Verificado",
-    "email-sent": "Email enviado",
-    "email-label": "Email",
-    "email-placeholder": "escribe tu nuevo email",
-    "success-message": "Solicitud de cambio de email enviada. Por favor revisa tu bandeja de entrada."
+    "email-sent": "Correo enviado",
+    "email-label": "Correo electrónico",
+    "email-placeholder": "escribe tu nuevo correo electrónico",
+    "success-message": "Solicitud de cambio de correo enviada. Por favor revisa tu bandeja de entrada."
   },
   "COMMENT": {
     "label": "Comentario",
@@ -42,11 +194,11 @@
     "submit": "Enviar"
   },
   "CREATE_AGENCY": {
-    "title": "Nueva Solicitud de Agencia",
-    "name-label": "Nombre de la Agencia",
+    "title": "Nueva solicitud de agencia",
+    "name-label": "Nombre de la agencia",
     "name-placeholder": "Proporciona el nombre de la agencia",
-    "slug-label": "Slug de la Agencia",
-    "slug-placeholder": "El slug único de la agencia",
+    "slug-label": "Slug de la agencia",
+    "slug-placeholder": "Slug único de la agencia",
     "slug-description": "Se usará como identificador único",
     "success-message": "¡Agencia creada exitosamente!",
     "register": "Registrar",
@@ -56,10 +208,10 @@
     "table-caption": "Lista de solicitudes pendientes",
     "name": "Nombre",
     "slug": "Slug",
-    "created-at": "Creado En",
+    "created-at": "Creado el",
     "action": "Acción",
     "no-applications": "No hay solicitudes pendientes.",
-    "reject-title": "Rechazar Solicitud de Agencia"
+    "reject-title": "Rechazar solicitud de agencia"
   },
   "AGENCIES_LIST": {
     "table-caption": "Una lista de tus organizaciones.",
@@ -69,7 +221,7 @@
     "no-membership": "No tienes registros de membresía."
   },
   "MY_AGENCY_REQUESTS": {
-    "table-caption": "Una lista de tus solicitudes",
+    "table-caption": "Lista de tus solicitudes",
     "name": "Nombre",
     "slug": "Slug",
     "status": "Estado",
@@ -84,46 +236,46 @@
     "agency": "AGENCIA"
   },
   "ROUTES_TITLES": {
-    "MODAL_SETTINGS": "User Settings",
-    "MODAL_SWITCH": "Switch account",
-    "MODAL_SWITCH_AGENCY": "My Agencies",
-    "MODAL_SWITCH_AGENCY_REQUESTS": "My requests",
-    "MODAL_SWITCH_MODEL": "Switch to model",
+    "MODAL_SETTINGS": "Configuración de usuario",
+    "MODAL_SWITCH": "Cambiar cuenta",
+    "MODAL_SWITCH_AGENCY": "Mis agencias",
+    "MODAL_SWITCH_AGENCY_REQUESTS": "Mis solicitudes",
+    "MODAL_SWITCH_MODEL": "Cambiar a modelo",
     "REDIRECT_FROM_VK": "VK ID",
     "AUCTION": "Subasta",
-    "DRAFT": "Draft",
+    "DRAFT": "Borrador",
     "CASES": "Casos",
     "DEALS": "Tratos",
     "HUNT": "Caza",
-    "DRAFTS": "Drafts",
-    "MODEL_CONFIRMATION": "MODEL CONFIRMATION",
-    "AGENCY_DETAILS": "Agencia",
-    "AGENCY_ACCEPT_INVITATION": "Accept Invitation",
-    "ADMINISTRATED": "Administrated",
+    "DRAFTS": "Borradores",
+    "MODEL_CONFIRMATION": "CONFIRMACIÓN DE MODELO",
+    "AGENCY_DETAILS": "Detalles de la agencia",
+    "AGENCY_ACCEPT_INVITATION": "Aceptar invitación",
+    "ADMINISTRATED": "Administrado",
     "SUPERADMINS": "Super Admins",
-    "ADMINS": "Admins",
+    "ADMINS": "Administradores",
     "AGENCY_APPLY": "Solicitud de agencia",
-    "AGENCY_MANAGE": "Administrar de agencia",
-    "AGENCIES_APPLICATIONS": "Aplicaciones de Agencias",
+    "AGENCY_MANAGE": "Gestionar agencia",
+    "AGENCIES_APPLICATIONS": "Solicitudes de agencias",
     "default": "Ruta desconocida"
   },
   "EMAIL": {
-    "agency-rejected-subject": "Agencia Rechazada",
+    "agency-rejected-subject": "Agencia rechazada",
     "agency-rejected-description": "Tu solicitud para configurar una organización fue rechazada.",
-    "agency-accepted-subject": "Agencia Aceptada",
-    "agency-accepted-description": "¡Felicitaciones! ¡Tu agencia está configurada! ¡Inicia sesión ahora y comienza a reservar modelos!",
+    "agency-accepted-subject": "Agencia aceptada",
+    "agency-accepted-description": "¡Felicidades! ¡Tu agencia está configurada! ¡Inicia sesión ahora y comienza a reservar modelos!",
     "magic-link-subject": "Iniciar sesión",
     "magic-link-description": "Solicitaste un inicio de sesión en mhnt.app",
-    "org-setup-subject": "Configuración de Organización",
+    "org-setup-subject": "Configuración de organización",
     "org-setup-description": "Tu perfil de agencia está creado y actualmente bajo revisión",
-    "change-email-subject": "Cambiar email",
-    "change-email-description": "Solicitaste cambiar tu email para mhnt.app",
+    "change-email-subject": "Cambiar correo electrónico",
+    "change-email-description": "Solicitaste cambiar tu correo electrónico para mhnt.app",
     "cta": "Haz clic aquí"
   },
   "INFO_CARD_TITLES": {
     "requests": "solicitudes",
     "applications": "solicitudes",
-    "email": "email",
+    "email": "correo electrónico",
     "account": "cuenta",
     "switch": "cambiar"
   },
@@ -135,29 +287,29 @@
     "sign-out": "Cerrar sesión",
     "signing-out": "Cerrando sesión..."
   },
-  "COMMON": {
-    "loading": "Cargando...",
-    "unexpected-error": "Ocurrió un error inesperado. Por favor inténtalo de nuevo."
+  "OAUTH": {
+    "vk-button": "Iniciar sesión con VK",
+    "facebook-button": "Iniciar sesión con FB"
   },
   "AGENCY_SETTINGS": {
-    "register-agency": "Registrar una Agencia",
+    "register-agency": "Registrar una agencia",
     "view-requests": "ver mis solicitudes",
     "or-separator": "- o -"
   },
   "NOT_FOUND": {
     "page-not-found": "Página no encontrada",
-    "go-home": "Vamos a casa"
+    "go-home": "Volvamos a casa"
   },
   "TOASTS": {
     "approved-message": "¡Agencia aprobada!",
     "rejected-message": "¡Agencia rechazada!",
-    "switched-to-scouter": "Cambiado a scouter",
+    "switched-to-scouter": "Cambiado a scout",
     "switched-to-agency": "Cambiado a agencia",
     "unexpected-error": "Ocurrió un error inesperado",
     "SIGNED_IN": "¡Sesión iniciada!",
     "SIGNED_OUT": "¡Sesión cerrada!",
     "UPDATED": "¡Actualizado correctamente!",
-    "SUCCESS": "SUCCESS",
-    "ACCESS_DENIED": "Acceso denegado"
+    "SUCCESS": "ÉXITO",
+    "ACCESS_DENIED": "¡Acceso denegado!"
   }
 }

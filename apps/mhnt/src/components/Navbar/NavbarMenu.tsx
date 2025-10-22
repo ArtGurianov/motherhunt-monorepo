@@ -31,26 +31,30 @@ export const NavbarMenu = ({ isOpened, activeRole }: NavbarMenuProps) => {
 
   const order = activeRole ? NAV_ROUTES_ORDERS[activeRole] : [];
 
-  const menuItems = useMemo(
-    () => {
-      if (!activeRole) return null;
+  const menuItems = useMemo(() => {
+    if (!activeRole) return null;
 
-      return order.map((routeId, index) => {
-        const config = APP_ROUTES_CONFIG[routeId as (typeof order)[number]];
-        return (
-          <NavbarMenuItem
-            key={routeId}
-            href={config.href}
-            svgPath={NAV_ROUTES_SVG_PATHS[routeId]}
-            onMouseOver={() => handleMouseOver(index)}
-            onMouseOut={handleMouseOut}
-            isActive={pathname === config.href && hoveredIndex === null}
-          />
-        );
-      });
-    },
-    [order, pathname, hoveredIndex, handleMouseOver, handleMouseOut, activeRole]
-  );
+    return order.map((routeId, index) => {
+      const config = APP_ROUTES_CONFIG[routeId as (typeof order)[number]];
+      return (
+        <NavbarMenuItem
+          key={routeId}
+          href={config.href}
+          svgPath={NAV_ROUTES_SVG_PATHS[routeId]}
+          onMouseOver={() => handleMouseOver(index)}
+          onMouseOut={handleMouseOut}
+          isActive={pathname === config.href && hoveredIndex === null}
+        />
+      );
+    });
+  }, [
+    order,
+    pathname,
+    hoveredIndex,
+    handleMouseOver,
+    handleMouseOut,
+    activeRole,
+  ]);
 
   if (!activeRole) return null;
 
@@ -60,7 +64,7 @@ export const NavbarMenu = ({ isOpened, activeRole }: NavbarMenuProps) => {
         "absolute md:static left-full w-full h-full md:w-auto flex gap-2 justify-center items-center transition-all duration-500 px-2 md:pr-4 py-2",
         {
           "invisible md:visible": !isOpened,
-        }
+        },
       )}
     >
       {menuItems}

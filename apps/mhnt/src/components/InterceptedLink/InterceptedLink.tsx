@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { HTMLAttributes, useEffect, useMemo } from "react";
 
 export const InterceptedLink = (
-  props: LinkProps & HTMLAttributes<HTMLAnchorElement>
+  props: LinkProps & HTMLAttributes<HTMLAnchorElement>,
 ) => {
   const pathname = usePathname();
   const { getParam, setParam, getUpdatedParamsString } = useAppParams();
@@ -20,7 +20,7 @@ export const InterceptedLink = (
 
   const href = useMemo(
     () => `${props.href}${getUpdatedParamsString()}`,
-    [props.href, getUpdatedParamsString]
+    [props.href, getUpdatedParamsString],
   );
 
   return <Link {...props} href={href} />;

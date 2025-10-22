@@ -48,7 +48,7 @@ export const LotConfirmationEmail = ({
         }
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error ? error.message : "Something went wrong.",
         );
       }
     });
@@ -66,7 +66,7 @@ export const LotConfirmationEmail = ({
         }
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error ? error.message : "Something went wrong.",
         );
       }
     });

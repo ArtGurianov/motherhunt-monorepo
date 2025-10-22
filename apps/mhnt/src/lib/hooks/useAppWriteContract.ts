@@ -40,7 +40,7 @@ export const useAppWriteContract = (props?: {
     if (receiptError) {
       props?.onError?.(receiptError);
       toast(
-        "An error occured while executing a transaction on the blockchain!"
+        "An error occured while executing a transaction on the blockchain!",
       );
     }
   }, [receiptError]);

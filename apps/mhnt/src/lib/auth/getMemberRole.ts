@@ -23,5 +23,5 @@ export const getMemberRole = cache(
     } catch (error) {
       return createActionResponse({ error });
     }
-  }
+  },
 );

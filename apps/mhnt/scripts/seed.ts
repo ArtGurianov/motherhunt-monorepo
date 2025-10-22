@@ -46,7 +46,7 @@ async function main() {
 
   try {
     const adminsResult = await prismaClient.$transaction(
-      ADMINS_DATA.map((data) => prismaClient.user.create({ data }))
+      ADMINS_DATA.map((data) => prismaClient.user.create({ data })),
     );
 
     console.log("Successfully seeded admins.");

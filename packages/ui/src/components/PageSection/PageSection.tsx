@@ -16,7 +16,7 @@ export const PageSection = ({
       className={cn(
         "h-fit w-full",
         { "px-4 md:px-16 lg:px-32": !fullWidth },
-        className
+        className,
       )}
     >
       {children}

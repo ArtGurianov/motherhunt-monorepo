@@ -40,7 +40,7 @@ export const DraftsPageContent = () => {
             APP_ROUTES_CONFIG[APP_ROUTES.DRAFT].href,
             {
               id: each.id,
-            }
+            },
           )}
           bgUrl={each.profilePictureUrl}
           nickname={each.nickname}

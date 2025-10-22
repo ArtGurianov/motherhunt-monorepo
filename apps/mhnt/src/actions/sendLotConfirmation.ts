@@ -34,7 +34,7 @@ export const sendLotConfirmation = async ({
     const result = await canAccessCustomRole(
       ORG_ENTITIES.LOT,
       "update",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });
@@ -51,7 +51,7 @@ export const sendLotConfirmation = async ({
     if (lotData.isConfirmationEmailSent)
       throw new AppBusinessError(
         "Need to cancel previous confirmation email first.",
-        400
+        400,
       );
 
     if (lotData.signedByUserId)

@@ -19,7 +19,7 @@ export const transferHeadBookerRole = async (targetId: string) => {
     const result = await canAccessCustomRole(
       ORG_ENTITIES.OWNER,
       "transferRole",
-      ALLOWED_CUSTOM_ROLES
+      ALLOWED_CUSTOM_ROLES,
     );
     if (!result.canAccess)
       throw new APIError("FORBIDDEN", { message: "Access Denied" });

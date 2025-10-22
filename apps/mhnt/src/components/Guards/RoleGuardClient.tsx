@@ -29,7 +29,7 @@ export const RoleGuardClient = ({ children, allowedRoles }: RoleGuardProps) => {
     const stringifiedRoles = allowedRoles.reduce(
       (temp, next, index) =>
         index === 0 ? tRoles(next) : temp + ", " + tRoles(next),
-      ""
+      "",
     );
     return (
       <StatusCard

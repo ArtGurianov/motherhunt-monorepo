@@ -46,7 +46,7 @@ function DrawerOverlay({
       data-slot="drawer-overlay"
       className={cn(
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-overlay/50",
-        className
+        className,
       )}
       {...props}
     />
@@ -69,7 +69,7 @@ function DrawerContent({
           "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 h-full data-[vaul-drawer-direction=bottom]:rounded-t-3xl border-b-2 border-b-border",
           "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:sm:max-w-sm border-r-2 border-r-border",
           "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:sm:max-w-sm border-l-2 border-l-border",
-          className
+          className,
         )}
         {...props}
       >
@@ -109,7 +109,7 @@ function DrawerTitle({
       data-slot="drawer-title"
       className={cn(
         "text-lg font-heading leading-none tracking-tight",
-        className
+        className,
       )}
       {...props}
     />

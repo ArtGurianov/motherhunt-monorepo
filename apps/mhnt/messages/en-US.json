@@ -1,5 +1,136 @@
 {
+  "COMMON": {
+    "BUTTONS": {
+      "sign-in": "Sign In",
+      "sign-out": "Sign Out",
+      "connect": "Connect",
+      "approve": "Approve",
+      "purchase": "Purchase",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "create": "Create",
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "submit": "Submit",
+      "learn-more": "Learn More",
+      "go-back": "Go Back",
+      "go-home": "Go Home",
+      "try-again": "Try Again",
+      "close": "Close",
+      "switch-account": "Switch Account",
+      "top-up": "Top Up",
+      "select-image": "Select Image",
+      "approve-text": "Approve",
+      "learn": "Learn",
+      "send-link": "Send link",
+      "register": "Register",
+      "view-requests": "View my requests",
+      "enter": "Enter",
+      "verify": "Verify",
+      "signing-out": "Signing out..."
+    },
+    "LABELS": {
+      "email": "Email",
+      "password": "Password",
+      "address": "Address",
+      "karma-balance": "Karma Balance",
+      "wallet-balance": "Wallet Balance",
+      "error-details": "Error details",
+      "success": "Success",
+      "name": "Name",
+      "slug": "Slug",
+      "status": "Status",
+      "action": "Action",
+      "created-at": "Created At",
+      "comment": "Comment"
+    },
+    "PLACEHOLDERS": {
+      "type-address": "Type address starts with 0x",
+      "drop-image": "Drop image or click to select file...",
+      "drop-files": "Drop the files here...",
+      "type-email": "type your email",
+      "type-comment": "Write down your comment"
+    },
+    "LOADING": {
+      "creating": "Creating...",
+      "uploading": "Uploading...",
+      "loading": "Loading..."
+    },
+    "MESSAGES": {
+      "success": "Success",
+      "error": "Error",
+      "email-sent-waiting": "Email is sent. Waiting for confirmation.",
+      "lot-confirmed": "Lot data is confirmed by model.",
+      "social-account-linked": "Social account already linked.",
+      "go-to-account-switching": "To account switching =>",
+      "vk-linked-success": "Successfully linked VK ID to your model account.",
+      "verified": "Verified",
+      "email-sent": "Email sent"
+    },
+    "STATES": {
+      "active": "ACTIVE",
+      "logged-out": "LOGGED OUT",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "SEPARATORS": {
+      "or": "or",
+      "or-separator": "- or -"
+    }
+  },
+  "ERRORS": {
+    "something-went-wrong": "Something went wrong",
+    "unexpected-error": "We encountered an unexpected error. This has been logged and we will look into it.",
+    "wallet-not-connected": "Wallet not connected",
+    "magic-link-failed": "Error while sending magic link.",
+    "change-email-failed": "Failed to change email",
+    "vk-invalid-data": "Received unexpected data shape from VK ID",
+    "error-occurred": "An error has occurred",
+    "no-applications": "There are no pending applications.",
+    "no-membership": "You have no membership records.",
+    "no-requests": "There are no requests for agency creation."
+  },
+  "FORMS": {
+    "personal-info": "Personal Info",
+    "measurements": "Measurements",
+    "polaroids-book": "Polaroids & Book",
+    "google-drive-label": "Google Drive link",
+    "admin-address-label": "New super admin address",
+    "agency-wallet-label": "Set agency wallet address",
+    "scouter-wallet-label": "Scouter wallet address",
+    "invite-booker-label": "Invite new booker",
+    "main-picture-label": "Main Picture",
+    "image-dropzone": "Drop image or click to select file...",
+    "drop-files": "Drop the files here..."
+  },
+  "DIALOGS": {
+    "confirm-action-title": "Confirm action",
+    "confirm-continue": "Do you want to continue?",
+    "topup-karma-title": "Top up Karma",
+    "choose-account-type": "Choose account type"
+  },
+  "SECTIONS": {
+    "auction-listing": "Auction listing",
+    "publish-auction-desc": "Publish to auction or cancel",
+    "super-admins-title": "Super Admins of MHNT system",
+    "admins-title": "Admins of MHNT system",
+    "bookers-title": "Bookers of your agency"
+  },
+  "INFO": {
+    "karma-purchase-note": "Karma is designed to be earned by voting and successful placements, hence you can only purchase 1 KRM only if having zero balance.",
+    "wallet-balance": "Wallet balance: {balance}",
+    "krm-price": "1 KRM price: {price} USD"
+  },
   "NAVBAR": {
+    "home": "Home",
+    "hunt": "Hunt",
+    "auctions": "Auctions",
+    "agencies": "Agencies",
+    "my-profile": "My Profile",
+    "settings": "Settings",
     "signed-in-label": "Currently logged in as",
     "signed-out-label": "You are currently",
     "signed-out-status": "LOGGED OUT"
@@ -12,7 +143,24 @@
     "BOOKER_ROLE": "BOOKER",
     "MYDAOGS_ADMIN_ROLE": "DAOG",
     "PROJECT_SUPERADMIN_ROLE": "SUPER ADMIN",
-    "PROJECT_ADMIN_ROLE": "ADMIN"
+    "PROJECT_ADMIN_ROLE": "ADMIN",
+    "model": "MODEL",
+    "scouter": "Scouter",
+    "booker": "Booker",
+    "head-booker": "Head Booker",
+    "admin": "Admin",
+    "superadmin": "Super Admin"
+  },
+  "ACCOUNT_TYPES": {
+    "model": "Model",
+    "agency": "Agency",
+    "scouter": "SCOUTER"
+  },
+  "PAGES": {
+    "sign-in": "Sign In",
+    "accept-invitation": "Accept your invitation",
+    "selection": "Selection Page",
+    "auction": "Auction"
   },
   "APPLICATION_STATUSES": {
     "PENDING": "Pending",
@@ -26,6 +174,10 @@
     "email-placeholder": "type your email",
     "success-message": "Email sent! Please check your inbox.",
     "send-link": "Send link"
+  },
+  "ADMIN_SIGN_IN": {
+    "title": "Admin login",
+    "description": "Sign in using your web3 wallet"
   },
   "CHANGE_EMAIL": {
     "verify": "Verify",
@@ -135,9 +287,9 @@
     "sign-out": "Sign out",
     "signing-out": "Signing out..."
   },
-  "COMMON": {
-    "loading": "Loading...",
-    "unexpected-error": "An unexpected error occurred. Please try again."
+  "OAUTH": {
+    "vk-button": "VK Sign In",
+    "facebook-button": "FB Sign In"
   },
   "AGENCY_SETTINGS": {
     "register-agency": "Register an Agency",

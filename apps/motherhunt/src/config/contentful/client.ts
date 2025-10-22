@@ -12,7 +12,7 @@ export const contentfulClient = createClient({
 
 export const getContentfulEntriesByType = async <T extends EntrySkeletonType>(
   type: string,
-  limit: number = 10
+  limit: number = 10,
 ) => {
   const response =
     await contentfulClient.withoutUnresolvableLinks.getEntries<T>({
@@ -25,7 +25,7 @@ export const getContentfulEntriesByType = async <T extends EntrySkeletonType>(
 
 export const getContentfulEntryBySlug = async <T extends EntrySkeletonType>(
   slug: string,
-  type: string
+  type: string,
 ) => {
   const queryOptions = {
     content_type: type,

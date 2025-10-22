@@ -43,6 +43,7 @@ export const SignInForm = () => {
 
   const hCaptchaRef = useRef<HCaptcha>(null);
   const t = useTranslations("SIGN_IN");
+  const tErrors = useTranslations("ERRORS");
 
   const form = useForm<z.infer<typeof magicLinkFormSchema>>({
     mode: "onSubmit",
@@ -75,12 +76,14 @@ export const SignInForm = () => {
           },
         });
         if (result?.error) {
-          throw new Error("Error while sending magic link.");
+          throw new Error(tErrors("magic-link-failed"));
         }
         setIsSent(true);
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Something went wrong."
+          error instanceof Error
+            ? error.message
+            : tErrors("something-went-wrong"),
         );
       }
     });
