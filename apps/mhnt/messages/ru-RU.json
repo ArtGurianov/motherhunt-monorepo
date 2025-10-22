@@ -132,7 +132,8 @@
     "newsletter": "Подписаться на рассылку:"
   },
   "ACTION_BUTTONS": {
-    "sign-out": "Выйти"
+    "sign-out": "Выйти",
+    "signing-out": "Выход..."
   },
   "COMMON": {
     "loading": "Загрузка...",

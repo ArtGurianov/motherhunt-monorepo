@@ -132,7 +132,8 @@
     "newsletter": "订阅新闻通讯："
   },
   "ACTION_BUTTONS": {
-    "sign-out": "退出"
+    "sign-out": "退出",
+    "signing-out": "退出中..."
   },
   "COMMON": {
     "loading": "加载中...",

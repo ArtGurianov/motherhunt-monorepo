@@ -132,7 +132,8 @@
     "newsletter": "Subscribe to newsletter:"
   },
   "ACTION_BUTTONS": {
-    "sign-out": "Sign out"
+    "sign-out": "Sign out",
+    "signing-out": "Signing out..."
   },
   "COMMON": {
     "loading": "Loading...",

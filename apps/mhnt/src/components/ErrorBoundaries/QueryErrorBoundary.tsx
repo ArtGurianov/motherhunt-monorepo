@@ -2,9 +2,11 @@
 
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@shared/ui/components/button";
 import { getEnvConfigClient } from "@/lib/config/env";
+import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
 interface QueryErrorFallbackProps {
   error: Error;
@@ -12,6 +14,21 @@ interface QueryErrorFallbackProps {
 }
 
 function QueryErrorFallback({ error, resetErrorBoundary }: QueryErrorFallbackProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (error.message === "Unauthorized") {
+      const timer = setTimeout(() => {
+        router.push(APP_ROUTES_CONFIG[APP_ROUTES.SIGN_IN].href);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [error, router]);
+
+  if (error.message === "Unauthorized") {
+    return null;
+  }
+
   return (
     <div className="flex min-h-[300px] w-full flex-col items-center justify-center gap-6 px-4">
       <div className="flex flex-col items-center gap-4 text-center max-w-md">

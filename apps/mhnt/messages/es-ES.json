@@ -132,7 +132,8 @@
     "newsletter": "Suscribirse al boletín:"
   },
   "ACTION_BUTTONS": {
-    "sign-out": "Cerrar sesión"
+    "sign-out": "Cerrar sesión",
+    "signing-out": "Cerrando sesión..."
   },
   "COMMON": {
     "loading": "Cargando...",

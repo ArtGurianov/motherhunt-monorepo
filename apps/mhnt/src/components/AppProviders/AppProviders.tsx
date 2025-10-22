@@ -4,7 +4,6 @@ import { QueryClient } from "@tanstack/react-query";
 import { ReactNode, Suspense } from "react";
 import ProvidersClient from "./ProvidersClient";
 import { AppToaster } from "./AppToaster";
-import { AppGlobalActions } from "./AppGlobalActions";
 import { QueryErrorBoundary } from "@/components/ErrorBoundaries";
 
 function makeQueryClient() {
@@ -14,9 +13,9 @@ function makeQueryClient() {
         staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000, // 5 minutes
         retry: false,
-        refetchOnWindowFocus: false, // Don't refetch when window regains focus
-        refetchOnReconnect: false, // Don't refetch on reconnect
-        refetchOnMount: false, // Don't refetch when component mounts if data exists
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
+        refetchOnMount: true,
       },
     },
   });
@@ -43,7 +42,6 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
       </QueryErrorBoundary>
       <Suspense>
         <AppToaster />
-        <AppGlobalActions />
       </Suspense>
     </ProvidersClient>
   );
