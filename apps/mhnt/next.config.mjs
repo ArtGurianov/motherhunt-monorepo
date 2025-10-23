@@ -17,6 +17,20 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
+  async headers() {
+    return [
+      {
+        // Apply headers to all routes including 404 pages
+        source: "/:path*",
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+        ],
+      },
+    ];
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.plugins = [...config.plugins, new PrismaPlugin()];

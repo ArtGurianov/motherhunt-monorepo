@@ -31,17 +31,44 @@ export default function ProvidersClient({
   useEffect(() => {
     if (typeof window !== "undefined" && !appKitInitialized) {
       appKitInitialized = true;
-      createAppKit({
-        adapters: [wagmiAdapter],
-        projectId: getEnvConfigClient().NEXT_PUBLIC_REOWN_PROJECT_ID,
-        networks: [chain],
-        defaultNetwork: chain,
-        metadata: metadata,
-        features: {
-          analytics: true,
-        },
-        enableNetworkSwitch: true,
-      });
+
+      // Suppress console errors from Coinbase Wallet SDK COOP checks
+      const originalConsoleError = console.error;
+      console.error = (...args: unknown[]) => {
+        // Filter out COOP-related errors that occur on 404 pages
+        const errorMessage = args[0]?.toString() || "";
+        if (
+          errorMessage.includes("Cross-Origin-Opener-Policy") ||
+          errorMessage.includes("404")
+        ) {
+          // Silently ignore these errors as they're expected on 404 pages
+          return;
+        }
+        originalConsoleError(...args);
+      };
+
+      try {
+        createAppKit({
+          adapters: [wagmiAdapter],
+          projectId: getEnvConfigClient().NEXT_PUBLIC_REOWN_PROJECT_ID,
+          networks: [chain],
+          defaultNetwork: chain,
+          metadata: metadata,
+          features: {
+            analytics: true,
+          },
+          enableNetworkSwitch: true,
+        });
+      } catch (error) {
+        // Handle any initialization errors gracefully
+        originalConsoleError("Failed to initialize AppKit:", error);
+      } finally {
+        // Restore original console.error after a short delay
+        // to allow SDK initialization to complete
+        setTimeout(() => {
+          console.error = originalConsoleError;
+        }, 2000);
+      }
     }
   }, []);
 
