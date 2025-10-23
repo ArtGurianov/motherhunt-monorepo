@@ -26,6 +26,8 @@ import { Web3ConnectBtn } from "../ActionButtons/Web3ConnectBtn";
 import { generateUpdatedPathString } from "@/lib/utils/generateUpdatedPathString";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 import { useTranslations } from "next-intl";
+import { useQueryClient } from "@tanstack/react-query";
+import { SESSION_QUERY_KEY } from "@/lib/hooks";
 
 export const AdminSignInForm = () => {
   const t = useTranslations("ADMIN_SIGN_IN");
@@ -35,6 +37,7 @@ export const AdminSignInForm = () => {
   const { getParam, deleteParam } = useAppParams();
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const hCaptchaRef = useRef<HCaptcha>(null);
 
@@ -70,6 +73,11 @@ export const AdminSignInForm = () => {
             fetchOptions: {
               headers: {
                 "x-captcha-response": form.getValues("hCaptchaToken"),
+              },
+              onSuccess: () => {
+                queryClient.invalidateQueries({
+                  queryKey: [SESSION_QUERY_KEY],
+                });
               },
             },
           });
