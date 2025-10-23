@@ -29,7 +29,7 @@ export const AgenciesList = () => {
   const queryClient = useQueryClient();
   const { activeMember } = useAuthenticated();
 
-  const [isPending, startTransition] = useTransition();
+  const [isTransitionPending, startTransition] = useTransition();
   const t = useTranslations("AGENCIES_LIST");
   const tTitles = useTranslations("INFO_CARD_TITLES");
   const tToasts = useTranslations("TOASTS");
@@ -75,7 +75,7 @@ export const AgenciesList = () => {
                   <div className="h-full w-full flex justify-center items-center">
                     <Button
                       disabled={
-                        isPending || activeMember?.organizationId === each.id
+                        isTransitionPending || activeMember?.organizationId === each.id
                       }
                       size="reset"
                       className="p-px [&_svg]:size-6"
@@ -102,7 +102,7 @@ export const AgenciesList = () => {
                         });
                       }}
                     >
-                      {isPending ? (
+                      {isTransitionPending ? (
                         <LoaderCircle className="animate-spin" />
                       ) : activeMember?.organizationId === each.id ? (
                         <Check />

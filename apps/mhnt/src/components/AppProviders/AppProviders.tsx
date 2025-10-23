@@ -10,12 +10,12 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000, // 1 minute
-        gcTime: 5 * 60 * 1000, // 5 minutes
-        retry: false,
-        refetchOnWindowFocus: true,
-        refetchOnReconnect: true,
-        refetchOnMount: true,
+        staleTime: 5 * 60 * 1000, // 5 minutes (session is stable)
+        gcTime: 10 * 60 * 1000, // 10 minutes (allow longer cache)
+        retry: 1,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
       },
     },
   });

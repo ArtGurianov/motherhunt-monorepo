@@ -12,9 +12,11 @@ import { Button } from "@shared/ui/components/button";
 import { useTranslations } from "next-intl";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
 
+// Compute once at module load, not per-render
 const ROUTE_LOOKUP = Object.fromEntries(
   Object.values(APP_ROUTES_CONFIG).map((route) => [route.href, route.key]),
 );
+
 interface InterceptedDialogDrawerProps
   extends Omit<DialogDrawerProps, "isOpen" | "onClose" | "title" | "backBtn"> {
   targetPath: string;
