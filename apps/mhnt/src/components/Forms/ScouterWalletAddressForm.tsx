@@ -63,7 +63,7 @@ export const ScouterWalletAddressForm = () => {
     ) {
       form.setValue("address", currentSavedAddress as `0x${string}`);
     }
-  }, [currentSavedAddress]);
+  }, [currentSavedAddress, form]);
 
   const { writeContract, isProcessing } = useAppWriteContract({
     onSuccess: () => {

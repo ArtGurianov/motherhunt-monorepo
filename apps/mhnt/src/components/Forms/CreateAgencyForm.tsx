@@ -32,15 +32,7 @@ import { createNewAgencyOrg } from "@/actions/createNewAgencyOrg";
 import { toast } from "@shared/ui/components/sonner";
 import { createAgencySchema } from "@/lib/schemas/createAgencySchema";
 import { APP_ROUTES, APP_ROUTES_CONFIG } from "@/lib/routes/routes";
-
-const transformStringToSlug = (value: string) =>
-  value
-    .trim()
-    .replace(/[^a-zA-Z0-9 ]+/g, "")
-    .replace(/([^ A-Z])([A-Z])/g, "$1-$2")
-    .toLowerCase()
-    .replace(/ +/g, "-")
-    .replace(/^-+|-+$/g, "");
+import { transformStringToSlug } from "@/lib/utils/string";
 
 export const CreateAgencyForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
